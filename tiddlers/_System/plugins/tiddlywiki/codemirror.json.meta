@@ -1,10 +1,6 @@
-created: 20241213051412045
-creator: uzvg
 dependents: 
 description: CodeMirror editor
 list: readme usage keyboard license
-modified: 20250318035420043
-modifier: uzvg
 name: CodeMirror
 plugin-type: plugin
 stability: STABILITY_2_STABLE

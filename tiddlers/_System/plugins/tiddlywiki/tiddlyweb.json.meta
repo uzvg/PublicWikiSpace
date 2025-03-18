@@ -1,10 +1,6 @@
-created: 20241213051412045
-creator: uzvg
 dependents: 
 description: Sync changes from the browser to TW5 (node.js) or TiddlyWeb server
 list: readme
-modified: 20250318035420043
-modifier: uzvg
 name: TiddlyWeb
 plugin-priority: 10
 plugin-type: plugin

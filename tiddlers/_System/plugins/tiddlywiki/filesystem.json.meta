@@ -1,10 +1,6 @@
-created: 20241213051412045
-creator: uzvg
 dependents: 
 description: Synchronize changes from the node.js server to the local filesystem
 list: readme
-modified: 20250318035420043
-modifier: uzvg
 name: Filesystem
 plugin-type: plugin
 stability: STABILITY_2_STABLE

@@ -1,10 +1,6 @@
-created: 20241213051412045
-creator: uzvg
 dependents: 
 description: Show trailing space in CodeMirror
 list: readme
-modified: 20250318035420043
-modifier: uzvg
 name: CodeMirror Show Trailing Space
 parent-plugin: $:/plugins/tiddlywiki/codemirror
 plugin-type: plugin

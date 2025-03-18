@@ -1,10 +1,6 @@
-created: 20241213051412045
-creator: uzvg
 dependents: 
 description: Twitter embedding tools
 list: readme usage
-modified: 20250318035420043
-modifier: uzvg
 name: Twitter
 plugin-type: plugin
 stability: STABILITY_3_LEGACY

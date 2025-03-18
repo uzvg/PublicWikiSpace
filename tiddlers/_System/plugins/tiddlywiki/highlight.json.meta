@@ -1,11 +1,7 @@
 author: Joao Bolila
-created: 20241213051412045
-creator: uzvg
 dependents: 
 description: Highlight.js syntax highlighting
 list: readme usage license
-modified: 20250318035420043
-modifier: uzvg
 name: Highlight
 plugin-type: plugin
 stability: STABILITY_2_STABLE

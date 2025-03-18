@@ -1,10 +1,6 @@
-created: 20241213051412045
-creator: uzvg
 dependents: $:/plugins/tiddlywiki/codemirror-mode-css
 description: Autocompletion for CodeMirror
 list: readme
-modified: 20250318035420043
-modifier: uzvg
 name: CodeMirror Autocomplete
 parent-plugin: $:/plugins/tiddlywiki/codemirror
 plugin-type: plugin

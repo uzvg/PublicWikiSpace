@@ -1,10 +1,6 @@
-created: 20241213051412045
-creator: uzvg
 dependents: 
 description: Tools for exploring the internals of TiddlyWiki
 list: readme
-modified: 20250318035420043
-modifier: uzvg
 name: Internals
 plugin-type: plugin
 stability: STABILITY_2_STABLE
