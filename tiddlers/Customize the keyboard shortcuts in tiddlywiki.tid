@@ -1,0 +1,23 @@
+created: 20240811124009020
+description: 如何在tiddlywiki中创建快捷键
+modified: 20250318035420112
+modifier: uzvg
+progress: Pending
+rating: Plain
+tags: tiddlywiki PermanentNotes
+title: Customize the keyboard shortcuts in tiddlywiki
+type: text/vnd.tiddlywiki
+visibility: Public
+
+在tiddlywiki下创建快捷有两类：
+
+1. 为文本编辑创建快捷键
+
+[[$:/uzvg/EditorToolbar/CommentSelection]]
+
+
+2. 为触发Actions创建快捷键
+# 创建actions，比如👉[[$:/uzvg/Actions/new-source]]
+# 创建以`$:/config/ShortcutInfo/`前缀的tiddler，比如[[$:/config/ShortcutInfo/new-fleetingNotes]]，
+# 创建一个以<<tag "$:/tags/KeyboardShortcut">>为标签的快捷键配置tiddler，该tiddler具有`key`字段，该字段的值为`((myshortcut))`或自行决定
+

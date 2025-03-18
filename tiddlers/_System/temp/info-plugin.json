@@ -1,0 +1,16 @@
+{
+    "tiddlers": {
+        "$:/info/browser": {
+            "title": "$:/info/browser",
+            "text": "no"
+        },
+        "$:/info/node": {
+            "title": "$:/info/node",
+            "text": "yes"
+        },
+        "$:/info/startup-timestamp": {
+            "title": "$:/info/startup-timestamp",
+            "text": "20250318051029292"
+        }
+    }
+}

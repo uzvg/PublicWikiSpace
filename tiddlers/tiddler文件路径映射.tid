@@ -1,0 +1,19 @@
+created: 20250318034624791
+modified: 20250318035420142
+modifier: uzvg
+progress: Completed
+rating: Plain
+tags: PermanentNotes tiddlywiki
+title: tiddler文件路径映射
+type: text/vnd.tiddlywiki
+visibility: Public
+
+在[[$:/config/FileSystemPaths]]文件中，写入如下内容：
+
+```
+[visibility[Private]addprefix[Private/]]
+[tag[Journal]addprefix[Journal/]]
+[visibility[Public]addprefix[Public/]]
+[is[system]removeprefix[$:/]addprefix[System/]]
+[tag[Image]addprefix[Images/]]
+```

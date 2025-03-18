@@ -1,0 +1,14 @@
+created: 20240909133850124
+creator: uzvg
+description: TWKS的RefExplorer已经完成，不出意外的话，短期内不会面临改动，但可以留待未来参考。
+modified: 20250318035420134
+modifier: uzvg
+progress: Archive
+tags: tiddlywiki FleetingNotes TWKS
+title: RefExplorer表格样式
+type: text/vnd.tiddlywiki
+visibility: Public
+
+在查看tiddler的info列表的时候，发现有一个Fields tab页面，样式跟RefExplorer的表格很像，可以参考一下。
+
+👉 [[$:/core/ui/TiddlerFields]]

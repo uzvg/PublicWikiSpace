@@ -1,0 +1,124 @@
+authors: Coding2GO
+caption: Learn CSS Positions in 4 minutes
+created: 20241113055528923
+creator: uzvg
+description: Beginner Tutorial for css position: static, absolute, relative, fixed, sticky and the properties top, left, right, bottom, z-index
+medium: Video
+modified: 20250318035420124
+modifier: uzvg
+progress: Extracting
+rating: Practical
+tags: LiteratureNotes CSS position
+title: Learn CSS Positions in 4 minutes(1731494206847)
+type: text/vnd.tiddlywiki
+url: https://www.youtube.com/watch?v=YEmdHbQBCSQ
+visibility: Public
+year: 2024/6/28
+
+!! 前言：
+
+一直对CSS中的`position`的属性的作用有些模糊，这个视频是一个很好的演示，展示了CSS中各个position属性的用法跟作用。
+
+!! position 属性：
+
+<<rememberq "20241113061331041"
+	"css中的position有哪几种属性值？"
+	"static,relative,absolute,fixed,sticky">>
+
+<<rememberq "20241113061415068"
+	"css中默认的position的属性值是什么？"
+	"static">>
+
+<<rememberq "20241113061439753"
+	"当position属性值为static时，哪些属性值的设置对它是无效的？"
+	"top,bottom,left,right,z-index">>
+
+!! relative定位
+
+<<rememberq "20241113061627023"
+	"relative属性值的作用是什么？"
+	"保持原先占位。基于原先定位偏移。有可能覆盖其他元素。">>
+
+<<rememberq "20241113061659323"
+	"relative属性值对absolute元素会有什么影响？"
+	"absolute元素会基于最近的relative祖先元素定位。">>
+
+<<rememberq "20241113091713410"
+	"relative定位会占据原先在文档流中的位置吗？"
+	"会，relateive定位会在占据原先文档流的基础下，移动自己的位置，且会覆盖其他元素的内容。">>
+
+<<rememberq "20241113092927908"
+	"relative元素的内容会覆盖其他元素的内容吗？"
+	"会，比如一个relative图片偏移后会覆盖在其正下方的文本内容。">>
+
+<<rememberq "20241113093626745"
+	"当relative元素的长度跟宽度确定时，如果为其指定的偏移定位与其长度跟宽度冲突时，会发生什么？"
+	"首先，元素的长度跟宽度会是确定的，不会发生改变。其次，会偏移属性中的矛盾的right或者bottom设置为auto，也就是说，以top跟left为准。">>
+
+<<rememberq "20241113094105635"
+	"当为relative元素同时了left跟right偏移时，发生冲突的情况下，以谁为准？"
+	"left">>
+
+<<rememberq "20241113094206373"
+	"当为relative元素同时了left跟right偏移时，发生冲突的情况下，哪个属性会被设置为auto？"
+	"right">>
+
+;总的来说，当realtive元素的长度、宽度跟其偏移属性发生冲突时，会有如下效果：
+* If both top and bottom are specified (technically, not auto), top wins.
+* If both left and right are specified, left wins when direction is ltr (English, horizontal Japanese, etc.) and right wins when direction is rtl (Persian, Arabic, Hebrew, etc.).
+* 元素的`width`跟`height`保持不变
+
+来自👉[[MDN position|https://developer.mozilla.org/en-US/docs/Web/CSS/position#:~:text=If%20both%20top,Arabic%2C%20Hebrew%2C%20etc.).]]
+
+
+!! fixed 定位
+
+<<rememberq "20241113094902639"
+	"fixed定位的作用是什么？"
+	"使指定元素固定显示在窗口的某个位置。">>
+
+<<rememberq "20241113094918206"
+	"fixed元素基于什么定位？"
+	"基于整个视窗进行定位。不再基于文档中的其他元素定位。">>
+
+<<rememberq "20241113094927851"
+	"fixed元素会覆盖其他元素吗？"
+	"会。fixed元素默认覆盖其他元素">>
+
+<<rememberq "20241113095158562"
+	"举一个fixed元素的例子："
+	"进入网站后的cookie询问窗口，通常就是fixed定位。">>
+
+<<rememberq "20241113095417321"
+	"可以通过什么属性来控制fixed是图层高度？"
+	"z-index。图层越高，被显示在上层的优先级越高。">>
+
+<<rememberq "20241113095810321"
+	"元素的默认的z-index值是多少？"
+	"0">>
+
+<<rememberq "20241113095851079"
+	"如果想要让fixed显示在其他元素的下方，该如何操作？"
+	"调整z-index属性。将其调整为负数或者更小的数。">>
+
+!! sticky 定位
+
+<<rememberq "20241113101042067"
+	"sticky元素偏移后会占据其原先在文档流中占据的位置吗？"
+	"会的。也就是说，sticky元素之后的元素不会在sticky元素偏移时占据其在文档流中的位置。">>
+
+<<rememberq "20241113100034339"
+	"sticky元素基于什么偏移？"
+	"当有必要偏移时，基于viewport，即视窗窗口进行定位。">>
+
+<<rememberq "20241113101416965"
+	"网页中常见的sticky元素有哪些？"
+	"返回最上方；tiddler的stick标题；购物网站的右下角的福袋">>
+
+!! absolute 定位
+
+<<rememberq "20241113101522931"
+	"absolute元素基于什么定位？"
+	"基于距离其最近的relative父元素进行定位。">>
+
+还有一个让我比较困惑的问题是，[[float跟absolute有什么区别吗？|What is the difference between float and absolute position?]]

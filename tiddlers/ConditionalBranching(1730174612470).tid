@@ -1,0 +1,60 @@
+authors: [[Ilya Kantor]]
+caption: ConditionalBranching
+created: 20241026123638741
+creator: uzvg
+description: 
+medium: Website
+modified: 20250318035420110
+modifier: uzvg
+progress: Pending
+tags: LiteratureNotes JavaScriptFundamentals
+title: ConditionalBranching(1730174612470)
+type: text/vnd.tiddlywiki
+url: https://javascript.info/ifelse
+visibility: Public
+year: 2022/12/7
+
+!! If-Else语句
+
+<<rememberq "20241026123706507"
+	"会被转化成布尔false的value有哪些？"
+	"数字0，空字符串，null，undefined，还有NaN，这些经过布尔转换，都会被判定为false。">>
+
+<<rememberq "20241026123848920"
+	"在if-else语句中，else if语句可以重复多次吗？"
+	"可以">>
+
+<<rememberq "20241026124100623"
+	"在if-else语句中，最终的else语句可以被省略吗？"
+	"可以。">>
+
+!! 条件操作符
+
+<<rememberq "20241026124126559"
+	"javaScript中的条件操作符的格式？"
+	"let result = condition ? value1 : value2;">>
+
+<<rememberq "20241026124250863"
+	"javaScript中唯一的三元运算符是什么？"
+	"条件运算符👉？">>
+
+<<rememberq "20241026124308758"
+	"三元运算符的英文？"
+	"ternary">>
+
+<<rememberq "20241026124434008"
+	"想一个应用三元操作符的具体例子："
+	"let accessAllowed = (age > 18) ? true : false;">>
+
+<<rememberq "20241026124356490"
+	"三元运算符的语法含义？(condition ? value1 : value2;)"
+	"如果条件为真，则返回value1，如果为假，则返回value2。">>
+
+<<rememberq "20241026124556211"
+	"在使用三元运算符时，有必要给条件语句添加圆括号吗？"
+	"因为?的运算符优先级小于一般判断语句的运算优先级，所以从语法上来说， 并不需要添加额外的圆括号，但从代码的易读性上来说，添加圆括号有利于阅读代码。">>
+
+<<rememberq "20241026125120856"
+	"多个条件操作符的使用，相当于if-else语句中的什么语句？"
+	"相当于其中的else if语句。">>
+
