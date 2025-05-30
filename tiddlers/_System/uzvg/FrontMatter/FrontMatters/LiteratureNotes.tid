@@ -1,0 +1,69 @@
+caption: Literature Info
+code-body: yes
+condition: [tag[LiteratureNotes]]
+created: 20241215042854728
+modified: 20250501154224591
+modifier: uzvg
+tags: $:/tags/FrontMatter
+title: $:/uzvg/FrontMatter/FrontMatters/LiteratureNotes
+type: text/vnd.tiddlywiki
+
+<$twks.details
+	summary="Literature Info:"
+	default="close"
+	state="$:/state/twks.details">
+
+<table class="tc-table-no-border tc-max-width table-frontmatter">
+	<tr>
+		<th>Caption</th>
+		<td><$view tiddler=<<storyTiddler>> field="caption"/></td>
+	</tr>
+	<% if [<storyTiddler>has[source]] %>
+		<tr>
+			<th>Literature Source</th>
+			<td>
+				<$link to={{{ [<storyTiddler>get[source]] }}}/>
+			</td>
+		</tr>
+	<% endif %>
+	<tr>
+		<th>Literature Authors</th>
+		<td><<authors-list>></td>
+	</tr>
+	<tr>
+		<th>Publish Year</th>
+		<td><$edit-text tiddler=<<storyTiddler>> field="year" tag="input" type="month" class="width-10em"/></td>
+	</tr>
+	<tr>
+			<th>Literature Medium</th>
+			<td><<twks-medium-selector field:"medium" emptyValue:"no" class:"width-10em">></td>
+	</tr>
+	<tr>
+			<th>Progress</th>
+			<td><$transclude $variable="twks-properties-selector" tiddler=<<storyTiddler>> field="progress" noteType="LiteratureNotes" property="progress" emptyValue="no" class="width-10em"/></td>
+	</tr>
+	<tr>
+			<th>Rating</th>
+			<td><$transclude $variable="twks-properties-selector" tiddler=<<storyTiddler>> field="rating" noteType="LiteratureNotes" property="rating" emptyValue="no" class="width-10em"/></td>
+	</tr>
+	<tr>
+			<th>Visibility</th>
+			<td><<twks-radio-visibility-selector>></td>
+	</tr>
+	<% if [<storyTiddler>get[url]] %>
+		<tr>
+			<th>Literature Link</th>
+			<td>
+				<$transclude $tiddler=<<storyTiddler>> $field="url"/>
+			</td>
+		</tr>
+	<% endif %>
+	<tr>
+		<th>Description</th>
+		<td>
+			<$edit-text tiddler=<<storyTiddler>> field="description" class="twks-full-width-input"/>
+		</td>
+	</tr>
+</table>
+
+</$twks.details>

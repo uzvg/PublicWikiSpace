@@ -1,0 +1,30 @@
+caption: Literature Info
+code-body: yes
+condition: [tag[Books]]
+created: 20241215061059016
+modified: 20250501154248061
+modifier: uzvg
+tags: $:/tags/FrontMatter
+title: $:/uzvg/FrontMatter/FrontMatters/Books
+type: text/vnd.tiddlywiki
+
+\function get-publisher() [<storyTiddler>get[publisher]]
+\function get-isbn() [<storyTiddler>get[isbn]]
+<$twks.details
+	summary="Book Info:"
+	default="close"
+	state="$:/state/twks.details">
+
+|tc-max-width tc-table-no-border table-frontmatter|k
+|!Book Title |<$view tiddler=<<storyTiddler>> field="caption"/> |
+|!Authors |<<authors-list>> |
+|!Publisher |<$link to=<<get-publisher>>/> |
+|!ISBN |<$transclude $variable="isbn-link" isbn=<<get-isbn>>/> |
+|!Reading Link |<$transclude $tiddler=<<storyTiddler>> $field="url"/> |
+|!Publish Year |<$edit-text tiddler=<<storyTiddler>> field="year" tag="input" type="month" class="width-10em"/> |
+|!Rating |<$transclude $variable="twks-properties-selector" tiddler=<<storyTiddler>> field="rating" noteType="Books" property="rating" emptyValue="no" class="width-10em"/> |
+|!Progress |<$transclude $variable="twks-properties-selector" tiddler=<<storyTiddler>> field="progress" noteType="Books" property="progress" emptyValue="no" class="width-10em"/> |
+|!Visibility |<<twks-radio-visibility-selector>> |
+|!Description |<$edit-text tiddler=<<storyTiddler>> field="description" class="twks-full-width-input" />|
+
+</$twks.details>

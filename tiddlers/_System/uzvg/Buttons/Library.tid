@@ -2,7 +2,7 @@ caption: Library
 created: 20250214061218668
 creator: uzvg
 description: Open Library
-modified: 20250318035420046
+modified: 20250328034918151
 modifier: uzvg
 tags: $:/tags/PageControls
 title: $:/uzvg/Buttons/Library
@@ -18,7 +18,7 @@ type: text/vnd.tiddlywiki
 	actions="""<$action-navigate $to="$:/uzvg/Library/Panel"/>""">
 
 <%if [<tv-config-toolbar-icons>match[yes]] %>
-	{{$:/uzvg/images/book}}
+	{{$:/uzvg/Images/Library}}
 <% endif %>
 
 <% if [<tv-config-toolbar-text>match[yes]] %>

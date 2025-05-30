@@ -1,8 +1,9 @@
+cover: 20250530120459465.jpg
 created: 20241225044839442
 description: .zprofile文件和.zlogin文件的对比。对于Linux桌面用户，把配置文件包括环境变量放在.zshrc中就足够，但对于有复杂环境变量设置的需求，或者需要在桌面跟服务器之间切换时，可以考虑使用在.zprofile文件中设置环境变量。
-modified: 20250318035420038
+modified: 20250530041544789
 modifier: uzvg
-progress: Building
+progress: Completed
 rating: Valuable
 tags: zsh PermanentNotes
 title: .zprofile文件跟.zlogin文件对比

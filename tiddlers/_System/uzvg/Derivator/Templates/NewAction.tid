@@ -1,0 +1,11 @@
+created: 20250328160944304
+modified: 20250328162539989
+tags: 
+title: $:/uzvg/Derivator/Templates/NewAction
+type: text/vnd.tiddlywiki
+
+<!--
+<$action-createtiddler $basetitle="Homemade Button" tags="$:/tags/PageControls" text={{$:/state/new-button-caption}}>
+	<$action-navigate $to=<<createTiddler-title>>/>
+</$action-createtiddler>
+-->

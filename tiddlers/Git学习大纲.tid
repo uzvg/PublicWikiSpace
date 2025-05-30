@@ -1,0 +1,29 @@
+created: 20241222063413831
+description: Git学习大纲
+modified: 20250427165257414
+modifier: uzvg
+progress: Paused
+tags: Git ProjectNotes
+title: Git学习大纲
+type: text/vnd.tiddlywiki
+visibility: Public
+
+# 先搞清楚Git的基本概念，工作原理，它的整体工作流程是什么，到底在干什么事，它是如何做到的，每一步的具体操作是什么，目的是什么？
+#* git branch上的操作都搞清楚。👉 [[Learn Git Branching(1734857346510)]]
+# 具体的动作跟流程是分散的，重要的是把每一步都用到实际项目中。
+#* 查清楚lazygit中的每个操作所代表的具体含义。
+# 在项目开始之前，为项目设计好工作流程。
+#* 查看一些常用于项目中的git workflow
+
+!! Advanced Feartures Of Git:
+
+* git branch merge vs rebase
+* git reset vs revert
+* git cherry pick
+* git pull 🆚 fetch
+
+* [[Git Merge命令解析]]
+* [[Git Rebase 命令解析]]
+* [[交互式 Git Rebase 命令解析]]
+* [[Git Pull 命令解析]]
+* [[Git Cherry-pick 命令解析]]

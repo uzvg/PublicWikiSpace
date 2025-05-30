@@ -1,9 +1,9 @@
 created: 20250214114118405
 creator: uzvg
 description: TWKS的review功能构想
-modified: 20250318035420148
+modified: 20250318153943643
 modifier: uzvg
-progress: Processing
+progress: Archive
 tags: FleetingNotes TWKS
 title: TWKS的review功能
 type: text/vnd.tiddlywiki
@@ -18,3 +18,5 @@ visibility: Public
 * 可以自定义每天复习几条笔记
 * 可以自定义要复习的笔记的filter
 * 能以卡片的方式预览复习的笔记 ❌
+
+@[[18th March 2025]]，目前还没有特别完善的想法，未来可能会实现。目前先把手头上的其他模块完善一下。

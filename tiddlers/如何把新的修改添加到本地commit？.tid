@@ -1,0 +1,13 @@
+created: 20250226025152862
+creator: uzvg
+modified: 20250425144414439
+modifier: uzvg
+progress: Capturing
+tags: FleetingNotes Git
+title: 如何把新的修改添加到本地commit？
+type: text/vnd.tiddlywiki
+visibility: Public
+
+如何把工作区的修改，添加到已经出现产生的本地commit上？
+
+好像有一个Amend的命令，忘了，后面遇到再做补充。

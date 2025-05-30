@@ -4,16 +4,16 @@ created: 20241224044258724
 creator: uzvg
 description: 你的zsh Shell启动文件中应该写什么？
 medium: Website
-modified: 20250318035420152
+modified: 20250527105827479
 modifier: uzvg
-progress: Building
+progress: Completed
 rating: Valuable
 tags: LiteratureNotes zsh Shell
 title: what to put in your startup files?(1735015378724)
 type: text/vnd.tiddlywiki
 url: https://zsh.sourceforge.io/Guide/zshguide02.html#l6
 visibility: Public
-year: 2024-12-24
+year: 2024-12
 
 !! Shell 类型：
 

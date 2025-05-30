@@ -1,11 +1,11 @@
 created: 20250305163452470
 creator: uzvg
 description: 使用here string语法替代 echo "text" | command 的写法，减少进程创建
-modified: 20250318035420117
+modified: 20250411055157135
 modifier: uzvg
 progress: Completed
-rating: Promising
-tags: PermanentNotes [[here string]] Shell zsh
+rating: Valuable
+tags: PermanentNotes Shell zsh
 title: Here string语法
 type: text/vnd.tiddlywiki
 visibility: Public

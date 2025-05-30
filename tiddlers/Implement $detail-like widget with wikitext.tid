@@ -1,9 +1,10 @@
 created: 20240909071420803
 creator: uzvg
-modified: 20250318035420121
+description: 使用wikitext原生实现detail插件
+modified: 20250521005954794
 modifier: uzvg
-progress: Capturing
-tags: FleetingNotes TWKS
+progress: Completed
+tags: TWKS ProjectNotes
 title: Implement $detail-like widget with wikitext
 type: text/vnd.tiddlywiki
 visibility: Public

@@ -1,7 +1,7 @@
 created: 20250222064341957
-modified: 20250318035420047
+modified: 20250429035603922
 modifier: uzvg
-tags: 
+tags: $:/twks/Tools
 title: $:/uzvg/CO-STAR/Panel
 type: text/vnd.tiddlywiki
 
@@ -103,7 +103,7 @@ Save
 	</tr>
 </table>
 
-<div class="initializer-btn-container">
+<div class="flex justify-between">
 <<co-star-clean-btn>>
 <<co-star-save-btn>>
 </div>

@@ -1,0 +1,27 @@
+created: 20250325064225289
+modified: 20250327084334386
+modifier: uzvg
+tags: $:/tags/Global
+title: $:/uzvg/Procedures/JournalNavigator
+type: text/vnd.tiddlywiki
+
+\procedure twks-journal-navigator()
+<div class="twks-flexbox-space-between">
+	<%if [tag[Journal]sort[created]before<currentTiddler>] %>
+		<span class="twks-jornal-navigator-previous">
+			⮜ Previous:
+			<$button to=<<condition>> class="tc-btn-invisible tc-tiddlylink">
+				<<condition>>
+			</$button>
+		</span>
+	<% endif %>
+	<% if [tag[Journal]sort[created]after<currentTiddler>] %>
+		<span class="twks-journal-navigator-next">
+		Next:
+		<$button to=<<condition>> class="tc-btn-invisible tc-tiddlylink">
+			<<condition>>
+			</$button> ⮞
+		</span>
+	<% endif %>
+</div>
+\end

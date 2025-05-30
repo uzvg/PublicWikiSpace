@@ -1,11 +1,14 @@
 created: 20250228034020789
-modified: 20250318035420146
+description: 太微插件仓库里的giscus评论实现
+modified: 20250323081209809
 modifier: uzvg
-progress: Researching
+progress: Terminated
 tags: ProjectNotes Giscus TWKS
 title: TWCPL GISCUS
 type: text/vnd.tiddlywiki
 visibility: Public
+
+太微的插件库实现了在tiddler中添加giscus评论，直接用JavaScript写的。
 
 <$twks.details summary="JavaScript Code:" state="$:/state/detail">
 
@@ -91,4 +94,3 @@ visibility: Public
 ```
 
 </$twks.details>
-

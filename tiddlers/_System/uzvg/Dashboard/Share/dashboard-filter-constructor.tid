@@ -1,0 +1,57 @@
+code-body: yes
+created: 20250418044618806
+modified: 20250425125004137
+tags: 
+title: $:/uzvg/Dashboard/Share/dashboard-filter-constructor
+type: text/vnd.tiddlywiki
+
+<!-- Dashboard filter constructor
+	1. Filter Prefix
+	2. Properties subfilter
+	3. SortMode subfilter
+	4. Pagination subfilter
+-->
+
+\function stateTiddler() [<qualify $:/state/dashboard>]
+\function storeTiddler() [<qualify $:/state/dashboard/properties>]
+\function get-index-value() [<storeTiddler>getindex<currentTiddler>]
+\function get-note-type() [<currentTab>get[note-type]]
+\function dashboard-selector-class() [<class>!is[blank]else[twks-dashboard-selector-class]]
+\function dashboard-filter-prefix() [<currentTab>get[filter-prefix]]
+
+<!-- Dashboard Fields Filter Construcor
+	<lb> ➡ Left bracket
+	<rb> ➡ Right bracket -->
+\function dashboard-fields-subfilter(lb:"[",rb:"]")
+	[<storeTiddler>indexes[]]
+	:map[<currentTiddler>addsuffix<lb>addsuffix<get-index-value>addsuffix<rb>]
+	+[join[]]
+	+[addprefix<lb>addsuffix<rb>]
+\end
+
+\function get-total-constructor()
+	[<dashboard-filter-prefix>]
+	[<dashboard-fields-subfilter>!is[blank]addprefix[+]]
+	+[join[ ]]
+\end
+
+\function get-total-count() [subfilter<get-total-constructor>] +[count[]]
+\function get-current-page() [<stateTiddler>getindex[current-page]!is[blank]else[1]]
+\function get-page-size() [<currentTab>get[dashboard-page-size]]
+\function get-page-start() [<get-current-page>subtract[1]multiply<get-page-size>]
+\function get-total-page() [<get-total-count>divide<get-page-size>ceil[]]
+\function get-next-page() [<get-current-page>add[1]]
+\function get-previous-page() [<get-current-page>subtract[1]]
+\function previous-btn-class() [<get-previous-page>compare:integer:lt[1]then[hidden]]
+\function next-btn-class() [<get-next-page>compare:integer:gt<get-total-page>then[hidden]]
+
+\procedure dashboard-pagination-subfilter() [rest[$(get-page-start)$]first[$(get-page-size)$]]
+
+\function dashboard-sortmode-subfilter() [<stateTiddler>getindex[sort-mode]]
+\function dashboard-filter-constructor()
+	[<dashboard-filter-prefix>]
+	[<dashboard-fields-subfilter>!is[blank]addprefix[+]]
+	[<dashboard-sortmode-subfilter>!is[blank]addprefix[+]]
+	[<dashboard-pagination-subfilter>substitute[]addprefix[+]]
+	+[join[ ]]
+\end

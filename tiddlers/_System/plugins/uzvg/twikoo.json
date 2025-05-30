@@ -1,12 +1,1 @@
-{
-    "title": "$:/plugins/uzvg/twikoo",
-    "name": "Twikoo Comments",
-    "description": "Integrates Twikoo comment system with TiddlyWiki",
-    "author": "UZVG",
-    "version": "1.0.0",
-    "core-version": ">=5.0.0",
-    "source": "https://github.com/uavg/tw-twikoo",
-    "list": "readme",
-    "plugin-type": "plugin",
-    "dependents": []
-}
+{"tiddlers":{}}

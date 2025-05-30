@@ -1,6 +1,6 @@
 created: 20240730135626727
 creator: uzvg
-modified: 20250318035420166
+modified: 20250411055015608
 modifier: uzvg
 progress: Archived
 rating: Plain
@@ -21,4 +21,4 @@ this is a nother test
 让我们看一下效果
 ```
 
-这是`cat`命令用到的是[[herdoc语法]]
+这是`cat`命令用到的是[[Heredoc语法]]

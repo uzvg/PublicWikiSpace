@@ -1,21 +1,24 @@
 caption: Derivator
+code-body: yes
 created: 20250218091313194
 description: Derive a new tiddler from the current tiddler
 icon: $:/uzvg/images/Derivator
-modified: 20250318035420053
+modified: 20250427085121589
 modifier: uzvg
 tags: $:/tags/ViewToolbar
 title: $:/uzvg/Derivator/Button
 type: text/vnd.tiddlywiki
 
 \whitespace trim
-<$list filter="[!is[draft]tag[$:/tags/DerivatorActions]] :filter[<storyTiddler>subfilter{!!condition}] +[first[]get[text]]" variable="actions">
+\import [prefix[$:/uzvg/Derivator/Share/]]
+\function get-condition() [<currentTiddler>get[condition]]
+\function get-derivator-actions() [<actionsTiddler>get[text]]
+<$list filter="[!is[draft]tag[$:/tags/DerivatorActions]] :filter[<storyTiddler>subfilter<get-condition>first[]]" variable="actionsTiddler">
 	<$button
-		actions=<<actions>>
-		tooltip="Derivate new tiddler from current"
+		actions=<<get-derivator-actions>>
+		tooltip="Derive new tiddler"
 		aria-label={{$:/language/Buttons/Derivator/Hint}}
-		class=<<tv-config-toolbar-class>>
-	>
+		class=<<tv-config-toolbar-class>>>
 		<%if [<tv-config-toolbar-icons>match[yes]] %>
 			{{$:/uzvg/images/Derivator}}
 		<%endif%>

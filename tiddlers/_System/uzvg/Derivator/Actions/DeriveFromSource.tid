@@ -1,24 +1,25 @@
 caption: Source Derivation
+code-body: yes
 condition: [!is[system]!is[draft]tag[LiteratureNotes]tag[Source]]
 created: 20250228154250175
-description: Derivate A New LiteratureNotes From The Current Source Tiddler
-modified: 20250318035420053
+description: Derive A New LiteratureNotes From The Current Source Tiddler
+modified: 20250427111758567
 modifier: uzvg
 tags: $:/tags/DerivatorActions
 title: $:/uzvg/Derivator/Actions/DeriveFromSource
 type: text/vnd.tiddlywiki
 
-<!-- If CurrentTiddler is a source tiddler, then:
-* create a new LiteratureNotes
-* Copy authors, year, medium fields into the new tiddler.
-* Add the source field for the new tiddler.
+<!-- If the current tiddler is a source LiteratureNotes,
+then derive a new LiteratureNotes from this LiteratureNotes, and the following fields value should be saved:
+	* source
+	* authors
+	* year
+	* medium
 -->
 
-<$action-sendmessage
-	$message="tm-new-tiddler"
-	$param="$:/uzvg/Derivator/Templates/LiteratureNotes"
-	title="NewLiteratureNotesFromTheSource"
-	source=<<storyTiddler>>
-	authors={{{ [<storyTiddler>get[authors]] }}}
-	year={{{ [<storyTiddler>get[year]] }}}
-	medium={{{ [<storyTiddler>get[medium]] }}} />
+<$transclude $variable="twks-derivator-actions"
+	title="New LiteratureNote"
+	tags="LiteratureNotes"
+	syncFieldsList="authors year medium"
+	template="$:/uzvg/Derivator/Templates/LiteratureNotes"
+	keepSource="yes"/>

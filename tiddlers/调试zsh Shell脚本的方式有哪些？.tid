@@ -1,0 +1,12 @@
+created: 20250226075958389
+creator: uzvg
+modified: 20250318154759607
+modifier: uzvg
+progress: Capturing
+tags: FleetingNotes zsh Shell
+title: 调试zsh Shell脚本的方式有哪些？
+type: text/vnd.tiddlywiki
+visibility: Public
+
+zsh -i <filname>.zsh
+zsh -vx <filename>.zsh

@@ -1,17 +1,15 @@
 created: 20250218162829529
 creator: uzvg
-modified: 20250318035420170
+description: 刻意练习自己的注意力
+modified: 20250425144306123
 modifier: uzvg
-progress: Processing
-tags: FleetingNotes
+progress: Archive
+tags: FleetingNotes 番茄钟(Pomodoro) 专注(Focus) 注意力(Attention)
 title: 刻意练习自己的注意力
 type: text/vnd.tiddlywiki
 visibility: Public
 
-发现自己的注意力开始下降，基本无法长时间专注于做任何一件事。
-
-在写TWKS时，基本上每写个三五分钟，我就要切换到B站跟youtube去刷一些没有营养的视频。
-
-越来越难以集中注意力去做一件事了。
-
-可以找DeepSeek问一下，如何刻意练习自己的注意力？
+* Pomodoro是一个不错的想法。
+* 在25分钟的时间段里，集中注意力，只做一件事，其他所有事都不必担心，不必思考。
+* 最开始不要特别关注番茄钟的时长，而是要让自己在短时间内完全集中注意力，要质不要量。
+* 👉 [[twks-pomodoro]] ❌

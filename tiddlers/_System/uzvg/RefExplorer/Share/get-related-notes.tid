@@ -1,0 +1,36 @@
+code-body: yes
+created: 20250325043552797
+creator: uzvg
+modified: 20250501101814957
+modifier: uzvg
+tags: 
+title: $:/uzvg/RefExplorer/Share/get-related-notes
+type: text/vnd.tiddlywiki
+
+\function get-all-related-notes()
+	[<storyTiddler>links[]]
+	[<storyTiddler>backlinks[]]
+	[<storyTiddler>tags[]]
+	[<storyTiddler>tagging[]]
+	[all[tiddlers]source<storyTiddler>]
+	[<storyTiddler>has[source]get[source]]
+	[all[tiddlers]source<storyTiddler>]
+	[<storyTiddler>has[authors]get[authors]enlist-input[]]
+	[all[tiddlers]contains:authors<storyTiddler>]
+	-[enlist[LiteratureNotes PermanentNotes IndexNotes ProjectNotes FleetingNotes Books Source PAO Journal]] -[<storyTiddler>]
+	+[!is[draft]!is[missing]]
+\end
+
+\function get-note-relation()
+	[<currentRecord>]
+	-[<currentTiddler>tagging[]] +[else[Tagged]]
+	-[<currentTiddler>tags[]] +[else[Tagging]]
+	-[<currentTiddler>links[]] +[else[Link]]
+	-[<currentTiddler>backlinks[]] +[else[Backlink]]
+	-[<currentTiddler>get[authors]enlist-input[]] +[else[Author]]
+	-[<currentRecord>contains:authors<currentTiddler>] +[else[Work]]
+	-[<currentTiddler>has[source]get[source]] +[else[Source]]
+	-[<currentRecord>contains:source<currentTiddler>] +[else[Derivative]]
+	-[<currentRecord>get[created]format:date[YYYY0MM0DD]match<get-day>then<currentRecord>] +[else[SameDay]]
+	-[<currentRecord>] +[else[Others]]
+\end

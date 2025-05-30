@@ -1,6 +1,14 @@
+author: uzvg
 created: 20250302034755824
-modified: 20250318035420043
+dependents: twks.details
+description: Integrates Twikoo comment system with TiddlyWiki
+list: Readme Settings License
+modified: 20250321122138687
 modifier: uzvg
+name: Twikoo Comments
+plugin-type: plugin
+source: https://github.com/uzvg/tw-twikoo
 tags: 
 title: $:/plugins/uzvg/twikoo
 type: application/json
+version: 1.0.2

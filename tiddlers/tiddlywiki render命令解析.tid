@@ -1,7 +1,10 @@
 created: 20240711163307550
 creator: uzvg
-modified: 20250318093152082
+description: tiddlywiki中的render子命令用法解析。
+modified: 20250427164959678
 modifier: uzvg
+progress: Pending
+rating: Promising
 tags: tiddlywiki PermanentNotes TiddlywikiCommand
 title: tiddlywiki render命令解析
 type: text/vnd.tiddlywiki

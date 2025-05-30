@@ -1,10 +1,10 @@
 created: 20240909015658222
 creator: uzvg
 description: 目前看不到该功能的需求，暂时归档保存。
-modified: 20250318035420104
+modified: 20250322050718485
 modifier: uzvg
-progress: Archive
-tags: tiddlywiki FleetingNotes TWKS
+progress: Archived
+tags: TWKS ProjectNotes
 title: Add progress bar for displaying the note progress
 type: text/vnd.tiddlywiki
 visibility: Public

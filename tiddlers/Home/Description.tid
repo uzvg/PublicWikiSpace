@@ -1,0 +1,40 @@
+caption: Description
+created: 20250227141216533
+description: TWKS的使用手册，系统阐述了TWKS的功能及其特性。
+modified: 20250529151847584
+modifier: uzvg
+order: 1
+progress: Building
+tags: $:/twks/Documents
+title: Home/Description
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!!! 管理笔记的四个维度：
+
+`TWKS`用以下四个维度来管理、分类、处理系统中的笔记：
+
+# [[笔记类型|TWKS笔记类型]]：将笔记分为`FleetingNotes`、`LiteratureNotes`、`PermanentNotes`等不同的类型。
+# [[笔记进度|TWKS笔记进度]]：为不同类型的笔记设计不同的进度属性。
+# [[笔记评分|TWKS笔记评价]]：为不同类型的笔记评分。
+# [[笔记可见性|TWKS笔记可见性]]：通过`visibility`属性，将笔记分为`public`和`private`两种类别，用以管理笔记的隐私部分。
+
+!!! TWKS笔记流程：
+
+<<twks-image "twks-workflow.svg" width:"80%">>
+
+<<twks-tip "随着笔记流程的不断更新跟完善，当前的笔记流程跟流程图中的笔记可能会有所出入，但总体过程是一致的。">>
+
+!!! TWKS笔记属性：
+
+{{TWKS笔记属性}}
+
+
+!!! TWKS笔记命名规范：
+
+在tiddlywiki中，使用`title`字段作为每条tiddler的唯一标识符，也就是说，在tiddlywiki中，不可能同时出现两个`title`相同的tiddler。为了节省笔记的命名空间，`TWKS`采用了如下命名规范：
+
+* `TWKS`中的所有[[LiteratureNotes]]笔记，采用`caption`加`created`时间戳的命名方式，如：
+** [[与理性的乐观主义者为伍(1728966558033)]]
+* `TWKS`中的所有[[Books]] tiddler，全部采用`caption`+`isbn`的命名方式，如：
+** [[Evolutionary Psychology(9781138088610)]]

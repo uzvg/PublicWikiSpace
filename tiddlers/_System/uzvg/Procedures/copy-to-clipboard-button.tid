@@ -1,0 +1,23 @@
+code-body: yes
+created: 20241210160118342
+creator: uzvg
+modified: 20250511233703005
+modifier: uzvg
+progress: Archived
+tags: $:/tags/Global
+title: $:/uzvg/Procedures/copy-to-clipboard-button
+type: text/vnd.tiddlywiki
+
+\procedure twks-copy-to-clipboard-button(title,src,tooltip,class:"tc-btn-invisible",style)
+\whitespace trim
+<$button message="tm-copy-to-clipboard"
+	param=<<src>>
+	class=<<class>>
+	style=<<style>>
+	tooltip=<<tooltip>>>
+	{{$:/core/images/copy-clipboard}}
+	<span class="tc-tiny-gap-left">
+		<$text text=<<title>>/>
+	</span>
+</$button>
+\end

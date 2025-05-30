@@ -1,8 +1,8 @@
 created: 20240805081324172
 creator: uzvg
-modified: 20250318035420148
+modified: 20250318153817023
 modifier: uzvg
-progress: Capturing
+progress: Processing
 tags: tiddlywiki FleetingNotes
 title: twks命令行功能整理
 type: text/vnd.tiddlywiki
@@ -43,5 +43,5 @@ port
 Remote
 RemoteDeployDirectory
 Index processes by port
-## References:
-## Solution:
+
+@[[18th March 2025]]，已重新架构，需重新组织文档。

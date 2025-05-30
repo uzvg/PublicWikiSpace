@@ -1,18 +1,18 @@
 caption: Interactive shell and login shell
 created: 20240925105605889
 creator: uzvg
-description: 在Linux桌面环境下，使用
+description: 在Linux桌面环境下，交互Shell跟login Shell的区别
 medium: Website
-modified: 20250318035420123
+modified: 20250527105604471
 modifier: uzvg
-progress: Building
+progress: Completed
 rating: Brilliant
 tags: Linux Shell zsh LiteratureNotes
 title: Interactive shell and login shell(1727261765889)
 type: text/vnd.tiddlywiki
 url: https://zsh.sourceforge.io/Guide/zshguide02.html#l6
 visibility: Public
-year: 2024-12-24
+year: 2024-12
 
 !! 交互式 Shell 与非交互式 Shell：
 

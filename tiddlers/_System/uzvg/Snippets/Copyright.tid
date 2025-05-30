@@ -1,7 +1,7 @@
 caption: Insert a copywright
 created: 20240811155539157
 creator: uzvg
-modified: 20250318035420080
+modified: 20250323073140189
 modifier: uzvg
 tags: $:/tags/TextEditor/Snippet
 title: $:/uzvg/Snippets/Copyright
@@ -9,11 +9,10 @@ type: text/vnd.tiddlywiki
 
 <!--
 MIT License
-Applies to SYSTEM TIDDLERS ONLY, as defined above!
+Applies to SYSTEM TIDDLERS ONLY.
 Does NOT apply to the text of notes in this wiki.
 
-Copyright © 2020–2024 Soren Bjornstad.
-Copyright © 2024 UZVG
+Copyright © 2024 [UZVG]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

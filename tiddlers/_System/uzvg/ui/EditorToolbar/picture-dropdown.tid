@@ -1,34 +1,32 @@
 created: 20240809080136689
 creator: uzvg
 image: kazetachinu026.jpg
-modified: 20250318035420089
+modified: 20250328093854647
 modifier: uzvg
 tags: 
 title: $:/uzvg/ui/EditorToolbar/picture-dropdown
 type: text/vnd.tiddlywiki
 
 \define replacement-text()
-<<image "$(imageTitle)$">>
+	<<twks-image "$(imageTitle)$">>
 \end
 
 \procedure insert-image-actions()
 <$action-sendmessage
 	$message="tm-edit-text-operation"
 	$param="replace-selection"
-	text=<<replacement-text>>
-/>
+	text=<<replacement-text>> />
+
 <$action-deletetiddler
-	$tiddler=<<dropdown-state>>
-/>
+	$tiddler=<<dropdown-state>> />
 \end
 
 \procedure insert-cover-actions()
-<$action-setfield
-$tiddler=<<storyTiddler>>
-image=<<imageTitle>>/>
-<$action-deletetiddler
-$tiddler=<<dropdown-state>>
-/>
+	<$action-setfield
+		$tiddler=<<storyTiddler>>
+		cover=<<imageTitle>>/>
+	<$action-deletetiddler
+		$tiddler=<<dropdown-state>> />
 \end
 
 <!--
@@ -37,21 +35,21 @@ $tiddler=<<dropdown-state>>
 
 
 <$twks.details
-	default="show"
+	default="open"
 	summary="Pictures Was Created Recently:"
 	state="$:/state/detail/pictures-created-recently" >
 	<$macrocall $name="image-picker" subfilter="nsort[created]last[8]" actions=<<insert-image-actions>> />
 </$twks.details>
 
 <$twks.details
-	default="show"
+	default="open"
 	summary="Pictures Was Modified Recently:"
 	state="$:/state/detail/pictures-modified-recently">
 	<$macrocall $name="image-picker" subfilter="nsort[modified]last[8]" actions=<<insert-image-actions>> />
 </$twks.details>
 
 <$twks.details
-	default="hide"
+	default="close"
 	summary="Insert cover image:"
 	state="$:/state/detail/insert-cover">
 	<$macrocall $name="image-picker" subfilter="nsort[modified]last[10]" actions=<<insert-cover-actions>> />

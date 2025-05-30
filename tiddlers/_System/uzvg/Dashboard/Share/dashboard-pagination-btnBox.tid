@@ -1,0 +1,36 @@
+code-body: yes
+created: 20250424070513370
+modified: 20250506114329989
+title: $:/uzvg/Dashboard/Share/dashboard-pagination-btnBox
+type: text/vnd.tiddlywiki
+
+\procedure dashboard-previous-btn()
+	<$button setTitle=<<stateTiddler>>
+		setIndex="current-page"
+		setTo=<<get-previous-page>>
+		class=<<previous-btn-class>>>
+		⮜&nbsp;Previous
+	</$button>
+\end
+
+\procedure dashboard-next-btn()
+	<$button setTitle=<<stateTiddler>>
+		setIndex="current-page"
+		setTo=<<get-next-page>>
+		class=<<next-btn-class>>>
+		Next&nbsp;⮞
+	</$button>
+\end
+
+\procedure dashboard-page-indicator()
+	<<get-current-page>>/<<get-total-page>>
+\end
+
+\procedure dashboard-pagination-btnBox()
+\function pagination-btnBox-class() [[flex]] [[justify-between]] [<get-total-count>]
+	<span class="flex justify-between">
+		<<dashboard-previous-btn>>
+		<<dashboard-page-indicator>>
+		<<dashboard-next-btn>>
+	</span>
+\end

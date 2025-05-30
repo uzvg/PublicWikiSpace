@@ -3,7 +3,7 @@ created: 20241104113506594
 creator: uzvg
 description: Open Dashboard
 icon: $:/uzvg/images/Dashboard
-modified: 20250318035420046
+modified: 20250328042037773
 modifier: uzvg
 tags: $:/tags/PageControls
 title: $:/uzvg/Buttons/Dashboard
@@ -17,7 +17,7 @@ type: text/vnd.tiddlywiki
 	class=<<tv-config-toolbar-class>>
 	actions="""<$action-navigate $to="$:/uzvg/Dashboard/Panel"/>""">
 <%if [<tv-config-toolbar-icons>match[yes]] %>
-	{{$:/uzvg/images/Dashboard}}
+	{{$:/uzvg/Images/Task}}
 <% endif %>
 <% if [<tv-config-toolbar-text>match[yes]] %>
 	<span class="tc-btn-text">

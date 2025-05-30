@@ -1,0 +1,29 @@
+caption: FleetingNotes
+code-body: yes
+created: 20250424083255623
+dashboard-page-size: 10
+filter-prefix: [all[tiddlers]!is[system]tag[FleetingNotes]]
+modified: 20250517025037822
+note-type: FleetingNotes
+tags: $:/tags/Dashboard
+title: $:/uzvg/Dashboard/Panels/FleetingNotes
+type: text/vnd.tiddlywiki
+
+\import [prefix[$:/uzvg/Dashboard/Share/]]
+
+<<dashboard-selector-box "progress visibility sortmode">>
+<$transclude $variable="dashboard-tableview"
+	filter=<<dashboard-filter-constructor>>/>
+<<dashboard-pagination-btnBox>>
+
+<!-- Debug Info:
+* <$link to=<<storeTiddler>>/>
+* <$link to=<<stateTiddler>>/>
+* <code><<dashboard-filter-constructor>></code>
+* Complete filter: <code><<get-total-constructor>></code>
+* Total page: <code><<get-total-page>></code>
+* Previous page: <code><<get-previous-page>></code>
+* Page Indicator: <code><<get-current-page>>/<<get-total-page>></code>
+* Previous btn class: <code><<previous-btn-class>></code>
+* Next btn class: <code><<next-btn-class>></code>
+-->

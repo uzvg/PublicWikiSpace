@@ -1,0 +1,69 @@
+caption: Books Derivation
+condition: [!is[system]!is[draft]tag[Books]]
+created: 20250325095402941
+description: Derivate A New LiteratureNotes From The Current Book Tiddler
+modified: 20250425053837022
+modifier: uzvg
+tags: 
+title: $:/uzvg/Derivator/Panel
+type: text/vnd.tiddlywiki
+
+\procedure new-derivation-actions()
+<$action-sendmessage $message="tm-rename-tiddler"
+	from=<<tmpTiddler>>
+	to=<<targetTiddler>> />
+<$action-setfield
+	$tiddler=<<targetTiddler>>
+	text={{{ [<templateTiddler>get[text]] }}}
+	tags="$:/tags/DerivatorActions" />
+\end
+
+!! Derivator Actions:
+
+<table class="twks-wrap-anywhere twks-table-last-child-5em">
+	<tr>
+		<th>Suffix</th>
+		<th>Caption</th>
+		<th>Condition</th>
+		<th>Description</th>
+		<th>Edit Actions</th>
+	</tr>
+	<$list filter="[all[tiddlers]tag[$:/tags/DerivatorActions]]">
+		<tr>
+			<td><$text text={{{ [<currentTiddler>split[/]last[]] }}} /></td>
+			<td class="twks-wrap-anywhere"><$text text={{{ [<currentTiddler>get[caption]] }}} /></td>
+			<td><code><$text text={{{ [<currentTiddler>get[condition]] }}} /></code></td>
+			<td class="twks-wrap-anywhere"><$text text={{{ [<currentTiddler>get[description]] }}} /></td>
+			<td>
+				<$button message="tm-edit-tiddler" param=<<currentTiddler>>>
+					Edit{{$:/core/images/edit-button}}
+				</$button>
+			</td>
+		</tr>
+	</$list>
+</table>
+
+!! Create Actions:
+
+|tc-max-width twks-table-first-child-8em|k
+|!Suffix |<$edit-text tiddler="$:/tmp/Derivator/NewActions" field="text" tag="input" class="twks-full-width-input"/>|
+|!Caption |<$edit-text tiddler="$:/tmp/Derivator/NewActions" field="caption" class="twks-full-width-input"/>|
+|!Condition |<$edit-text tiddler="$:/tmp/Derivator/NewActions" field="condition" class="twks-full-width-input"/>|
+|!Description |<$edit-text tiddler="$:/tmp/Derivator/NewActions" field="description" class="twks-full-width-input"/>|
+
+<$let
+	tmpTiddler="$:/tmp/Derivator/NewActions"
+	targetTiddler={{{ [<tmpTiddler>get[text]trim[]addprefix[$:/uzvg/Derivator/Actions/]] }}}
+	templateTiddler="$:/uzvg/Derivator/Templates/NewAction">
+	<% if [<targetTiddler>is[tiddler]] %>
+	<<twks-caution "The derivation action tiddler is already exist, type another suffix.">>
+	<% elseif [<tmpTiddler>!has[text]] [<tmpTiddler>!has[caption]] [<tmpTiddler>!has[condition]] [<tmpTiddler>!has[description]] %>
+		<<twks-warning "You have required fields to fill in.">>
+	<% else %>
+		<div class="twks-single-btn-container-right-align">
+			<$button actions=<<new-derivation-actions>>>
+				Create
+			</$button>
+		</div>
+	<% endif %>
+</$let>

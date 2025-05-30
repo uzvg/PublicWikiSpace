@@ -1,10 +1,10 @@
 created: 20240818110859913
 creator: uzvg
-modified: 20250318035420129
+modified: 20250422144302175
 modifier: uzvg
 progress: Archived
 rating: Plain
-tags: tiddlywiki PermanentNotes
+tags: tiddlywiki PermanentNotes Tutorial(教程)
 title: Pragma/function
 type: text/vnd.tiddlywiki
 visibility: Public
@@ -32,6 +32,10 @@ visibility: Public
 * 使用宏调用的方式，如：`<<myfn param:"value">>`
 * 通过`function`操作符，如：`[function[myfn],[value],...]`
 * 函数名中有`.`符号，会被视为自定义函数，可通过更简洁的方式来调用，如`[my.fn[value]]`或`[.myfn[value]]`
+
+
+[[22nd April 2025]] 本质上是一个特殊的变量，可以通过`getvariable`来取值。
+* function中不能嵌套function hello name的例子
 
 <<rememberq "20240818113208733"
 	"function的作用是什么？"
@@ -63,3 +67,23 @@ visibility: Public
 <<rememberq "20240818122919185"
 	"函数名中带有`.`的自定义函数怎么调用？"
 	"`[my.fn[value]]`或`[.fn[value]]`">>
+
+
+!! 教程内容：
+
+1. functions的注意点：
+内容全是筛选器
+
+2. 注意<<>>跟functions的不同的调用方式
+
+```
+<<get-note-attributes test progress>>
+
+---
+
+{{{ [<get-note-attributes test progress>] }}}
+
+---
+
+{{{ [function[get-note-attributes],[test],[progress]] }}}
+```
