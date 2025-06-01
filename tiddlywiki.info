@@ -20,9 +20,11 @@
     "build": {
         "public": [
             "--output","backup",
+            "--setfield","[[$:/config/SaverFilter]]","text","", "text/plain",
             "--save","[is[system]]","[removeprefix[$:/]addprefix[Public/tiddlers/_System/]]",
             "--save","[!is[system]visibility[Public]]","[addprefix[Public/tiddlers/]]",
-            "--render",".","Public/output/index.html","text/plain","$:/core/save/all","publishFilter","-[prefix[$:/plugins/]] -[visibility[Private]] -[tag[Journal]]"
+            "--render",".","Public/output/index.html","text/plain","$:/core/save/all","publishFilter","-[prefix[$:/plugins/]] -[prefix[$:/state/]] -[prefix[$:/temp/]] -[visibility[Private]] -[tag[Journal]]",
+            "--deletetiddlers","[[$:/config/SaverFilter]]"
         ],
         "private": [
             "--output","backup",
