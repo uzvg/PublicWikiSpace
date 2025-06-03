@@ -1,9 +1,11 @@
 created: 20241215042516082
-modified: 20250501153815817
+modified: 20250602074839125
 modifier: uzvg
 tags: $:/tags/ViewTemplate
 title: $:/uzvg/FrontMatter/ViewTemplate
 type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/FrontMatter/Share/website-links-list]]
 
 <$list filter="[tag[$:/tags/FrontMatter]!is[draft]] :filter[<storyTiddler>!is[system]subfilter{!!condition}]" variable="currentFrontMatter">
 	<$transclude $tiddler=<<currentFrontMatter>> $mode="block"/>

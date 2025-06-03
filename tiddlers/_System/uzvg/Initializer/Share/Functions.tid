@@ -1,6 +1,6 @@
 code-body: yes
 created: 20250404050558772
-modified: 20250411170311864
+modified: 20250601231605432
 title: $:/uzvg/Initializer/Share/Functions
 type: text/vnd.tiddlywiki
 
@@ -17,7 +17,7 @@ type: text/vnd.tiddlywiki
 \end
 
 <!-- Get stateTiddler for whether force initialize storyTiddler -->
-\function stateTiddler() [<qualify $:/tmp/intializer/state>]
+\function stateTiddler() [<qualify $:/temp/intializer/state>]
 
 <!-- Get default image title -->
 \function get-default-image-title() [<storyTiddler>get[_canonical_uri]trim[]split[/]last[]]

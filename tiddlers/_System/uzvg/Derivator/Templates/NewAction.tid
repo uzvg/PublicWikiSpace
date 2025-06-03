@@ -1,11 +1,13 @@
+code-body: yes
 created: 20250328160944304
-modified: 20250328162539989
+modified: 20250603143102305
 tags: 
 title: $:/uzvg/Derivator/Templates/NewAction
 type: text/vnd.tiddlywiki
 
-<!--
-<$action-createtiddler $basetitle="Homemade Button" tags="$:/tags/PageControls" text={{$:/state/new-button-caption}}>
-	<$action-navigate $to=<<createTiddler-title>>/>
-</$action-createtiddler>
--->
+<$transclude $variable="twks-derivator-actions"
+	title=""
+	tags=""
+	syncFieldsList=""
+	template=""
+	keepSource="yes"/>

@@ -1,20 +1,23 @@
 caption: FleetingNotes
 code-body: yes
-created: 20250424083255623
-dashboard-page-size: 10
+created: 20250603143915433
 filter-prefix: [all[tiddlers]!is[system]tag[FleetingNotes]]
-modified: 20250517025037822
+modified: 20250603145712361
 note-type: FleetingNotes
+page-size: 10
 tags: $:/tags/Dashboard
 title: $:/uzvg/Dashboard/Panels/FleetingNotes
 type: text/vnd.tiddlywiki
 
+\import [prefix[$:/uzvg/Share/FilterBuilder/]]
 \import [prefix[$:/uzvg/Dashboard/Share/]]
+\function get-page-size() [<currentTab>get[page-size]]
+\function get-filter-prefix() [<currentTab>get[filter-prefix]]
 
-<<dashboard-selector-box "progress visibility sortmode">>
-<$transclude $variable="dashboard-tableview"
-	filter=<<dashboard-filter-constructor>>/>
-<<dashboard-pagination-btnBox>>
+<<filterBuilder-selector-box "progress visibility sortmode">>
+<$transclude $variable="twks-dashboard-tableview"
+	filter=<<get-complete-filter>>/>
+<<twks-list-paginater>>
 
 <!-- Debug Info:
 * <$link to=<<storeTiddler>>/>

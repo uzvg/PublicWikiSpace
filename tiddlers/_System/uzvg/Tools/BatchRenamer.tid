@@ -1,6 +1,6 @@
 created: 20250106054849678
 creator: uzvg
-modified: 20250324085911606
+modified: 20250601232006810
 modifier: uzvg
 progress: WIP
 tags: $:/twks/Tools
@@ -22,18 +22,18 @@ visibility: Public
 \end
 
 |tc-max-width twks-full-width-input|k
-|Search tiddlers |<$edit-text tiddler="$:/tmp/batchRename/source" tag="input"/>|
-|Replaced with |<$edit-text tiddler="$:/tmp/batchRename/target" tag="input"/>|
+|Search tiddlers |<$edit-text tiddler="$:/temp/batchRename/source" tag="input"/>|
+|Replaced with |<$edit-text tiddler="$:/temp/batchRename/target" tag="input"/>|
 
 <$let
-	sourceStringTiddler="$:/tmp/batchRename/source"
-	targetStringTiddler="$:/tmp/batchRename/target"
+	sourceStringTiddler="$:/temp/batchRename/source"
+	targetStringTiddler="$:/temp/batchRename/target"
 	sourceString={{{ [<sourceStringTiddler>get[text]] }}}
 	targetString={{{ [<targetStringTiddler>get[text]else<sourceString>] }}} >
 
 <% if [[$:/tmp/batchRename/source]!has[text]] %>
 	<<twks-caution "Empty Input.">>
-<% elseif [all[tiddlers]!is[draft]!prefix[$:/state]!prefix[$:/tmp]search:title<sourceString>count[]compare:integer:eq[0]] %>
+<% elseif [all[tiddlers]!is[draft]!prefix[$:/state]!prefix[$:/temp]search:title<sourceString>count[]compare:integer:eq[0]] %>
 		<<twks-tip "The search result are empty.">>
 <% else %>
 	<table class="tc-max-width">

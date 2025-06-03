@@ -1,0 +1,12 @@
+[
+    {
+        "created": "20250603115545014",
+        "title": "$:/uzvg/Derivator/Actions/DerivaFromPermanentNotes",
+        "text": "DerivaFromPermanentNotes",
+        "modified": "20250603115653658",
+        "type": "text/vnd.tiddlywiki",
+        "caption": "PermanentNotes Derivative",
+        "condition": " [!is[system]!is[draft]tag[PermanentNotes]] ",
+        "description": "Derive A New LiteratureNotes From The Current Source Tiddler"
+    }
+]

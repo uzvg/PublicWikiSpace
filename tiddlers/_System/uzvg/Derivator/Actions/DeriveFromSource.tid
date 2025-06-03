@@ -1,9 +1,9 @@
-caption: Source Derivation
+caption: Source Derivative
 code-body: yes
 condition: [!is[system]!is[draft]tag[LiteratureNotes]tag[Source]]
 created: 20250228154250175
 description: Derive A New LiteratureNotes From The Current Source Tiddler
-modified: 20250427111758567
+modified: 20250602062629428
 modifier: uzvg
 tags: $:/tags/DerivatorActions
 title: $:/uzvg/Derivator/Actions/DeriveFromSource

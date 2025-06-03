@@ -1,7 +1,7 @@
 code-body: yes
 created: 20250325043552797
 creator: uzvg
-modified: 20250501101814957
+modified: 20250602163826441
 modifier: uzvg
 tags: 
 title: $:/uzvg/RefExplorer/Share/get-related-notes
@@ -31,6 +31,5 @@ type: text/vnd.tiddlywiki
 	-[<currentRecord>contains:authors<currentTiddler>] +[else[Work]]
 	-[<currentTiddler>has[source]get[source]] +[else[Source]]
 	-[<currentRecord>contains:source<currentTiddler>] +[else[Derivative]]
-	-[<currentRecord>get[created]format:date[YYYY0MM0DD]match<get-day>then<currentRecord>] +[else[SameDay]]
 	-[<currentRecord>] +[else[Others]]
 \end

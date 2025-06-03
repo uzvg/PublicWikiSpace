@@ -2,7 +2,7 @@ caption: Literature Info
 code-body: yes
 condition: [tag[LiteratureNotes]]
 created: 20241215042854728
-modified: 20250501154224591
+modified: 20250602074759249
 modifier: uzvg
 tags: $:/tags/FrontMatter
 title: $:/uzvg/FrontMatter/FrontMatters/LiteratureNotes
@@ -54,7 +54,7 @@ type: text/vnd.tiddlywiki
 		<tr>
 			<th>Literature Link</th>
 			<td>
-				<$transclude $tiddler=<<storyTiddler>> $field="url"/>
+				<<website-links-list>>
 			</td>
 		</tr>
 	<% endif %>
