@@ -1,0 +1,29 @@
+code-body: yes
+created: 20250411071838904
+modified: 20250515032831424
+tags: 
+title: $:/uzvg/Initializer/Share/twks-picker-box/Template
+type: text/vnd.tiddlywiki
+
+\import [[$:/core/ui/EditTemplate/tags]]
+
+\procedure twks-tag-picker-template()
+<div class="tc-edit-tags">
+	<$list filter="[<saveTiddler>get<tagField>enlist-input[]sort[title]]" storyview="pop">
+		<$macrocall $name="tag-body"
+			colour={{{ [<currentTiddler>] :cascade[all[shadows+tiddlers]tag[$:/tags/TiddlerColourFilter]!is[draft]get[text]] }}}
+			palette={{$:/palette}}
+			icon={{{ [<currentTiddler>] :cascade[all[shadows+tiddlers]tag[$:/tags/TiddlerIconFilter]!is[draft]get[text]] }}}
+			tagField=<<tagField>>/>
+	</$list>
+	<$let tabIndex={{$:/config/EditTabIndex}} cancelPopups="yes">
+		<$macrocall $name="tag-picker" tagField=<<tagField>> tagListFilter=<<tagListFilter>>/>
+	</$let>
+</div>
+\end
+
+<$let saveTiddler=<<saveTiddler>>
+	tagField=<<tagField>>
+	tagListFilter=<<tagListFilter>>>
+	<<twks-tag-picker-template>>
+</$let>

@@ -1,0 +1,59 @@
+authors: w3schools
+caption: Python变量
+created: 20250302040959523
+creator: uzvg
+description: Python变量
+medium: Website
+modified: 20250527001147049
+modifier: uzvg
+progress: Archived
+rating: Plain
+tags: LiteratureNotes Python
+title: Python变量(1740888599523)
+type: text/vnd.tiddlywiki
+url: https://www.w3schools.com/python/python_variables.asp
+visibility: Public
+year: 2025-03
+
+*  Insert the correct syntax to assign values to multiple variables in one line: 
+
+```
+x,y,z = "Orange", "Banana", "Cherry"
+```
+
+
+* Unpack a Collection:
+
+```
+fruits = ["apple", "banana", "cherry"]
+x, y, z = fruits
+print(x)
+print(y)
+print(z)
+
+Orange
+Banana
+Cherry
+```
+
+; global keywords:
+
+Also, use the `global` keyword if you want to change a global variable inside a function.
+
+```
+x = "awesome"
+
+def myfunc():
+  global x
+  x = "fantastic"
+
+myfunc()
+
+print("Python is " + x)
+```
+
+* 从函数内部改变了全局变量`X`的值。
+
+
+
+

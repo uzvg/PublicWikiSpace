@@ -1,0 +1,15 @@
+created: 20241205064404330
+creator: uzvg
+modified: 20250319030000724
+modifier: uzvg
+progress: Archive
+tags: FleetingNotes TWKS
+title: 代码块复制功能
+type: text/vnd.tiddlywiki
+visibility: Public
+
+实现一个常规博客中代码块中的复制粘贴。
+
+* 能一键把代码、提示词复制到剪贴板。
+
+👉 太微好像有这个功能，可能是用JavaScript实现的。

@@ -1,0 +1,18 @@
+caption: TWKS笔记命名规范
+created: 20250615155958455
+modified: 20250615160421181
+progress: Completed
+tags: $:/twks/Documents
+title: TWKS笔记命名规范
+type: text/vnd.tiddlywiki
+visibility: Public
+
+在 TiddlyWiki 中，每条笔记（tiddler）都有唯一的 `title`。为了避免标题冲突，TWKS 采用以下命名规则：
+
+; 👉 [[LiteratureNotes]]：
+* 用笔记标题（caption）加创建时间戳命名。
+
+; 👉 [[Books]] Tiddler
+* 用书名（caption）加 ISBN 编号命名。
+
+<<twks-tip "点击链接，即可查看对应的命名示例。">>

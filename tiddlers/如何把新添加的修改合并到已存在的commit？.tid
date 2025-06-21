@@ -1,0 +1,99 @@
+created: 20250226025152862
+creator: uzvg
+description: 在git中，如何把新添加的修改，合并到已存在的commit当中
+modified: 20250620163415474
+modifier: uzvg
+progress: Building
+rating: Plain
+tags: Git PermanentNotes
+title: 如何把新添加的修改合并到已存在的commit？
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+假如有这样一种情况，我们已经提交了一个commit，但是后面又在工作区做了一些修改，此时，要想将新做的修改，添加到已经存在的commit中，要如何处理？
+
+!! 解决方案：
+
+这种情况，一般有两种解决方案，一种是使用`git reset`命令，还有一种是使用`git rebase`命令。
+
+!!! 1. git reset：
+
+我们都知道[[git reset有三种模式|Git Reset 的三种模式]]，其中的`--mixed`模式就经常用于重写commit，具体操作如下：
+
+```
+git reset --mixed 2rdf243r
+git add .
+git commit --amend
+```
+
+* 这种操作的好处是，可以快速地撤销就近的`commit`，重新修改并提交，但并不适用于距离太远的提交。
+
+!!! 2. git rebase:
+
+`git rebase`常用于整理线性的提交历史，但也可以用交互式的rebase命令，编辑之前的commit，具体操作如下：
+
+```
+# 对前四次commit进行交互式rebase操作
+git rebase -i HEAD~4
+# 在文本界面把需要修改的commit放到最顶部的位置。
+# 保存退出
+# 修改顶部commit
+# 提交commit
+git commit --amend
+
+# 把调整后的commit放回原位
+git rebase -i HEAD~4
+```
+
+!!! 更轻量的方法：
+
+直接 rebase -i 修改旧提交（squash 或 fixup），这是团队中最常用、推荐的方式之一：
+
+使用 git rebase -i，将当前变更与旧提交合并：
+不动 commit 顺序，只通过 git stash 保存当前更改；
+
+使用交互式 rebase 并选择 edit 目标提交；
+
+git stash pop 恢复工作区更改；
+
+使用 git commit --amend 修改该 commit；
+
+git rebase --continue 完成 rebase。
+
+或：
+
+更典型流程（squash/fixup）：
+提交当前修改：
+
+bash
+Copy
+Edit
+git add .
+git commit -m "修复某个功能"
+使用交互式 rebase：
+
+bash
+Copy
+Edit
+git rebase -i HEAD~N
+在目标旧 commit 下方，将你的新提交标记为 fixup 或 squash，然后 Git 会帮你合并到目标 commit 中。
+
+优点：
+
+最精细、灵活、可控；
+
+适用于任何位置的 commit；
+
+交互式体验友好，Git 会引导你完成流程；
+
+squash/fixup 让你不必手动移动 commit 顺序。
+
+缺点：
+
+操作略复杂，但是 Git 高阶用户最常用的方式。
+
+!! 拓展：
+
+* [[命令行神器lazygit(1750399464648)]]

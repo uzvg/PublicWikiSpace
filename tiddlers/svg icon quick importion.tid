@@ -1,0 +1,16 @@
+created: 20250216155340225
+creator: uzvg
+description: 快速将svg图标导入到tiddlywiki中
+modified: 20250425142756784
+modifier: uzvg
+progress: Archive
+tags: FleetingNotes TWKS
+title: svg icon quick importion
+type: text/vnd.tiddlywiki
+visibility: Public
+
+* 通过initializer快速导入svg icon
+* 或者创建一个小工具，集搜索和new icon 按钮
+* 这个可以有，等有时间实现一下。
+
+@ [[25th April 2025]]，使用的频率并不是很高，归档处理。

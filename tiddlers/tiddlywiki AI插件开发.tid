@@ -1,0 +1,21 @@
+created: 20250621020233271
+modified: 20250621165853166
+progress: Researching
+tags: ProjectNotes tiddlywiki TWKS
+title: tiddlywiki AI插件开发
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirements:
+
+* 在每个tiddler上显示一个AI对话按钮
+* 但是，能提前根据tiddler的类型（使用筛选器）执行不同的动作，打开一个AI对话的tiddler。
+* [[obsidian copilot|https://github.com/logancyang/obsidian-copilot]]。
+
+!! Project Logs：
+
+* 如何把筛选出来的tiddler，发送给AI处理？
+** 一种是使用wikitext语法的纯文本。
+** 还有一种是直接将其导出为一个json格式的文件，然后上传给AI。
+* [[什么是Embedding模型？]]
+* 如何正确显示大模型输出的markdown格式的文本？👉 [[tiddlywiki markdown|https://tiddlywiki.com/prerelease/plugins/tiddlywiki/markdown/]]

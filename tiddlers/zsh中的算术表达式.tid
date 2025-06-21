@@ -1,0 +1,34 @@
+created: 20250304052115558
+description: zsh中的算术表达式总结
+modified: 20250618141824861
+modifier: uzvg
+progress: Building
+rating: Doubtful
+tags: PermanentNotes zsh Shell
+title: zsh中的算术表达式
+type: text/vnd.tiddlywiki
+visibility: Public
+
+在zsh的算术表达式中，非零为''真''，零为''假''，如：
+
+!!! 1. `${+name}`
+
+用途：常用于判断变量是否
+
+* 变量存在，返回1，变量不存在，返回0。
+* 常用于判断变量是否定义：
+
+```bash
+# 用于判断pbzip2该命令是否存在
+if (( ${+commands[pbzip2]} )) alias bzip2=pbzip2
+if (( ${+commands[pbunzip2]} )) alias bunzip2=pbunzip2
+```
+
+* commands是[[commands关联数组]]
+* ${+var}用于判断变量是否存在
+* 在zsh脚本中常用于判断命令是否存在，如：
+** `(( ${+commands[gh]} || ${+commands[asdf]} && ${+functions[_direnv_hook]} ))`
+* 存在返回1，不存在返回0
+* `(())`用于算术运算和算术条件判断
+** 需要注意的是，在该条件判断中，非零为真，零为假
+** 类似的例子

@@ -1,0 +1,16 @@
+created: 20250424033106459
+modified: 20250424065616670
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/display.css
+type: text/vnd.tiddlywiki
+
+.dispay-none {
+	display: none;
+}
+
+.hidden {
+	visibility: hidden;
+  opacity: 0;        /* 可选：完全透明 */
+  pointer-events: none; /* 禁止交互 */
+	aria-hidden="true" /* 防止隐藏元素被屏幕阅读器读取 */
+}
