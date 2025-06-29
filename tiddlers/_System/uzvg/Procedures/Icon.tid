@@ -1,0 +1,16 @@
+created: 20250307122547595
+modified: 20250325065333204
+modifier: uzvg
+tags: $:/tags/Global
+title: $:/uzvg/Procedures/Icon
+type: text/vnd.tiddlywiki
+
+\procedure twks-icon(name,size,color)
+<$transclude $tiddler={{{ [<name>!is[blank]is[system]] :else[tag[$:/tags/Image]prefix[$:/uzvg/images]caption<name>] }}}
+	size={{{ [<size>!is[blank]] :else[[$:/themes/tiddlywiki/vanilla/metrics/bodyfontsize]get[text]trim[]] }}}
+	color=<<color>> }}} />
+\end
+
+<$transclude $variable="icon"
+	name="$:/core/images/locked-padlock"
+ 	color='red' />

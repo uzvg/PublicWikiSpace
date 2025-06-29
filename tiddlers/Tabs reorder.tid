@@ -1,0 +1,14 @@
+created: 20250325065515218
+modified: 20250325070204511
+progress: Researching
+tags: ProjectNotes tiddlywiki
+title: Tabs reorder
+type: text/vnd.tiddlywiki
+visibility: Public
+
+tiddlywiki中的tabs macro给其中的tabs排序太费劲了：
+
+# Reorder tabs order through drag and drop.
+# 重构tabs宏，可以通过
+
+👉 [[$:/uzvg/Procedures/tabsReorder]]

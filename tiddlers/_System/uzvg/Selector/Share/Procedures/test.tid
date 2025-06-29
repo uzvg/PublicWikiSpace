@@ -1,0 +1,17 @@
+created: 20250422084118674
+modified: 20250423155517421
+tags: test
+title: $:/uzvg/Selector/Share/Procedures/test
+type: text/vnd.tiddlywiki
+
+<$transclude $variable="twks-medium-selector"
+	tiddler=<<twks-temp-tiddler>>
+	emptyValue="no"
+	enableOptions="no"
+	index="medium"/>
+
+<$transclude $variable="twks-visibility-selector"
+	tiddler=<<twks-temp-tiddler>>
+	index="visibility"/>
+
+<<twks-temp-inspector>>

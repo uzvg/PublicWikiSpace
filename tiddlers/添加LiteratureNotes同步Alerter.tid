@@ -1,0 +1,12 @@
+created: 20250328165519080
+creator: uzvg
+modified: 20250328165637215
+modifier: uzvg
+progress: Processing
+tags: FleetingNotes TWKS
+title: 添加LiteratureNotes同步Alerter
+type: text/vnd.tiddlywiki
+visibility: Public
+
+* 如果不符合命名规范，则显示重命名alerter
+* 如果跟source信息不一致，则显示信息同步alerter。

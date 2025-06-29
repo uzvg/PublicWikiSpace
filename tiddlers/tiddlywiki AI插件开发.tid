@@ -1,0 +1,49 @@
+created: 20250621020233271
+modified: 20250625021152187
+progress: Researching
+tags: ProjectNotes tiddlywiki TWKS Jarvis
+title: tiddlywiki AI插件开发
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirements:
+
+* 在每个tiddler上显示一个AI对话按钮
+* 但是，能提前根据tiddler的类型（使用筛选器）执行不同的动作，打开一个AI对话的tiddler
+* 能根据不同的tiddler，根据自己的模板定制上下文
+* 
+
+!! Project Reference:
+
+* [[tiddlywiki AI tools|https://github.com/TiddlyWiki/TiddlyWiki5/pull/8365]]
+* [[tiddlywiki AI tools Preview|https://deploy-preview-8365--tiddlywiki-previews.netlify.app/]]
+* [[obsidian copilot|https://github.com/logancyang/obsidian-copilot]]
+
+!! Project Logs：
+
+* 如何把筛选出来的tiddler，发送给AI处理？
+** 一种是使用wikitext语法的纯文本。
+** 还有一种是直接将其导出为一个json格式的文件，然后上传给AI。
+* [[什么是Embedding模型？]]
+* 如何正确显示大模型输出的markdown格式的文本？👉 [[tiddlywiki markdown|https://tiddlywiki.com/prerelease/plugins/tiddlywiki/markdown/]]
+* 需要一个敏感词汇替换的步骤，例如把具体的名字替换为非敏感词汇
+* 添加一个提示词preview按钮，用户可以预览、编辑最终要发送给DeepSeek的上下文。
+* 需要为之后的AI workflow如dify等留好接口。
+
+!! Structure:
+
+; Setting tabs:
+* Servers
+* Robots
+* Tiddler contents
+* Prompts
+
+; Create Scenarios:
+* Scenario filter.
+* Context filter(Default is currentTiddler).
+* Content Template
+* LLM(Robots)
+
+; Session Manage:
+* 如何保存session？👉 以统一前缀的方式。
+* 如何保存

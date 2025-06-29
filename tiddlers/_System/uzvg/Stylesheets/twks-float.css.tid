@@ -1,0 +1,9 @@
+created: 20250422095150171
+modified: 20250422095209348
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/twks-float.css
+type: text/vnd.tiddlywiki
+
+.float-right {
+	float: right;
+}
