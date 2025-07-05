@@ -1,0 +1,10 @@
+created: 20250411144309339
+modified: 20250411144358752
+progress: Building
+rating: Plain
+tags: PermanentNotes tiddlywiki
+title: 关于_canonical_uri
+type: text/vnd.tiddlywiki
+visibility: Public
+
+在为图片设置_canonical_uri字段后，就不能使用`set-field`action为该tiddler设置text字段。

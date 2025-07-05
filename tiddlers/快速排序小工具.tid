@@ -1,0 +1,39 @@
+created: 20250215082835581
+description: 使用tiddlywiki中的draggable和droppable实现原生的表格行可拖曳的表格。
+modified: 20250318035420177
+modifier: uzvg
+progress: Archive
+tags: TWKS FleetingNotes
+title: 快速排序小工具
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Background:
+
+* 通过拖曳或者手动数字，快速给选中的tidder排序
+* 创建一个用于给tabs中的tabList快速排序的小工具
+* 一种方法是使用input type=number的方式实现
+* 一种是直接拖动表格中的table row直接实现
+* 调查了一下，发现有已经实现的`list-tagged-draggable`宏
+
+!! 已了解的知识：
+
+* tiddlywiki中拖曳是通过`draggable`和`droppable`组件来实现的。
+* 它们的工作原理是：
+** 创建一个`draggable`元素，该元素自动被分配一个固定的`class`
+** 创建一个`droppable`元素，当`draggable`元素被拖动并`drop`到该`droppable`区域时，就会引发指定的`actions`
+
+!! 目前的局限：
+
+* 想要实现拖曳的功能，必须要使得一个`draggable`元素被包裹在`droppable`区域内。
+* 如果是非结构tag，还可以，但如果是table这种具有结构的tag，就无法实现。
+* 无法将一个tr标签，既包含在`draggable`区域中，也包含在`droppable`区域中。
+
+!! 其他方法：
+
+* 在github上也有其他人提出了该[[问题|https://github.com/TiddlyWiki/TiddlyWiki5/issues/5554#issuecomment-1630478982]]
+，可以参考一下他是怎么做的👉https://tids-to-table.tiddlyhost.com。
+
+!! Draft:
+
+我自己试着实验了一下👉[[Draggable and Droppable Table]]，但还需要完善。

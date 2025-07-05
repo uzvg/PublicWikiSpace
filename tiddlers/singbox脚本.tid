@@ -1,0 +1,11 @@
+created: 20250320083045623
+creator: uzvg
+modified: 20250320083322950
+modifier: uzvg
+progress: Archive
+tags: FleetingNotes PythonProject
+title: singbox脚本
+type: text/vnd.tiddlywiki
+visibility: Public
+
+sing-box在Linux下没有Gui客户端，写一个简单的配置脚本，能简单方便地在Linux使用、配置sing-box。

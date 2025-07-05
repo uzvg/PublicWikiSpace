@@ -1,0 +1,177 @@
+authors: geeksforgeeks
+caption: tuple
+created: 20250607132855086
+description: Python中tuple的总结，包括创建、基本操作、注意事项等内容。
+medium: Website
+modified: 20250607133846825
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: Data Structures(1749297971045)
+tags: LiteratureNotes Python
+title: tuple(1749302935086)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+!! ✅ 一、什么是 Tuple（元组）
+
+* 元组是 有序的、不可变的 序列。
+* 使用 小括号 `()` 定义。
+* 元组可以包含 任意类型 的元素，也支持嵌套。
+
+```python
+t = (1, "hello", 3.14, [5, 6])
+```
+
+!! 🧱 二、Tuple 的创建方式
+
+!!! 1. 常规创建
+
+```python
+t1 = (1, 2, 3)
+```
+
+!!! 2. 空元组
+
+```python
+empty = ()
+```
+
+!!! 3. 单元素元组（注意逗号！）
+
+```python
+single = (42,)  # 如果没有逗号就是整数，不是元组
+```
+
+!!! 4. 使用 `tuple()` 函数转换可迭代对象
+
+```python
+tuple("abc")        # ('a', 'b', 'c')
+tuple([1, 2, 3])     # (1, 2, 3)
+tuple(range(3))      # (0, 1, 2)
+```
+
+!!! 5. 通过重复生成元组
+
+```python
+t = (0,) * 5  # (0, 0, 0, 0, 0)
+```
+
+!! 🧰 三、Tuple 的基本操作
+
+!!! 1. 拼接（Concatenation）
+
+```python
+t1 = (1, 2)
+t2 = (3, 4)
+t3 = t1 + t2       # (1, 2, 3, 4)
+```
+
+!!! 2. 重复
+
+```python
+t = (1, 2) * 3     # (1, 2, 1, 2, 1, 2)
+```
+
+!!! 3. 切片（Slicing）
+
+```python
+t = (0, 1, 2, 3, 4)
+print(t[1:4])      # (1, 2, 3)
+print(t[::-1])     # (4, 3, 2, 1, 0)
+```
+
+!!! 4. 索引访问
+
+```python
+t = ("a", "b", "c")
+print(t[0])        # 'a'
+print(t[-1])       # 'c'
+```
+
+!!! 5. 删除整个元组（不能删除其中的元素）
+
+```python
+t = (1, 2, 3)
+del t  # 删除变量本身
+```
+
+!! 📌 四、Tuple 常用函数和方法
+
+虽然元组是不可变的，但它仍支持以下操作：
+
+|!函数 / 方法|!功能|
+|`len(t)`        |返回元素个数        |
+|`t.count(x)`    |统计元素 x 的出现次数  |
+|`t.index(x)`    |返回 x 第一次出现的索引 |
+|`in` / `not in` |判断元素是否存在      |
+
+```python
+t = (1, 2, 2, 3)
+print(t.count(2))   # 2
+print(t.index(3))   # 3
+```
+
+!! ⚠️ 五、Tuple 使用中的注意点
+
+!!! 1. 元组是不可变的
+
+```python
+t = (1, 2, 3)
+# t[0] = 10  # ❌ 会报错：TypeError
+```
+
+!!! 2. 但是元组可以包含可变元素
+
+```python
+t = (1, [2, 3])
+t[1][0] = 99        # ✅ 可行：列表本身可变
+print(t)            # (1, [99, 3])
+```
+
+!!! 3. 单元素元组必须带逗号！
+
+```python
+a = (5)
+print(type(a))      # <class 'int'>
+
+b = (5,)
+print(type(b))      # <class 'tuple'>
+```
+
+!!! 4. 与 list 的转换
+
+```python
+t = (1, 2, 3)
+l = list(t)         # 转换为 list 后可以修改
+t2 = tuple(l)       # 再转回 tuple
+```
+
+!! 🧠 六、何时使用 Tuple 而不是 List？
+
+* 数据不需要修改时，建议使用元组。
+* 元组的不可变性可以作为一种保护机制，防止数据被意外更改。
+* 元组更适合作为 字典的 key，或作为 函数的返回值（打包）。
+* 性能上，元组比列表略快，占用内存更少。
+
+!! 📌 七、打包与解包（Tuple Packing & Unpacking）
+
+!!! 自动打包
+
+```python
+t = 1, 2, 3  # 等价于 t = (1, 2, 3)
+```
+
+!!! 解包
+
+```python
+a, b, c = (1, 2, 3)
+```
+
+!!! 用星号进行可变解包
+
+```python
+a, *b = (1, 2, 3, 4)  # a = 1, b = [2, 3, 4]
+```

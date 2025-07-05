@@ -1,0 +1,19 @@
+caption: Features
+created: 20250530075750569
+modified: 20250530084757344
+tags: 
+title: MainFeatures
+type: text/vnd.tiddlywiki
+
+!! 特色功能：
+
+; 1. 笔记快速初始化：
+* 该功能由[[twks-initializer|using twks-initializer initialize imported text]]模块实现。
+* 复制一段youtube网址，切换到WIKISPACE界面中，摁下 <kbd>Ctrl+V</kbd>，以`Plain/text`的格式导入，点击`Untitled text/plain`，即可进入对应的笔记快速初始化面板。
+* 复制图片网址并摁<kbd>Ctrl+V</kbd>，可进入图片tiddler初始化面板，快速初始化图片并导入。
+* 复制书籍isbn号并摁<kbd>Ctrl+V</kbd>，可进入书籍tiddler初始化面板，快速导入书籍信息。
+* 我根据个人需求，目前已适配：yotube网址、bilibili网址、Xpost网址、图片网址、知乎网址、书籍ISBN。
+
+; 2. FrontMatter管理笔记属性：
+* 该功能由[[twks-frontmatter]]模块实现。
+* 可在不同的
