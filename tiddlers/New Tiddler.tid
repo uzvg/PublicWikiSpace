@@ -1,0 +1,12 @@
+created: 20250615101415644
+modified: 20250615101845606
+tags: 
+title: New Tiddler
+type: text/vnd.tiddlywiki
+
+\procedure saveTiddlerFilter()
+[all[tiddlers]!is[draft]is[system]!prefix[$:/state/]!prefix[$:/temp/]]
+[all[tiddlers]!is[draft]visibility[Public]]
+\end
+
+{{{ [subfilter<saveTiddlerFilter>] }}}

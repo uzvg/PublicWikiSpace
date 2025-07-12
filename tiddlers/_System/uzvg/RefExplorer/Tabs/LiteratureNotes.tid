@@ -1,0 +1,16 @@
+caption: LiteratureNotes
+code-body: yes
+condition: [function[get-all-related-notes]tag[LiteratureNotes]]
+created: 20240928140116254
+creator: uzvg
+modified: 20250501030448007
+modifier: uzvg
+order: 7
+tags: $:/tags/ReferenceExplorerTab
+title: $:/uzvg/RefExplorer/Tabs/LiteratureNotes
+type: text/vnd.tiddlywiki
+
+<$transclude
+	$variable="reference-explorer"
+	caption="Reference Explorer (Literature Notes)"
+	filter={{{ [<currentTab>get[condition]] }}} />

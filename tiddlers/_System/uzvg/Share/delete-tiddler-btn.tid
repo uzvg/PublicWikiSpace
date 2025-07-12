@@ -1,0 +1,18 @@
+code-body: yes
+created: 20250522005854492
+modified: 20250522010353613
+tags: $:/twks/Procedures
+title: $:/uzvg/Share/delete-tiddler-btn
+type: text/vnd.tiddlywiki
+
+\procedure twks-delete-btn(tiddler,tooltip,class:"tc-btn-invisible",icon:"$:/core/images/delete-button",title)
+\whitespace trim
+<$button message="tm-delete-tiddler"
+	tooltip=<<tooltip>>
+	aria-label={{$:/language/Buttons/Delete/Hint}}
+	class=<<class>>
+	param=<<tiddler>>>
+	<$transclude $tiddler=<<icon>>/>
+	<<title>>
+</$button>
+\end

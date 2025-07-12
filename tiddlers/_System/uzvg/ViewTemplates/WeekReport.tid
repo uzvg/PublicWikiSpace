@@ -1,0 +1,41 @@
+created: 20250626084418102
+modified: 20250626094001435
+tags: $:/tags/ViewTemplate
+title: $:/uzvg/ViewTemplates/WeekReport
+type: text/vnd.tiddlywiki
+
+\function get-new-line() [charcode[13],[10]]
+\procedure journal-template()
+
+============= 日记 =============
+📅 日期：${ [<currentTiddler>get[created]format:date[DDth MMM YYYY]] }$
+📓 内容：
+
+${ [<currentTiddler>get[text]] }$
+\end
+
+\function get-current-week() [<storyTiddler>get[title]split[ ]last[]]
+\function week-journal-context-filter()
+	[!is[draft]tag[Journal]]
+	:filter[get[created]format:date[WW]match<get-current-week>]
+	+[sort[created]]
+\end
+
+\function get-context-body()
+	[function[week-journal-context-filter]]
+	:map[<journal-template>substitute[]]
+	+[join<get-new-line>]
+\end
+
+\function get-complete-prompt()
+	[[SYSTEM: 你是我的周报助手，你的任务是帮助我复盘过去一周发生的事情。]]
+	[[USER: 这是我过去六天的日志，请根据日志的内容，总结我一周的主要活动，主要进度，有哪些地方需要调整，有哪些地方可以继续发扬。]]
+	[<get-context-body>]
+	+[join<get-new-line>]
+\end
+
+<$list filter="[all[current]!is[draft]!is[system]tag[WeekReport]]">
+	<$macrocall $name="copy-to-clipboard"
+		src=<<get-complete-prompt>>
+		style="float:right"/>
+</$list>

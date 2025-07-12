@@ -1,0 +1,22 @@
+created: 20250321155524768
+modified: 20250323081338713
+tags: $:/tags/ViewTemplate/Subtitle
+title: $:/core/ui/ViewTemplate/subtitle/modified
+type: text/vnd.tiddlywiki
+
+<span>
+		Created:&nbsp;<$view field="created" format="date" template="DDth mmm YYYY" />
+</span>
+
+<div style="float:right;">
+	<% if [<storyTiddler>get[visibility]match[Private]] %>
+		<$transclude $variable="icon"
+			name="$:/core/images/locked-padlock"
+			color=<<colour alert-highlight>>/>
+	<% endif %>
+</div>
+<span style="float:right;">
+	Modified:&nbsp;<$view field="modified" format="relativedate"/>
+	&#160;
+</span>
+<<clarify>>
