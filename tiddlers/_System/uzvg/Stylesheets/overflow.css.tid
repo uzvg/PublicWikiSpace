@@ -1,0 +1,9 @@
+created: 20250401060446360
+modified: 20250401060517457
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/overflow.css
+type: text/vnd.tiddlywiki
+
+.overflow-wrap-anywhere {
+	overflow-wrap: anywhere;
+}

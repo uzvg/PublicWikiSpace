@@ -1,0 +1,4 @@
+caption: {{$:/language/SideBar/All/Caption}}
+title: $:/core/ui/MoreSideBar/All
+
+<$list filter={{$:/core/Filters/AllTiddlers!!filter}} template="$:/core/ui/ListItemTemplate"/>

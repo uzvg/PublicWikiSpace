@@ -1,0 +1,15 @@
+caption: WorkBench
+created: 20250529154228642
+creator: uzvg
+modified: 20250529154630130
+modifier: uzvg
+tags: $:/tags/SideBar
+title: $:/uzvg/Sidebar/WorkBench
+type: text/vnd.tiddlywiki
+
+\whitespace trim
+
+<$transclude $variable="tabs"
+	tabsList="[all[tiddlers]tag[$:/tags/WorkBench]!is[draft]]"
+	default="$:/uzvg/WorkBench/Root"
+	class="tc-vertical"/>
