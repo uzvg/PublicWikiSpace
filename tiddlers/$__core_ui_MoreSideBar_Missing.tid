@@ -1,0 +1,4 @@
+caption: {{$:/language/SideBar/Missing/Caption}}
+title: $:/core/ui/MoreSideBar/Missing
+
+<$list filter={{$:/core/Filters/Missing!!filter}} template="$:/core/ui/MissingTemplate"/>

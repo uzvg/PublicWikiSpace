@@ -1,0 +1,437 @@
+created: 20250629182250480
+description: zsh Shell中的while循环详解
+modified: 20250629182937778
+progress: Completed
+rating: Plain
+tags: PermanentNotes zsh Shell
+title: zsh Shell中的while循环详解
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 1. 基本语法
+
+!!! 1.1 标准while循环结构
+
+```bash
+while [条件表达式]; do
+    命令1
+    命令2
+    ...
+done
+```
+
+!!! 1.2 单行写法
+
+```bash
+while [条件表达式]; do 命令; done
+```
+
+!!! 1.3 多条件写法
+
+```bash
+while [条件1] && [条件2]; do
+    # 循环体
+done
+
+while [条件1] || [条件2]; do
+    # 循环体
+done
+```
+
+!! 2. 常见条件表达式
+
+!!! 2.1 数值比较
+
+```bash
+# 基本数值循环
+i=1
+while [[ $i -le 10 ]]; do
+    echo "第 $i 次循环"
+    ((i++))
+done
+
+# 使用算术表达式
+while (( i <= 10 )); do
+    echo $i
+    ((i++))
+done
+```
+
+!!! 2.2 字符串比较
+
+```bash
+while [[ "$input" != "quit" ]]; do
+    read -p "请输入命令 (quit退出): " input
+    echo "你输入了: $input"
+done
+```
+
+!!! 2.3 文件状态检查
+
+```bash
+while [[ ! -f "ready.txt" ]]; do
+    echo "等待文件创建..."
+    sleep 1
+done
+```
+
+!!! 2.4 命令执行状态
+
+```bash
+while ! ping -c 1 google.com &>/dev/null; do
+    echo "网络不可达，重试中..."
+    sleep 5
+done
+```
+
+!! 3. 特殊的while循环模式
+
+!!! 3.1 无限循环
+
+```bash
+# 方法1：使用true
+while true; do
+    echo "无限循环"
+    sleep 1
+done
+
+# 方法2：使用 :
+while :; do
+    echo "无限循环"
+    sleep 1
+done
+
+# 方法3：使用算术表达式
+while (( 1 )); do
+    echo "无限循环"
+    sleep 1
+done
+```
+
+!!! 3.2 读取输入的while循环
+
+```bash
+# 从标准输入读取
+while read -r line; do
+    echo "处理: $line"
+done
+
+# 从文件读取
+while IFS= read -r line; do
+    echo "文件内容: $line"
+done < file.txt
+
+# 从变量读取（Here String）
+while IFS= read -r item; do
+    echo "处理项目: $item"
+done <<< "$file_list"
+
+# 从命令输出读取
+ls | while read -r filename; do
+    echo "文件: $filename"
+done
+```
+
+!!! 3.3 Here Document输入
+
+```bash
+while IFS= read -r line; do
+    echo "处理: $line"
+done << EOF
+第一行
+第二行
+第三行
+EOF
+```
+
+!! 4. 读取相关参数详解
+
+!!! 4.1 read命令参数
+
+```bash
+# -r: 原始模式，不处理反斜杠转义
+# -p: 显示提示信息
+# -t: 设置超时时间
+# -n: 读取指定字符数
+# -s: 静默模式（不回显）
+
+while read -r -p "输入: " input; do
+    [[ "$input" == "quit" ]] && break
+    echo "你输入了: $input"
+done
+```
+
+!!! 4.2 IFS（内部字段分隔符）
+
+```bash
+# 默认IFS包含空格、制表符、换行符
+# IFS= 清空分隔符，保持原始格式
+
+# 处理包含空格的文件名
+while IFS= read -r filename; do
+    echo "文件: [$filename]"
+done < filelist.txt
+
+# 自定义分隔符
+while IFS=':' read -r user pass uid gid; do
+    echo "用户: $user, UID: $uid"
+done < /etc/passwd
+```
+
+!! 5. 循环控制
+
+!!! 5.1 break语句
+
+```bash
+while true; do
+    read -p "输入数字 (0退出): " num
+    if [[ $num -eq 0 ]]; then
+        break  # 退出循环
+    fi
+    echo "你输入了: $num"
+done
+```
+
+!!! 5.2 continue语句
+
+```bash
+i=0
+while (( i < 10 )); do
+    ((i++))
+    if (( i % 2 == 0 )); then
+        continue  # 跳过偶数
+    fi
+    echo "奇数: $i"
+done
+```
+
+!! 6. 实际应用示例
+
+!!! 6.1 文件批量处理
+
+```bash
+# 批量删除文件
+while IFS= read -r file; do
+    if [[ -e "$file" ]]; then
+        if rm -f "$file" 2>/dev/null; then
+            echo "已删除: $file"
+            ((deleted_count++))
+        else
+            echo "删除失败: $file"
+            failed_files+=("$file")
+            ((failed_count++))
+        fi
+    else
+        echo "文件不存在: $file"
+    fi
+done <<< "$managed_files"
+```
+
+!!! 6.2 日志监控
+
+```bash
+# 实时监控日志文件
+while IFS= read -r line; do
+    if [[ "$line" =~ ERROR ]]; then
+        echo "发现错误: $line"
+        # 发送告警
+    fi
+done < <(tail -f /var/log/app.log)
+```
+
+!!! 6.3 进程监控
+
+```bash
+# 监控进程状态
+while true; do
+    if ! pgrep -f "my_process" > /dev/null; then
+        echo "进程已停止，重新启动..."
+        ./start_my_process.sh
+    fi
+    sleep 30
+done
+```
+
+!!! 6.4 用户交互菜单
+
+```bash
+# 简单菜单系统
+while true; do
+    echo "请选择操作："
+    echo "1. 查看文件"
+    echo "2. 创建文件"
+    echo "3. 删除文件"
+    echo "4. 退出"
+
+    read -p "请输入选择 (1-4): " choice
+
+    case $choice in
+        1) ls -la ;;
+        2) read -p "文件名: " filename; touch "$filename" ;;
+        3) read -p "文件名: " filename; rm -i "$filename" ;;
+        4) echo "再见！"; break ;;
+        *) echo "无效选择" ;;
+    esac
+    echo
+done
+```
+
+!! 7. 输入重定向详解
+
+!!! 7.1 Here String (<<<)
+
+```bash
+# 将变量内容作为输入
+data="line1
+line2
+line3"
+
+while read -r line; do
+    echo "处理: $line"
+done <<< "$data"
+```
+
+!!! 7.2 Here Document (<<)
+
+```bash
+while read -r line; do
+    echo "处理: $line"
+done << 'EOF'
+这是第一行
+这是第二行
+这是第三行
+EOF
+```
+
+!!! 7.3 管道输入
+
+```bash
+# 从命令输出读取
+find . -name "*.txt" | while read -r file; do
+    echo "找到文件: $file"
+done
+
+# 注意：管道会创建子shell，变量修改不会影响父shell
+count=0
+echo -e "a\nb\nc" | while read -r line; do
+    ((count++))  # 这个修改在子shell中
+done
+echo $count  # 输出仍然是0
+```
+
+!!! 7.4 文件输入
+
+```bash
+# 从文件读取
+while IFS= read -r line; do
+    echo "行内容: $line"
+done < input.txt
+
+# 同时处理行号
+line_num=0
+while IFS= read -r line; do
+    ((line_num++))
+    echo "$line_num: $line"
+done < input.txt
+```
+
+!! 8. 常见错误和注意事项
+
+!!! 8.1 变量作用域问题
+
+```bash
+# 错误：管道创建子shell
+count=0
+echo -e "1\n2\n3" | while read num; do
+    ((count += num))
+done
+echo $count  # 输出0，不是6
+
+# 正确：使用Here String避免子shell
+count=0
+while read num; do
+    ((count += num))
+done <<< "1
+2
+3"
+echo $count  # 输出6
+```
+
+!!! 8.2 文件名包含空格的处理
+
+```bash
+# 错误：没有设置IFS
+while read file; do
+    echo "$file"  # 空格会被分割
+done < filelist.txt
+
+# 正确：设置IFS为空
+while IFS= read -r file; do
+    echo "$file"  # 保持原始格式
+done < filelist.txt
+```
+
+!!! 8.3 条件表达式的选择
+
+```bash
+# 推荐使用 [[ ]] 而不是 [ ]
+while [[ $i -lt 10 ]]; do  # 推荐
+    echo $i
+    ((i++))
+done
+
+# 数值比较推荐使用 (( ))
+while (( i < 10 )); do  # 更直观
+    echo $i
+    ((i++))
+done
+```
+
+!! 9. 性能优化提示
+
+!!! 9.1 避免不必要的子进程
+
+```bash
+# 低效：每次都调用外部命令
+while [[ $(date +%S) != "00" ]]; do
+    sleep 1
+done
+
+# 高效：使用内置命令
+while (( $(date +%S) != 0 )); do
+    sleep 1
+done
+```
+
+!!! 9.2 合理使用sleep
+
+```bash
+# 避免CPU占用过高
+while ! some_condition; do
+    sleep 0.1  # 适当延迟
+done
+```
+
+!! 10. 调试技巧
+
+!!! 10.1 启用调试模式
+
+```bash
+# 显示命令执行过程
+set -x
+while [[ $i -lt 5 ]]; do
+    echo $i
+    ((i++))
+done
+set +x
+```
+
+!!! 10.2 添加调试输出
+
+```bash
+while IFS= read -r line; do
+    echo "DEBUG: 读取到行: [$line]" >&2
+    # 实际处理逻辑
+    echo "处理: $line"
+done < input.txt
+```

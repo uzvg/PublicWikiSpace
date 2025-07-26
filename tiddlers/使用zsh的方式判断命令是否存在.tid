@@ -1,0 +1,76 @@
+created: 20250618134141276
+description: 使用zsh Shell的方式判断命令是否存在
+modified: 20250618135721956
+progress: Completed
+rating: Plain
+source: zsh shell basic parameter expansions
+tags: PermanentNotes zsh
+title: 使用zsh的方式判断命令是否存在
+type: text/vnd.tiddlywiki
+visibility: Public
+
+在zsh Shell中，常见到一种用于判断命令是否存在的判断语句，如：
+
+```bash
+# 用于判断pbzip2该命令是否存在
+if (( ${+commands[pbzip2]} )) alias bzip2=pbzip2
+if (( ${+commands[pbunzip2]} )) alias bunzip2=pbunzip2
+```
+
+这其中：
+
+* commands是[[commands关联数组]]
+* ${+var}用于判断变量是否存在，如果存在，
+* 在zsh脚本中常用于判断命令是否存在，如：
+** `(( ${+commands[gh]} || ${+commands[asdf]} && ${+functions[_direnv_hook]} ))`
+* 存在返回1，不存在返回0
+* `(())`用于算术运算和算术条件判断
+** 需要注意的是，在该条件判断中，非零为真，零为假
+
+
+上述语句使用了两个特殊语法特性，我们来逐步解析：
+
+; `${+commands[pbzip2]}` 参数扩展:
+* `commands`：ZSH 的特殊关联数组，记录所有可用命令的路径（例如 `commands[ls]=/bin/ls`）
+* `${+name}`：是 ZSH 特有的参数扩展语法：
+** 如果变量/键`存在`（无论是否为空值），扩展结果为 `1`
+** 如果不存在，扩展结果为 `0`
+** 作用：检查 pbzip2 命令是否存在于 $PATH 中
+
+; `(( ... ))` 算术求值：
+* `(( expression ))` 执行算术运算
+* 返回值规则：
+** 如果表达式结果为''非零值'' → 退出状态码为 `0`（真）
+** 如果表达式结果为''零'' → 退出状态码为 `1`（假）
+
+; if 条件判断流程：
+* 检测 pbzip2 是否存在：
+** 存在 → `${+...}` 返回 `1`
+** 不存在 → 返回 `0`
+* 算术求值：
+** 结果为 `1` → ((...)) 退出码为 `0`
+** 结果为 `0` → ((...)) 退出码为 `1`
+* if 根据''退出码''判断：
+* 退出码 `0` → 条件成立（`true`）
+* 退出码 `1` → 条件失败（`false`）
+
+该语句的意思是："如果系统中有 `pbzip2` 命令存在，则创建别名 `bzip2=pbzip2`"，等价于：
+
+```
+command -v pbzip2 &>/dev/null && alias bzip2=pbzip2
+```
+
+使用 `${+commands[...]}` 是 ZSH 特有的更高效的方式，特别是用于检查命令是否存在时。
+
+!! 总结：
+
+这里面需要特别注意的点：
+
+* `if`语句是以退出码或者布尔类型判断真假的，而非算术表达式的计算值。
+* 需要注意`(( ... ))`算术表达式的退出码。
+** 当算术表达式式的计算结果为`0`时，退出码为`1`/`假`。
+** 当算术表达式式的计算结果为非`0`时，退出码为`0`/`真`。
+
+!! 拓展：
+
+* [[由zsh Shell的算术表达式导致的bug]]
