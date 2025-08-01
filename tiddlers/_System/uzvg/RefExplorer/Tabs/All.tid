@@ -1,0 +1,16 @@
+caption: All
+code-body: yes
+condition: [function[get-all-related-notes]]
+created: 20240924081555412
+creator: uzvg
+modified: 20250501030405289
+modifier: uzvg
+order: 1
+tags: $:/tags/ReferenceExplorerTab
+title: $:/uzvg/RefExplorer/Tabs/All
+type: text/vnd.tiddlywiki
+
+<$transclude
+	$variable="reference-explorer"
+	caption="Reference Explorer (all types)"
+	filter={{{ [<currentTab>get[condition]] }}} />

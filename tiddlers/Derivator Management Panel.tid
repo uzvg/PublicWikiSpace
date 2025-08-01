@@ -1,0 +1,10 @@
+created: 20250325111917628
+description: 使用derivator组件快速创建基于当前tiddler的衍生tiddler
+modified: 20250529145022292
+progress: Completed
+tags: ProjectNotes TWKS
+title: Derivator Management Panel
+type: text/vnd.tiddlywiki
+visibility: Public
+
+* [[$:/uzvg/Derivator/Panel]]

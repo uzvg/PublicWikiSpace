@@ -1,0 +1,17 @@
+caption: Created
+code-body: yes
+condition: [function[get-created-today]]
+created: 20250501061259918
+creator: uzvg
+list-after: $:/uzvg/RefExplorer/Tabs/IndexNotes
+modified: 20250516004939627
+modifier: uzvg
+order: 7
+tags: 
+title: $:/uzvg/RefExplorer/Tabs/CreatedToday
+type: text/vnd.tiddlywiki
+
+<$transclude
+	$variable="reference-explorer"
+	caption="Reference Explorer (Created Today)"
+	filter={{{ [<currentTab>get[condition]] }}} />

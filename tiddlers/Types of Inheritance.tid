@@ -1,0 +1,185 @@
+created: 20250609072111033
+description: Python 中继承的四种类型
+modified: 20250609073943763
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: inheritance(1749441576559)
+tags: PermanentNotes Python
+title: Types of Inheritance
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! ✅ 1. 单继承（Single Inheritance）
+
+> 子类继承自一个单一父类。
+
+!!! ✅ 特点：
+
+* 最简单最常见的继承形式。
+* 子类获取父类的属性和方法。
+* 结构清晰，易于维护。
+
+	<<twks-image "20250609153139314.png">>
+
+!!! ✅ 示例：
+
+```python
+class Animal:
+    def speak(self):
+        print("Animal speaks")
+
+class Dog(Animal):
+    def bark(self):
+        print("Dog barks")
+
+d = Dog()
+d.speak()  # 来自父类
+d.bark()   # 自己的方法
+```
+
+!!! ✅ 结构图：
+
+```
+Animal
+  │
+  ▼
+ Dog
+```
+
+!! ✅ 2. 多重继承（Multiple Inheritance）
+
+> 子类从多个父类继承属性和方法。
+
+!!! ✅ 特点：
+
+* 可以复用多个类的功能。
+* 需要注意方法冲突和 MRO（方法解析顺序）。
+
+	<<twks-image "20250609153128563.png">>
+
+!!! ✅ 示例：
+
+```python
+class Flyable:
+    def fly(self):
+        print("Can fly")
+
+class Walkable:
+    def walk(self):
+        print("Can walk")
+
+class Bird(Flyable, Walkable):
+    pass
+
+b = Bird()
+b.fly()
+b.walk()
+```
+
+!!! ✅ 结构图：
+
+```
+Flyable   Walkable
+    \      /
+     ▼    ▼
+      Bird
+```
+
+!! ✅ 3. 多层继承（Multilevel Inheritance）
+
+> 父类 → 子类 → 孙类（形成继承链条）
+
+!!! ✅ 特点：
+
+* 类似“父子孙”三级结构。
+* 子类继承祖先类的所有功能。
+
+	<<twks-image "20250609153117810.png">>
+
+!!! ✅ 示例：
+
+```python
+class Animal:
+    def eat(self):
+        print("Eating")
+
+class Dog(Animal):
+    def bark(self):
+        print("Barking")
+
+class Puppy(Dog):
+    def weep(self):
+        print("Weeping")
+
+p = Puppy()
+p.eat()
+p.bark()
+p.weep()
+```
+
+!!! ✅ 结构图：
+
+```
+Animal
+  │
+  ▼
+ Dog
+  │
+  ▼
+Puppy
+```
+
+!! ✅ 4. 分层继承（Hierarchical Inheritance）
+
+> 一个父类被多个子类继承（兄弟类结构）
+
+!!! ✅ 特点：
+
+* 多个类共享同一父类。
+* 每个子类可拓展父类功能，但彼此无关。
+
+	<<twks-image "20250609153106958.png">>
+
+!!! ✅ 示例：
+
+```python
+class Animal:
+    def eat(self):
+        print("Eating")
+
+class Dog(Animal):
+    def bark(self):
+        print("Barking")
+
+class Cat(Animal):
+    def meow(self):
+        print("Meowing")
+
+dog = Dog()
+cat = Cat()
+
+dog.eat()
+dog.bark()
+
+cat.eat()
+cat.meow()
+```
+
+!!! ✅ 结构图：
+
+```
+    Animal
+    /     \
+   ▼       ▼
+ Dog      Cat
+```
+
+!! ✅ 总结对比表
+
+|tc-max-width|k
+|!类型|!结构示意|!特点说明|!示例用途|
+|单继承  |A ← B     |简单直接，易维护        |常见基础继承       |
+|多重继承 |A ← C → B |灵活强大，但易冲突       |Mixin 模式     |
+|多层继承 |A ← B ← C |功能层层扩展          |类似游戏角色成长等    |
+|分层继承 |A ← B, A ← C |公共父类，不同子类拓展不同功能 | 类似动物分类、设备类型等 |
