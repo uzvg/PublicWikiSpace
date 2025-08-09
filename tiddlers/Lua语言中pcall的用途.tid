@@ -1,0 +1,156 @@
+created: 20250629133226020
+description: Lua语言中pcall的用途
+modified: 20250629133650387
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: Lua模块与包基础
+tags: PermanentNotes Lua
+title: Lua语言中pcall的用途
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+在<<twks-source>>中，我们遇到了如下一段代码：
+
+```
+local name = "json"
+local ok, mod = pcall(require, name)
+if ok then
+    print("Loaded", name)
+else
+    print("Failed to load module:", mod)
+end
+```
+
+* 其中的`pcall`是什么意思？有什么用？
+
+!! 代码解析：
+
+```lua
+local name = "json"
+```
+
+这里定义一个''变量'' `name`，内容是字符串 `"json"`，代表要加载的模块名。
+
+```lua
+local ok, mod = pcall(require, name)
+```
+
+这行代码最关键，包含了两个部分：
+
+1️⃣ `require(name)`
+
+* 会尝试加载 `json` 这个模块，相当于：
+
+```lua
+require("json")
+```
+
+* 如果找到了 `json.lua`（或者`json.so`等），就加载模块并返回它。
+* 如果没找到或加载时报错，会引发一个''Lua错误''。
+
+2️⃣ `pcall(...)`
+
+* `pcall`全称是''protected call''（保护调用）。
+
+* 用法：
+
+```lua
+pcall(func, arg1, arg2, ...)
+```
+
+它的作用是''安全执行一个函数调用''，捕获任何运行时错误，而不是让程序直接崩溃。
+
+* 当你写：
+
+```lua
+pcall(require, name)
+```
+
+相当于“尝试执行：`require(name)`，如果失败，就把错误信息返回。”
+
+* `pcall`的返回值：
+** 第一个值：`ok`，''布尔值''：
+* `true` 表示函数执行成功，没有错误。
+* `false` 表示函数执行失败，发生了错误。
+** 第二个值：
+* 如果成功：就是`require`返回的模块（一个table）。
+* 如果失败：是''错误信息字符串''。
+
+所以这行代码的含义：
+
+* 尝试加载`json`模块，
+* 如果加载成功，`ok = true`，`mod = 模块内容`
+* 如果加载失败，`ok = false`，`mod = 错误信息`
+
+```lua
+if ok then
+    print("Loaded", name)
+else
+    print("Failed to load module:", mod)
+end
+```
+
+''条件判断：''
+
+✅ `ok == true`：加载成功
+
+* 打印：
+
+```
+Loaded json
+```
+
+❌ `ok == false`：加载失败
+
+* 打印：
+
+```
+Failed to load module: [错误原因]
+```
+
+!! 📌 小结：`pcall`的用途
+
+`pcall`常用来：
+
+* ''捕获错误''：避免脚本中断。
+* ''做容错''：比如模块或配置文件可能不存在。
+* ''优雅提示''：告诉用户发生了什么错误。
+
+如果不用`pcall`，一旦`require`失败，就会直接报错并终止程序。
+
+!! 📌 示例演示
+
+假设：
+
+* 你机器上没有`json.lua`
+
+运行：
+
+```lua
+local ok, mod = pcall(require, "json")
+```
+
+结果：
+
+* `ok = false`
+* `mod = "module 'json' not found: ..."`
+* 最终打印：
+
+```
+Failed to load module: module 'json' not found: ...
+```
+
+如果你安装了`json.lua`，结果：
+
+* `ok = true`
+* `mod = json模块返回的table`
+* 最终打印：
+
+```
+Loaded json
+```
+
+如果你想，我还可以讲讲`xpcall`（扩展版保护调用）和如何自定义错误处理逻辑。随时告诉我！

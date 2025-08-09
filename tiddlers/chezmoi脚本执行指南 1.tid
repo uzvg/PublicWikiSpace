@@ -1,0 +1,177 @@
+created: 20250717123927860
+modified: 20250717142729612
+modifier: uzvg
+progress: Building
+rating: Plain
+tags: PermanentNotes chezmoi
+title: chezmoi脚本执行指南 1
+type: text/vnd.tiddlywiki
+visibility: Public
+
+## 前言：
+
+根据chezmoi的文档👉[[use scripts to perform actions|https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/]]，在`chezmoi`中，我们可以通过chezmoi hook，来指定脚本的执行时机和顺序，这个特性能帮助我们执行一系列强大功能。
+
+## 什么是 Chezmoi 脚本？
+
+Chezmoi 脚本是在执行 `chezmoi apply` 命令时自动运行的脚本文件。这些脚本允许我们在同步配置文件的过程中执行自定义操作，如安装软件、配置系统设置等。
+
+## 脚本类型与执行规则：
+
+### 1. 基础脚本 (`run_`)
+- **前缀**: `run_`
+- **执行时机**: 每次运行 `chezmoi apply` 时都会执行
+- **示例**: `run_install_packages.sh`
+- **用途**: 需要每次都检查或执行的操作
+
+### 2. 变更时脚本 (`run_onchange_`)
+- **前缀**: `run_onchange_`
+- **执行时机**: 只有在脚本内容发生变化时才执行
+- **示例**: `run_onchange_update_config.sh`
+- **用途**: 配置更新、软件重新安装等场景
+
+### 3. 一次性脚本 (`run_once_`)
+- **前缀**: `run_once_`
+- **执行时机**: 每个唯一版本的脚本内容只执行一次
+- **跟踪机制**: Chezmoi 会计算脚本内容的 SHA256 哈希值并存储在数据库中
+- **关键特性**: 即使删除脚本后重新创建相同内容，也不会再次执行
+- **示例**: `run_once_install_homebrew.sh`
+- **用途**: 软件初始安装、系统初始化等一次性操作
+
+|!脚本类型|!执行时机|!示例|!用途|
+|基础脚本`run_` |每次运行 `chezmoi apply` 时都会执行 |`run_install_packages.sh` |需要每次都检查或执行的操作 |
+|变更时脚本`run_onchange_` |只有在脚本内容发生变化时才执行 |`run_onchange_update_config.sh` |配置更新、软件重新安装等场景 |
+|一次性脚本`run_once_` |每个唯一版本的脚本内容只执行一次 |`run_once_install_homebrew.sh` |软件初始安装、系统初始化等一次性操作 |
+
+这里的描述
+
+#### `run_onchange_` vs `run_once_` 的区别
+- **相同点**: 都基于脚本自身内容的变化进行判断
+- **不同点**: 
+  - `run_onchange_`: 内容变化就执行，删除后重建会再次执行
+  - `run_once_`: 对相同内容版本只执行一次，删除后重建相同内容不会执行
+
+## 脚本执行顺序
+
+### 字母顺序执行
+所有脚本按文件名的字母顺序执行：
+```
+run_a_first.sh          # 第一个执行
+run_b_second.sh         # 第二个执行
+run_c_third.sh          # 第三个执行
+```
+
+### 执行时机控制
+使用 `before_` 或 `after_` 属性控制脚本执行时机：
+
+- **`before_`**: 在更新配置文件之前执行
+  - 示例: `run_once_before_install-password-manager.sh`
+  
+- **`after_`**: 在更新配置文件之后执行
+  - 示例: `run_once_after_cleanup.sh`
+
+- **默认**: 在更新配置文件过程中执行
+
+## 脚本创建与管理
+
+### 创建脚本
+1. 进入源目录: `chezmoi cd`
+2. 创建脚本文件，使用相应的前缀
+3. 无需设置可执行权限
+
+### 脚本要求
+- 必须包含 `#!` 行（shebang）或为可执行二进制文件
+- 脚本应该是幂等的（可重复执行而不产生副作用）
+- 工作目录设置为目标状态树中第一个存在的父目录
+
+## 模板支持
+
+### 模板脚本处理
+- 添加 `.tmpl` 后缀的脚本会被作为模板处理
+- 可以使用 Chezmoi 的模板变量
+- 示例: `run_once_setup.sh.tmpl`
+
+### 模板执行流程
+1. **模板解析**: 在临时目录中处理模板变量，生成最终脚本内容
+2. **执行**: 执行处理后的脚本
+3. **重要**: 无论是否为模板，脚本都不会在目标目录中生成文件
+
+### 动态禁用
+如果模板解析后只有空白字符或空字符串，脚本将不会执行，这可用于动态禁用脚本。
+
+### 模板示例
+```bash
+#!/bin/bash
+{{- if eq .chezmoi.os "darwin" }}
+brew install git
+{{- else if eq .chezmoi.os "linux" }}
+sudo apt-get install -y git
+{{- end }}
+```
+
+## 脚本文件位置与执行机制
+
+### 脚本文件位置
+1. **源目录中的脚本**：位于源目录根部或任何子目录
+2. **`.chezmoiscripts` 目录中的脚本**：位于源目录根部的特殊目录
+
+### 执行机制
+**重要**: 所有脚本文件都不会在目标目录中生成对应文件，无论位于哪个目录。
+
+#### 实际执行流程
+1. 读取脚本内容（包括模板处理）
+2. 在临时目录中创建可执行脚本文件
+3. 执行脚本
+4. 清理临时文件
+
+#### 两种位置的区别
+- **功能上**: 完全相同，都是直接执行，不生成目标文件
+- **组织上**: `.chezmoiscripts` 目录用于集中管理脚本，避免脚本分散在各个目录中
+- **执行顺序**: 所有脚本按照完整路径的字母顺序执行
+
+## 执行模式
+
+### 详细模式 (Verbose)
+- 执行前会打印脚本内容
+- 用于调试和监控脚本执行
+
+### 演练模式 (Dry-run)
+- 脚本不会实际执行
+- 用于测试和预览将要执行的操作
+
+## 最佳实践
+
+### 1. 幂等性设计
+确保脚本可以安全地重复执行：
+```bash
+#!/bin/bash
+# 检查软件是否已安装
+if ! command -v git &> /dev/null; then
+    sudo apt-get install -y git
+fi
+```
+
+### 2. 错误处理
+```bash
+#!/bin/bash
+set -e  # 遇到错误立即退出
+# 脚本内容
+```
+
+### 3. 选择合适的脚本类型
+- 初始化操作 → `run_once_`
+- 配置更新 → `run_onchange_`
+- 定期检查 → `run_`
+
+### 4. 谨慎使用
+脚本会打破 Chezmoi 的声明式方法，应该谨慎使用，仅在必要时使用。
+
+## 示例文件名
+```
+run_once_before_install-homebrew.sh
+run_onchange_update-vim-plugins.sh
+run_after_cleanup.sh
+run_once_setup-ssh.sh.tmpl
+```
+
+通过合理使用这些脚本类型和执行规则，你可以构建一个强大而灵活的配置管理系统。

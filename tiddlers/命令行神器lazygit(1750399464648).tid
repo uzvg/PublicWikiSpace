@@ -1,0 +1,35 @@
+authors: TheCW
+caption: 命令行神器lazygit
+created: 20250620060424648
+description: 超厉害的lazygit的使用示范视频
+medium: Video
+modified: 20250620080618270
+progress: Completed
+rating: Plain
+tags: LiteratureNotes Git
+title: 命令行神器lazygit(1750399464648)
+type: text/vnd.tiddlywiki
+url: https://www.bilibili.com/video/BV1gV411k7fC
+visibility: Public
+year: 2020-06
+
+* [[git patch的移动|https://www.bilibili.com/video/BV1gV411k7fC?t=1917.4]]
+** 既可以从之前的commit中删除不想要的修改
+** 还可以把一个commit中的一部分修改，移动到另一个commit中
+** 打开操作patch的快捷键是<kbd>Ctrl+p</kbd>
+* [[squach commit|https://www.bilibili.com/video/BV1gV411k7fC?t=1990.5]]和[[fixup commit|https://www.bilibili.com/video/BV1gV411k7fC?t=2036.8]]
+** `squash`跟`fixup`commit，两者都是合并commmit，一般来说，在当前commit上执行这两个操作，都会把当前commit跟上一个commit两个commit合并为一个commit。
+** 但两者还是有区别的，👉[[Git squash跟fixup的区别]]
+* [[interactive rebase|https://www.bilibili.com/video/BV1gV411k7fC?t=2185.0]]
+** 讲了rebase的一些操作，`pick`、`edit`、`squash`、`drop`、`fixup`等。
+* [[resolve conflict|https://www.bilibili.com/video/BV1gV411k7fC?t=2308.3]]
+** 讲了如何在lazygit中合并冲突，值得注意的是，可以在合并冲突面板，用快捷键 `b` 同时保存两个修改。
+* [[找到对同一文件的提交|https://www.bilibili.com/video/BV1gV411k7fC?t=2751.7]]
+** 可以在commit面板，按<kbd>Enter</kbd>进入文件列表
+** 然后在想要查看修改历史的文件上，按<kbd>Ctrl+s</kbd>，就能查看对该文件的历史提交。
+* [[commit diff|https://www.bilibili.com/video/BV1gV411k7fC?t=2718.0]]
+** 按<kbd>Shift+w</kbd>查看其他commit对比当前commit的diff改动。
+* [[对比同一文件的历史提交|https://www.bilibili.com/video/BV1gV411k7fC?t=2751.7]]
+** 先筛选出想要查看历史提交的文件
+** 再按<kbd>Shift+w</kbd>查看针对同一个文件的历史提交
+* 最后分享了[[怎样在不同的地方打开lazygit|https://www.bilibili.com/video/BV1gV411k7fC?t=2789.2]]

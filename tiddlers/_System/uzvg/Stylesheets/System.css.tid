@@ -1,0 +1,55 @@
+created: 20231223062717847
+creator: uzvg
+modified: 20250327100515519
+modifier: uzvg
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/System.css
+type: text/vnd.tiddlywiki
+
+<!-- The current file mainly contains changes to the system style -->
+
+<!---------------Gradient Heading------------->
+.tc-tiddler-body :is(h1, h2, h3) {
+	clear: both;
+	font-weight: bold;
+	font-family: serif, "思源宋体", "宋体";
+  border-style: solid;
+	border-width: 0 0 1px 0;
+	border-image: linear-gradient(to right, <<color muted-foreground>>, transparent) 0.5 / 1;
+}
+
+<!---------------Gradient Heading don't apply for plugin info------------->
+.tc-tiddler-plugin-info :is(h1, h2, h3) {
+	border: none;
+	font-family: initial;
+}
+
+<!---------------Button Autohide------------->
+.tc-tiddler-frame .tc-titlebar button{
+    opacity:0;
+    transition:opacity .5s ease-in-out
+}
+
+.tc-tiddler-frame:hover .tc-titlebar button{
+    zoom:1;
+    filter:alpha(opacity=100);
+    opacity:1
+}
+
+<!---------------Use Serif Font for blockquote------------->
+blockquote {
+	font-family:serif,"Noto Serif CJK SC","宋体","思源宋体";
+}
+
+<!---------------Round tiddler frame corner------------->
+/*
+.tc-tiddler-frame {
+    border-radius: 12px;
+}
+*/
+
+<!---------------Use Bold Serif For tiddler-title------------->
+h2.tc-title {
+	font-family:serif,"Noto Serif CJK SC","宋体","思源宋体";
+	font-weight: 600;
+}
