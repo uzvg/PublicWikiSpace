@@ -1,0 +1,49 @@
+caption: Recommend
+code-body: yes
+created: 20250615131332572
+filter-prefix: [all[tiddlers]!is[system]!tag[$:/twks/Documents]progress[Completed]!sort[created]]
+modified: 20250615151903952
+note-type: PermanentNotes
+order: 1
+page-size: 4
+title: Reading/Recommend
+twikoo-hide: 1
+type: text/vnd.tiddlywiki
+
+\import [prefix[$:/uzvg/Share/FilterBuilder/]]
+
+\function get-lowest-rating()
+	[]
+\end
+\function get-page-size() [<currentTab>get[page-size]]
+\function get-recommend-ratings()
+	[all[tiddlers]tag[$:/tags/Options]]
+	:reduce[getindex[rating]enlist-input[]last[3]join[ ]addprefix[ ]addprefix<accumulator>]
+	:and[enlist-input[]unique[]]
+
+\function LiteratureNotes-recommend-ratings() [tag[$:/tags/Options]note-type[LiteratureNotes]getindex[rating]enlist-input[]allafter[Personal]]
+\function PermanentNotes-recommend-ratings() [tag[$:/tags/Options]note-type[LiteratureNotes]getindex[rating]enlist-input[]allafter[Personal]]
+\function get-current-rating() [<currentTiddler>get[rating]]
+
+\procedure get-filter-prefix()
+	[function[get-recommend-notes],[LiteratureNotes]]
+	[function[get-recommend-notes],[PermanentNotes]]
+	[function[get-recommend-notes],[IndexNotes]]
+\end
+
+	[all[tiddlers]!is[system]!is[draft]tag<note-type>]
+	:filter[function[is-qualified]]
+\end
+
+\function get-recommend-notes(note-type)
+	[all[tiddlers]!is[system]!is[draft]tag<note-type>]
+	:filter[]
+
+\end
+
+\function (note-type)
+[<currentTiddler>tag<note-type>] :then[tag[$:/tags/Options]note-type[LiteratureNotes]getindex[rating]enlist-input[]allafter[Personal]match<get-current-rating>]
+
+<<filterBuilder-selector-box "sortmode">>
+<$transclude $variable="twks-card" filter=<<get-complete-filter>>/>
+<<twks-list-paginater twks-cardview-paginater>>

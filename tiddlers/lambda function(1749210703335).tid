@@ -1,0 +1,115 @@
+authors: geeksforgeeks
+caption: lambda function
+created: 20250606115143335
+description: Python 中的lambda函数 的系统总结，包括：概念、语法、注意事项以及常用场景。
+medium: Website
+modified: 20250606115533964
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: Learn Python Programming Language(1748882144149)
+tags: LiteratureNotes Python Source
+title: lambda function(1749210703335)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+!! 🧠 一、什么是 `lambda` 函数？
+
+`lambda` 函数是 Python 中用于创建匿名函数的一种方式。它本质上是一个表达式（expression），用于生成一个函数对象。
+
+```python
+lambda 参数: 返回值
+```
+
+等价于：
+
+```python
+def 函数名(参数):
+    return 返回值
+```
+
+!! 🧾 二、语法结构
+
+```python
+lambda 参数1, 参数2, ..., 参数n : 表达式
+```
+
+* 参数可以有多个，用逗号分隔；
+* 表达式必须是一个单一表达式（不能包含语句）；
+* 不能包含多行逻辑；
+* 返回值是表达式的结果，自动 return。
+
+示例：
+
+```python
+# 普通函数
+def add(x, y):
+    return x + y
+
+# 等价的 lambda 表达式
+add_lambda = lambda x, y: x + y
+```
+
+!! ⚠️ 三、使用 `lambda` 的注意事项
+
+|!注意点|!说明|
+|✅ 只能包含一个表达式    |不支持语句或复杂逻辑，例如 if-else 只能写成三元表达式 |
+|✅ 匿名且短小        |不建议用 lambda 写复杂逻辑               |
+|✅ 适用于临时、一次性的函数 |如果函数会重复使用，建议用 `def`             |
+|❌ 不支持注释和文档字符串  |所以不适合写含义复杂的函数                   |
+
+!! 💡 四、常用场景
+
+!!! 1. 与 `map()` 配合使用
+
+```python
+numbers = [1, 2, 3, 4]
+squares = list(map(lambda x: x  2, numbers))
+```
+
+!!! 2. 与 `filter()` 配合使用
+
+```python
+numbers = [1, 2, 3, 4, 5]
+evens = list(filter(lambda x: x % 2 == 0, numbers))
+```
+
+!!! 3. 与 `sorted()` 配合使用
+
+```python
+students = [('Alice', 88), ('Bob', 95), ('Charlie', 70)]
+# 按成绩排序
+sorted_students = sorted(students, key=lambda x: x[1], reverse=True)
+```
+
+!!! 4. 与 `reduce()` 搭配（需要 `functools`）
+
+```python
+from functools import reduce
+
+# 计算阶乘
+result = reduce(lambda x, y: x * y, range(1, 6))  # 1*2*3*4*5 = 120
+```
+
+!!! 5. GUI / Web 编程中绑定事件（如 Tkinter、Flask）
+
+```python
+button = Button(text="Click", command=lambda: print("Clicked"))
+```
+
+!! ✅ 五、什么时候不用 lambda？
+
+* 函数体逻辑比较复杂；
+* 需要注释/文档说明；
+* 需要复用；
+* 会在调试时频繁打印函数名（lambda 函数没有名字，调试不方便）。
+
+!! 📝 六、小结
+
+|!特性|!值|
+|是否有名字       |否（匿名） |
+|是否支持 return |否（自动返回） |
+|是否多行        |否 |
+|常见用法        |map, filter, sorted, reduce, GUI事件处理等 |

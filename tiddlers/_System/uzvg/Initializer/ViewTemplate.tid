@@ -1,0 +1,35 @@
+created: 20240919073457355
+creator: soren
+modified: 20250425040644490
+modifier: uzvg
+tags: $:/tags/ViewTemplate
+title: $:/uzvg/Initializer/ViewTemplate
+type: text/vnd.tiddlywiki
+
+\procedure untitled-initializer()
+\function get-regPattern() [<currentTiddler>get[regexp-pattern]]
+\procedure is-tab-valid() [<storyTiddler>get[text]regexp<get-regPattern>]
+\procedure get-tabsList() [tag[$:/tags/Initializer]!is[draft]filter<is-tab-valid>]
+\function get-default-tab() [subfilter<get-tabsList>first[]]
+	<% if [subfilter<get-tabsList>!is[blank]] %>
+		<$macrocall	$name="tabs"
+			tabsList=<<get-tabsList>>
+			default=<<get-default-tab>> />
+	<% endif %>
+\end
+
+<$list filter="[<storyTiddler>!has[initializer-hide]prefix[Untitled]]">
+	<<untitled-initializer>>
+</$list>
+
+<!-- Alternative way to get tabsList:
+<$let
+	get-valid-tabs="[<storyTiddler>get[text]regexp{!!regexp-pattern}]"
+	tabsList="[tag[$:/tags/Initializer]!is[draft]filter<get-valid-tabs>]"
+	myDefaultTab={{{ [subfilter<tabsList>first[]] }}} >
+</$let>
+-->
+
+<!-- Debug Info:
+	<<get-default-tab>>
+-->

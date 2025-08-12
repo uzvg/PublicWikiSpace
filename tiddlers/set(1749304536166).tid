@@ -1,0 +1,25 @@
+authors: geeksforgeeks
+caption: set
+created: 20250607135536166
+description: 
+medium: Website
+modified: 20250607142657793
+modifier: uzvg
+progress: 
+rating: 
+source: Data Structures(1749297971045)
+tags: LiteratureNotes Python
+title: set(1749304536166)
+type: text/vnd.tiddlywiki
+url: 
+visibility: 
+year: 2025-06
+
+set 的介绍
+创建，set()
+使用dict创建set，结果是什么？
+set的特性
+可以通过索引下标来访问set吗？
+添加，一个或者多个
+删除set中的元素remove、discard、pop、clear
+

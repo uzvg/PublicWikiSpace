@@ -1,0 +1,10 @@
+code-body: yes
+created: 20250411074451182
+modified: 20250519232256401
+tags: $:/tags/Global $:/twks/Procedures
+title: $:/uzvg/Initializer/Share/twks-picker-box
+type: text/vnd.tiddlywiki
+
+\procedure twks-picker-box(saveTiddler,tagField,tagListFilter)
+	<$transclude $tiddler="$:/uzvg/Initializer/Share/twks-picker-box/Template"/>
+\end

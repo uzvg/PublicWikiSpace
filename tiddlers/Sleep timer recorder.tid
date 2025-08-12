@@ -1,0 +1,14 @@
+created: 20250703223452322
+modified: 20250703223753111
+progress: WIP
+tags: ProjectNotes TWKS
+title: Sleep timer recorder
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirement:
+
+* 在每个Journal页面，显示一个睡眠时间记录面板，记录自己的入睡时间和起床时间。
+* 起床后，在Daily logs中记录自己入睡状态。
+* 发给AI，让它根据我的记录，判断过去一周我的睡眠状态，发现规律，改善睡眠质量。
+

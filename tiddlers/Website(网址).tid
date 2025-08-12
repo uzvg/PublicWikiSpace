@@ -1,0 +1,43 @@
+created: 20240728125709196
+creator: uzvg
+description: 我收集的一些有用的网站
+filter-prefix: [all[tiddlers]tag<currentTiddler>]
+modified: 20250621102318700
+modifier: uzvg
+page-size: 10
+progress: Structured
+rating: Informative
+refexplorer-hide: true
+tags: IndexNotes
+title: Website(网址)
+type: text/vnd.tiddlywiki
+visibility: Public
+
+\import [prefix[$:/uzvg/Share/FilterBuilder/]]
+
+\function get-filter-prefix() [<currentTiddler>get[filter-prefix]]
+\function get-page-size() [<currentTiddler>get[page-size]]
+\function get-caption() [<currentTiddler>get[caption]else<currentTiddler>]
+
+<<filterBuilder-selector-box "sortmode">>
+<table class="tc-max-width website-table">
+	<tr>
+		<th>No</th>
+		<th>Caption</th>
+    <th>Links</th>
+		<th>Description</th>
+  </tr>
+<$list filter=<<get-complete-filter>> counter="currentNum">
+    <tr>
+        <td><b><<currentNum>></b></td>
+        <td>
+					<$link to=<<currentTiddler>>>
+						<<get-caption>>
+					</$link>
+				</td>
+        <td>{{!!url}}</td>
+				<td>{{!!description}}</td>
+    </tr>
+	</$list>
+</table>
+<<twks-list-paginater>>
