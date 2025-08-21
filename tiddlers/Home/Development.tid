@@ -1,0 +1,58 @@
+caption: Development
+created: 20250427174242629
+filter-prefix: [all[tiddlers]!is[system]!is[draft]tag[ProjectNotes]tag[TWKS]]
+modified: 20250615160636002
+order: 3
+page-size: 10
+title: Home/Development
+type: text/vnd.tiddlywiki
+
+\import [prefix[$:/uzvg/Share/FilterBuilder]]
+
+\function get-filter-prefix() [<currentTab>get[filter-prefix]]
+\function get-page-size() [<currentTab>get[page-size]]
+
+\function get-project-progress() [<currentProject>get[progress]]
+\function get-project-description() [<currentProject>get[description]]
+\function get-project-modified() [<currentProject>get[modified]format:relativedate[]]
+
+\procedure filterBuilder-progress-selector()
+	<<filterBuilder-selector-checkbox optionIndex:"progress">>
+	<$transclude $variable="twks-selector"
+		tiddler=<<storeTiddler>>
+		index="progress"
+		filter="[subfilter<get-filter-prefix>get[progress]unique[]]"
+		placeholder="PROGRESS"
+		actions=<<clean-current-page-actions>>
+		emptyValue="no"
+		enableOptions=<<is-option-enabled progress>>/>
+\end
+
+<<filterBuilder-selector-box "progress sortmode">>
+<table>
+	<tr>
+		<th>NO</th>
+		<th>Project</th>
+		<th>Progress</th>
+		<th>Description</th>
+		<th>Modified</th>
+	</tr>
+	<$list filter=<<get-complete-filter>> variable="currentProject" counter="projectNo">
+		<tr>
+			<td><b><<projectNo>></b></td>
+			<td>
+				<$link to=<<currentProject>>/>
+			</td>
+			<td>
+				<$transclude $variable="tag-pill" tag=<<get-project-progress>>/>
+			</td>
+			<td>
+				<<get-project-description>>
+			</td>
+			<td>
+				<<get-project-modified>>
+			</td>
+		</tr>
+	</$list>
+</table>
+<<twks-list-paginater>>

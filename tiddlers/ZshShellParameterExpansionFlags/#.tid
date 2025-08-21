@@ -1,0 +1,99 @@
+caption: #
+created: 20250703000558161
+description: zsh shell parameter flags 👉 # 使用说明
+modified: 20250703152330065
+order: 2
+progress: Completed
+rating: Plain
+tags: ParameterExpansionFlags PermanentNotes
+title: ZshShellParameterExpansionFlags/#
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 功能解释：
+
+这个 `#` ''flag''的作用是：
+
+# ''把参数展开的结果当作数字表达式来计算''（比如 `65`, `0x41`, `052` 等）。
+# ''把数字结果解释为字符的 ASCII 或 Unicode 编码''，然后输出对应的字符。
+
+<<twks-note "简而言之，把数字转成字符。">>
+
+<<twks-warning """
+	这个 `#` flag 必须用在 `${( # )...}` 这种带括号的参数展开中，和不带括号的 `#`（比如 `#foo`）完全不同。""">>
+
+如果开启了 `MULTIBYTE` 选项，数字 >127 会被当作 Unicode 编码。
+
+!! 常用的例子：
+
+!!! 例1：把 ASCII 码转字符
+
+假设变量 `num` 中存储了 `65`（ASCII 的 `A`）
+
+```zsh
+num=65
+print ${(#)num}
+
+# 输出：
+A
+```
+
+!!! 例2：把十六进制转字符
+
+十六进制 `0x41` 也是 `A`
+
+```zsh
+num=0x41
+print ${(#)num}
+# 输出：
+A
+```
+
+!!! 例3：把八进制转字符
+
+八进制 `0101`（也就是十进制 `65`）
+
+```zsh
+num=0101
+print ${(#)num}
+# 输出：
+A
+```
+
+!!! 例4：Unicode 字符
+
+假设你想要 Unicode 编码 `9731` （雪人 ☃️）
+
+```zsh
+num=9731
+print ${(#)num}
+# 输出：
+☃
+```
+
+<<twks-warning "只有在 `setopt MULTIBYTE` 时，才能输出高于127的 Unicode 字符。">>
+
+!! 小技巧：一行输出多个字符
+
+你可以用空格分隔多个数字：
+
+```zsh
+nums=(72 101 108 108 111)
+print -n ${(#)nums}
+```
+
+''输出：''
+
+```
+Hello
+```
+
+（分别对应 H e l l o）
+
+!! 总结：
+
+* ✅ ''功能：''把数字转成字符（ASCII 或 Unicode）。
+* ✅ ''常用于：''
+** 编码到字符 (65 → A)
+** 处理十六进制和八进制
+** 输出 Unicode

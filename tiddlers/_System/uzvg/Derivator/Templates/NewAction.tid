@@ -1,0 +1,13 @@
+code-body: yes
+created: 20250328160944304
+modified: 20250603143102305
+tags: 
+title: $:/uzvg/Derivator/Templates/NewAction
+type: text/vnd.tiddlywiki
+
+<$transclude $variable="twks-derivator-actions"
+	title=""
+	tags=""
+	syncFieldsList=""
+	template=""
+	keepSource="yes"/>

@@ -1,0 +1,29 @@
+code-body: yes
+created: 20241106024053054
+creator: uzvg
+modified: 20250511233241599
+modifier: uzvg
+tags: $:/tags/Global
+title: $:/uzvg/Procedures/NeteaseMusic
+type: text/vnd.tiddlywiki
+
+\procedure netease-music(id,auto:"1",height:"86",width:"80%",)
+<div align="center">
+	<iframe
+		frameborder="no"
+		border="0"
+		marginwidth="0"
+		marginheight="0"
+		width=<<width>>
+		height=<<height>>
+		src=`//music.163.com/outchain/player?type=2&id=$(id)$&auto=$(auto)$&height=66`>
+	</iframe>
+</div>
+\end
+
+<!--
+
+EXAMPLE:
+-->
+
+<<netease-music id:"448274120" height:"86">>
