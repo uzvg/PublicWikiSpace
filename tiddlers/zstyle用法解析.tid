@@ -1,0 +1,184 @@
+created: 20250315075150261
+description: 介绍了zstyle的作用跟常见用法
+modified: 20250617003536790
+modifier: uzvg
+progress: Paused
+rating: Personal
+tags: PermanentNotes zsh Shell
+title: zstyle用法解析
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 作用：
+
+`zstyle` 是 Zsh 中用于定义和查询 ''样式（Styles）'' 的内置命令。样式是名称与值的组合，值由多个字符串组成。它们与 ''模式（Patterns）'' 一起存储，通过 ''上下文（Context）'' 匹配模式来检索配置，通过`man zshmodules`命令查看其文档。
+
+!! 核心概念：
+
+; 样式（Style）：
+* 键值对，例如 `preferred-precipitation` 是键，`rain` 是值。
+; 模式（Pattern）：
+* 通过冒号分隔的层级路径（如 `:weather:europe:*`），用于匹配上下文。
+; 上下文（Context）：
+* 动态生成的字符串（如 `:weather:asia:Monday:full-moon`），用于查询匹配的样式。
+
+!! 语法：
+
+```zsh
+# 定义样式
+zstyle [选项] <模式> <样式名> <值...>
+
+# 查询或操作样式
+zstyle [选项] <上下文> <样式名> [参数...]
+```
+
+!! 选项与功能：
+
+!!! 1. 定义样式：
+
+```zsh
+zstyle [ -e | - | -- ] <模式> <样式名> <值...>
+```
+
+* `-e`：动态生成值。值会被拼接并执行（类似 `eval`），结果需赋值给 `$reply`。
+
+示例：
+
+```zsh
+zstyle -e ':weather:*' temp '$(get_current_temp)'  # 动态获取温度
+```
+
+!!! 2. 列出样式：
+
+```zsh
+zstyle [ -L [元模式 [样式名]] ]
+```
+
+* `-L`：以 `zstyle` 命令形式列出样式。
+
+示例：
+
+```zsh
+zstyle -L ':completion:*'  # 列出所有补全相关的样式
+```
+
+!!! 3. 删除样式：
+
+```zsh
+zstyle -d [模式 [样式名...]]
+```
+
+示例：
+
+```zsh
+zstyle -d ':weather:*'  # 删除所有天气相关样式
+```
+
+!!! 4. 获取样式：
+
+```zsh
+zstyle -g <数组名> [模式 [样式名]]
+```
+
+* 将匹配的样式存储到指定数组中。
+
+示例：
+
+```zsh
+zstyle -g my_styles ':prompt:*'  # 获取所有提示符样式
+```
+
+!! 查询与测试：
+
+!!! 1. 获取字符串值：
+
+```zsh
+zstyle -s <上下文> <样式名> <变量名> [分隔符]
+```
+
+* 将样式值拼接为字符串，赋值给变量。
+
+示例：
+
+```zsh
+zstyle -s ':weather:europe' temp REPLY  # 将温度值存入 $REPLY
+```
+
+!!! 2. 获取布尔值：
+
+```zsh
+zstyle -b <上下文> <样式名> <变量名>
+```
+
+* 若值为 `yes/true/on/1`，变量设为 `yes`，否则为 `no`。
+
+!!! 3. 获取数组值：
+
+```zsh
+zstyle -a <上下文> <样式名> <数组名>
+```
+
+* 将样式值存储为数组，支持关联数组。
+
+!!! 4. 测试样式：
+
+```zsh
+zstyle -t <上下文> <样式名> [测试值...]
+zstyle -T <上下文> <样式名> [测试值...]
+```
+
+* `-t`：测试样式是否存在且值匹配。
+* `-T`：类似 `-t`，但样式未定义时返回 `0`。
+
+!! ''匹配规则''
+
+; 优先级：
+* 模式越具体（层级越多或组件更明确），优先级越高。
+
+示例：
+
+```zsh
+zstyle ':weather:europe:*' temp 20  # 欧洲温度
+zstyle ':weather:*:Sunday:*' temp 15 # 周日温度
+```
+
+* 在周日的欧洲，`temp` 会匹配 `:weather:*:Sunday:*`（层级更深）。
+
+; 通配符 `*`：
+* 匹配任意字符（不包括冒号），用于模糊匹配。
+
+!! 示例：
+
+!!! 1. 天气插件配置：
+
+```zsh
+# 定义样式
+zstyle ':weather:europe:*' preferred-precipitation rain
+zstyle ':weather:*:Sunday:*' preferred-precipitation snow
+
+# 查询样式
+zstyle -s ":weather:europe:Sunday:full-moon" preferred-precipitation REPLY
+echo $REPLY  # 输出 snow（匹配更具体的周日模式）
+```
+
+!!! 2. 补全配置：
+
+```zsh
+# 显示补全详情
+zstyle ':completion:*' verbose yes
+
+# 启用菜单选择
+zstyle ':completion:*' menu select
+```
+
+!! ''返回值''
+
+* `0`：操作成功（如样式存在且匹配）。
+* `1`：操作失败（如样式不存在或测试不通过）。
+* `2`：样式未定义（仅 `-t` 选项返回）。
+
+通过 `zstyle`，Zsh 实现了高度灵活的配置管理，适用于补全、提示符、插件等场景。
+
+!! 拓展：
+
+* 👉 [[zstyle example|https://gist.github.com/mattmc3/449430b6654aaab0ba7160e8efe8291b]]

@@ -1,0 +1,15 @@
+created: 20240807023437637
+creator: uzvg
+modified: 20250318035420121
+modifier: uzvg
+tags: rime dbus
+title: ibus-rime vim模式实现调查
+type: text/vnd.tiddlywiki
+
+fcitx5-rime 之所以能够很好地跟vim模式进行交互，是因为fcitx5项目自行实现了与dbus交互的库👉[[fcitx5-dbus|https://github.com/fcitx/fcitx5/tree/master/src/modules/dbus]]
+
+而ibus-rime的问题在于无法跟dbus库进行正常交互，这个可以通过`dbus-monitor`命令来查看，可以发现，不管rime输入法的状态怎么变，`dbus`都没有受到一些影响。
+
+所以，目前看来比较优秀的解决方案为：
+
+* 为ibus-rime添加与dbus总线交互的库

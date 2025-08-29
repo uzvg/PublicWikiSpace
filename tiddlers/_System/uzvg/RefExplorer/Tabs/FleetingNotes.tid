@@ -1,0 +1,16 @@
+caption: FleetingNotes
+code-body: yes
+condition: [function[get-all-related-notes]tag[FleetingNotes]]
+created: 20241021060936014
+creator: uzvg
+modified: 20250501030420564
+modifier: uzvg
+order: 3
+tags: $:/tags/ReferenceExplorerTab
+title: $:/uzvg/RefExplorer/Tabs/FleetingNotes
+type: text/vnd.tiddlywiki
+
+<$transclude
+	$variable="reference-explorer"
+	caption="Reference Explorer (Fleeting Notes)"
+	filter={{{ [<currentTab>get[condition]] }}} />

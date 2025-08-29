@@ -1,0 +1,16 @@
+caption: ProjectNotes
+code-body: yes
+condition: [function[get-all-related-notes]tag[ProjectNotes]]
+created: 20240928140530227
+creator: uzvg
+modified: 20250501030505228
+modifier: uzvg
+order: 10
+tags: $:/tags/ReferenceExplorerTab
+title: $:/uzvg/RefExplorer/Tabs/ProjectNotes
+type: text/vnd.tiddlywiki
+
+<$transclude
+	$variable="reference-explorer"
+	caption="Reference Explorer (Project Notes)"
+	filter={{{ [<currentTab>get[condition]] }}} />

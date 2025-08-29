@@ -1,0 +1,11 @@
+created: 20241029035027948
+creator: uzvg
+list: HelloWorld(1729851229556) CodeStructure(1729852503600) TheModernMode(1729853082853) Variables(1729861486724) DataTypes(1729864094390) Alert&&Prompt&&Confirm(1729902886151) TypeConversions(1729904153150) BasicOperatorsAndMaths(1729927767586) Comparisons(1729850326897) ConditionalBranching(1729946198741) LogicOpeartors(1729948984040)
+modified: 20250527104244891
+modifier: uzvg
+tags: ModernJavaScript
+title: JavaScriptFundamentals
+type: text/vnd.tiddlywiki
+
+The Chapter <<currentTiddler>> talks abuout the fundamentals of javaScript, Including fllowing contents:
+<<list-links "[tag<currentTiddler>]">>

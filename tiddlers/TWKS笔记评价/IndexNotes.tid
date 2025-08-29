@@ -1,0 +1,19 @@
+caption: IndexNotes
+created: 20250615032739228
+creator: uzvg
+description: IndexNotes笔记评价
+modified: 20250615033158315
+modifier: uzvg
+progress: Completed
+tags: $:/twks/Documents
+title: TWKS笔记评价/IndexNotes
+type: text/vnd.tiddlywiki
+visibility: Public
+
+|tc-max-width|k
+| !评价 | !说明 |
+|`Fragmentary` |Disconnected or confusing — offers little navigational help. |
+|`Functional` |Usable for navigation but lacks clarity or insight. |
+|`Informative` |Gives a good overview and meaningful links, somewhat insightful. |
+|`Insightful` |Well-written, facilitates understanding and exploration. |
+|`Crystallized` |Highly distilled, conceptually elegant — a mini essay or map of meaning. |

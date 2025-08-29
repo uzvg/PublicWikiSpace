@@ -1,0 +1,120 @@
+created: 20250626223050751
+description: npm中常见的两种安装方式，尤其是非全局安装的npm包的文件位置，以及家目录下的.npm文件夹的作用
+modified: 20250626223607478
+progress: Completed
+rating: Plain
+tags: PermanentNotes NodeJs npm
+title: npm全局与非全局安装
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 🧭 引言：
+
+在使用 `npm` 安装 Node.js 包时，有两种常见方式：
+
+* `npm install -g <package>`：''全局安装''，包会被安装到系统目录下，通常需要 `sudo` 权限（Linux）。
+* `npm install <package>`：''非全局（本地）安装''，包仅被安装在当前项目目录下，项目之间互不影响。
+
+这两种方式分别对应不同的使用场景与存储路径，理解它们对合理管理依赖非常重要。
+
+!! 1️⃣ 非全局安装的 npm 包保存位置：
+
+执行：
+
+```bash
+npm install <package>
+```
+
+时，安装结构如下：
+
+```
+your-project/
+├── node_modules/           ← 存储安装的所有依赖包
+│   └── <package>/          ← 包的源代码
+├── package.json            ← 项目依赖配置文件
+└── package-lock.json       ← 锁定依赖版本
+```
+
+若安装的是 CLI 工具，其可执行文件会出现在：
+
+```
+./node_modules/.bin/
+```
+
+可以通过如下方式调用：
+
+```bash
+npx <package-cli>
+# 或
+./node_modules/.bin/<cli-name>
+```
+
+!! 2️⃣ `~/.npm` 文件夹的作用：
+
+家目录下的 `~/.npm` 并不是用来保存你“安装”的包，而是 npm 的 ''缓存目录''，主要用途包括：
+
+* 缓存远程下载的 `.tgz` 包文件，加快二次安装速度。
+* 存储依赖的元信息、日志和锁。
+* 支持 ''离线安装''（在包已被缓存的前提下）。
+
+常见目录结构：
+
+```
+~/.npm/
+├── _cacache/      ← 主缓存文件目录（v5+ 的内容寻址缓存）
+├── _logs/         ← 安装日志
+├── _locks/        ← 并发安装锁机制
+├── <package>/     ← 某些旧版本可能还保留按包名分类的目录
+```
+
+!! 3️⃣ npm 清除缓存的推荐方式：
+
+过去常用命令：
+
+```bash
+npm cache clean --force
+```
+
+虽然依然可用，但 ''已不再推荐''作为日常清理手段。
+
+!!! ✅ 推荐命令：
+
+```bash
+npm cache verify
+```
+
+此命令将：
+
+* 检查缓存完整性和一致性。
+* 自动删除过期、损坏或无用的缓存。
+* 显示缓存大小和修复详情。
+
+!!! ⚠️ `npm cache clean --force` 的使用时机：
+
+* 遇到无法解释的安装 bug。
+* 清理磁盘空间的临时措施。
+* 需要彻底重建 npm 缓存结构。
+
+!! 📦 附加内容：查看和修改缓存路径：
+
+!!! 查看当前缓存路径：
+
+```bash
+npm config get cache
+```
+
+!!! 自定义缓存目录（如放入其他分区）：
+
+```bash
+npm config set cache /path/to/custom/cache
+```
+
+!! 🧠 总结：
+
+|!项目|!路径或命令|!说明|
+|本地包安装位置  |`./node_modules/`         |与项目绑定，建议使用    |
+|CLI 工具位置 |`./node_modules/.bin/`    |可用 `npx` 自动调用 |
+|npm 缓存目录 |`~/.npm/`                 |存放包缓存与元数据     |
+|推荐清理缓存方式 |`npm cache verify`        |✅ 安全、官方推荐     |
+|彻底清空缓存   |`npm cache clean --force` |⚠️ 慎用，仅在需要时执行 |
+|查看缓存路径   |`npm config get cache`    |可用来自定义存储位置    |

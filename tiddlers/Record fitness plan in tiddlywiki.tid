@@ -1,0 +1,38 @@
+created: 20250519231702811
+description: 在tiddlywiki中定制、跟踪、记录自己的健身计划
+modified: 20250703224451235
+progress: WIP
+tags: ProjectNotes TWKS
+title: Record fitness plan in tiddlywiki
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirements:
+
+; 需要记录的数据：
+* 每天起床空腹体重
+* 跑步的距离、时长
+* 其他无氧锻炼
+
+; 要求：
+* 以周为周期，定制健身计划模板
+* 可以调整模板
+* 在Journal中，根据所在的星期数，自动显示模板
+* 
+
+!! 思路：
+
+* 动作➡模板➡Plan
+* 
+
+!! Project Logs:
+
+* 这个项目最难的是，如何设计存储每个Exercise的数据结构？
+* 如何让每个数据结构跟当天日期对应起来？
+* 每种Exercise都需要不同的参数设置，如何把它们统筹起来？
+* 如何把模板跟当当天的个性化设计结合起来？
+* 
+
+!! Project files:
+
+* [[$:/uzvg/Fitness/Exercises/深蹲]]

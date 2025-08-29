@@ -1,0 +1,46 @@
+created: 20250629075335784
+description: Lua 中表长度的获取方法
+modified: 20250629075510321
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: Lua table基础
+tags: PermanentNotes Lua
+title: Lua 表长度的获取方法
+type: text/vnd.tiddlywiki
+visibility: Public
+
+在Lua中，''`#`运算符只能用于从索引1开始的连续整数数组''，无法可靠地用于字典（key为字符串或稀疏索引的表）。
+
+* ''数组部分（连续整数key）：''
+
+```lua
+local arr = {"a", "b", "c"}
+print(#arr)  -- 输出3
+```
+
+* ''稀疏数组或字典：''
+
+```lua
+local t = {name="Tom", age="20", gender="male"}
+print(#t)  -- 输出未定义（可能是0、其他值）
+```
+
+''获取字典长度的正确方法：''
+
+需使用`pairs()`自行计数：
+
+```lua
+local count = 0
+for k, v in pairs(t) do
+  count = count + 1
+end
+print(count)
+```
+
+此方法可统计所有键（包括字符串键和稀疏索引）。
+
+''注意：''
+
+* `#`只计算数组部分，遇到非连续索引结果不可靠。
+* 混合表（数组+字典）需要自行判断要统计哪些部分。
