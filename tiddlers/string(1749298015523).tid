@@ -1,0 +1,148 @@
+authors: geeksforgeeks
+caption: string
+created: 20250607120655523
+description: Python 中 `string`（字符串）类型的全面总结，包括其定义、切片操作、常用函数、不可变性等方面的内容
+medium: Website
+modified: 20250607121653314
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: Data Structures(1749297971045)
+tags: LiteratureNotes Python
+title: string(1749298015523)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+!! ✅ 一、字符串的基本定义
+
+* 字符串是由 字符组成的有序序列。
+* 可以使用单引号（`'`）、双引号（`"`）、或三引号（`'''` 或 `"""`）定义字符串。
+
+```python
+s1 = 'hello'
+s2 = "world"
+s3 = '''This is
+a multi-line
+string'''
+```
+
+!! 🔍 二、字符串的索引与切片（Slicing）
+
+字符串是可索引的序列，支持正向索引（从 `0` 开始）和反向索引（从 `-1` 开始）。
+
+!!! 🔢 索引
+
+```python
+s = "python"
+print(s[0])   # 'p'
+print(s[-1])  # 'n'
+```
+
+!!! ✂️ 切片语法：`s[start:stop:step]`
+
+* 包含 `start`，不包含 `stop`
+* `step` 可以为负数
+
+```python
+s = "abcdefg"
+print(s[1:5])    # 'bcde'
+print(s[:4])     # 'abcd'
+print(s[::2])    # 'aceg'
+print(s[::-1])   # 'gfedcba'（倒序）
+```
+
+!! 🧰 三、字符串的常用函数与方法
+
+|tc-max-width|k
+|!方法|!功能|
+|`len(s)`                                      |返回字符串长度       |
+|`s.upper()`                                   |转为大写          |
+|`s.lower()`                                   |转为小写          |
+|`s.capitalize()`                              |首字母大写         |
+|`s.title()`                                   |每个单词首字母大写     |
+|`s.strip()`                                   |去除首尾空格或指定字符   |
+|`s.lstrip()` / `s.rstrip()`                   |去除左/右空格或字符    |
+|`s.replace(old, new)`                         |替换子串          |
+|`s.split(sep)`                                |按分隔符拆分为列表     |
+|`s.join(iterable)`                            |将序列合并成字符串     |
+|`s.find(sub)`                                 |查找子串首次出现的位置   |
+|`s.rfind(sub)`                                |查找子串最后一次出现的位置 |
+|`s.startswith(prefix)` / `s.endswith(suffix)` |判断开头/结尾       |
+|`'in'`                                        |判断子串是否存在      |
+|`s.count(sub)`                                |统计子串出现次数      |
+|`s.isdigit()`                                 |是否全是数字字符      |
+|`s.isalpha()`                                 |是否全是字母字符      |
+|`s.isalnum()`                                 |是否是字母和数字组成    |
+|`s.isspace()`                                 |是否只包含空白字符     |
+
+!!! 示例：
+
+```python
+s = "  Hello World  "
+print(s.strip())        # 'Hello World'
+print(s.lower())        # '  hello world  '
+print(s.split())        # ['Hello', 'World']
+print("-".join(["a", "b", "c"]))  # 'a-b-c'
+print("hello" in s)     # True
+```
+
+!! 🚫 四、字符串的不可变性（Immutable）
+
+字符串是 不可变对象，一旦创建，就无法改变其中的字符。
+
+```python
+s = "hello"
+# s[0] = "H"  # ❌ 错误：TypeError
+s = "H" + s[1:]  # ✅ 创建新字符串
+```
+
+!! 🔁 五、格式化字符串的方法
+
+!!! 1. `%` 格式化（老式）
+
+```python
+name = "Tom"
+age = 20
+print("My name is %s, I'm %d years old" % (name, age))
+```
+
+!!! 2. `str.format()` 方法
+
+```python
+print("My name is {}, I'm {} years old".format(name, age))
+print("My name is {0}, I'm {1} years old".format(name, age))
+```
+
+!!! 3. f-string（推荐，Python 3.6+）
+
+```python
+print(f"My name is {name}, I'm {age} years old")
+```
+
+!! 💡 六、常见应用技巧
+
+!!! 字符串反转：
+
+```python
+s[::-1]
+```
+
+!!! 删除指定字符：
+
+```python
+s.replace("a", "")
+```
+
+!!! 保留数字字符：
+
+```python
+"".join([c for c in s if c.isdigit()])
+```
+
+!! 📌 七、小技巧与注意事项
+
+# 字符串连接效率低，用 `''.join(list)` 更高效。
+# `split()` 默认按任意空白字符分割，多个空格也只算一次。
+# 使用 `re` 模块（正则表达式）处理复杂的字符串模式匹配和提取。

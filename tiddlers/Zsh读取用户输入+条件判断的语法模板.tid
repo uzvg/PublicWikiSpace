@@ -1,0 +1,156 @@
+created: 20250629183644491
+description: Zsh读取用户输入+条件判断的语法模板
+modified: 20250629185413769
+progress: Completed
+rating: Plain
+tags: PermanentNotes zsh
+title: Zsh读取用户输入+条件判断的语法模板
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+''用户输入+条件判断''是zsh脚本里最常见的场景。
+
+!! 常用模板：
+
+```zsh
+# 提示用户
+echo -n "请输入选项 (yes/no): "
+
+# 读取一行输入
+read -r user_input
+
+# 判断输入
+if [[ "$user_input" == "yes" ]]; then
+  echo "你选择了YES"
+elif [[ "$user_input" == "no" ]]; then
+  echo "你选择了NO"
+else
+  echo "无效输入: $user_input"
+fi
+```
+
+!! 🌟 关键要点拆解
+
+!!! 1️⃣ ''`read -r variable`''
+
+* `-r`: 禁止反斜杠转义，避免奇怪的转义行为
+* 默认读取一整行到变量
+
+如果想要提示在同一行，常用：
+
+```zsh
+echo -n "提示内容: "
+```
+
+或：
+
+```zsh
+printf "提示内容: "
+```
+
+!!! 2️⃣ ''使用 `[[ ... ]]` 来做条件判断''
+
+这是''zsh的推荐方式''：
+
+* 比 `[ ... ]` 更安全
+* 支持模式匹配
+* 支持逻辑组合
+
+示例：
+
+```zsh
+if [[ "$var" == "abc" ]]; then
+```
+
+注意：
+
+* `==` 用于字符串比较
+* `-eq` `-gt`等是数值比较
+
+!!! 3️⃣ ''逻辑组合示例''
+
+```zsh
+if [[ "$input" == "yes" || "$input" == "y" ]]; then
+  echo "确认"
+fi
+```
+
+!!! 4️⃣ ''空输入检测''
+
+有时用户直接敲回车，你想检测空输入：
+
+```zsh
+if [[ -z "$user_input" ]]; then
+  echo "输入为空"
+fi
+```
+
+`-z`表示字符串长度为0。
+
+!! 🧭 ''🌿模板扩展: 带默认值''
+
+如果用户直接敲回车，使用默认值：
+
+```zsh
+read -r "user_input?请输入选项 (yes/no): "
+user_input=${user_input:-yes}
+```
+
+这里用了zsh的 `read -r "var?提示"` 格式，可以直接加提示。
+
+`:-yes`表示：如果变量为空，就用`yes`。
+
+!! 🔥 ''🌿模板扩展: 循环直到输入合法''
+
+很多时候你想要反复提示，直到输入合法：
+
+```zsh
+while true; do
+  read -r "choice?请选择 (start/stop): "
+  case "$choice" in
+    start)
+      echo "开始执行"
+      break
+      ;;
+    stop)
+      echo "停止执行"
+      break
+      ;;
+    *)
+      echo "无效输入，请输入 start 或 stop"
+      ;;
+  esac
+done
+```
+
+`case`非常适合这种多选情况，比 `if` 更清晰。
+
+!! 🪧 ''🌿快速速查表''
+
+|tc-max-width|k
+|!场景|!写法|
+|读取输入    |`read -r var` |
+|带提示     |`read -r "var?请输入内容: "` |
+|判断字符串相等 |`[[ "$var" == "abc" ]]` |
+|判断字符串为空 |`[[ -z "$var" ]]` |
+|多条件判断   |`[[ "$var" == "yes" |"$var" == "y" ]]` |
+|数值比较    |`(( var > 10 ))` 或 `[[ "$var" -gt 10 ]]` |
+|默认值     |`var=${var:-default}` |
+
+!! ✨ ''🌿推荐最常用模板''
+
+如果只记一个，记这个：
+
+```zsh
+read -r "answer?请输入选项 (y/n): "
+if [[ "$answer" == "y" ]]; then
+  echo "确认"
+else
+  echo "取消"
+fi
+```
+
+如果需要，我可以帮你写''更复杂的示例''（如正则匹配、带超时、带默认值等）。
+随时告诉我！🌟
