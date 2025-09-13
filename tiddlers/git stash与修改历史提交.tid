@@ -1,0 +1,106 @@
+created: 20250626135649046
+description: 使用git stash命令与交互式rebase修改历史commit
+modified: 20250626155507349
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: 如何把新添加的修改合并到已存在的commit？
+tags: PermanentNotes Git
+title: git stash与修改历史提交
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 引言：
+
+试想如下应用场景：
+
+我们发现一个''旧的提交''（不是最新的）需要补充修改，而我们已经有了新的提交在其之后，其中一种方法是使用`git stash`+`git rebase`命令，大致过程如下：
+
+```bash
+git stash ➡ git rebase -i ➡ commit --amend ➡ git rebase --continue
+```
+
+该方法可以优雅地将补丁追加进历史中的某一条提交，而不破坏提交顺序。
+
+!! 操作原理：
+
+# 在当前分支上对旧提交进行修改；
+# 使用 `git stash` 暂存这些修改；
+# 使用 `git rebase -i` 将目标 commit 标记为 `edit`/`e`；
+# Git 会在变基过程中停在该 commit；
+# 取出 `stash` 中的变更，并使用 `git commit --amend` 修改提交；
+# 使用 `git rebase --continue` 继续 rebase。
+
+!! ✅ 操作步骤详解
+
+假设你要修改的目标 commit 是 `C`，当前历史如下：
+
+```
+A -- B -- C -- D -- E (HEAD)
+```
+
+!!! 1. 修改代码（修复 C 的问题）
+
+```bash
+# 在 E 上修改代码，修复 C 中的问题
+# ⚠️ 请确保修改内容只针对 C，不包含 D/E 的逻辑
+git stash push -m "fix for commit C"
+```
+
+!!! 2. 开始交互式 rebase
+
+```bash
+git rebase -i HEAD~4
+```
+
+在打开的编辑器中找到目标 commit `C`，将前面的 `pick` 改成 `edit`：
+
+```
+pick 123abc B
+edit 456def C
+pick 789ghi D
+pick 012jkl E
+```
+
+保存退出。
+
+!!! 3. Git 停在 C 的提交
+
+```bash
+HEAD is now at C
+```
+
+此时工作区处于 commit C 的状态。
+
+!!! 4. 恢复之前修改
+
+```bash
+git stash pop
+```
+
+确认修改已恢复。
+
+!!! 5. 修改该提交
+
+```bash
+git add .
+git commit --amend
+```
+
+你也可以选择只添加部分内容（如使用 `git add -p`）。
+
+!!! 6. 继续 rebase
+
+```bash
+git rebase --continue
+```
+
+Git 会继续自动应用 D 和 E 的提交。
+
+!! ⚠️ 注意事项
+
+<<twks-warning """
+* ✅ 最终被添加到目标 commit 中的内容，必须只与该 commit 相关；
+* 💡 即使 `stash` 包含其他内容，也可以通过 `git add -p` 精确挑选想要的部分；
+* ⚠️ 避免直接使用 `git add .`，以免误将其他修改也 `amend` 进目标 commit；
+* 🤝 使用此方法会''重写历史''，修改后需使用 `git push --force-with-lease` 推送。""">>

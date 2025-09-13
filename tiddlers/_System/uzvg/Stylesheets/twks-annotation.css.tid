@@ -1,0 +1,11 @@
+created: 20250330035404644
+modified: 20250330040831731
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/twks-annotation.css
+type: text/vnd.tiddlywiki
+
+.twks-annotation-red {
+	background:inherit;
+	font-weight:bold;
+	color: <<colour alert-highlight>>;
+}

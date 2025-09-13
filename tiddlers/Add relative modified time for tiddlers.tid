@@ -1,0 +1,18 @@
+created: 20240909020607583
+creator: uzvg
+modified: 20250427181627838
+modifier: uzvg
+progress: Completed
+tags: TWKS ProjectNotes
+title: Add relative modified time for tiddlers
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirements:
+
+* 给每条tiddler添加修改文件的相对时长。✅
+
+!! Project files list:
+
+* [[$:/tags/ViewTemplate/Subtitle]]
+* [[$:/core/ui/ViewTemplate/subtitle/modified]]

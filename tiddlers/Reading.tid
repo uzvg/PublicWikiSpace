@@ -1,0 +1,11 @@
+created: 20250325130657805
+modified: 20250615124138632
+tags: 
+title: Reading
+twikoo-hide: 1
+type: text/vnd.tiddlywiki
+
+<$transclude
+	$variable="tabs"
+	tabsList="[prefix[Reading/]sort[order]]"
+	default="Reading/PermanentNotes" />

@@ -1,0 +1,14 @@
+code-body: yes
+created: 20250601142744789
+modified: 20250602073138326
+tags: 
+title: $:/uzvg/config/get-website-title/rules
+type: text/vnd.tiddlywiki
+
+[prefix[https://www.bilibili.com/]then[Bilibili]]
+[prefix[https://www.youtube.com/]then[Youtube]]
+[prefix[https://weread.qq.com]then[Weread]]
+[prefix[https://www.zhihu.com/]then[Zhihu]]
+[prefix[https://x.com/]then[X post]]
+[prefix[zotero://]then[Zotero]]
+[!is[blank]then[🔗External Link]]

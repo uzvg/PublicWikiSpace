@@ -1,0 +1,53 @@
+created: 20250827100551027
+description: 如何使用tiddlywiki的语法实现递归
+modified: 20250829162004048
+progress: Building
+rating: Valuable
+tags: tiddlywiki PermanentNotes
+title: tiddlywiki中的递归
+type: text/vnd.tiddlywiki
+visibility: Public
+
+\function get-minus-one(n) [[n]subtract[1]]
+\function get-sub-factorial() [<get-factorial minus-one>]
+\function get-factorial(n)
+	[[n]compare:integar:eq[0]]
+	:then[[1]]
+	:else[[n]multiply<get-sub-factorial>]
+\end
+
+\procedure factorial(n)
+<$list filter="[<n>match[0]]">
+  1
+</$list>
+<$list filter="[<n>match[!0]]" variable="dummy">
+  <$set name="m" value=<<n>>>
+  <$set name="m1" value={{{ [<m>subtract[1]] }}} >
+    {{{ [<m>multiply<factorial m1>] }}}
+  </$set>
+  </$set>
+</$list>
+\end
+
+\function .step(n)
+	[<n>subtract[1]]
+	[<n>subtract[2]]
+	:map[.fibo<currentTiddler>]
+	:and[sum[]]
+\end
+
+\function .fibo(n:0)
+	[<n>match[0]then[0]]
+	[<n>match[1]then[1]]
+	:else[.step<n>]
+\end
+
+<!--
+<<get-factorial 0>>
+<<get-factorial 3>>
+-->
+
+<<factorial 3>>
+
+<<.fibo 10>>
+https://talk.tiddlywiki.org/t/parameterised-transclusion-recursive-functions/6789

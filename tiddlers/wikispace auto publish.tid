@@ -1,0 +1,28 @@
+created: 20250614093314111
+description: wikispace的自动构建、自动发布流程
+modified: 20250616170052839
+progress: WIP
+tags: ProjectNotes Shell
+title: wikispace auto publish
+twikoo-hide: 1
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirements:
+
+自动commit wikispace当前的工作目录的同时，自动build并且publish wikispace的公开版本。
+
+* 先筛选出需要公开的tiddlers
+* build index.html
+* 提交并同步
+
+!! Project Logs:
+
+* 已经实现了大部分的内容，包括敏感字段验证等内容，但是有瑕疵，需要重新检查
+* 需要添加一个是否发布的验证条件，即当前仓库的工作目录，是否有改动，如果有，则执行自动发布流程，如果没有，则不需要。
+* 
+
+!! 难点：
+
+* 指定某个tiddler的内容，如关闭recent tab，引导用户使用Reading Page，而非最近更新。
+*
