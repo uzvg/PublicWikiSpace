@@ -1,0 +1,17 @@
+code-body: yes
+created: 20250501060940793
+modified: 20250501064924239
+title: $:/uzvg/RefExplorer/Share/get-created-today
+type: text/vnd.tiddlywiki
+
+\function get-day()
+	[<storyTiddler>get[created]format:date[YYYY0MM0DD]]
+\end
+
+\function get-created-today()
+	[<storyTiddler>tag[Journal]]
+	:then[all[tiddlers]!prefix[$:/state/]!prefix[$:/temp/]]
+	-[[$:/HistoryList]]
+	-[[$:/StoryList]]
+	:filter[get[created]format:date[YYYY0MM0DD]prefix<get-day>]
+\end

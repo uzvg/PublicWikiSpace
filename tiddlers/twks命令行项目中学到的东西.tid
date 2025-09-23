@@ -1,0 +1,16 @@
+created: 20250306033451542
+creator: uzvg
+description: 
+modified: 20250618154100563
+modifier: uzvg
+progress: Paused
+tags: TWKS ProjectNotes
+title: twks命令行项目中学到的东西
+type: text/vnd.tiddlywiki
+visibility: Public
+
+* [[zparseopts命令]]
+* [[Here string语法]]
+* [[while循环与Here-string语法]] 这里要关注while语句在Shell中的结构
+* [[使用jq命令处理json文件(1741153832426)]]
+* [[jq命令解析]]
