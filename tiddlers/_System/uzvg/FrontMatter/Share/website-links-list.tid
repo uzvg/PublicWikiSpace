@@ -1,0 +1,41 @@
+code-body: yes
+created: 20250602073552917
+modified: 20250602074126667
+title: $:/uzvg/FrontMatter/Share/website-links-list
+type: text/vnd.tiddlywiki
+
+\procedure website-links-list()
+\whitespace trim
+\procedure website-rules-tiddler() $:/uzvg/FrontMatter/Share/website-links-list/rules
+\function get-link-target()
+	[<currentUrl>prefix[zotero://]then[_self]] :else[[_blank]]
+\end get-link-target
+
+\function get-website-title()
+	[<currentUrl>] :cascade[<website-rules-tiddler>get[text]]
+\end get-website-title
+
+\function get-last-url()
+	[<storyTiddler>get[url]enlist-input[]last[]]
+\end get-last-url
+
+<!-- Url links list but the last. -->
+<$list filter="[<storyTiddler>get[url]enlist-input[]butlast[]]" variable="currentUrl">
+	<a href=<<currentUrl>>
+		class="tc-tiddlylink-external"
+		target=<<get-link-target>>
+		rel="noopener noreferrer">
+		<<get-website-title>>
+	</a>, &#32;
+</$list>
+<!-- The last url links -->
+<$list filter="[<storyTiddler>get[url]enlist-input[]last[]]" variable="currentUrl">
+	<a href=<<currentUrl>>
+		class="tc-tiddlylink-external"
+		target=<<get-link-target>>
+		rel="noopener noreferrer">
+		<<get-website-title>>
+	</a>
+</$list>
+
+\end

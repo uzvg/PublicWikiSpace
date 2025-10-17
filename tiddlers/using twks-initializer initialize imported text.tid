@@ -1,0 +1,38 @@
+created: 20250329063207420
+description: 重构优化初始化笔记的代码跟流程，更易于管理，导入
+modified: 20250530021823841
+progress: Completed
+tags: ProjectNotes TWKS
+title: using twks-initializer initialize imported text
+type: text/vnd.tiddlywiki
+visibility: Public
+
+👉 [[29th March 2025]]
+
+!! 过程优化：
+
+总结下来，初始化一个tiddler的过程有如下几步：
+
+# 去重。根据导入的字段值，检查对应的笔记是否已经存在于系统中。
+# 检查必须值。检查必需的字段值是否存在。
+# 填表赋值。为对应的字段值设置默认值，或者自定义取值。
+# 完成创建。整合字段值，重命名。
+# 扫尾清除。删除临时tiddler，删除`$:/Import`中的内容。
+
+!! 流程优化：
+
+创建管理面板，可以很轻易地删除、修改、索引所有的initializer，主要元素有如下：
+
+* caption
+* table
+* regular expression
+* template
+* button
+* create-actions
+* 取消使用模板，转而使用索引管理字段及其字段值
+
+!! Develop logs:
+
+* @ [[5th April 2025]] 在重构Initializer的过程中，遇到一个非常棘手的问题，害我花了几乎一整天的时间排查👉 [[tiddlywiki中的actions取值刷新问题]]
+* 对去重流程的重新设计
+* authors-picker
