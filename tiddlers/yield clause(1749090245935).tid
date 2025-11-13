@@ -1,0 +1,145 @@
+authors: geeksforgeeks
+caption: yield clause
+created: 20250605022405935
+description: Python中的yield语句
+medium: Website
+modified: 20250605022736689
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: keywords(1749028332441)
+tags: LiteratureNotes Python
+title: yield clause(1749090245935)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+!! 一、`yield` 是什么？
+
+`yield` 是一个用于 定义生成器函数 的关键字。
+
+* 它使函数变成一个 生成器（generator） ；
+* 调用这个函数并不会立即执行，而是返回一个 可迭代的生成器对象 ；
+* 每次迭代执行到 `yield` 时 暂停执行并返回值 ，下一次迭代从暂停处继续执行。
+
+!! 二、`yield` 的语法
+
+```python
+def generator_func():
+    yield value  # 每次调用 next() 时会从上次暂停处恢复，并返回 value
+```
+
+!! 三、与普通函数的区别
+
+| 普通函数 (`return`) | 生成器函数 (`yield`) |
+| 一次性返回结果并退出      | 多次暂停并返回数据       |
+| 每次调用都会重新执行全部    | 记住上次的执行状态       |
+| 返回结果：值          | 返回结果：生成器对象      |
+| 不适合处理大量数据       | 适合处理大量/流式数据     |
+
+!! 四、常用场景
+
+!!! 1.  生成一系列值（惰性求值）
+
+```python
+def count_up_to(n):
+    i = 1
+    while i <= n:
+        yield i
+        i += 1
+
+for num in count_up_to(5):
+    print(num)  # 输出 1 到 5
+```
+
+!!! 2.  读取大文件，逐行处理
+
+```python
+def read_large_file(filename):
+    with open(filename) as f:
+        for line in f:
+            yield line.strip()
+```
+
+比一次性读取整个文件更节省内存。
+
+!!! 3.  无限序列生成器
+
+```python
+def infinite_counter():
+    n = 0
+    while True:
+        yield n
+        n += 1
+```
+
+!!! 4.  协程模式（配合 `send()` 使用）
+
+高级用法，可用于简化协程或状态机逻辑：
+
+```python
+def coroutine():
+    total = 0
+    while True:
+        x = yield total
+        total += x
+```
+
+!! 五、举个完整的例子
+
+```python
+def fibonacci(limit):
+    a, b = 0, 1
+    while a < limit:
+        yield a
+        a, b = b, a + b
+
+for n in fibonacci(10):
+    print(n)
+```
+
+输出：
+
+```
+0
+1
+1
+2
+3
+5
+8
+```
+
+!! 六、常见注意事项
+
+!!! 1. `yield` 只能在函数内部使用
+
+```python
+yield 1  # ❌ 错误，不能在函数外使用
+```
+
+!!! 2. 调用生成器函数不会立即执行
+
+```python
+gen = fibonacci(10)  # 不执行函数，只返回生成器对象
+next(gen)  # 执行直到第一个 yield
+```
+
+!!! 3. 与 `return` 混用：用 `return` 结束生成器（可抛出 StopIteration）
+
+```python
+def gen():
+    yield 1
+    return  # 或 raise StopIteration()
+```
+
+!! 七、适用总结
+
+| 使用场景         | 是否推荐使用 `yield` |
+| 流式数据（大文件、网络） | 非常推荐         |
+| 惰性计算/生成序列    | 推荐           |
+| 协程/状态机       | 高级用法可使用      |
+| 简单函数返回一个结果   | ❌ 不需要用 `yield` |
+
+<<twks-question "`yield` 和 `yield from` 的区别？">>

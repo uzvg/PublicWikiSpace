@@ -1,0 +1,13 @@
+code-body: yes
+created: 20250424141852407
+modified: 20250424142320642
+tags: $:/tags/Global $:/twks/Tools
+title: $:/uzvg/Initializer/Share/authors-picker-box
+type: text/vnd.tiddlywiki
+
+\procedure authors-picker-box(tiddler,field:"authors",filter:"[get[authors]enlist-input[]unique[]]")
+	<$transclude $variable="twks-picker-box"
+		saveTiddler={{{ [<tiddler>!is[blank]else<storyTiddler>] }}}
+		tagField=<<field>>
+		tagListFilter=<<filter>>/>
+\end
