@@ -1,0 +1,116 @@
+caption: reduce function
+cover: 20250616014833073.jpg
+created: 20250606115605424
+description: Python中的reduce函数迭代过程详解
+modified: 20250615175921195
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: lambda function(1749210703335)
+tags: Python PermanentNotes
+title: reduce function
+type: text/vnd.tiddlywiki
+visibility: Public
+year: 2025-06
+
+!! 摘要：
+
+`reduce(func, iterable[, initializer])` 的工作机制是：
+
+* 第一次调用时，x 是初始值（如没提供，就用 iterable 的第一个元素），y 是第二个元素；
+* 每次迭代后，函数的返回值会作为下一次的 x；
+* y 总是从 iterable 中依次取出；
+* 直到 iterable 被遍历完，最终返回累积得到的单一结果。
+
+!! ✅ 一、什么是 `reduce()`
+
+`reduce()` 是 Python 中一个函数式编程工具，用于对一个可迭代对象进行累积计算，将其“折叠”为一个单一结果。
+
+> 英文解释：
+> “Reduce takes a function and a sequence and returns a single value by applying the function cumulatively to the sequence elements.”
+
+!!! 引入方式：
+
+```python
+from functools import reduce
+```
+
+!! 🧠 二、基本语法
+
+```python
+reduce(function, iterable[, initializer])
+```
+
+|tc-max-width|k
+|!参数|!说明|
+|`function`    |接受两个参数的函数（如 `lambda x, y: x + y`） |
+|`iterable`    |可迭代对象（如列表）                        |
+|`initializer` |可选，初始值，作为第一次运算的 x                 |
+
+!! 🔁 三、运算流程详解（不带初始值）
+
+示例：
+
+```python
+reduce(lambda x, y: x * y, [1, 2, 3, 4, 5])
+```
+
+!!! 📊 运算步骤如下：
+
+|!步骤|!x（累计值）|!y（下一个元素）|!运算结果|
+| 1  | 1      | 2        | 2    |
+| 2  | 2      | 3        | 6    |
+| 3  | 6      | 4        | 24   |
+| 4  | 24     | 5        | 120  |
+
+!!! 最终输出：`120`
+
+!! 🧪 四、带初始值的情况
+
+```python
+reduce(lambda x, y: x + y, [1, 2, 3], 10)
+# 运算：10 + 1 → 11 → 11 + 2 → 13 → 13 + 3 → 16
+```
+
+> 初始值 `10` 作为第一个 `x`，序列从头开始处理。
+
+!! ⚠️ 五、注意事项
+
+* `function` 必须接受两个参数；
+* 结果会“叠加”处理直到得到一个最终值；
+* 通常搭配 `lambda` 使用，但也可使用自定义函数；
+* 返回的不是可迭代对象，而是一个最终值（与 `map`、`filter` 不同）；
+
+!! 🎯 六、常见用途
+
+!!! 1. 求积、求和、阶乘
+
+```python
+reduce(lambda x, y: x + y, [1, 2, 3])  # 6
+reduce(lambda x, y: x * y, [1, 2, 3, 4])  # 24
+```
+
+!!! 2. 找最大值
+
+```python
+reduce(lambda x, y: x if x > y else y, [5, 2, 7, 3])  # 7
+```
+
+!!! 3. 字符串拼接
+
+```python
+reduce(lambda x, y: x + y, ['a', 'b', 'c'])  # 'abc'
+```
+
+!! 🧠 七、总结口诀
+
+> 🗣️ 口诀记忆法：
+> “`reduce` 是折叠函数，前后两两传函数，结果带着继续走，直到走完得结果。”
+
+!! 📌 八、与其他函数对比（简表）
+
+|tc-max-width|k
+|!函数|!作用|!返回类型|!函数形式|
+|`map()`    |元素转换   |迭代器  |`f(x)`        |
+|`filter()` |条件筛选   |迭代器  |`f(x) → bool` |
+|`reduce()` |元素累积合并 |单一值  |`f(x, y)`     |

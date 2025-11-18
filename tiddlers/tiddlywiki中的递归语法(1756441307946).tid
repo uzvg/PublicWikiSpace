@@ -1,0 +1,35 @@
+authors: Mohammad
+caption: tiddlywiki中的递归语法
+created: 20250829042147946
+description: 如何在tiddlywiki的筛选器中使用递归语法
+medium: Website
+modified: 20251011064641972
+progress: Pending
+rating: 
+tags: LiteratureNotes
+title: tiddlywiki中的递归语法(1756441307946)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2023-04
+
+!! 前言：
+
+```
+\function .factorial-recursive-step(n)
+	[<n>subtract[1]]
+	:map[.factorial<currentTiddler>multiply<n>]
+\end
+
+\function .factorial(n)
+	[<n>match[0]then[0]]
+	[<n>match[1]then[1]]
+	:else[.factorial-recursive-step<n>]
+\end
+
+<<.f 8>>
+```
+
+\function twks-jarvis-session(session-id)
+	[session-id<session-id>]
+\end

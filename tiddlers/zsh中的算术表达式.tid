@@ -1,0 +1,22 @@
+created: 20250304052115558
+description: zsh中的算术表达式总结
+modified: 20250630091659149
+modifier: uzvg
+progress: Completed
+rating: Plain
+tags: PermanentNotes zsh Shell
+title: zsh中的算术表达式
+type: text/vnd.tiddlywiki
+visibility: Public
+
+在 Zsh 中，`(( expression ))`常被称作算术表达式，它的运算过程如下：
+
+* 先对 expression 进行算术求值。
+* 如果结果为 0，表达式判定为假（退出状态=1）。
+* 如果结果为 非0，表达式判定为真（退出状态=0）。
+
+; 也就是说：
+* ✅ `expression`的运算结果''非零'' ➡ 真
+* ❌ `expression`的运算结果''零'' ➡ 假
+
+在zsh Shell中，算术表达式除了用于普通的数学运算外，还可用于[[判断命令是否存在|使用zsh的方式判断命令是否存在]]。
