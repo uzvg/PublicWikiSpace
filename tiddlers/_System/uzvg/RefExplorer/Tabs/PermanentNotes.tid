@@ -1,0 +1,16 @@
+caption: PermanentNotes
+code-body: yes
+condition: [function[get-all-related-notes]tag[PermanentNotes]]
+created: 20240925153004069
+creator: uzvg
+modified: 20250501030455965
+modifier: uzvg
+order: 4
+tags: $:/tags/ReferenceExplorerTab
+title: $:/uzvg/RefExplorer/Tabs/PermanentNotes
+type: text/vnd.tiddlywiki
+
+<$transclude
+	$variable="reference-explorer"
+	caption="Reference Explorer (Permanent Notes)"
+	filter={{{ [<currentTab>get[condition]] }}} />

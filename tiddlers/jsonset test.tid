@@ -1,0 +1,54 @@
+created: 20250703235846576
+modified: 20250704051106151
+tags: test
+title: jsonset test
+type: text/vnd.tiddlywiki
+
+\function json-data()
+	[[]]
+	+[jsonset[name],[uzvg]]
+	+[jsonset[age],[27]]
+\end
+
+\function set-test()
+	[[]]
+	+[jsonset:object[push-up]]
+	+[jsonset[push-up],[sets],[11]]
+	+[jsonset[push-up],[reps],[4]]
+	+[jsonset:object[push-up],[info]]
+	+[jsonset[push-up],[info],<json-data>]
+\end
+
+\function set-weight() [<fitness-record-json>jsonset[test],[weight]]
+
+<$codeblock code=<<set-test>>/>
+
+
+<<set-test>>
+<!--
+[[]jsonset[a],[one]jsonset[b],[two]jsonset:object[a]jsonset[a],[aa],[two]]
+-->
+
+<!--
+{
+	"a": "one",
+	"b": "",
+	"c": "three",
+	"d": {
+		"e": "four",
+		"f": [
+			"five",
+			"six",
+			true,
+			false,
+			null
+		],
+		"g": {
+			"x": "max",
+			"y": "may",
+			"z": "maize"
+		}
+	}
+}
+-->
+
