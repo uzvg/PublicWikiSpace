@@ -1,0 +1,33 @@
+created: 20250717101755876
+description: 解决一打开终端就闪退的故障
+modified: 20250717115714875
+progress: Completed
+rating: Plain
+tags: PermanentNotes chezmoi TroubleShooting Shell
+title: 使用chezmoi同步配置文件后Shell终端闪退
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 故障描述：
+
+在同步我的dotfiles文件时，当我执行如下命令同步我的配置文件时：
+
+```
+chezmoi init --apply uzvg
+```
+
+打开终端软件，发现一打开就会闪退。
+
+!! 解决方案：
+
+* 在`zimrc`文件中，关闭`ibus-rime-switcher`就好。
+* 原因是该插件的运作，需要安装`gnome-shell-ibus-switcher` extension，如果没安装，则会导致直接退出Shell程序。
+
+!! 总结：
+
+这里的重点，不在于解决故障本身，而是在于如何排除类似的故障。
+
+; 我所取的办法是：
+
+* 先重命名原来的`.zshrc`文件为`.zshrc.bak`，确保能进入Shell终端。
+* 在进入`shell`终端后，使用`zsh .zshrc.bak`命令执行该脚本文件，这样它就能产生输出，我们可以由此判断是哪里出现了故障，从而解决故障。

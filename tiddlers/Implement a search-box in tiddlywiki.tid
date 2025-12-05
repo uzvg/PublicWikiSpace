@@ -1,0 +1,26 @@
+created: 20241221145933632
+description: 在tiddlywiki中实现一个搜索框
+modified: 20250526152757223
+modifier: uzvg
+progress: Completed
+tags: tiddlywiki ProjectNotes
+title: Implement a search-box in tiddlywiki
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirements:
+
+* 在tiddlywiki中实现一个可以随时调用，指定`actions`的procedure。
+
+!! Project Logs:
+
+* 本来是打算用tiddlywiki自带的`keyboard-driven-input`实现，但其调用过于麻烦，不适合轻度使用。
+* 直接引用了tiddlywiki中系统class，没有引入任何新的class定义。
+* 难点在于弹框的CSS要如何调用，并且跟系统样式保持一致，主要参考了如下系统代码：
+** `<<search-result-list>>`在[[$:/core/ui/DefaultSearchResultList]]中定义。
+** List中的单个item样式由[[$:/core/ui/ListItemTemplate]]定义。
+* 第一次使用了`linkcatcher`组件。
+
+!! Project Files:
+
+<<list-links filter:"[prefix[$:/uzvg/Share/twks-search-box]]">>

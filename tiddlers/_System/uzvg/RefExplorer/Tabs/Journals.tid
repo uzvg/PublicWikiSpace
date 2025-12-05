@@ -1,0 +1,16 @@
+caption: Journals
+code-body: yes
+condition: [function[get-all-related-notes]tag[Journal]]
+created: 20241021061159493
+creator: uzvg
+modified: 20250501030438936
+modifier: uzvg
+order: 2
+tags: $:/tags/ReferenceExplorerTab
+title: $:/uzvg/RefExplorer/Tabs/Journals
+type: text/vnd.tiddlywiki
+
+<$transclude
+	$variable="reference-explorer"
+	caption="Reference Explorer (Journals)"
+	filter={{{ [<currentTab>get[condition]] }}} />

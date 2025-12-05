@@ -1,0 +1,101 @@
+authors: geeksforgeeks
+caption: input and output
+created: 20250602163739512
+description: Python学习之输入输出
+medium: Website
+modified: 20250606115031814
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: Learn Python Programming Language(1748882144149)
+tags: LiteratureNotes Python
+title: input and output(1748882259512)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+!! input:
+
+```
+name = input("input your name: ")
+```
+
+!! print函数:
+
+!!! 打印变量：
+
+```
+print("your name is ", name)
+print("your name is "+name)
+```
+
+!!! 多个输入：
+
+```
+name, age = input("Enter your name and age: ").split()
+print ("name:", name)
+print ("age:", age)
+```
+
+!!! 修改输入类型：
+
+默认为`string`类型，可以转换为其他类型。
+
+```
+number = int(input ("input a number: "))
+print (number)
+
+price = float(input("input the price: "))
+print (price)
+```
+
+!!! 输入格式化：
+
+; `format()`
+
+```
+amount = 150.75
+print("Amount: ${:.2f}".format(amount))
+```
+
+* `{:.2f}` 是一个格式说明符。
+* `:` 表示格式化开始。
+* `.2f` 表示以浮点数格式输出，保留两位小数，如 3.14159 会变成 3.14。
+* `print("The {name} costs ${old}, now only ${new}".format(name=vegetable, old=price, new=discounted))`
+
+; `sep`和`end`参数：
+
+```
+# end Parameter with '@'
+print("Python", end='@')
+print("GeeksforGeeks")
+
+
+# Seprating with Comma
+print('G', 'F', 'G', sep='')
+
+# for formatting a date
+print('09', '12', '2016', sep='-')
+
+# another example
+print('pratik', 'geeksforgeeks', sep='@')
+```
+
+; `f-string`:
+
+```
+name = 'Tushar'
+age = 23
+print(f"Hello, My name is {name} and I'm {age} years old.")
+```
+
+; `%`操作符
+
+```
+print("The vegetable is %s, and the origin price is %d, but the current price is %d" % (vegetable, number, plusfive))
+```
+
+; Python中更现代的字符串格式化语法：
+* `%`操作符用于早期的Python中
+* 更现代的字符串格式化的语法是`f-string`.

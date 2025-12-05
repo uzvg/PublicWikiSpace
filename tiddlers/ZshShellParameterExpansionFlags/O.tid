@@ -1,0 +1,97 @@
+caption: O
+created: 20250714060022138
+modified: 20250714060057605
+progress: Completed
+rating: Plain
+tags: PermanentNotes ParameterExpansionFlags
+title: ZshShellParameterExpansionFlags/O
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 功能说明:
+
+`O` flag用于对参数扩展的结果进行降序排序。当单独使用时（不与 `a`、`i`、`n` 或 `-` 组合），执行反向词典序排序。当与 `a`、`i`、`n` 或 `-` 组合使用时，会反转这些排序方式的顺序。
+
+!! 实际应用举例:
+
+!!! 基础反向词典序排序:
+```bash
+# 创建测试数组
+files=(zebra apple Banana cherry)
+
+# 使用 O flag 进行降序排序
+echo ${(O)files}
+# 输出: zebra cherry Banana apple
+```
+
+!!! 与数字排序结合:
+```bash
+# 数字数组
+numbers=(10 2 100 3 1)
+
+# 反向词典序排序
+echo ${(O)numbers}
+# 输出: 3 2 100 10 1
+
+# 数字降序排序
+echo ${(On)numbers}
+# 输出: 100 10 3 2 1
+```
+
+!!! 与大小写不敏感排序结合:
+```bash
+# 混合大小写数组
+mixed=(Apple banana Cherry apple)
+
+# 不区分大小写的降序排序
+echo ${(Oi)mixed}
+# 输出: Cherry banana Apple apple
+```
+
+!!! 与数组索引排序结合:
+```bash
+# 关联数组
+declare -A scores
+scores[alice]=95
+scores[bob]=87
+scores[charlie]=92
+
+# 按键名降序排序
+echo ${(Ok)scores}
+# 按值降序排序
+echo ${(Ov)scores}
+```
+
+!!! 实际使用场景:
+```bash
+# 按文件名反向排序
+files=(file1.txt file2.txt file3.txt)
+echo ${(O)files}
+# 按文件名反向词典序排序
+
+# 处理日志文件，按时间戳降序
+logs=(2023-01-01.log 2023-01-02.log 2023-01-03.log)
+echo ${(O)logs}
+# 输出: 2023-01-03.log 2023-01-02.log 2023-01-01.log
+
+# 配置选项按优先级降序
+priorities=(high medium low critical)
+echo ${(O)priorities}
+# 输出: medium low high critical
+```
+
+!!! 与去重结合:
+```bash
+# 去重并降序排序
+items=(banana apple banana cherry apple)
+echo ${(Ou)items}
+# 输出: cherry banana apple
+```
+
+!! 注意事项:
+
+* 单独使用 `O` 时执行区分大小写的反向词典序排序
+* 与 `a`、`i`、`n`、`-` 组合时，反转对应排序方式的顺序
+* 排序结果受系统locale设置影响
+* 可以与 `u`（去重）、`j`（连接）等其他flag组合使用
+* `O` 与 `o` 的区别在于排序方向：`O` 为降序，`o` 为升序
