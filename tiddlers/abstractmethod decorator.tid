@@ -1,0 +1,110 @@
+cover: 20250530120430238.jpg
+created: 20250607095005237
+description: Python 抽象基类 (`ABC`) 与 `@abstractmethod` 正确用法总结
+modified: 20250615180444546
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: function decorator
+tags: PermanentNotes Python
+title: abstractmethod decorator
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 1️⃣ 正确导入抽象基类相关组件
+
+要使用抽象类相关功能，必须从 Python 的标准模块 `abc` 中导入两个关键元素：
+
+```python
+from abc import ABC, abstractmethod
+```
+
+* `ABC`：抽象基类的基类，用于启用抽象机制（由 `ABCMeta` 元类支持）
+* `@abstractmethod`：用于将方法标记为“抽象”，即要求子类必须实现
+
+!! 2️⃣ 声明抽象类必须继承自 `ABC`
+
+若要定义一个抽象基类，必须显式继承 `ABC`，否则其中的抽象方法不会生效：
+
+```python
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass
+```
+
+只有继承自 `ABC` 的类，才能让 `@abstractmethod` 起到强制实现的效果。
+
+!! 3️⃣ 未继承 `ABC` 的类中使用 `@abstractmethod` 无效
+
+如果类没有继承自 `ABC`，即使使用了 `@abstractmethod` 装饰器，也不会生效：
+
+```python
+class Dummy:
+    @abstractmethod  # ❌ 无效
+    def foo(self):
+        pass
+```
+
+上述例子中，`foo()` 不会被视为抽象方法，子类也不需要实现它，即可被实例化。
+
+!! 4️⃣ `@abstractmethod` 用于定义必须由子类实现的接口方法
+
+抽象方法的核心作用是：定义接口契约，强制子类实现这些方法。它不会提供完整的功能实现，但可以有默认逻辑（虽然通常应保留为空）。
+
+```python
+class Animal(ABC):
+    @abstractmethod
+    def speak(self):
+        pass
+```
+
+此时，任何继承 `Animal` 的类，若未实现 `speak()` 方法，将无法被实例化。
+
+!! 5️⃣ 抽象方法的实现要求是“最终类”必须实现，不是“直接子类”
+
+只要某个类的继承链中存在未实现的抽象方法，该类仍然是抽象类，不能实例化。
+只有在整个继承链中，所有抽象方法都被实现后，最底层类才能被实例化。
+
+```python
+class A(ABC):
+    @abstractmethod
+    def foo(self): pass
+
+class B(A):  # 仍是抽象类
+    pass
+
+class C(B):
+    def foo(self):
+        print("implemented")  # ✅ 完成实现 → 可实例化
+
+c = C()  # ✅ OK
+b = B()  # ❌ TypeError: Can't instantiate abstract class
+```
+
+总结：
+
+* “直接子类”不一定必须实现抽象方法
+* 最终被实例化的类必须实现所有抽象方法
+
+!! ✅ 可选补充知识点
+
+!!! 🔹 抽象属性与类方法
+
+```python
+class Person(ABC):
+    @property
+    @abstractmethod
+    def name(self): pass
+
+class Tool(ABC):
+    @classmethod
+    @abstractmethod
+    def create(cls): pass
+```
+
+!!! 🔹 检查类是否仍是抽象类
+
+```python
+print(SomeClass.__abstractmethods__)  # 查看未实现的抽象方法集合
+```

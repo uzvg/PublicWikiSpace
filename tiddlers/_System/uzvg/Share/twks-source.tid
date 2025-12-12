@@ -1,0 +1,15 @@
+code-body: yes
+created: 20250502001515402
+modified: 20250516133759034
+tags: $:/tags/Global $:/twks/Procedures
+title: $:/uzvg/Share/twks-source
+type: text/vnd.tiddlywiki
+
+\procedure twks-source()
+\whitespace trim
+\function get-source() [<storyTiddler>get[source]]
+\function get-source-caption() [<get-source>get[caption]!is[blank]else<get-source>]
+<$link to=<<get-source>>>
+	<<get-source-caption>>
+</$link>
+\end

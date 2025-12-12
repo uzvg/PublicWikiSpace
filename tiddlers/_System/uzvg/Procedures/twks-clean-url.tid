@@ -1,0 +1,10 @@
+code-body: yes
+created: 20250331065128464
+modified: 20250512020338639
+tags: $:/tags/Global $:/twks/Procedures
+title: $:/uzvg/Procedures/twks-clean-url
+type: text/vnd.tiddlywiki
+
+\function twks-clean-url(text)
+	[<text>] :cascade[all[tiddlers]tag[$:/tags/CleanUrl/rules]!is[draft]get[text]]
+\end

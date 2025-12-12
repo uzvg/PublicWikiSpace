@@ -1,0 +1,152 @@
+authors: geeksforgeeks
+caption: list
+created: 20250607121927540
+description: Python 中 `list`（列表）类型的系统性总结，包括创建方法、常用操作、迭代、切片等内容
+medium: Website
+modified: 20250722041702261
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: Data Structures(1749297971045)
+tags: LiteratureNotes Python
+title: list(1749298767540)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+!! 一、什么是 List（列表）
+
+* 列表是 可变、有序 的元素集合。
+* 使用 `[]` 来表示，可以包含 任意类型的数据（数字、字符串、对象、甚至其他列表）。
+
+```python
+my_list = [1, "hello", 3.14, [5, 6]]
+```
+
+!! 二、如何通过可迭代对象创建 List
+
+!!! 使用 `list()` 函数将可迭代对象转换为列表
+
+|tc-max-width|k
+|!可迭代对象   |!示例                                      |
+|字符串     |`list("abc") → ['a', 'b', 'c']`         |
+|元组      |`list((1, 2, 3)) → [1, 2, 3]`           |
+|range对象 |`list(range(5)) → [0, 1, 2, 3, 4]`      |
+|集合      |`list({1, 2, 3}) → [1, 2, 3]`（顺序不定）     |
+|生成器     |`list(x for x in range(3)) → [0, 1, 2]` |
+
+```python
+s = "hello"
+chars = list(s)  # ['h', 'e', 'l', 'l', 'o']
+
+nums = list(range(5))  # [0, 1, 2, 3, 4]
+```
+
+!! 三、List 的常用操作方法
+
+|tc-max-width|k
+|!方法|!功能|
+|`append(x)`           |在尾部添加元素              |
+|`insert(i, x)`        |在指定位置插入元素            |
+|`extend(iterable)`    |将另一个可迭代对象的元素添加进来     |
+|`remove(x)`           |删除第一个值为 x 的元素        |
+|`pop([i])`            |移除并返回第 i 个元素（默认最后一个） |
+|`del list[i]`         |删除第 i 个元素            |
+|`clear()`             |清空列表                 |
+|`sort()` / `sorted()` |排序列表（默认升序）           |
+|`reverse()`           |原地翻转列表               |
+|`index(x)`            |返回 x 第一次出现的索引        |
+|`count(x)`            |统计 x 出现的次数           |
+
+!!! 示例：
+
+```python
+lst = [1, 2, 3]
+lst.append(4)          # [1, 2, 3, 4]
+lst.insert(1, 100)     # [1, 100, 2, 3, 4]
+lst.extend([5, 6])     # [1, 100, 2, 3, 4, 5, 6]
+lst.remove(100)        # [1, 2, 3, 4, 5, 6]
+x = lst.pop()          # x = 6, lst = [1, 2, 3, 4, 5]
+del lst[1]             # [1, 3, 4, 5]
+lst.clear()            # []
+```
+
+!! 🔁 四、如何迭代 List 中的元素
+
+!!! 1. 普通 for 循环
+
+```python
+for item in my_list:
+    print(item)
+```
+
+!!! 2. 使用 `enumerate()` 获取索引和值
+
+```python
+for index, value in enumerate(my_list):
+    print(f"{index}: {value}")
+```
+
+!!! 3. 使用 `while` 循环遍历
+
+```python
+i = 0
+while i < len(my_list):
+    print(my_list[i])
+    i += 1
+```
+
+!! ✂️ 五、List 的切片操作（Slicing）
+
+与字符串类似，语法：`list[start:stop:step]`
+
+* `start`：起始索引（默认 0）
+* `stop`：结束索引（不包括）
+* `step`：步长（可以为负）
+
+```python
+lst = [0, 1, 2, 3, 4, 5]
+
+print(lst[1:4])     # [1, 2, 3]
+print(lst[:3])      # [0, 1, 2]
+print(lst[::2])     # [0, 2, 4]
+print(lst[::-1])    # [5, 4, 3, 2, 1, 0]（倒序）
+```
+
+!!! 切片赋值与删除
+
+```python
+lst[1:3] = [10, 20]   # 替换切片部分
+del lst[::2]          # 删除偶数索引元素
+```
+
+!! 🔍 六、其他常用技巧
+
+!!! 判断元素是否存在
+
+```python
+if x in my_list:
+    ...
+```
+
+!!! 列表推导式（List Comprehension）
+
+```python
+squares = [x ** 2 for x in range(5)]  # [0, 1, 4, 9, 16]
+```
+
+!!! 嵌套列表迭代（二维列表）
+
+```python
+matrix = [[1, 2], [3, 4]]
+for row in matrix:
+    for item in row:
+        print(item)
+```
+
+!! 📌 七、小贴士
+
+* `append` 是加一个元素，`extend` 是加一堆元素（可迭代对象）。
+* `remove` 删除的是“值”，`del` 和 `pop` 删除的是“位置”。
+* 列表是可变类型，赋值操作是引用，不是复制！
