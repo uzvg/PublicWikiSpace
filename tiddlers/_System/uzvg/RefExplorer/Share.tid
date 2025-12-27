@@ -1,0 +1,133 @@
+code-body: yes
+created: 20251221021738634
+modified: 20251224074850276
+title: $:/uzvg/RefExplorer/Share
+type: text/vnd.tiddlywiki
+
+<!-- 获得与<storyTiddler>相关的所有tiddler -->
+
+\function get-meta-notes()
+	[[LiteratureNotes]]
+	[[PermanentNotes]]
+	[[IndexNotes]]
+	[[ProjectNotes]]
+	[[FleetingNotes]]
+	[[Books]]
+	[[Source]]
+	[[PAO]]
+	[[Journal]]
+	[[Goal(目标)]]
+\end
+
+\function get-all-related-notes()
+	[<storyTiddler>links[]]
+	[<storyTiddler>backlinks[]]
+	[<storyTiddler>tags[]]
+	[<storyTiddler>tagging[]]
+	[all[tiddlers]source<storyTiddler>]
+	[<storyTiddler>has[source]get[source]]
+	[all[tiddlers]source<storyTiddler>]
+	[<storyTiddler>get[authors]enlist-input[]]
+	[all[tiddlers]contains:authors<storyTiddler>]
+	-[function[get-meta-notes]]
+	-[<storyTiddler>]
+	+[!is[draft]!is[missing]!is[draft]]
+\end
+
+\function get-note-relation()
+	[<item>]
+	-[<currentTiddler>tagging[]] +[else[Tagged]]
+	-[<currentTiddler>tags[]] +[else[Tagging]]
+	-[<currentTiddler>links[]] +[else[Link]]
+	-[<currentTiddler>backlinks[]] +[else[Backlink]]
+	-[<currentTiddler>is[system]] +[else[System]]
+	-[<currentTiddler>get[authors]enlist-input[]] +[else[Author]]
+	-[<currentRecord>contains:authors<currentTiddler>] +[else[Work]]
+	-[<currentTiddler>has[source]get[source]] +[else[Source]]
+	-[<currentRecord>contains:source<currentTiddler>] +[else[Derivative]]
+	-[<currentRecord>] +[else[Others]]
+\end
+
+<!-- 在每个tab页面显示的RefExplorer Table -->
+\procedure twks-refexp-table()
+\function get-refexp-caption() [<currentTab>get[description]]
+\function get-refexp-filter() [<currentTab>get[condition]]
+\function get-item-description() [<item>get[description]]
+\function get-relative-modified() [<item>get[modified]format:relativedate[]]
+<table class="refexplorer-table">
+	<caption class="refexplorer-table-caption">
+		<<get-refexp-caption>>
+	</caption>
+	<tr>
+		<th>Title</th>
+		<th>Relation</th>
+		<th>Tags</th>
+		<th style="width: 8em;">Modified</th>
+	</tr>
+	<$list filter=<<get-refexp-filter>> variable="item">
+		<tr>
+			<td>
+				<$link to=<<item>> tooltip=<<get-item-description>>/>
+			</td>
+			<td>
+				<<get-note-relation>>
+			</td>
+			<td>
+				<$list filter="[<item>tags[]]" variable="currentTag">
+					<$transclude $variable="tag-pill" tag=<<currentTag>>/>&#32;
+				</$list>
+			</td>
+			<td>
+				<<get-relative-modified>>
+			</td>
+		</tr>
+	</$list>
+</table>
+\end
+
+\procedure twks-ref-explorer()
+\function get-ref-tiddlers() [tag[$:/tags/ReferenceExplorerTab]!is[draft]]
+\function get-ref-condition() [<currentTiddler>get[condition]]
+\function get-ref-tabs() [function[get-ref-tiddlers]] :filter[subfilter<get-ref-condition>]
+\function get-default-tab() [<get-ref-tabs>first[]]
+\function get-ref-class() [<get-default-tab>is[blank]then[disable]]
+	<$transclude $variable="tabs"
+		tabsList="[function[get-ref-tabs]]"
+		default=<<get-default-tab>>
+		class=<<get-ref-class>>/>
+\end
+
+
+<!--
+SIB 2024/06/01:
+* Removing tooltip feature as we now have full popup previews.
+	```
+	thisTooltip={{{ [all[current]get[description]!is[blank]] ~[all[current]get[text]split[ ]first[100]join[ ]addsuffix[...]] }}}>
+	```
+
+UZVG 2024/10/21:
+* Add tooltip feature cause popup preview is useless for me.
+* Using function to get link-type, remove LinkTypeTemplate.
+* Using procedure to define refexplorer.
+
+UZVG 2025/03/25:
+* Using function <get-all-related-notes> to get all related notes.
+* Using function <get-note-relation> to get the relationship between the currentTiddler and the currentRecord.
+
+UZVG 2025/12/24：
+* 重新整理了相关的procedure跟function
+* 尤其是<<get-valid-tabs>>函数，使用function完成
+* 代码更简洁，更整齐，语义性更好
+
+👉 The Older version of ref-explorer (⚠️ Deprecated)
+\procedure ref-explorer()
+<$let
+	tabList="[tag[$:/tags/ReferenceExplorerTab]!is[draft]] :filter[subfilter{!!condition}]"
+	myDefaultTab={{{ [subfilter<tabList>first[]] }}} >
+	<% if [subfilter<tabList>!is[blank]] %>
+		<<clarify>>
+		<$macrocall $name="tabs" tabsList=<<tabList>> default=<<myDefaultTab>> />
+	<% endif %>
+</$let>
+\end
+------------- -->

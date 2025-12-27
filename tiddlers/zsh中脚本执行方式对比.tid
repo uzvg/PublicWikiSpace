@@ -1,0 +1,111 @@
+created: 20241224071116406
+creator: uzvg
+description: zsh中的五种不同脚本的启动方式，不同启动方式，会导致zsh实例加载不同的配置文件，进而影响到脚本的运行环境。
+modified: 20250615011558825
+modifier: uzvg
+progress: Completed
+rating: Valuable
+tags: zsh PermanentNotes
+title: zsh中脚本执行方式对比
+type: text/vnd.tiddlywiki
+visibility: Public
+
+zsh中五种不同的脚本执行方式及其主要区别：
+
+|tc-max-width|k
+| !执行方式 | !特点 |
+|`./script.zsh` |<li>在新的子 shell 中以`non-login Shell`方式执行</li><li>不会影响当前 shell 的环境</li><li>''需要执行权限''</li><li>''不会''加载`.zlogin`、`.zprofile`、`.zlogout`等配置文件。</li> |
+|`source script.zsh`或`. script.zsh` |<li>在当前 shell 中执行</li><li>会影响当前 shell 的环境</li><li>''不需要''执行权限</li><li>''继承''当前 shell 的所有环境和配置</li> |
+|`zsh script.zsh` |<li>在新的''子shell''中以`non-login Shell`的方式执行</li><li>''不会影响''当前shell的环境</li><li>''不需要''执行权限</li><li>''不会''加载`.zlogin`、`.zprofile`、`.zlogout`等配置文件。</li> |
+|`zsh -l script.zsh` |<li>在新的''子shell''中以`login shell`的方式执行</li><li>''不会影响''当前shell的环境</li><li>''不需要''执行权限</li><li>''会''加载`.zlogin`、`.zprofile`、`.zlogout`等配置文件。</li> |
+|`zsh -f script.zsh` |<li>在新的''子shell''中不加载任何配置文件执行脚本</li><li>''不会影响''当前shell的环境</li><li>''不需要''执行权限</li><li>只加载 `/etc/zshenv`文件</li> |
+
+<<twks-tip """
+`zsh -f` 命令用于启动 Zsh（Z Shell）而不加载任何配置文件。这意味着在使用 `-f` 选项时，Zsh 将不会读取除了`/etc/zshenv`文件以外的任何文件，但是，父Shell的环境变量，''仍然会被继承''，具体请看[[zsh -f启动的子Shell的特点]]。">>
+
+```zsh
+MYVAR="hello"
+zsh -f -c 'echo $MYVAR'
+```
+
+""">>
+
+<<twks-caution """
+需要注意的是，zsh中不同的脚本执行方式会影响到脚本执行前zsh读取的文件，进而影响到zsh脚本运行的环境。
+""">>
+
+!! 执行方式对脚本运行环境的影响：
+
+为了测试脚本执行方式对脚本运行环境的影响，我们可以做如下测试：
+
+1. 在`.zlogin`文件中定义变量：
+
+```
+name="Henry"
+```
+
+2. 创建一个脚本文件`test-environment.zsh`，内容如下：
+
+```zsh
+print "Your name is $name".
+```
+
+3. 为该命令添加执行权限：
+
+```zsh
+chmod +x test-environment.zsh
+```
+
+3. 分别以如下不同的环境做测试：
+
+; 在non-login shell中：
+
+| !执行方式 | !执行结果 | !备注 |
+|`source test-environment.zsh` |Your name is .||
+|`. ./test-environment.zsh` |Your name is .||
+|`zsh test-environment.zsh` |Your name is .||
+|`zsh -l test-environment.zsh` |Your name is Henry.|`zsh -l`会以login Shell的方式执行脚本，所以会读取`.zlogin`文件，能获得变量的值。|
+|`zsh -f test-environment.zsh` |Your name is .|`zsh -f`只加载`/etc/zshenv`文件，不加载`~/.zlogin`文件，所以不能获得变量的值。|
+
+; 在login shell中：
+
+| !执行方式 | !执行结果 | !备注 |
+|`source test-environment.zsh` |Your name is Henry .|因为是当前Shell本身就是`login shell`，使用source执行脚本，会在当前Shell中执行，所以能获得变量的值。|
+|`. ./test-environment.zsh` |Your name is Henry.|跟source执行脚本的结果一样。|
+|`zsh test-environment.zsh` |Your name is .|在子Shell中执行脚本，子Shell是一个`non-login`Shell，所以无法获得变量的值。|
+|`zsh -l test-environment.zsh` |Your name is Henry.|`zsh -l`会以login Shell的方式执行脚本，所以会读取`.zlogin`文件，能获得变量的值。|
+|`zsh -f test-environment.zsh` |Your name is .|`zsh -f`只加载`/etc/zshenv`文件，不加载`~/.zlogin`文件，所以不能获得变量的值。|
+
+<<rememberq "20241225021427604"
+	"使用`source <script>`的方式执行脚本，会影响当前Shell运行环境吗？"
+	"会。使用`source`执行脚本，一方面会继承当前Shell的运行环境，一方面会修改当前Shell的运行环境。">>
+
+<<rememberq "20241225021658709"
+	"使用`source`执行脚本文件，脚本文件需要执行权限吗？"
+	"不需要。">>
+
+<<rememberq "20241225021732903"
+	"`source <script>`跟`. <path/to/script>`有什么不同吗？"
+	"两者的执行效果是一样的。">>
+
+<<rememberq "20241225021822569"
+	"`. <path/to/script>`跟`./<path/to/script>`有什么不同吗？"
+	"前者相当于使用`source`命令执行脚本，会继承并修改当前Shell运行环境；后者是在子Shell中以`non-login`的方式执行脚本。不会影响当前Shell运行环境。">>
+
+<<rememberq "20241225023211302"
+	"`./<path/to/script>`以`non-login`的方式执行脚本，它会不会继承父Shell的运行环境？"
+	"在Shell中，子Shell会继承父Shell的环境变量，但并非所有变量。">>
+
+<<twks-tip "详细情况，请看👉[[子Shell会继承父Shell的环境变量]]。">>
+
+<<rememberq "20241225023726842"
+	"使用`zsh <script>`命令跟`./<script>命令有什么不同吗？`"
+	"前者脚本文件不需要执行权限；后者需要执行权限。">>
+
+<<rememberq "20241225025057231"
+	"`zsh -l <script>`执行脚本的特点是什么？"
+	"以`login Shell`的方式登录脚本，会读取`.zprofile`，`.zlogin`文件。">>
+
+<<rememberq "20241225025255945"
+	"使用`zsh -f`命令脚本文件的特点是什么？"
+	"只读取`/etc/zshenv`文件，不会读取其他文件。">>

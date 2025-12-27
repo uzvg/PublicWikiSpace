@@ -1,0 +1,42 @@
+code-body: yes
+created: 20251225015008406
+modified: 20251225030734880
+status: 1
+title: $:/uzvg/twks-frog/share/twks-frog-status-box
+type: text/vnd.tiddlywiki
+
+<!-- twks-frog-status-box 使用说明:
+* 使用前先定义两个变量👉tiddler, field
+* tiddler用于指定需要修改的tiddler
+* field用于指定需要对应的字段
+-->
+
+\procedure twks-frog-status-box()
+\function get-goal-status() [<tiddler>get[status]]
+\function get-status-icon()
+	[<get-goal-status>match[0]]
+	:then[[$:/core/images/timestamp-off]]
+	:else[[$:/core/images/timestamp-on]]
+\end get-status-icon
+
+\function get-status-class()
+	[<get-goal-status>match[1]]
+	:then[[twks-frog-goal-status-on]]
+	:else[[twks-frog-goal-status-off]]
+\end get-status-class
+
+<$checkbox tiddler=<<tiddler>>
+	field=<<field>>
+	checked="1"
+	unchecked="0"
+	default="0"
+	class=<<get-status-class>>>
+		<$transclude $tiddler=<<get-status-icon>> size="1.25em"/>
+</$checkbox>
+\end
+
+<!-- For Testing
+<$vars tiddler=<<currentTiddler>> field="status">
+	<$transclude $variable="twks-frog-status-box" tiddler=<<currentTiddler>>/>
+</$vars>
+-->

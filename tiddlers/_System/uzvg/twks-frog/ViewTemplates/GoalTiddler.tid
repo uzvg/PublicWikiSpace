@@ -1,0 +1,9 @@
+code-body: yes
+created: 20251224044822267
+modified: 20251224075245696
+title: $:/uzvg/twks-frog/ViewTemplates/GoalTiddler
+type: text/vnd.tiddlywiki
+
+\procedure twks-frog-goalTiddler-table()
+	
+\end

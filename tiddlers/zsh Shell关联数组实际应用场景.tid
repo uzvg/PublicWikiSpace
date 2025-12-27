@@ -1,0 +1,188 @@
+created: 20250701162332539
+description: zsh Shell关联数组实际应用场景
+modified: 20250701162706474
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: zsh Shell关联数组
+tags: PermanentNotes zsh
+title: zsh Shell关联数组实际应用场景
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 1. 配置文件管理：
+
+```bash
+# 读取配置文件的函数
+load_config() {
+    local config_file="$1"
+    typeset -gA app_config
+
+    while IFS='=' read -r key value; do
+        # 跳过注释和空行
+        [[ $key =~ ^[[:space:]]*# ]] && continue
+        [[ -z $key ]] && continue
+
+        # 去除首尾空格
+        key=${key// /}
+        value=${value// /}
+        app_config[$key]=$value
+    done < "$config_file"
+}
+
+# 使用示例
+# load_config "app.conf"
+# echo "数据库主机: ${app_config[db_host]}"
+```
+
+!! 2. 缓存系统：
+
+```bash
+typeset -A cache
+typeset -A cache_timestamp
+
+# 缓存设置函数
+cache_set() {
+    local key="$1"
+    local value="$2"
+    local ttl="${3:-3600}"  # 默认1小时过期
+
+    cache[$key]="$value"
+    cache_timestamp[$key]=$(($(date +%s) + ttl))
+}
+
+# 缓存获取函数
+cache_get() {
+    local key="$1"
+    local current_time=$(date +%s)
+
+    # 检查键是否存在
+    if (( ${+cache[$key]} )); then
+        # 检查是否过期
+        if (( current_time < cache_timestamp[$key] )); then
+            echo "${cache[$key]}"
+            return 0
+        else
+            # 清除过期缓存
+            unset "cache[$key]"
+            unset "cache_timestamp[$key]"
+        fi
+    fi
+    return 1
+}
+
+# 使用示例
+cache_set "user:123" "John Doe" 1800
+if cached_value=$(cache_get "user:123"); then
+    echo "缓存命中: $cached_value"
+else
+    echo "缓存未命中或已过期"
+fi
+```
+
+!! 3. 计数器和统计：
+
+```bash
+# 统计文件扩展名
+typeset -A file_stats
+files=(*.txt *.pdf *.jpg *.png *.doc *.txt *.pdf)
+
+for file in ${files[@]}; do
+    if [[ $file == *"."* ]]; then
+        ext=${file:e}
+        (( file_stats[$ext]++ ))
+    fi
+done
+
+echo "文件类型统计:"
+for ext in ${(ko)file_stats[@]}; do
+    echo "$ext: ${file_stats[$ext]} 个文件"
+done
+```
+
+!! 4. 数据索引和查找：
+
+```bash
+# 创建用户数据库
+typeset -A users_by_id
+typeset -A users_by_email
+
+# 添加用户函数
+add_user() {
+    local id="$1"
+    local name="$2"
+    local email="$3"
+    local department="$4"
+
+    local user_data="$name|$email|$department"
+    users_by_id[$id]="$user_data"
+    users_by_email[$email]="$id"
+}
+
+# 查找用户函数
+find_user_by_id() {
+    local id="$1"
+    if (( ${+users_by_id[$id]} )); then
+        echo "${users_by_id[$id]}"
+    else
+        echo "用户不存在"
+        return 1
+    fi
+}
+
+find_user_by_email() {
+    local email="$1"
+    if (( ${+users_by_email[$email]} )); then
+        local id="${users_by_email[$email]}"
+        echo "${users_by_id[$id]}"
+    else
+        echo "用户不存在"
+        return 1
+    fi
+}
+
+# 使用示例
+add_user "001" "Alice" "alice@company.com" "Engineering"
+add_user "002" "Bob" "bob@company.com" "Marketing"
+
+user_info=$(find_user_by_email "alice@company.com")
+echo "用户信息: $user_info"
+```
+
+!! 5. 状态机实现：
+
+```bash
+typeset -A state_machine
+typeset current_state="idle"
+
+# 定义状态转换
+state_machine[idle,start]="running"
+state_machine[running,pause]="paused"
+state_machine[paused,resume]="running"
+state_machine[running,stop]="stopped"
+state_machine[paused,stop]="stopped"
+state_machine[stopped,reset]="idle"
+
+# 状态转换函数
+transition() {
+    local action="$1"
+    local key="${current_state},${action}"
+
+    if (( ${+state_machine[$key]} )); then
+        local new_state="${state_machine[$key]}"
+        echo "状态转换: $current_state -> $new_state (动作: $action)"
+        current_state="$new_state"
+        return 0
+    else
+        echo "无效的状态转换: $current_state + $action"
+        return 1
+    fi
+}
+
+# 使用示例
+echo "当前状态: $current_state"
+transition "start"    # idle -> running
+transition "pause"    # running -> paused
+transition "resume"   # paused -> running
+transition "stop"     # running -> stopped
+```

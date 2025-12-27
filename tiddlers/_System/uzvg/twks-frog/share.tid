@@ -1,0 +1,181 @@
+created: 20251223013630186
+modified: 20251225044129456
+status: 1
+title: $:/uzvg/twks-frog/share
+type: text/vnd.tiddlywiki
+
+\function storageFolder() [[$:/Storage/Frogs/]]
+\function storeTiddler() [<qualify "$:/temp/twks-frog/store">]
+
+\procedure twks-frog-status-box(tiddler)
+\function get-goal-status() [<tiddler>get[status]]
+\function get-status-icon()
+	[<get-goal-status>match[0]]
+	:then[[$:/core/images/timestamp-off]]
+	:else[[$:/core/images/timestamp-on]]
+\end get-status-icon
+
+\function get-status-class()
+	[<get-goal-status>match[0]]
+	:then[[twks-frog-]]
+	:else[[$:/core/images/timestamp-on]]
+\end get-status-class
+
+<$checkbox tiddler=<<tiddler>>
+	field="status"
+	checked="1"
+	unchecked="0"
+	default="0">
+	<$transclude $tiddler=<<get-status-icon>> size="1.25em"/>
+</$checkbox>
+\end
+
+<!-- 获得storeTiddler的相关信息 -->
+
+\function get-goal-caption() [<storeTiddler>get[caption]]
+\function get-goal-title()
+	[[🎯]]
+	[<get-goal-caption>]
+	+[join[]]
+\end
+
+\procedure duplicate-goal-warning()
+	<% if [<get-goal-title>is[tiddler]] %>
+		<<twks-warning """
+		The <$link to=<<get-goal-title>>/> tiddler has already exist, Considering rename your goal.
+		""">>
+	<% endif %>
+\end
+
+\procedure twks-frog-goal-progress()
+\function get-total-count() [parent<currentTiddler>count[]]
+\function get-done-count() [parent<currentTiddler>status[done]count[]]
+	<$transclude $variable="twks-progress-bar"
+		width="6em"
+		max=<<get-total-count>>
+		vlaue=<<get-done-count>>/>
+\end
+
+\procedure twks-frog-goal-table()
+\function get-new-goal-no() [tag[Goal(目标)]count[]add[1]]
+\procedure save-goal-actions()
+<% if [<get-goal-title>!is[tiddler]] %>
+	<$action-setfield $tiddler=<<storeTiddler>>
+		tags="Goal(目标)"/>
+	<$action-sendmessage $message="tm-rename-tiddler"
+		from=<<storeTiddler>>
+		to=<<get-goal-title>>/>
+<% endif %>
+\end save-goal-actions
+
+\procedure clear-storeTidder-btn()
+	<$button message="tm-delete-tiddler"
+		param=<<storeTiddler>>
+		class="tc-btn-invisible">
+		{{$:/core/images/erase}}
+	</$button>
+\end clear-storeTidder-btn
+
+\procedure delete-goal-btn()
+	<$button message="tm-delete-tiddler"
+		param=<<currentTiddler>>
+		class="tc-btn-invisible">
+		{{$:/core/images/delete-button}}
+	</$button>
+\end delete-goal-btn
+
+<$scrollable class="twks-frog-goal-container">
+<table class="tc-max-width twks-input-hide-border twks-frog-goal-table">
+	<tr>
+		<th>No</th>
+		<th>Goal</th>
+		<th>Progress</th>
+		<th>Status</th>
+		<th>Value</th>
+		<th>Deadline</th>
+		<th>Edit</th>
+	</tr>
+	<$list filter="[tag[Goal(目标)]!is[draft]!sort[value]]" counter="counter">
+		<tr>
+			<th> <<counter>> </th>
+			<td> <$link to=<<currentTiddler>>/> </td>
+			<td> <<twks-frog-goal-progress>> </td>
+			<td>
+				<$transclude $variable="twks-frog-status-box" tiddler=<<currentTiddler>>/>
+			</td>
+			<td>
+				<$transclude $variable="twks-star-radio"
+					tiddler=<<currentTiddler>>
+					field="value"
+					count="5"/>
+			</td>
+			<td>
+				<$edit-text tiddler=<<currentTiddler>>
+					field="deadline"
+					type="date"/>
+			</td>
+			<td> <<delete-goal-btn>> </td>
+		</tr>
+	</$list>
+	<tr>
+		<td> <<get-new-goal-no>> </td>
+		<td colspan="2">
+			<$keyboard key="((input-accept))" actions=<<save-goal-actions>>>
+			<$edit-text tiddler=<<storeTiddler>>
+				field="caption"
+				tag="input"/>
+			</$keyboard>
+		</td>
+		<td>
+			<$transclude $variable="twks-frog-status-box" tiddler=<<storeTiddler>>/>
+		</td>
+		<td>
+			<$transclude $variable="twks-star-radio"
+				tiddler=<<storeTiddler>>
+				field="value"
+				count="5"/>
+		</td>
+		<td>
+			<$edit-text tiddler=<<storeTiddler>>
+				field="deadline"
+				type="date"/>
+		</td>
+		<td> <<clear-storeTidder-btn>> </td>
+	</tr>
+</table>
+</$scrollable>
+<<duplicate-goal-warning>>
+\end
+
+<<twks-frog-goal-table>>
+
+<style>
+<!-- 将除了第二列以外的所有列，设置为最小宽度，文本居中 -->
+.twks-frog-goal-table th:not(:nth-child(2)),
+.twks-frog-goal-table td:not(:nth-child(2)) {
+	white-space: nowrap;
+  width: 1%;
+	text-align: center;
+}
+
+.twks-frog-goal-table input[type="checkbox"] {
+	display: none;
+}
+
+.twks-frog-goal-table td:nth-child(3) span:hover {
+	cursor: pointer;
+}
+
+.twks-frog-goal-table input[type="text"] {
+	width: -webkit-fill-available;
+	max-height: fit-content;
+}
+
+
+.twks-frog-goal-container {
+	width: 100%;
+	position: relative;
+}
+
+
+</style>

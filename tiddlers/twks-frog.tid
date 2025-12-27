@@ -1,0 +1,20 @@
+created: 20251222142324424
+modified: 20251223015846305
+tags: ProjectNotes TWKS
+title: twks-frog
+type: text/vnd.tiddlywiki
+
+!! Requirements:
+
+* 从目标➡计划➡任务
+* goal➡plan➡task
+
+goalTiddler ➡ planTiddler ➡ taskTiddler
+
+* goalTiddler: status progress schedule
+* taskTiddler: progress priority schedule friction duration
+
+!! Files list:
+
+* [[$:/uzvg/twks-frog/share]]
+

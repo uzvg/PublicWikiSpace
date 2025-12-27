@@ -1,0 +1,11 @@
+created: 20251213093034307
+modified: 20251220093805694
+tags: $:/tags/ViewTemplate
+title: $:/uzvg/HabitTracker/ViewTemplates/twks-habit-tracker
+type: text/vnd.tiddlywiki
+
+\import [prefix[$:/uzvg/HabitTracker/Share/twks-habit-tracker]]
+
+<$list filter="[all[current]tag[Journal]]">
+	<<twks-habit-tracker>>
+</$list>

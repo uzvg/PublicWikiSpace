@@ -1,0 +1,35 @@
+code-body: yes
+created: 20251224144404071
+modified: 20251225025635939
+title: $:/uzvg/twks-frog/share/twks-frog-goal-table
+type: text/vnd.tiddlywiki
+
+<!--
+* Progress: 完成的task数/总的task数
+* Status: active/inactive(如果切换为inactive，则该goal对应的所有正在进行的task都将被暂停)
+* Value: 从1到5，优先完成价值高的goal
+* DeadLine: 一个大致的时间阶段，要在规定的时间段内达成目标
+-->
+
+\procedure twks-frog-goal-table()
+\function get-total-count() [parent<storyTiddler>count[]]
+\function get-done-count() [parent<storyTiddler>progress[Done]count[]]
+<table>
+	<tr>
+		<th>Progress: </th>
+		<td>
+			<$transclude $variable="twks-progress-bar"
+				value=<<get-done-count>>
+				max=<<get-total-count>>
+				width="4em"/>
+		</td>
+	</tr>
+	<tr>
+		<th>Status</th>
+		<td>
+			
+		</td>
+	</tr>
+<table>
+\end
+

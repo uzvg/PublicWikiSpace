@@ -1,0 +1,17 @@
+created: 20251217090839999
+modified: 20251217091832134
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/color.css
+type: text/vnd.tiddlywiki
+
+.red {
+	color: <<color red>>;
+}
+
+.green {
+	color: <<color green>>;
+}
+
+.yellow {
+	color: <<color yellow>>;
+}
