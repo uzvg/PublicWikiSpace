@@ -1,0 +1,11 @@
+code-body: yes
+created: 20260103102458468
+modified: 20260103102542263
+tags: $:/tags/Global
+title: $:/uzvg/Share/twks-debug-notifier
+type: text/vnd.tiddlywiki
+
+\procedure twks-debug-notifier()
+<$action-sendmessage $message="tm-notify"
+	$param="$:/uzvg/notification/debug-notification"/>
+\end

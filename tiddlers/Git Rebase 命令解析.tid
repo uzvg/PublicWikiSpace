@@ -1,0 +1,48 @@
+created: 20250223090438211
+description: git rebase命令解析，及其常见用法。
+modified: 20250620153812049
+modifier: uzvg
+progress: Completed
+rating: Valuable
+tags: Git PermanentNotes
+title: Git Rebase 命令解析
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+`git rebase`是一个变基命令，它的作用跟`git merge`类似，都用于合并分支，但不同的是，`git rebase`往往用于生成线性提交。在[[Learn Git Branching|https://learngitbranching.js.org/]]的最后一节➡''Advanced Topics''➡''1: Rebasing over 9000 times''中，有一个使用`git rebase`整合不同分支的很好的例子，增强了我对`git rebase`命令的理解，以下是我的`git rebase`的笔记。
+
+!! 什么是Git Rebase？
+
+Git Rebase 是一个 Git 命令，它允许我们帮助优化提交历史，让它更清晰、易懂。具体来说，它能将一个分支的提交“移动”到另一个分支的顶部，从而形成一个线性的提交历史。这与 Git Merge 不同：
+
+* Git Merge：会创建一个新的合并提交，保留所有分支的历史。
+* Git Rebase：会重写提交历史，使其看起来像是一条直线。
+
+!! Git rebase 命令解析：
+
+常用的`git rebase`命令其实不多，主要有两种形式，但却经常让我混淆：
+
+; 1. git rebase feature:
+* 这条命令的本质，是把当前分支变基到`feature`分支上，默认分支不用指定。
+
+; 2. git rebase main bugFix:
+* 这条命令的本质上，是把`bugFix`变基到`main`分支，想当于把`bugFix`移到`main`分支的顶部。
+
+效果等同于以下两条命令：
+
+```bash
+git checkout main
+git rebase bugFix
+```
+
+<<twks-note "值得注意的，是这条命令的参数的位置，第一个分支是rebase的目标分支，而第二个分支是要被移动的分支，即源分支。">>
+
+!! 交互式rebase：
+
+交互式rebase，如果只是从命令行操作，是一个比较麻烦的操作，可以参考👉[[命令行神器lazygit(1750399464648)]]。
+
+!! 交互式rebase的应用场景：
+
+* [[如何把新添加的修改合并到已存在的commit？]]

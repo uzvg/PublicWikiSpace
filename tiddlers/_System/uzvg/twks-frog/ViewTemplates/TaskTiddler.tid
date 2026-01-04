@@ -1,0 +1,20 @@
+created: 20251231134605316
+modified: 20260103152455115
+tags: $:/tags/ViewTemplate
+title: $:/uzvg/twks-frog/ViewTemplates/TaskTiddler
+type: text/vnd.tiddlywiki
+
+\import $:/uzvg/Share/subtree
+\import [[$:/uzvg/twks-frog/Share/tasks-table-view]]
+\import [[$:/uzvg/twks-frog/Share/focus-records-table]]
+
+<$list filter="[<storyTiddler>tag[Task]]">
+<div class="tc-tiddler-body">
+	<h2> Tasks Explorer: </h2>
+	<<tasks-table-view>>
+	<% if [<storyTiddler>has[start]] %>
+		<h2> Focus Records:	</h2>
+		<<focus-records-table>>
+	<% endif %>
+</div>
+</$list>

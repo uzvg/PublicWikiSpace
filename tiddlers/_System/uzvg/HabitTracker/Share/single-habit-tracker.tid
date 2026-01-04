@@ -1,0 +1,52 @@
+code-body: yes
+created: 20251219011422512
+modified: 20251222063541351
+title: $:/uzvg/HabitTracker/Share/single-habit-tracker
+type: text/vnd.tiddlywiki
+
+<!-- Single Habit Edit Table Share Functions -->
+
+<!-- wrong time warning(如果结束时间小于开始时间，则显示警告)👉已取消
+
+\function convert-to-minutes(time)
+	[<time>is[blank]then[0]]
+	[<time>split[:]first[]multiply[60]]
+	[<time>split[:]last[]]
+	+[sum[]]
+\end
+
+\procedure wrong-time-warning()
+\function get-start-time() [<storyTiddler>get[start]]
+\function get-end-time() [<storyTiddler>get[end]]
+\function get-start-minutes() [function[convert-to-minutes],<get-start-time>]
+\function get-end-minutes() [function[convert-to-minutes],<get-end-time>]
+
+<% if [<get-start-minutes>compare:integer:gt<get-end-minutes>] %>
+	<<twks-caution "Wrong time set up!">>
+<% endif %>
+\end
+-->
+
+\procedure edit-habit-btn()
+	<$button message="tm-edit-tiddler"
+		tiddler=<<storyTiddler>>>
+		{{$:/core/images/edit-button}}Edit
+	</$button>
+\end
+
+\procedure close-storyTiddler-actions()
+	<$action-sendmessage $message="tm-close-tiddler" $param=<<storyTiddler>>/>
+\end
+
+\procedure habitTracker-edit-table()
+<$keyboard key="((input-accept))" actions=<<close-storyTiddler-actions>>>
+
+|tc-max-width habit-edit-table twks-input-hide-border|k
+|!Behavior |<$edit-text tiddler=<<currentTiddler>> field="caption" class="twks-full-width-input"/>|
+|!Context |<$edit-text tiddler=<<currentTiddler>> field="context" class="twks-full-width-input"/>|
+|!Adjustment |<$edit-text tiddler=<<currentTiddler>> field="adjustment" class="twks-full-width-input"/>|
+|!Rating |<$transclude $variable="habit-rating-box" tiddler=<<storyTiddler>>/> |
+|!Note |<<edit-habit-btn>>|
+</$keyboard>
+
+\end

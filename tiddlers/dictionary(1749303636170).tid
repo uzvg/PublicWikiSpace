@@ -1,0 +1,183 @@
+authors: geeksforgeeks
+caption: dictionary
+created: 20250607134036170
+description: Python dict 类型的系统总结，包括格式、创建、基本操作、迭代、嵌套、以及常见注意事项
+medium: Website
+modified: 20250609011305630
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: Data Structures(1749297971045)
+tags: LiteratureNotes Python
+title: dictionary(1749303636170)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+!! ✅ 一、dictionary 的格式
+
+```python
+# 基本格式：{key1: value1, key2: value2, ...}
+person = {
+    "name": "Alice",
+    "age": 30,
+    "is_student": False
+}
+```
+
+* 每个元素是一个 key: value 对。
+* 键（key）必须是不可变类型（如字符串、数字、元组），而 值（value）可以是任意类型。
+
+!! 🧱 二、如何创建 dict？
+
+!!! 1. 使用大括号 `{}` 直接定义
+
+```python
+d = {"a": 1, "b": 2}
+```
+
+!!! 2. 使用内置函数 `dict()`
+
+```python
+d = dict(a=1, b=2)  # 键必须是合法的标识符（不能含空格或特殊字符）
+```
+
+!!! 3. 使用可迭代对象（如列表、元组）创建
+
+```python
+d = dict([("a", 1), ("b", 2)])
+```
+
+!!! 4. 使用字典推导式
+
+```python
+squares = {x: x**2 for x in range(5)}  # {0: 0, 1: 1, ..., 4: 16}
+```
+
+!!! ✅ 创建 dict 的注意事项：
+
+* 键必须唯一，否则会被后者覆盖。
+* 键必须是不可变类型（如字符串、整数、元组），不能是列表或 dict 等可变类型。
+
+!! 🧰 三、dict 的基本操作
+
+!!! 1. 访问值
+
+```python
+person["name"]     # "Alice"
+```
+
+使用 `.get()` 可以避免 KeyError：
+
+```python
+person.get("age")         # 30
+person.get("gender", "N/A")  # "N/A"（默认值）
+```
+
+!!! 2. 添加/更新键值对
+
+```python
+person["city"] = "Beijing"     # 添加
+person["age"] = 35             # 更新
+```
+
+!!! 3. 删除键值对
+
+|tc-max-width|k
+|!操作|!示例|
+|`del`       |`del person["name"]`                         |
+|`pop()`     |`person.pop("age")`                          |
+|`popitem()` |`person.popitem()`（随机弹出一组，Python 3.7+ 为最后一组） |
+|`clear()`   |`person.clear()`（清空字典）                       |
+
+!! 🔁 四、如何迭代 dict？
+
+!!! 1. 遍历键（默认方式）
+
+```python
+for key in person:
+    print(key, person[key])
+```
+
+!!! 2. 遍历 `.keys()`
+
+```python
+for key in person.keys():
+    print(key)
+```
+
+!!! 3. 遍历 `.values()`
+
+```python
+for value in person.values():
+    print(value)
+```
+
+!!! 4. 遍历 `.items()`
+
+```python
+for key, value in person.items():
+    print(f"{key} → {value}")
+```
+
+!! 🧩 五、嵌套字典操作
+
+!!! 1. 字典中的字典
+
+```python
+students = {
+    "Alice": {"age": 20, "grade": "A"},
+    "Bob": {"age": 22, "grade": "B"}
+}
+
+print(students["Alice"]["grade"])  # A
+```
+
+!!! 2. 修改嵌套值
+
+```python
+students["Bob"]["grade"] = "A+"
+```
+
+!! 📌 六、其他常用操作与技巧
+
+!!! 1. 判断键是否存在
+
+```python
+if "age" in person:
+    print("Age exists")
+```
+
+!!! 2. 合并两个字典
+
+```python
+d1 = {"a": 1}
+d2 = {"b": 2}
+d1.update(d2)      # d1 变为 {"a": 1, "b": 2}
+```
+
+!!! 3. 使用 `setdefault()` 设置默认值
+
+```python
+d = {}
+d.setdefault("name", "Unknown")  # 设置默认值（不会覆盖已有值）
+```
+
+!!! 4. 使用字典推导式（dict comprehension）
+
+```python
+# 字母对应 ASCII 码
+ascii_map = {chr(i): i for i in range(65, 70)}
+# {'A': 65, 'B': 66, ..., 'E': 69}
+```
+
+!! ⚠️ 七、注意事项总结
+
+|tc-max-width|k
+|!注意点|!说明|
+|键唯一         |后面相同键会覆盖前面的值                |
+|键类型         |必须是不可变类型（如 str, int, tuple） |
+|`.get()`    |安全访问键，推荐使用                  |
+|`.update()` |用于合并字典或更新内容                 |
+|嵌套访问        |多层嵌套时建议使用 `.get()` 加默认值防止错误 |

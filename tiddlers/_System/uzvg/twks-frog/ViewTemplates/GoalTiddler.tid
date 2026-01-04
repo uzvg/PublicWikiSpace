@@ -1,0 +1,13 @@
+code-body: yes
+created: 20251224044822267
+modified: 20260103140458591
+tags: $:/tags/ViewTemplate
+title: $:/uzvg/twks-frog/ViewTemplates/GoalTiddler
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/twks-frog/Share/tasks-table-view]]
+\import $:/uzvg/Share/subtree
+
+<$list filter="[<storyTiddler>tag[Goal]]">
+	<<tasks-table-view>>
+</$list>

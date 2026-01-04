@@ -1,0 +1,69 @@
+created: 20250222050508786
+description: git reset命令的三种模式解析
+modified: 20250620053330512
+modifier: uzvg
+progress: Completed
+rating: Valuable
+source: 一个例子理解git工作流程
+tags: PermanentNotes Git
+title: Git Reset 的三种模式
+type: text/vnd.tiddlywiki
+visibility: Public
+
+\procedure reset-soft-function()
+<<li "将`HEAD`指针移动到目标提交(移动分支引用)">>
+<<li "保留`工作目录`(Working Directory)的状态(修改)">>
+<<li "原`HEAD`跟当前`commit`之间的差异会被保留在''暂存区''中">>
+\end
+
+\procedure reset-soft-description()
+<<li 把之前的`commit`从架子上取下来(回退到之前的commit)>>
+<<li 取下来放到桌子上的盒子里(之前的`commit`提交的内容被放到暂存区)>>
+<<li 桌子上的东西保持不变（工作区的修改保持不变）>>
+\end
+
+\procedure reset-soft-example()
+<<li "提交之后，觉得提交信息写错了，想重新提交一遍，但不想丢失任何改动——就用`--soft`。">>
+\end
+
+\procedure reset-mixed-function()
+<<li "将`HEAD`指针移动到目标提交（移动分支引用）">>
+<<li "清空暂存区(暂存区中不会保存任何修改)">>
+<<li "原`HEAD`与目标提交之间的差异全部保留在工作目录中">>
+\end
+
+\procedure reset-mixed-description()
+<<li 把之前的`commit`从架子上取下来(回退到之前的commit)>>
+<<li "盒子里的内容被全都取出来，并且放到桌子上(清空暂存区)">>
+<<li "现不的所有相对目标`commit`的所有修改，被全部放在桌面上(全部保存在工作目录中)">>
+\end
+
+\procedure reset-mixed-example()
+<<li "提交后又 `add` 了别的东西，但还没 `commit`，此时发现有点混乱，想把所有改动重新整理一下再决定是否提交——用 `--mixed`">>
+\end
+
+\procedure reset-hard-function()
+<<li "将 HEAD 指针移动到目标提交（移动分支引用）">>
+<<li "同时重置暂存区和工作目录到目标提交的状态">>
+<<li "丢弃所有未提交的修改（包括暂存区和工作目录的变更），文件内容完全与目标提交一致">>
+\end
+
+\procedure reset-hard-description()
+<<li "架子上，盒子里，桌子上的commit，全部删除！">>
+\end
+
+\procedure reset-hard-example()
+<<li "你想彻底撤销最近的所有改动，回到几天前的状态——用`--hard`">>
+\end
+
+!! 引言：
+
+`git reset`有三种模式，如果只是靠死记硬背是一个比较抽象的过程，但在了解了[[git的工作流程|一个例子理解git工作流程]]后，我们可以简单地理解`git reset`的三种模式的作用跟不同。
+
+!! 模式对比：
+
+|tc-max-width|k
+| !Mode | !作用 | !形象类比 | !应用举例 |
+|`soft` |<<reset-soft-function>> |<<reset-soft-description>> |<<reset-soft-example>> |
+|`mixed` |<<reset-mixed-function>> |<<reset-mixed-description>> |<<reset-mixed-example>> |
+|`hard` |<<reset-hard-function>>|<<reset-hard-description>> |<<reset-hard-example>> |

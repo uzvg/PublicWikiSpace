@@ -1,0 +1,12 @@
+caption: Tasks
+code-body: yes
+created: 20260103154309943
+filter: [all[tiddlers]parent<storyTiddler>!is[draft]!sort[priority]]
+modified: 20260103155729409
+title: $:/uzvg/twks-frog/Tabs/Tasks
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/Share/subtree]]
+\import [[$:/uzvg/twks-frog/Share/tasks-table-view]]
+
+<<tasks-table-view>>

@@ -1,0 +1,10 @@
+caption: Goal
+code-body: yes
+created: 20260103154037046
+modified: 20260103154257104
+title: $:/uzvg/twks-frog/Tabs/Goal
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/twks-frog/Share/goals-table-view]]
+
+<<goals-table-view>>
