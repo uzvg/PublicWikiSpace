@@ -1,0 +1,16 @@
+created: 20250411051845947
+modified: 20250425051418417
+progress: Building
+rating: Plain
+tags: PermanentNotes tiddlywiki Tutorial(教程)
+title: tiddlywiki中的style样式总结
+type: text/vnd.tiddlywiki
+visibility: Public
+
+# table中的自带style跟自定义style
+# tiddler中的`class`字段
+# 使用`@@`的高亮语法
+# `<style>`标签
+# `$:/tags/Stylesheet`标签
+
+👉 [[tiddlywiki·How to apply custom styles|https://tiddlywiki.com/#How%20to%20apply%20custom%20styles]]

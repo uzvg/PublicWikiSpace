@@ -1,0 +1,25 @@
+created: 20260107151856129
+modified: 20260107152445331
+progress: Completed
+rating: Plain
+tags: PermanentNotes zsh
+title: while循环练习
+type: text/vnd.tiddlywiki
+visibility: Public
+
+```zsh
+while IFS=':' read -r user _ _ _ _ _ shell; do
+    echo "$user $shell"
+done < /etc/passwd
+```
+
+* 利用 `read` 的字段拆分
+* `_` 表示“丢弃字段”
+* `/etc/passwd` 固定 7 列
+
+```zsh
+while read -r line; do
+    fields=("${(s/:/)line}")
+    echo "${fields[1]} ${fields[-1]}"
+done < /etc/passwd
+```

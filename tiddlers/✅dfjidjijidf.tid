@@ -1,0 +1,47 @@
+caption: dfjidjijidf
+created: 20260103033222615
+modified: 20260103035801660
+start: 1767412681660
+status: WIP
+tags: 
+title: ✅dfjidjijidf
+type: text/vnd.tiddlywiki
+
+\function get-caption() [<storyTiddler>get[caption]]
+\function get-title() [<get-caption>addprefix[✅]]
+\function get-status() [<storyTiddler>get[status]]
+\function get-timestamp() [<now TIMESTAMP>]
+\function get-start-time() [<storyTiddler>get[start]]
+
+\procedure save-actions()
+	<$action-sendmessage $message="tm-rename-tiddler"
+		from=<<currentTiddler>>
+		to=<<get-title>>/>
+\end
+
+\procedure select-actions()
+	<% if [<get-status>match[WIP]] %>
+		<$action-setfield $tiddler=<<storyTiddler>>
+			start=<<get-timestamp>>/>
+	<% endif %>
+\end
+
+\procedure select-box()
+<$select tiddler=<<storyTiddler>>
+	tooltip='Choose a new site title'
+	field="status"
+	actions=<<select-actions>>>
+<option>Pending</option>
+<option>WIP</option>
+<option>Done</option>
+</$select>
+\end
+
+<$keyboard key="((input-accept))" actions=<<save-actions>>>
+	<$edit-text tiddler=<<storyTiddler>>
+		field="caption"/>
+</$keyboard>
+
+<<select-box>>
+
+''start'': <<get-start-time>>

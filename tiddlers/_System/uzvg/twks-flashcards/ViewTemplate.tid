@@ -1,0 +1,19 @@
+created: 20260108132506047
+modified: 20260111031646276
+tags: $:/tags/ViewTemplate
+title: $:/uzvg/twks-flashcards/ViewTemplate
+type: text/vnd.tiddlywiki
+
+\function get-tabs-list() [all[tiddlers]tag[$:/tags/FlashCardsType]]
+\function get-next-tab() [function[get-tabs-list]after<currentTab>else<currentTab>]
+\function get-previous-tab() [function[get-tabs-list]before<currentTab>else<currentTab>]
+
+\procedure twks-newFlashcard-container()
+<$transclude $variable="tabs"
+	tabsList="[function[get-tabs-list]]"
+	default="$:/uzvg/twks-flashcards/Cards/Q&A"/>
+\end
+
+<$list filter="[<storyTiddler>tag[PermanentNotes]] [<storyTiddler>tag[LiteratureNotes]]">
+	<<twks-newFlashcard-container>>
+</$list>

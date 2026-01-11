@@ -1,0 +1,18 @@
+authors: 阮一峰
+caption: CSS Grid 网格布局教程
+created: 20251215233505373
+description: 阮一峰老师的grid网格布局教程
+medium: Website
+modified: 20260109081628832
+progress: Pending
+rating: Valuable
+tags: LiteratureNotes
+title: CSS Grid 网格布局教程(1765841705373)
+type: text/vnd.tiddlywiki
+url: https://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html
+visibility: Public
+year: 2019-03
+
+阮一峰老师的CSS grid网格布局教程，讲得比较详细，补充了一些[[Become A Master Grid CSS In 13 Minutes(1734398742238)]]中没有涉及到的内容，尤其是grid子项对齐方面的内容。
+
+

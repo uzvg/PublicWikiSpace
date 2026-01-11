@@ -1,0 +1,69 @@
+created: 20250615101415644
+modified: 20260107180344188
+tags: 
+title: New Tiddler
+type: text/vnd.tiddlywiki
+
+\function storeTiddler() [<qualify $:/temp/test>]
+\function dataTiddler() [[$:/Storage/Flashcards/rererererdfdf]]
+\function get-all-questions() [<dataTiddler>get[text]jsonindexes[]]
+\function get-decode-question() [<item>]
+\function get-current-answer() [<dataTiddler>get[text]jsonget<item>]
+\function get-decode-answer() [<get-current-answer>]
+\function get-data-timestamp() [<dataTiddler>get[created]format:date[TIMESTAMP]]
+\function get-tdremember-id() [<get-data-timestamp>add<counter>]
+
+\procedure save-card-actions()
+\function get-card-question() [<storeTiddler>get[question]stringify[]]
+\function get-card-answer() [<storeTiddler>get[answer]stringify[]]
+
+<$action-setfield $tiddler=<<dataTiddler>>
+	$index=<<get-card-question>>
+	$value=<<get-card-answer>>/>
+
+<$action-deletetiddler $tiddler=<<storeTiddler>>/>
+\end
+
+<span>
+	<span>Question:</span>
+	<$edit-text tiddler=<<storeTiddler>>
+		field="question"
+		tag="textarea"/>
+</span>
+
+<span>
+	<span>Answer:</span>
+	<$edit-text tiddler=<<storeTiddler>>
+		field="answer"
+		tag="textarea"
+		class="twks-input-full-width"/>
+</span>
+
+<$button actions=<<save-card-actions>>>
+	Start
+</$button>
+
+* <$link to=<<storeTiddler>>/>
+* <$link to=<<dataTiddler>>/>
+
+<$list filter="[function[get-all-questions]]" variable="item" counter="counter">
+<!--
+	<$transclude $variable="rememberq"
+		id=<<get-tdremember-id>>
+		question=<<get-decode-question>>
+		answer=<<get-decode-answer>>/>
+-->
+
+</$list>
+
+
+---
+{{{ [<dataTiddler>jsonextract[]] }}}
+
+
+---
+
+{{{  [<dataTiddler>jsonextract[answer]] }}}
+
+
+{{{ [[$:/Storage/Flashcards/rererererdfdf]get[text]jsonget[fjidfjiijisdfjif\\n\\nsdfjijisdjfijidf\\n\\nsfdf]] }}}

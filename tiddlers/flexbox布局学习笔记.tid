@@ -1,0 +1,52 @@
+created: 20260109082150195
+description: flexbox布局学习笔记
+modified: 20260109165427838
+progress: Building
+rating: Personal
+tags: PermanentNotes CSS flexbox
+title: flexbox布局学习笔记
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 基础：
+
+* display:flex
+* justify👉主轴
+* align👉纵轴
+* flex-direction
+* justify-content
+* align-items
+* 一维
+* gaps
+* column-gap
+* row-gap
+
+<<remembercz "20260109165153282"
+	"flexbox是一个{一维}布局方式。">>
+
+<<rememberq "20260109165209968"
+	"flexbox的主轴方向如何控制？"
+	"由flex-direction属性控制，有row跟column两个方向。">>
+
+!! Resize
+
+* flex-shrink
+* flex-grow
+* flex-basis
+* flex: 1 1 0
+* flex-grow 与 max-width的配合
+* flex-shrink 与 min-width的配合
+* @media(max-width:575px)
+
+!! 对齐：
+
+* justify-content
+* align-items
+* align-content
+* 为什么没有justify-items
+* 为什么没有justify-self
+** 要用什么？ `margin-right: auto;`
+
+!! wrap
+
+* flow-wrap: wrap/ nowrap

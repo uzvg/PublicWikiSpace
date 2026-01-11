@@ -1,0 +1,11 @@
+code-body: yes
+created: 20260110092855909
+modified: 20260110094519273
+tags: 
+title: $:/uzvg/twks-flashcards/test
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/twks-flashcards/Share/rememberq]]
+
+<$transclude $variable="rememberq"
+	id question, answer, reference:"", sched:"", class:"", deck:"", tags:"", storeTiddler, saveActions, editActions, deleteActions, editorClass:"")

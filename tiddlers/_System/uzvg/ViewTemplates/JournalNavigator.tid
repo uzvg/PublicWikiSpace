@@ -1,0 +1,13 @@
+created: 20240909050311343
+creator: uzvg
+modified: 20260103111258595
+modifier: uzvg
+tags: $:/tags/ViewTemplate
+title: $:/uzvg/ViewTemplates/JournalNavigator
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/Share/twks-journal-navigator]]
+
+<$list filter="[all[current]tag[Journal]]">
+	<<twks-journal-navigator>>
+</$list>

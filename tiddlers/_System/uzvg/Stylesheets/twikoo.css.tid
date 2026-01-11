@@ -1,0 +1,15 @@
+created: 20250321125454418
+creator: uzvg
+modified: 20250326050810961
+modifier: uzvg
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/twikoo.css
+type: text/vnd.tiddlywiki
+
+.twks-comment-btn {
+	margin-left:auto;
+}
+
+.twks-comment-btn-box{
+	margin:0;
+}

@@ -1,0 +1,17 @@
+code-body: yes
+created: 20260103102554578
+modified: 20260103102713884
+tags: 
+title: $:/uzvg/Share/twks-isbn-link
+type: text/vnd.tiddlywiki
+
+\procedure twks-isbn-link()
+<$parameters isbn={{!!isbn}}>
+	<a href=`https://search.douban.com/book/subject_search?search_text=$(isbn)$`
+		class="tc-tiddlylink-external"
+		target="_blank"
+		rel="noopener noreferrer">
+		<<isbn>>
+	</a>
+</$parameters>
+\end

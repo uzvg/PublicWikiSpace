@@ -1,0 +1,238 @@
+authors: [[Lun Dev]]
+caption: Become A Master Grid CSS In 13 Minutes
+created: 20241217012542238
+creator: uzvg
+description: 学习grid的一个很好的视频，动画做得很直观，介绍了css中grid布局的作用以及用法。
+medium: Video
+modified: 20260108144828703
+modifier: uzvg
+progress: Completed
+rating: Valuable
+tags: LiteratureNotes CSS grid
+title: Become A Master Grid CSS In 13 Minutes(1734398742238)
+type: text/vnd.tiddlywiki
+url: https://youtu.be/xI9G0Zh5DVA
+visibility: Public
+year: 2024-06
+
+\procedure grid-template-areas-example()
+"""
+grid-template-areas:
+	"	.	.	.	2	."
+	"	.	1	.	.	."
+	"	.	.	3	.	."
+	"	.	.	.	5	."
+;
+"""
+\end
+
+<!--
+<<grid-template-areas-example>>
+-->
+
+!! Grid containers:
+
+<<rememberq "20251215021757550"
+	"如何使一个html元素使用grid布局？"
+	"display: grid">>
+
+<<rememberq "20241217031410500"
+	"grid布局如何指定列数？"
+	"grid-template-columns:100px 100px 100px 250px">>
+
+<<rememberq "20241217031512194"
+	"默想在grid布局中如何指定行数？"
+	"grid-template-rows: 100px 100px 100px 1fr">>
+
+<<rememberq "20260108101445055"
+	"grid布局中，如何成比例地分配剩余空间？"
+	"使用fr单位。">>
+
+<<rememberq "20241217031550762"
+	"grid布局中，`fr`单位指的是什么？"
+	"fraction，代表可用空间的分数单位，用于成比例地分配剩余空间。">>
+
+<<rememberq "20241217031731176"
+	"grid-template-rows: 100px 100px 100px 1fr;如何简写？"
+	"grid-template-rows: repeat(3, 100px) 1fr;">>
+
+<<rememberq "20241217031820695"
+	"在grid-template-rows中使用repeat()函数，格式是什么？"
+	"不需要。grid-template-rows: repeat(3, 100px) 1fr;">>
+
+<<rememberq "20260108101549392"
+	"repeat函数的第一个参数是什么？"
+	"重复的次数。">>
+
+<<rememberq "20260108101615939"
+	"repeat函数的第二个参数是什么？"
+	"所需要的大小，如100px。">>
+
+<<rememberq "20260108101731448"
+	"默想创建一个5*5，长宽都为100px的grid网格布局？"
+	"grid-template-rows: repeat(5 100px);grid-template-columns: repeat(5 100px);">>
+
+<<rememberq "20241217031947194"
+	"grid-template-columns: repeat(auto-fill, 250px)，该语句的作用是什么？"
+	"意思是该grid container下的子项中，每个子项的宽度都是固定的250px，没有固定的列数，列数会随着屏幕宽度的变化，自动找到合适的列数，填充显示完间。">>
+
+!! Grid items:
+
+<<rememberq "20251215022733886"
+	"如何指定grid子项(grid items)在网格布局中的位置？"
+	"通过在子项的选择器内调整grid-column和grid-row属性进行。">>
+
+<<rememberq "20260108104905594"
+	"如何指定grid item的行数？"
+	"在子项选择器中使用grid-row">>
+
+<<rememberq "20260108104935409"
+	"如何指定grid item的列数？"
+	"在grid item 选择器中使用grid-column">>
+
+<<rememberq "20251215022937985"
+	"在自定义grid-items中的行、列时，它的grid-column和grid-row是从0开始的，还是从1开始的？"
+	"1">>
+
+<<rememberq "20251215023214179"
+	"如何在grid布局中，合并grid-item所在的“表格单元”？"
+	"""也是通过grid-column和grid-row属性来指定的，赋值格式为：CurrentPosition / (CurrentPosition + TotalColumn)[想合并的列数/行数]""">>
+
+<<rememberq "20241217032719491"
+	"默想如何让item1子项占据第3、4行，1，2列的网格单元？"
+	"grid-row:3 / 5; grid-column:1 / 3;">>
+
+<<rememberq "20241217033350676"
+	"grid-row:3 / 5，指的第几行？"
+	"3，4行。">>
+
+<<rememberq "20241217033454597"
+	"grid-row属性值中的数字，代表的是什么网格的行数，还是网格线的下标？"
+	"是网格的行数。">>
+
+<<rememberq "20241217033947039"
+	"在网格容器中，当grid item相互覆盖时，处理规则是什么？"
+	"砌墙原则，后来者居上。（根据子项在网格容器中定义的先后顺序，先定义的会被后定义的覆盖。）">>
+
+<<rememberq "20241217033548777"
+	"根据砌墙原则，当网格容器中的item1跟item2发生重叠，item2比item1先定义，会发生什么？"
+	"item2会被item1覆盖。">>
+
+<<rememberq "20241217034228356"
+	"在不修改html代码结构跟顺序的前提下，如何在css中，定义子项在grid container中发生重叠时的图层顺序？"
+	"使用z-index属性。">>
+
+<<rememberq "20241217034403488"
+	"z-index属性值取什么类似的值？"
+	"取整数值。可以是正整数、0、负整数。">>
+
+<<rememberq "20241217034532382"
+	"z-index如何决定grid子项发生覆盖时的处理规则？"
+	"值越大，图层越高，越优先显示。">>
+
+!! Level up customization
+
+<<rememberq "20260108114056183"
+	"默想grid-area的两种赋值方式？"
+	"一种是数学方式，一种是使用其父容器中，grid-template-areas定义的表格赋值法。">>
+
+<<rememberq "20251215024914625"
+	"grid-area，该属性用于grid container对应的样式表中，还是用于grid item对应的样式表中？"
+	"用于grid-item，跟`grid-column`跟`grid-row`等一样。">>
+
+<<rememberq "20251215025304152"
+	"grid-area相比于grid-column跟grid-row，在指定position跟size时，有什么区别吗？"
+	"grid-area可以直接指定position跟area。">>
+
+<<rememberq "20260108113218757"
+	"grid-template-areas被定义在grid container中，还是grid item中？"
+	"容器中。">>
+
+<<rememberq "20241217034647433"
+	"grid-template-areas的作用是什么？"
+	"用于在容器中定义网格区域的名字。">>
+
+<<remembercz "20260108114324171"
+	"使用area-id的方式为grid-area赋值，只与{其父容器中定义的grid-templates-areas中定义的area名称}有对应关系，与HTML中的类名{没有}对应关系。">>
+
+<<remembercz "20260108113448900"
+	"子项所对应的class名称与grid-template-areas中的grid area名称之间{没有}对应关系。">>
+
+<<rememberq "20241217041841727"
+	"默想一下grid-area属性的数学赋值方式？"
+	"grid-area:grid-row-begin / grid-column-begin / grid-row-end / grid-column-end;">>
+
+<<rememberq "20241217042019836"
+	"当使用数学方式来为grid-area赋值时，用一个口诀来记忆grid-area的格式："
+	"先始后尾，先行后列。">>
+
+<<rememberq "20241217042423597"
+	"grid-area的行列位置从0开始还是从1开始？"
+	"1">>
+
+<<rememberq "20260108113847203"
+	"默想一下使用grid-area方式为grid item指定位置的赋值方式？"
+	"grid-area: 2 / 3 / 5 / 5;">>
+
+<<rememberq "20241217042536180"
+	"在grid-template-areas中，用什么表示未命名网格区域？"
+	"用👉`.`表示。">>
+
+<<rememberq "20260108115414884"
+	"默想一下grid-template-areas属性的赋值方式？"
+	"属性值另起一行，每一行都用双引号包围，用.表示一行/一列，用area-id取代.就表示了grid-area的位置，最后不要忘了，另起一行，添加分号;">>
+
+<<rememberq "20260108115802539"
+	"使用表格赋值法为grid-template-area赋值时，如何resize网格子项的大小？"
+	"通过在赋值表格中在对应的位置上指定多个area-id来实现。">>
+
+<<rememberq "20241217042933617"
+	"在grid-template-areas中，区域名用什么分开？"
+	"空格。">>
+
+<<rememberq "20241217043319728"
+	"在grid-item中通过grid-area属性分配area-id时，需要注意什么？"
+	"不要多个item重叠使用同一个area-id。">>
+
+<<remembercz "20260108120109451"
+	"当在子项中使用grid-column和grid-row指定的网格单元区域跟在容器中使用grid-template-areas描述的网格区域发生冲突时，会导致{网格子项的重叠}。">>
+
+!! Responsive Design:
+
+; `auto-fill`的作用跟功能：
+* 根据容器的大小，重复生成尽可能多的列或行（称为网格轨道），而不会考虑是否有足够的子项来占用这些轨道。
+* 即使没有子项填满，auto-fill 仍然保留多余的轨道，保持网格的完整性。
+* 常用于创建自适应布局，使网格自动调整列或行的数量以适配容器的宽度或高度。
+
+; `auto-fill`的语法：
+
+```html
+grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+```
+
+* `auto-fill`：自动生成尽可能多的列或行。
+* `minmax()`：为每个轨道定义一个最小值和最大值，常用于限制轨道的宽度或高度范围。
+** 如 minmax(100px, 1fr) 表示每个轨道最小宽度为 100px，最大宽度根据剩余空间分配。
+* 最终效果是：每个轨道的宽度在`100px`到`1fr`之间，但最终形成的每个轨道的宽度是相等的。
+
+<<rememberq "20260108144249930"
+	"grid-template-rows，grid-template-columns,grid-template-areas可以放在一起使用吗？"
+	"可以的，只不过是把整个网页分为了网格状，而有的area，可以占领更多的网格。">>
+
+<<rememberq "20241217044047309"
+	"默想一下auto-fill的作用是什么？"
+	"多个同样宽度的图片，可以根据显示屏的宽度，自动显示最多列。">>
+
+<<remembercz "20260108144648505"
+	"auto-fill是CSS Grid中与{repeat()}函数结合使用的一个关键值，用于{在网格布局中自动创建列或行}，以适应容器的空间。">>
+
+<<rememberq "20241217050908141"
+	"默想一下，auto-fill的赋值形式是怎样的？"
+	"`grid-template-columns: repeat(auto-fill, 250px);`。">>
+
+!! 拓展：
+
+* `auto-fit`与`auto-fill`的区别？
+* `grid-auto-flow`的作用？
+* 如何让grid container中的grid item在没有填充的情况下，也能显示grid网格线？
+* [[CSS grid布局对齐方式总结]]

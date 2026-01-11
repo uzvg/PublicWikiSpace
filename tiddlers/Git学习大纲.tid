@@ -1,0 +1,40 @@
+created: 20241222063413831
+description: Git学习大纲
+modified: 20260108093725707
+modifier: uzvg
+progress: Sketched
+rating: Informative
+tags: Git IndexNotes
+title: Git学习大纲
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Learning Material:
+
+* [[Learn Git Branching(1734857346510)]]
+
+!! Git Feartures:
+
+* [[Git Merge命令解析]]
+* [[Git Reset 的三种模式]]
+* [[Git Merge命令解析]]
+* [[Git Rebase 命令解析]]
+* [[git rebase的常见工作流程]]
+* [[交互式 Git Rebase 命令解析]]
+* [[使用交互式rebase优雅地修改历史提交]]
+* [[Git Pull 命令解析]]
+* [[git fetch 🆚 git pull]]
+* [[git revert命令详解]]
+* [[Git Cherry-pick 命令解析]]
+
+!! Git Practice:
+
+; 如何回退到指定的版本？
+: 使用`mixed reset`。
+
+; 如何在不修改其他提交的情况下，只修改特定提交？
+: 使用`amend`命令。
+
+; 如何整理本地commit历史？比如把一个commit当中的内容，移动到另一个提交中？
+
+* 如何使用分支策略合理管理自己的开发流程？➡[[简化版 Git Flow]]

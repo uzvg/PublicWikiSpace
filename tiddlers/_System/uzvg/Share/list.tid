@@ -1,0 +1,8 @@
+code-body: yes
+created: 20260107052531870
+modified: 20260107052616967
+tags: $:/tags/Global
+title: $:/uzvg/Share/list
+type: text/vnd.tiddlywiki
+
+\procedure li(_) <li><<_>></li>

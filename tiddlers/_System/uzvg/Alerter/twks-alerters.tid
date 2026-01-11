@@ -1,0 +1,62 @@
+code-body: yes
+created: 20260103114615296
+modified: 20260103114908164
+modifier: uzvg
+tags: $:/tags/Global
+title: $:/uzvg/Alerter/twks-alerters
+type: text/vnd.tiddlywiki
+
+\procedure twks-warning(text)
+\import $:/uzvg/Alerter/twks-alerter
+<$transclude
+	$variable="twks-alerter"
+	icon="$:/core/images/warning"
+	iconSize="1.5rem"
+	title="Warning:"
+	text=<<text>>
+	class="twks-alerter-warning"/>
+\end
+
+\procedure twks-caution(text)
+\import $:/uzvg/Alerter/twks-alerter
+<$transclude
+	$variable="twks-alerter"
+	icon="$:/core/images/warning"
+	iconSize="1.5rem"
+	title="Caution:"
+	text=<<text>>
+	class="twks-alerter-caution"/>
+\end
+
+\procedure twks-note(text)
+\import $:/uzvg/Alerter/twks-alerter
+<$transclude
+	$variable="twks-alerter"
+	icon="$:/core/images/info-button"
+	iconSize="1.5rem"
+	title="Note:"
+	text=<<text>>
+	class="twks-alerter-note"/>
+\end
+
+\procedure twks-tip(text)
+\import $:/uzvg/Alerter/twks-alerter
+<$transclude
+	$variable="twks-alerter"
+	icon="$:/core/images/tip"
+	iconSize="1.5rem"
+	title="Tip:"
+	text=<<text>>
+	class="twks-alerter-tip"/>
+\end
+
+\procedure twks-important(text)
+\import $:/uzvg/Alerter/twks-alerter
+<$transclude
+	$variable="twks-alerter"
+	icon="$:/core/images/info-button"
+	iconSize="1.5em"
+	title="Important:"
+	text=<<text>>
+	class="twks-alerter-important"/>
+\end

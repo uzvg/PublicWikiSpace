@@ -1,0 +1,118 @@
+caption: QA Cards
+created: 20260108133015173
+modified: 20260111031613561
+tags: $:/tags/FlashCardsType
+title: $:/uzvg/twks-flashcards/Cards/Q&A
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/twks-flashcards/Share/rememberq]]
+\import [[$:/uzvg/twks-flashcards/Share/get-store-info]]
+
+\procedure save-flashcard-actions()
+<% if [<get-store-question>!is[blank]] +[<get-store-answer>!is[blank]] %>
+	<$action-setfield $tiddler=<<dataTiddler>>
+		text=<<get-dest-data>>
+		type="application/json"/>
+	<$action-deletetiddler $tiddler=<<storeTiddler>>/>
+<% endif %>
+\end
+
+\procedure editCardActions()
+<$action-setfield $tiddler=<<currentStoreTiddler>>
+	question=<<get-current-question>>
+	answer=<<get-current-answer>>/>
+\end
+
+\procedure saveCardActions()
+<% if [<currentStoreTiddler>is[tiddler]] %>
+	<$action-setfield $tiddler=<<dataTiddler>>
+		text=<<current-store-data>>
+		type="application/json"/>
+	<$action-deletetiddler $tiddler=<<currentStoreTiddler>>/>
+<% endif %>
+\end
+
+\procedure cancelEditActions()
+<$action-deletetiddler $tiddler=<<currentStoreTiddler>>/>
+\end
+
+\procedure deleteCardActions()
+<$action-setfield $tiddler=<<dataTiddler>> $index=<<item>>/>
+\end
+
+\procedure twks-qa-cards()
+<div class="twks-flashcards-container twks-fill-available-input">
+	<$keyboard key="enter" actions=<<save-flashcard-actions>>>
+		<div class="flex flex-row">
+			<label><b>Q:</b></label>
+				<$edit-text tiddler=<<storeTiddler>>
+					placeholder="Input Your Question Here."
+					field="question"/>
+		</div>
+	</$keyboard>
+	<$keyboard key="enter" actions=<<save-flashcard-actions>>>
+		<div class="flex flex-row">
+			<label><b>A:</b></label>
+				<$edit-text tiddler=<<storeTiddler>>
+					field="answer"
+					placeholder="Input Your Answer Here."/>
+		</div>
+	</$keyboard>
+</div>
+\end
+
+\procedure twks-flashcards-list()
+<$list filter="[function[get-all-cardsId]reverse[]]" variable="item">
+	<$transclude $variable="rememberq"
+		id=<<item>>
+		question=<<get-current-question>>
+		answer=<<get-current-answer>>
+		reference=<<storyTiddler>>
+		storeTiddler=<<currentStoreTiddler>>
+		saveActions=<<saveCardActions>>
+		editActions=<<editCardActions>>
+		escActions=<<cancelEditActions>>
+		deleteActions=<<deleteCardActions>>/>
+</$list>
+\end
+
+<<twks-qa-cards>>
+<<twks-flashcards-list>>
+
+<style>
+.twks-flashcards-container {
+	display: flex;
+	flex-direction: column;
+	background: <<color page-background>>;
+	gap: 1em;
+	padding: 1em;
+	justify-content: space-around;
+}
+
+.twks-flashcards-container label {
+	width: 2em;
+	color: <<color yellow>>;
+	text-align: center;
+}
+
+.twks-flashcards-container input[type="text"] {
+	border-style: none;
+	line-height: 1.5em;
+	height: 1.5em;
+	border: none;
+	width: -webkit-fill-available;
+}
+
+.tr-ritem {
+	display: flex;
+	flex-direction: row;
+}
+
+.tr-ritem .tc-keyboard {
+	width: -webkit-fill-available;
+}
+
+.tr-ritem .input[type="text"] {
+	width: -webkit-fill-available;
+}
+</style>

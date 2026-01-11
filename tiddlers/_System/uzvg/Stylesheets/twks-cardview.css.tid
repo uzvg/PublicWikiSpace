@@ -1,0 +1,216 @@
+created: 20250307163529093
+modified: 20250518151717001
+modifier: uzvg
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/twks-cardview.css
+type: text/vnd.tiddlywiki
+
+/* 分页器容器宽度 */
+.twks-cardview-paginater {
+		max-width: 652px;
+		margin: 1em auto;
+	}
+
+/* 卡片容器样式 */
+.twks-cards-container {
+	max-width: 652px;
+	margin: 0 auto;
+	/* border-top: 1px solid <<color tab-border>>;*/
+}
+
+/* 单个卡片样式 */
+.twks-card {
+	display: flex;
+	flex-direction: column;
+	padding: 14px 0;
+	border-bottom: 1px solid <<colour tab-border>>;
+}
+
+/* 卡片内容区布局 - 始终保持水平排列 */
+.twks-card-content {
+	display: flex;
+	flex-direction: row;
+	gap: 16px;
+}
+
+/* 卡片主要信息区 */
+.twks-card-main {
+	flex: 1;
+	min-width: 0; /* 防止内容溢出 */
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+/* 卡片图片区 - 始终在右侧，但大小随屏幕变化 */
+.twks-card-cover {
+	width: 120px; /* 小屏幕默认宽度 */
+	min-width: 120px;
+	height: 80px;
+	border-radius: 6px;
+	overflow: hidden;
+	align-self: flex-start;
+}
+
+/* 随着屏幕变大，封面图尺寸增加 */
+@media (min-width: 480px) {
+	.twks-card-cover {
+		width: 160px;
+		min-width: 160px;
+		height: 110px;
+	}
+}
+
+@media (min-width: 768px) {
+	.twks-card-cover {
+		width: 200px;
+		min-width: 200px;
+		height: 140px;
+	}
+
+	.twks-card-content {
+		gap: 24px;
+	}
+}
+
+@media (min-width: 992px) {
+	.twks-card-cover {
+		width: 240px;
+		min-width: 240px;
+		height: 160px;
+	}
+}
+
+.twks-card-cover img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.3s ease;
+}
+
+.twks-card-cover:hover img {
+	transform: scale(1.03);
+}
+
+/* 卡片标题 */
+.twks-card-title {
+	font-size: 18px;
+	font-family: serif, "思源宋体", "宋体";
+	color: <<colour foreground>>;
+	text-decoration:none;
+	font-weight: bold;
+	line-height: 1.3;
+	margin: 0;
+}
+
+.twks-card-title:hover {
+	color: <<colour tiddler-link-foreground>>;
+}
+
+/* 卡片摘要 - 在小屏幕上减少显示行数 */
+.twks-card-summary {
+	font-size: 15px;
+	color: <<colour muted-foreground>>;
+	overflow: hidden;
+	margin: 0;
+	display: -webkit-box;
+	-webkit-line-clamp: 2; /* 小屏幕默认显示2行 */
+	-webkit-box-orient: vertical;
+}
+
+@media (min-width: 480px) {
+	.twks-card-summary {
+		font-size: 15px;
+		-webkit-line-clamp: 2;
+	}
+}
+
+@media (min-width: 768px) {
+	.twks-card-summary {
+			font-size: 15px;
+			-webkit-line-clamp: 3; /* 大屏幕显示3行 */
+	}
+}
+
+/* 卡片元数据区 */
+.twks-card-meta {
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		/* margin-top: auto; */
+		font-size: 12px;
+		color: <<colour muted-foreground>>;
+		gap: 8px;
+}
+
+@media (min-width: 768px) {
+		.twks-card-meta {
+				font-size: 13px;
+		}
+}
+
+/* 标签样式 */
+.twks-card-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+}
+
+@media (min-width: 768px) {
+		.twks-card-tags {
+				gap: 8px;
+		}
+}
+
+.twks-card-tag {
+		background-color: <<colour button-background>>;
+		color: <<colour button-foreground>>;
+		padding: 0 8px;
+		border-radius: 8px;
+		font-size: 12px;
+		transition: background-color 0.2s;
+		text-style:nornal;
+		text-decoration: none;
+}
+
+@media (min-width: 768px) {
+		.twks-card-tag {
+				padding: 0px 4px;
+				font-size: 13px;
+		}
+}
+
+.twks-card-tag:hover {
+		background-color: <<colour tag-background>>;
+		color: <<colour tag-foreground>>;
+		text-decoration: none;
+}
+
+/* 时间信息 */
+.twks-card-time {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-between;
+}
+
+/* 极小屏幕下的特别处理 */
+@media (max-width: 359px) {
+		.twks-card-cover {
+				display: none;
+		}
+}
+
+/* 分页按钮 */
+
+.twks-card-list-button-container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: warp;
+	max-width: 652px;
+	margin: 0 auto;
+	justify-content: space-between;
+	line-height: 3.2em;
+}

@@ -1,0 +1,16 @@
+caption: Books
+code-body: yes
+condition: [function[get-all-related-notes]tag[Books]]
+created: 20250325071755105
+creator: uzvg
+description: Reference Explorer (Books)
+modified: 20251221074647844
+modifier: uzvg
+order: 2
+tags: $:/tags/ReferenceExplorerTab
+title: $:/uzvg/RefExplorer/Tabs/Books
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/RefExplorer/Share]]
+
+<<twks-refexp-table>>

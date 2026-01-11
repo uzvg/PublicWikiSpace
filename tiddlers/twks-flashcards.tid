@@ -1,0 +1,54 @@
+created: 20260108083512836
+description: twks flashcards
+modified: 20260110080238841
+progress: WIP
+tags: ProjectNotes TWKS
+title: twks-flashcards
+type: text/vnd.tiddlywiki
+visibility: Public
+
+\function storeTiddler() [<qualify $:/temp/flashcards>]
+\procedure toggle-line-editor(storeTiddler,text,field,saveActions,editClass)
+<% if [<storeTiddler>is[tiddler]] %>
+	<$edit-text tiddler=<<storeTiddler>>
+		field=<<field>>
+		class=<<class>>/>
+<% else%>
+	<p> <<text>> </p>
+<% endif %>
+\end
+
+\procedure edit-card-btn()
+
+\procedure edit-card-actions()
+<$action-setfield $tiddler=<<storeTiddler>>
+	text="1"/>
+\end edit-card-actions
+
+<$button actions=<<edit-card-actions>>>
+Edit
+</$button>
+\end
+
+!! Files List:
+
+* [[$:/uzvg/twks-flashcards/ViewTemplate]]
+*
+
+!! 卡片元素：
+
+* card_id,
+* question,
+* answer,
+* edit_button,
+* delete_button,
+
+<span>
+	<$transclude $variable="toggle-line-editor"
+		storeTiddler=<<storeTiddler>>
+		field="make some test"/>
+</span>
+
+<<edit-card-btn>>
+
+<$link to=<<storeTiddler>>/>

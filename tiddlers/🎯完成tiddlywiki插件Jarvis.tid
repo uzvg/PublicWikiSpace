@@ -1,0 +1,22 @@
+caption: 完成tiddlywiki的插件Jarvis
+created: 20251224093228393
+modified: 20260106134623268
+status: Pending
+tags: Goal
+title: 🎯完成tiddlywiki插件Jarvis
+type: text/vnd.tiddlywiki
+value: 3
+
+为了让tiddlywiki拥有`语义级搜索`的功能，需要准备以下工作：
+
+* [[Embedding ai model|什么是Embedding模型？]]，用于将文本 chunk 向量化
+* 选择一个数据库，如IndexedDB 作为本地持久化存储
+* 内存向量索引（如 Orama）负责高效相似度检索
+* 备用的可供选择的数据库还有LanceDB，可以直接进行快速的向量搜索
+* [[Deepseek对话补全文档|https://api-docs.deepseek.com/zh-cn/api/create-chat-completion]]
+
+* 需要会使用Python进行本地Embedding Model模型的部署和调用
+* 需要使用JavaScript，调用Embedding Model，实时刷新向量数据库。
+* 需要使用JavaScript，调用向量数据库中的相似数据。
+
+* [[tiddlywiki AI插件开发]]

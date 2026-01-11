@@ -1,0 +1,11 @@
+caption: Bad
+code-body: yes
+condition: [all[tiddlers]prefix<get-habitTiddler-prefix>field:rating[-]]
+created: 20251219012245244
+modified: 20251222084642371
+title: $:/uzvg/HabitTracker/Panel/Bad
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/HabitTracker/Share/twks-habit-tracker]]
+
+<<habit-table-view>>

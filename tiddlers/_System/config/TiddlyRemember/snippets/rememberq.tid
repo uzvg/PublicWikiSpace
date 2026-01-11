@@ -1,0 +1,9 @@
+created: 20210929144900000
+modified: 20260109165145304
+tags: 
+title: $:/config/TiddlyRemember/snippets/rememberq
+type: text/vnd.tiddlywiki
+
+<<rememberq "%NOTE_ID%"
+	"Q"
+	"A">>

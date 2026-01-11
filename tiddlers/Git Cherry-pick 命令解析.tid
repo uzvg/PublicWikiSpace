@@ -1,0 +1,116 @@
+created: 20260108020310868
+description: git cherry-pick命令解析，该命令常用于bug紧急修复，以及旧版本的维护。
+modified: 20260108023411708
+progress: Completed
+rating: Plain
+tags: PermanentNotes Git
+title: Git Cherry-pick 命令解析
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! cherry-pick的作用：
+
+* 把''某一个或一组 commit 的改动''，以“重新生成提交”的方式，应用到当前分支上。
+* 并不是“把另一个分支上的 commit，快速复制到另一个分支上”
+* “效果上接近复制”，但实现上不是复制
+* 虽然内容一样，commit message 通常一样，但hash 一定不一样
+
+; `cherry-pick` 实际做的是：
+* 取出某个 commit 的 diff
+* 在当前分支 HEAD 上重新 apply
+* 然后生成一个全新的 commit。
+
+!! cherry-pick 的应用场景
+
+; hotfix（最经典）
+* 线上需要一个修复，但不想 merge 整个分支。
+* feature 分支里有 10 个提交
+* 只有 1 个是修 bug 的
+* merge 会引入不稳定代码
+* cherry-pick 那一个
+
+; 回移提交（backport）
+* 这个修复已经在 main 上了，但 release/1.0 也要。
+
+```bash
+git checkout release/1.0
+git cherry-pick <fix-commit>
+```
+
+常见于维护版本。
+
+!! 关键对比
+
+| !操作              | !本质         | !是否保留原分支结构 |
+|merge           |合并两条历史     |✅         |
+|rebase          |重写当前分支历史   |❌         |
+|''cherry-pick'' |''摘取提交内容'' |❌         |
+
+cherry-pick 是：
+
+> ''“我只要这个改动，不要你的历史。”''
+
+!! 风险：
+
+; 重复 cherry-pick
+* 如果你cherry-pick 了 `F`，后来又 merge 了 `feature` 分支，Git 不一定能自动识别这是同一个改动
+* 可能会发生冲突或者重复代码
+* 这叫 ''duplicate commit problem''
+
+; 顺序依赖
+* 如果你 `cherry-pick` 一个依赖前置提交的 commit，但没 cherry-pick 它的依赖
+* 👉 很可能 ''无法编译 / 行为异常''
+
+!! 进阶：
+
+''cherry-pick 本质上是“局部 rebase”的一种形式''，相当于：
+
+```
+git cherry-pick X
+≈
+git rebase --onto HEAD X^ X
+```
+
+它不是“搬分支”，而是“搬一段 diff”
+
+!! 七、什么时候''不该''用 cherry-pick
+
+* 保留完整的开发上下文
+* 让历史可追溯
+* 做长期分支合并
+
+这时应该用 `merge` 或 `rebase`，而不是 `cherry-pick`，''它“复制的是改动，不是 commit 本身”。''
+
+<<rememberq "20260108020428129"
+	"cherry-pick是什么意思？"
+	"精挑细选">>
+
+<<rememberq "20260108021400605"
+	"在使用cherry-pick前，要注意什么？"
+	"要先看看cherry-pick 能不能干净应用，再决定是否用 merge / rebase">>
+
+<<rememberq "20260108022011994"
+	"cherry-pick的作用是什么？"
+	"把某一个或者某一组commit的改动，以重新生成提交的方式，应用到快前分支上。">>
+
+<<rememberq "20260108022116796"
+	"默想一下cherry-pick实际做的工作是什么？"
+	"它实际做的是，取出某个commit的diff，在当前分支上重新apply，然后生成一个全新的commit。">>
+
+<<rememberq "20260108022457898"
+	"cherry-pick新生成的commit，跟原先的commit相比，有什么区别吗？"
+	"diff内容一样，commit message也一样，但commit hash，也就是index往往不一样。">>
+
+<<rememberq "20260108022556761"
+	"默想一下cherry-pick的应用情景？"
+	"hotfix，线上修复，把当前分支上的一个commit，cherry-pick到main分支上，这样既不会影响当前分支的工作环境，也不会把不必要的commit merge到main分支上。也可用于backport，即维护旧发行版的bug修复。">>
+
+<<rememberq "20260108023012431"
+	"使用cherry-pick 时需要注意哪些问题？"
+	"注意避免在未来合并的时候造成内容冲突；注意是否需要依赖前置提交的 commit">>
+
+<<remembercz "20260108023224221"
+	"如果你希望保留完整的开发上下文，应该使用{rebase}或{merge}，而非{cherry-pick}。">>
+
+<<remembercz "20260108021122601"
+	"{cherry-pick}复制的是{commit中包含的改动}，而非{commit本身}。">>

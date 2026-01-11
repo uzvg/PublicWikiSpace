@@ -1,0 +1,35 @@
+code-body: yes
+created: 20260110081926073
+modified: 20260111030324830
+tags: 
+title: $:/uzvg/twks-flashcards/Share/get-store-info
+type: text/vnd.tiddlywiki
+
+\procedure storageFolder() $:/Storage/Flashcards/DataTiddlers/
+\function storeTiddler() [<qualify $:/temp/flashcards>]
+\function dataTiddler() [<storageFolder>] [<storyTiddler>get[created]] +[join[]]
+\function currentStoreTiddler() [[$:/temp/flashcards/]addsuffix<item>]
+
+\function get-source-data() [<dataTiddler>get[text]]
+\function get-flashcard-id() [<storeTiddler>get[created]]
+\function get-store-question() [<storeTiddler>get[question]]
+\function get-store-answer() [<storeTiddler>get[answer]]
+\function get-all-cardsId() [<get-source-data>jsonindexes[]]
+\function get-current-question() [<get-source-data>jsonget<item>,[question]]
+\function get-current-answer() [<get-source-data>jsonget<item>,[answer]]
+\function current-store-question() [<currentStoreTiddler>get[question]]
+\function current-store-answer() [<currentStoreTiddler>get[answer]]
+
+\function current-store-data()
+	[<get-source-data>]
+	+[jsonset<item>,[question],<current-store-question>]
+	+[jsonset<item>,[answer],<current-store-answer>]
+	+[format:json[2]]
+\end
+
+\function get-dest-data()
+	[<get-source-data>jsonset:object<get-flashcard-id>]
+	+[jsonset<get-flashcard-id>,[question],<get-store-question>]
+	+[jsonset<get-flashcard-id>,[answer],<get-store-answer>]
+	+[format:json[2]]
+\end
