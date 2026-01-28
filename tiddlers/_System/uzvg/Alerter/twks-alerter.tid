@@ -1,0 +1,31 @@
+code-body: yes
+created: 20241215225021414
+modified: 20260103114908158
+modifier: uzvg
+tags: 
+title: $:/uzvg/Alerter/twks-alerter
+type: text/vnd.tiddlywiki
+
+\procedure twks-alerter(icon,iconSize,title,text,class)
+\function twks-selector-switcher(selector)
+	[[$:/palette]get[text]]
+	+[get[color-scheme]match[dark]addprefix[-]addprefix<selector>]
+	:else[<selector>]
+\end twks-selector-switcher
+
+\function twks-alerter-class()
+	[[twks-alerter]]
+	[<class>!is[blank]function[twks-selector-switcher],<class>]
+	+[join[ ]]
+\end twks-alerter-class
+
+<div class=<<twks-alerter-class>>>
+	<div class="twks-alerter-icon">
+		<$transclude $tiddler=<<icon>> size=<<iconSize>>/>
+	</div>
+  <div class="twks-alerter-title"><<title>></div>
+  <div class="twks-alerter-content">
+		<$transclude $variable="text" $mode="block"/>
+	</div>
+</div>
+\end

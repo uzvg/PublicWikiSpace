@@ -1,0 +1,153 @@
+created: 20250607025243289
+description: Python 中闭包（Closure）相关知识的笔记，涵盖了核心概念、应用场景、与装饰器的关系等
+modified: 20250607030939172
+progress: Completed
+rating: Plain
+tags: PermanentNotes Python
+title: Python closure
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 📌 一、闭包的概念
+
+闭包（Closure）是指：
+
+> 当一个内部函数引用了其外部函数作用域中的变量，即使外部函数已经返回，内部函数仍然可以访问这些变量，这种函数结构称为闭包。
+
+!!! ✅ 条件成立：
+
+# 存在嵌套函数（即函数中定义函数）
+# 内部函数引用了外部函数的变量
+# 外部函数已经执行并返回，内部函数仍能访问这些变量
+
+!!! ✅ 示例：
+
+```python
+def outer(x):
+    def inner(y):
+        return x + y
+    return inner
+
+f = outer(10)
+print(f(5))  # 输出 15
+```
+
+函数 `inner` 就是一个闭包，它“记住”了变量 `x=10`。
+
+!! 🚀 二、闭包的作用与应用场景
+
+闭包的主要作用是封装状态，即在函数中保存某些数据而不暴露出去。常见应用包括：
+
+!!! 1. 封装变量，隐藏实现细节
+
+```python
+def make_counter():
+    count = 0
+    def increment():
+        nonlocal count
+        count += 1
+        return count
+    return increment
+```
+
+* 每次调用返回一个独立的计数器函数
+* `count` 变量被“封装”在闭包中
+
+!!! 2. 工厂函数：根据参数生成定制函数
+
+```python
+def make_multiplier(factor):
+    def multiply(x):
+        return x * factor
+    return multiply
+
+double = make_multiplier(2)
+triple = make_multiplier(3)
+```
+
+* 返回一个根据 `factor` 固定值生成的新函数
+* `multiply` 是一个“记住了 factor”的闭包
+
+!!! 3. 函数记忆（缓存机制）
+
+```python
+def memoize():
+    cache = {}
+    def compute(x):
+        if x in cache:
+            return cache[x]
+        result = x * x  # 模拟耗时操作
+        cache[x] = result
+        return result
+    return compute
+```
+
+* 闭包保存 `cache` 字典，实现结果缓存
+
+!!! 4. 事件回调/延迟绑定（前端编程、GUI）
+
+```python
+def make_click_handler(name):
+    def handler():
+        print(f"{name} 被点击了")
+    return handler
+```
+
+* 每个控件绑定自己的处理逻辑
+* 使用闭包封装控件状态
+
+!! 🎯 三、闭包 vs 类（Class）
+
+| 功能   | 闭包       | 类          |
+| 状态封装 | ✅ 使用外部变量 | ✅ 使用实例变量   |
+| 接口定义 | 通常是单个函数  | 可以有多个方法    |
+| 内存开销 | 更轻量      | 相对更重       |
+| 推荐场景 | 简单的状态封装  | 复杂的状态、多个行为 |
+
+!! 🧩 四、闭包与装饰器的关系
+
+装饰器（Decorator）本质上就是一个使用闭包的函数，用于“增强”其他函数的功能。
+
+!!! ✅ 装饰器结构：
+
+```python
+def log_call(func):           # 外层函数，接受被装饰的函数
+    def wrapper(*args, kwargs):  # 内部函数（闭包），增强行为
+        print(f"调用 {func.__name__}")
+        return func(*args, kwargs)
+    return wrapper
+
+@log_call
+def greet(name):
+    print(f"你好，{name}")
+```
+
+!!! ✅ 特点：
+
+* `wrapper` 是闭包，保存了对 `func` 的引用
+* 使用 `@` 语法糖可以简洁地应用装饰器
+
+!! 📘 五、总结：闭包能解决什么问题？
+
+| 问题/需求    | 闭包如何解决           |
+| 变量封装 | 不使用类也能封装变量，保护作用域 |
+| 函数定制 | 创建带上下文的“定制函数”    |
+| 状态保持 | 保留函数状态，比如计数器、缓存等 |
+| 逻辑增强 | 是实现装饰器的基础结构      |
+| 回调函数 | 延迟执行时保留环境信息      |
+
+!! 🛠 六、使用闭包的注意事项
+
+* 被引用的变量如果是可变类型，修改前要使用 `nonlocal` 声明
+* 闭包中持有变量引用可能导致内存泄露，尤其在循环中创建大量闭包时要小心
+* Python 中的闭包会延迟绑定变量（late binding），可通过默认参数技巧避免错误：
+
+```python
+def create_funcs():
+    funcs = []
+    for i in range(3):
+        def f(x=i):  # 用默认参数绑定值
+            return x
+        funcs.append(f)
+    return funcs
+```

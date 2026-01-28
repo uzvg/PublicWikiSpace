@@ -1,0 +1,8 @@
+code-body: yes
+created: 20250516133826665
+modified: 20260114024913430
+modifier: uzvg
+title: $:/uzvg/Share/FilterBuilder/get-sortMode-subfilter
+type: text/vnd.tiddlywiki
+
+\function get-sortMode-subfilter() [<stateTiddler>getindex[sort-mode]]

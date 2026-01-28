@@ -1,0 +1,87 @@
+code-body: yes
+created: 20250523001434848
+modified: 20260114024913433
+modifier: uzvg
+tags: $:/tags/Global $:/twks/Procedures
+title: $:/uzvg/Share/twks-search-box
+type: text/vnd.tiddlywiki
+
+\procedure twks-search-box(filter,placeholder,inputMinLength,inputAcceptActions,clickActions,inputCancelActions,btnList,class)
+\function stateTiddler() [<qualify $:/state/twks-search-box>]
+\function storeTiddler() [<qualify $:/temp/twks-search-box>]
+\function popupStateTiddler() [<qualify $:/state/popup/search-dropdown>]
+
+\function get-user-input() [<storeTiddler>get[text]minlength<inputMinLength>]
+\function get-selected-item() [<stateTiddler>get[text]]
+
+\function get-editText-class() [<class>] [[tc-popup-handle]] +[join[ ]]
+\function get-selected-class() [<currentTiddler>match<get-selected-item>then[tc-list-item-selected]]
+
+\function get-first-item() [subfilter<filter>first[]]
+\function get-last-item() [subfilter<filter>last[]]
+\function get-next-item()
+	[<stateTiddler>!has[text]then<get-first-item>]
+	[subfilter<filter>after<get-selected-item>!is[blank]]
+\end get-next-item
+
+\function get-previous-item()
+	[<stateTiddler>!has[text]then<get-last-item>]
+	[subfilter<filter>before<get-selected-item>]
+\end get-previous-item
+
+\function get-target-input() [<get-selected-item>!is[blank]] :else[<get-user-input>]
+
+\procedure input-next-actions()
+	<$action-setfield $tiddler=<<stateTiddler>> text=<<get-next-item>>/>
+\end input-next-actions
+
+\procedure input-previous-actions()
+	<$action-setfield $tiddler=<<stateTiddler>> text=<<get-previous-item>>/>
+\end input-previous-actions
+
+\procedure search-result-list()
+<% if [<get-user-input>!is[blank]] %>
+	<div class="tc-block-dropdown-wrapper">
+		<% if [<popupStateTiddler>is[tiddler]] %>
+			<div class="tc-block-dropdown tc-search-drop-down tc-popup-handle">
+				<$list filter=<<filter>>>
+					<span class=<<get-selected-class>>>
+						<div class="tc-menu-list-item">
+							<$linkcatcher actions=<<clickActions>>>
+								<$link/>
+							</$linkcatcher>
+						</div>
+					</span>
+				</$list>
+			</div>
+		<% endif %>
+	</div>
+<% endif %>
+\end search-result-list
+
+<div class="tc-search">
+	<form class="tc-form-inline">
+		<$keyboard key="((input-accept))" actions=<<inputAcceptActions>>>
+		<$keyboard key="((input-up))" actions=<<input-previous-actions>>>
+		<$keyboard key="((input-down))" actions=<<input-next-actions>>>
+		<$keyboard key="((input-cancel))" actions=<<inputCancelActions>>>
+			<$edit-text
+				tiddler=<<storeTiddler>>
+				focus="yes"
+				cancelPopups="yes"
+				focusPopup=<<popupStateTiddler>>
+				placeholder=<<placeholder>>
+				tag="input"
+				class=<<get-editText-class>>
+				type="search"/>
+		</$keyboard>
+		</$keyboard>
+		</$keyboard>
+		</$keyboard>
+	</form>
+	<$list filter="[enlist<btnList>]" variable="currentBtn">
+		<$transclude $variable=<<currentBtn>>/>
+	</$list>
+</div>
+<<search-result-list>>
+\end

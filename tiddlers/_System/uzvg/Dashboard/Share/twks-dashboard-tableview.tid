@@ -1,0 +1,58 @@
+code-body: yes
+created: 20250423100130203
+modified: 20260114024913406
+modifier: uzvg
+title: $:/uzvg/Dashboard/Share/twks-dashboard-tableview
+type: text/vnd.tiddlywiki
+
+\procedure twks-dashboard-tableview(filter)
+\function get-note-num() [<get-page-start>add<currentNum>]
+\function get-note-caption() [<currentNote>get[caption]!is[blank]else<currentNote>]
+<table class="tc-max-width">
+	<tr>
+		<th>No</th>
+		<th>Caption</th>
+		<th>Tags</th>
+		<th>Progress</th>
+		<th>Visibility</th>
+		<th>Modified</th>
+	</tr>
+	<$list filter=<<filter>> variable="currentNote" counter="currentNum">
+		<tr>
+			<td><b> <<get-note-num>> </b></td>
+			<td>
+				<$link to=<<currentNote>>> <<get-note-caption>> </$link>
+			</td>
+			<td>
+				<$list filter="[<currentNote>tags[]]" variable="currentTag">
+					<$macrocall $name="tag-pill" tag=<<currentTag>>/>
+				</$list>
+			</td>
+			<td>
+				<$transclude $variable="twks-properties-selector"
+					tiddler=<<currentNote>>
+					field="progress"
+					noteType=<<get-note-type>>
+					property="progress"
+					placeholder="PROGRESS"
+					emptyValue="no"/>
+			</td>
+			<td>
+				<$transclude $variable="twks-visibility-selector"
+					tiddler=<<currentNote>>
+					field="visibility"
+					emptyValue="no"/>
+			</td>
+			<td>
+				<$view tiddler=<<currentNote>> field="modified" format="relativedate"/>
+			</td>
+		</tr>
+	</$list>
+</table>
+\end
+
+<!-- 👉 twks-properties-selector prototype:
+twks-properties-selector(tiddler,field,index,noteType,property,placeholder,class,emptyValue:yes,enableOptions:yes)
+
+twks-visibility-selector(tiddler,field,index,placeholder:"VISIBILITY",emptyValue:"yes",enableOptions:"yes",class)
+-->

@@ -1,0 +1,22 @@
+code-body: yes
+created: 20250429073840901
+modified: 20260114024913429
+modifier: uzvg
+tags: 
+title: $:/uzvg/Share/FilterBuilder/get-property-subfilter
+type: text/vnd.tiddlywiki
+
+\procedure literal-left-bracket() [
+\procedure literal-right-bracket() ]
+\function get-property-value() [<storeTiddler>getindex<currentTiddler>]
+\function get-property-subfilter()
+	[<storeTiddler>indexes[]]
+	:map[<currentTiddler>addsuffix<literal-left-bracket>addsuffix<get-property-value>addsuffix<literal-right-bracket>]
+	+[join[]]
+	+[addprefix<literal-left-bracket>addsuffix<literal-right-bracket>]
+\end
+
+<!-- For convinence, just use procedure
+\function get-left-bracket() [charcode[91]]
+\function get-right-bracket() [charcode[93]]
+-->

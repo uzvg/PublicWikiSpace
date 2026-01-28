@@ -1,0 +1,37 @@
+caption: Cloze Card
+created: 20260111030703713
+modified: 20260114024913442
+modifier: uzvg
+tags: $:/tags/FlashCardsType
+title: $:/uzvg/twks-flashcards/Share/twks-cloze-cards-creator
+type: text/vnd.tiddlywiki
+
+\procedure twks-cloze-cards-creator()
+<div class="twks-flashcards-container twks-fill-available-input">
+	<$keyboard key="enter" actions=<<new-card-actions>>>
+	<$keyboard key="alt+h" actions=<<go-previousTab-actions>>>
+	<$keyboard key="alt+l" actions=<<go-nextTab-actions>>>
+		<div class="flex flex-row">
+			<label><b>C:</b></label>
+				<$edit-text tiddler=<<storeTiddler>>
+					placeholder="Input Your Cloze Here."
+					focus="yes"
+					field="cloze"/>
+		</div>
+	</$keyboard>
+	</$keyboard>
+	</$keyboard>
+</div>
+\end
+
+<<twks-cloze-cards-creator>>
+
+<!--
+* dest data <<get-dest-data>>
+* cloze dest data <<get-clozeDest-data>>
+
+<<twks-flashcards-list>>
+
+* <$link to=<<storeTiddler>>/>
+* <$link to=<<dataTiddler>>/>
+-->

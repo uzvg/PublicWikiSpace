@@ -1,0 +1,13 @@
+created: 20260105042908476
+modified: 20260105043215144
+progress: Building
+rating: Plain
+tags: PermanentNotes tiddlywiki
+title: tiddlywiki timeout actions
+type: text/vnd.tiddlywiki
+visibility: Public
+
+tiddlywiki中一直缺失的一个重大功能就是能够定时执行`actions`，以下是一些相关链接，可以用于追踪关于该问题的进度跟相关讨论：
+
+* [[SetTimeout / SetInterval / SetAlarmClock widget #8967|https://github.com/TiddlyWiki/TiddlyWiki5/issues/8967]]
+* [[Colour handling improvements #8702|https://github.com/TiddlyWiki/TiddlyWiki5/pull/8702]]

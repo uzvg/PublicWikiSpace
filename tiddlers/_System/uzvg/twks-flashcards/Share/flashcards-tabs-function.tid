@@ -1,0 +1,12 @@
+code-body: yes
+created: 20260111060401902
+modified: 20260114024913440
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/flashcards-tabs-function
+type: text/vnd.tiddlywiki
+
+\function get-tabs-list() [all[tiddlers]tag[$:/tags/FlashCardsType]]
+\function get-next-tab() [function[get-tabs-list]after<currentTab>else<currentTab>]
+\function get-previous-tab() [function[get-tabs-list]before<currentTab>else<currentTab>]
+\function explicitStateTiddler() [[$:/state/tab/flashcards/]] [<storyTiddler>get[created]] +[join[]]

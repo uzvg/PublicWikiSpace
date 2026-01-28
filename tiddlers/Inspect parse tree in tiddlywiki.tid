@@ -1,0 +1,21 @@
+created: 20260127121958352
+description: 查看并测试tiddlywiki中的parse tree解析过程
+modified: 20260127123152451
+progress: Completed
+tags: ProjectNotes tiddlywiki
+title: Inspect parse tree in tiddlywiki
+type: text/vnd.tiddlywiki
+visibility: Public
+
+\function storeTiddler() [<qualify $:/temp/inspect-parse-tree>]
+\function get-wikitext() [<storeTiddler>get[text]]
+
+!! WikiText:
+
+<$edit tiddler=<<storeTiddler>> class="tc-edit-texteditor"/>
+
+!! ParseTree:
+
+<$wikify name="code" text=<<get-wikitext>> output="parsetree">
+	<$codeblock code=<<code>> language="json" />
+</$wikify>

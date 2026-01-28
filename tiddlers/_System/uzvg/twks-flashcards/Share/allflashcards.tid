@@ -1,0 +1,16 @@
+code-body: yes
+created: 20260119085127100
+modified: 20260124035913449
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/allflashcards
+type: text/vnd.tiddlywiki
+
+\function get-ref-index() [<currentTiddler>get[source]]
+\function get-ref-value() [<currentTiddler>get[text]]
+\function get-all-flascards-json()
+	[all[tiddlers]prefix[$:/Storage/Flashcards/DataTiddlers/]!is[draft]]
+	:reduce[<accumulator>jsonset:json<get-ref-index>,<get-ref-value>]
+\end
+
+<<get-all-flascards-json>>

@@ -1,0 +1,117 @@
+created: 20250605035043094
+description: Python中的对象引用与缓存机制
+modified: 20250605035828323
+progress: Completed
+rating: Plain
+tags: PermanentNotes Python
+title: Python中的对象引用与缓存机制
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 问题背景：
+
+有以下代码：
+
+```python
+a = [1, 2, 3]
+b = a
+c = [1, 2, 3]
+x = 2
+y = 2
+
+print(a is b)  # True
+print(a is c)  # False
+print(x is y)  # True
+```
+
+为什么 `a is b` 为 True，而 `a is c` 为 False？而两个数值相等的整数变量 `x is y` 又是 True？
+
+!! `is` vs `==`
+
+|!操作符  |!含义                        |
+|`==` |判断两个对象的“值”是否相等            |
+|`is` |判断两个变量是否引用同一个对象（内存地址是否相同） |
+
+!! 可变对象 vs 不可变对象
+
+|!类型    |!是否可变  |!示例                             |
+|不可变对象 |❌ 不可变 |`int`, `float`, `str`, `tuple` |
+|可变对象  |✅ 可变  |`list`, `dict`, `set`          |
+
+* 不可变对象：创建后不能改变内容，适合被复用（缓存）
+* 可变对象：可以改变，不能缓存（避免多个变量被误修改）
+
+!! Python 的对象缓存机制（interning）
+
+!!! 小整数缓存（`-5` 到 `256`）
+
+Python 会预先缓存小整数，避免重复创建：
+
+```python
+x = 2
+y = 2
+print(x is y)  # True ✅ 共享了缓存对象
+```
+
+但超过范围可能不共享：
+
+```python
+a = 1000
+b = 1000
+print(a is b)  # False ❌（可能）
+```
+
+!!! 字符串缓存（部分）
+
+* 简短、只含字母数字或下划线的字符串可能被缓存（如变量名）
+* 字符串拼接、运行时创建的不一定被缓存
+
+```python
+s1 = "hello"
+s2 = "hello"
+print(s1 is s2)  # True ✅（在很多实现中）
+
+s3 = "he" + "llo"
+print(s1 is s3)  # True（常见，但不保证）
+
+s4 = "".join(["he", "llo"])
+print(s1 is s4)  # False ❌（运行时构造）
+```
+
+!! list（可变对象）不缓存
+
+```python
+a = [1, 2, 3]
+b = [1, 2, 3]
+
+print(a == b)  # True ✅ 值相等
+print(a is b)  # False ❌ 不同引用（各自独立）
+```
+
+如果 Python 缓存 list，那修改一个就会影响另一个，这是不允许的：
+
+```python
+a.append(4)
+print(b)  # 仍是 [1, 2, 3]，没有受到影响
+```
+
+!! 总结对比表
+
+|tc-max-width|k
+|!对象类型|!可变性|`a == b`|`a is b`|!缓存行为|
+|`list` |可变 | ✅        | ❌        | 不缓存，每次新建      |
+|`int`（小整数） | 不可变 | ✅        | ✅        | 被缓存（-5 到 256） |
+|`int`（大整数） | 不可变 | ✅        | ❌        | 不缓存           |
+|`str` |不可变  | ✅        | ✅/❌      | 可能缓存（取决于创建方式） |
+
+!! 记忆口诀
+
+> 不可变对象可能共用，可变对象绝不共用；
+> 小整数被缓存，相等不代表引用。
+
+!! 注意事项：
+
+* 使用 `is` 比较 是否是同一个对象（引用）
+* 使用 `==` 判断值是否相等
+* 对于基本类型的比较，使用 `==` 更可靠
+* 避免用 `is` 比较数字或字符串值的相等性，除非你特意要判断引用（比如检查是否为 `None`）

@@ -1,0 +1,23 @@
+caption: NewIcon
+created: 20241022091726269
+creator: uzvg
+modified: 20260103142054082
+modifier: uzvg
+tags: $:/tags/WorkBench
+title: $:/uzvg/WorkBench/NewIcon
+type: text/vnd.tiddlywiki
+
+\procedure new-icon-btn()
+<$button>
+	<$action-sendmessage
+		$message="tm-new-tiddler"
+		title="$:/uzvg/images/"
+		tags="$:/tags/Image"
+		caption=""
+		description=""
+		text={{$:/uzvg/Snippets/NewIcon}} />
+Add New Icon
+</$button>
+\end
+<<tree "$:/uzvg/images/">>
+<<new-icon-btn>>

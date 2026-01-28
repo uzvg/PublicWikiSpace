@@ -1,0 +1,21 @@
+authors: [[TJ DeVries]]
+caption: kickstatt.nvim tutorial viddo
+created: 20250620114502210
+description: kickstart.nvim讲解视频
+medium: Video
+modified: 20250620143850712
+progress: Pending
+rating: Plain
+tags: LiteratureNotes vim
+title: kickstatt.nvim tutorial viddo(1750419902210)
+type: text/vnd.tiddlywiki
+url: https://www.youtube.com/watch?v=m8C0Cq9Uv9o&t=103s
+visibility: Public
+year: 2024-03
+
+* 不是一个发行版，而是一个模板，由此开始你自己的nvim配置
+* tutor
+* help
+* 需要学习lua
+* :help nvim-lua
+* 
