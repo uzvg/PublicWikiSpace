@@ -1,0 +1,80 @@
+created: 20260108041453221
+description: zsh Shell中pushd跟popd的用法
+modified: 20260108051336306
+progress: Completed
+rating: Plain
+tags: PermanentNotes zsh
+title: zsh Shell pushd & popd
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 作用：
+
+; `pushd <dir>`
+* 进入目标目录
+* 同时把当前目录压入“目录栈”保存
+
+; `popd`
+* 弹出目录栈
+* 自动返回到之前保存的目录
+
+可用 `dirs` 查看当前目录栈状态。
+
+本质上是在目录跳转的同时，维护一份“可回退”的目录历史栈。
+
+!! 与 cd 的不同：
+
+| !对比项         | !`cd` | !`pushd / popd` |
+|是否保存原目录     |否    |是（自动）          |
+|是否支持多层返回    |否    |是              |
+|出错/提前退出是否安全 |否    |是              |
+|适合脚本 / 函数   |一般   |非常适合           |
+
+; 总结：
+* `cd`：单向跳转
+* `pushd / popd`：成对使用、可恢复的跳转
+
+!! 典型使用场景：
+
+; 强烈推荐使用：
+* shell 函数、脚本中临时进入目录
+* “进去处理 → 处理完成必须回来”的操作
+* 多层目录切换、需要保证环境不被污染的场景
+
+; 演示案例：
+
+```zsh
+pushd ~/projectA
+pushd src
+pushd test
+
+dirs
+# ~/projectA/src/test ~/projectA/src ~/projectA ~
+
+popd   # 回到 src
+popd   # 回到 projectA
+```
+
+; 核心原则：
+* 凡是“临时进入”的目录，用 `pushd`；
+* 凡是“结束后必须回去”的地方，用 `popd`。
+
+<<rememberq "20260108050805182"
+	"zsh shell中的pushd的作用是什么？"
+	"相当于进入目录，并将目录路径保存到目录栈中。">>
+
+<<rememberq "20260108050913855"
+	"zsh Shell中popd的作用是什么？"
+	"弹出目录栈，自动返回到之前保存的目录。">>
+
+<<rememberq "20260108050955348"
+	"相比于cd命令，pushd跟popd的优势是什么？"
+	"能在目录跳转的同时，维护一份“可回退”的目录历史栈。">>
+
+<<rememberq "20260108051049330"
+	"在什么时候非常适合使用pushd跟popd？"
+	"在Shell函数、脚本临时进入某个目录，处理完需要返回原目录时，极其适合使用pushd跟popd。">>
+
+<<rememberq "20260108051235138"
+	"在你自己的什么脚本中，曾使用过pushd跟popd？"
+	"在auto_publish.zsh脚本中，曾使用过。">>

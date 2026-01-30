@@ -1,0 +1,19 @@
+code-body: yes
+created: 20250522005340534
+modified: 20260114024913428
+modifier: uzvg
+tags: 
+title: $:/uzvg/Share/edit-tiddler-btn
+type: text/vnd.tiddlywiki
+
+\procedure twks-edit-btn(tiddler,tooltip,class:"tc-btn-invisible",icon:"$:/core/images/edit-button",title)
+\whitespace trim
+<$button message="tm-edit-tiddler"
+	tooltip=<<tooltip>>
+	aria-label={{$:/language/Buttons/Edit/Hint}}
+	class=<<class>>
+	param=<<tiddler>>>
+	<$transclude $tiddler=<<icon>>/>
+	<<title>>
+</$button>
+\end

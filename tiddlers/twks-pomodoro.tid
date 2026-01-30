@@ -1,0 +1,40 @@
+created: 20250319023613485
+description: 为tiddlywiki创建类似pomodoro focus的功能
+modified: 20250425143843534
+progress: Archived
+tags: ProjectNotes TWKS JavaScript JavaScriptProject
+title: twks-pomodoro
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirements:
+
+* 大致想法是在PageControl区域添加一个倒计时
+* 每当开启一个Pomodoro，就只做一件事
+* 做完后将执行时间计入当天工作时间
+* 在Journal页面显示当天的专注时间
+* 参考👉https://pomofocus.io/
+* 如果正处于一个pomodoro中，则提示不能编辑
+* 是否产生日志 ✅
+* 添加播放音效👉[[Smartisan clock audio]]
+
+
+!! 前期调查：
+
+* [[An ActionSetTimeout widget that invokes Actions after a given time period|https://github.com/TiddlyWiki/TiddlyWiki5/issues/5036]]
+* [[tiddlytools中的action-timeout的JavaScript实现|https://tiddlytools.com/#TiddlyTools%2FTime%2Faction-timeout.js]]
+* [[Tiddlywiki Startup Actions|https://tiddlywiki.com/#StartupActions]]
+* [[action-timeout widget使用方法(1744031233807)]]
+
+!! 代码日志：
+
+* tiddlywiki没有运行时变量这个概念，它的变量只能通过tiddler的内容来暂存。
+* 单纯使用wikitext实现，不太划算，不如直接用JavaScript实现。
+
+!! 项目文件：
+
+<<list-links filter:"[prefix[$:/uzvg/Pomodoro/]]">>
+
+!! 后续：
+
+* @[[25th April 2025]]，其实代码结构已经写得差不多了，但Gnome桌面上已经有了gnome-pomodoro，功能完全满足我的需求，考虑到时间产出比，该项目被归档处理。

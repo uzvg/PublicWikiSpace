@@ -1,0 +1,32 @@
+created: 20251218050108239
+modified: 20251218124533322
+progress: WIP
+tags: ProjectNotes TWKS
+title: twks-frog-engine
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Principles:
+
+* 任务管理系统应该用来保护我，而非榨干我。
+
+!! Requirements:
+
+; 通过AI调查有哪些任务管理方法，并从中找出最适合自己的方法。
+* 蕃茄工作法
+* 四象限法
+* GTD法
+* OKR法
+* Eat The Frog(先做最重要、最困难、最抗拒的那件事) ✅
+
+; 如何设计流程？
+* 每天起床，先找到当天的frog，然后吃掉它。
+** 设计一个reminder，提醒frog的原则是什么。
+* 普通任务
+
+!! 
+
+!! 拓展：
+
+* [[twks-todolist to manage tasks]]
+* [[吃掉那只青蛙原则]]

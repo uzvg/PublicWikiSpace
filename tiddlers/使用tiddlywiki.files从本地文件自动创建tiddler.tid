@@ -1,0 +1,92 @@
+created: 20260114163449953
+description: 使用tiddlywiki.files从本地文件自动创建tiddler
+modified: 20260114170818275
+progress: Completed
+rating: Valuable
+tags: PermanentNotes tiddlywiki
+title: 使用tiddlywiki.files从本地文件自动创建tiddler
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+在tiddlywiki中，管理图片一直是个老大难的问题，如何使用本地图片，又如何使其能在网页中远程访问。[[tiddlywiki.files|https://tiddlywiki.com/#tiddlywiki.files%20Files]] 的出现有望为该问题提供一个优雅的解决方案。
+
+!! 概述：
+
+<<<
+A `tiddlywiki.files` JSON file in a `sub-folder` within a TiddlyWiki folder overrides the usual logic for recursively scanning the folder for tiddler files. Instead, the tiddlywiki.files file specifies instructions for loading tiddlers from specific files and folders.
+<<<[[tiddlywiki.files|https://tiddlywiki.com/#tiddlywiki.files%20Files]]
+
+<<<
+All the TiddlerFiles in the `tiddlers` folder are read into the wiki at startup. Sub-folders are scanned recursively for TiddlerFiles. Newly created tiddlers are stored in TiddlerFiles directly beneath the tiddlers folder, unless configured otherwise.
+
+The default processing for sub-folders within the tiddlers folder can be overridden by providing a JSON file called `tiddlywiki.files`.
+<<<[[TiddlyWikiFolders|https://tiddlywiki.com/#TiddlyWikiFolders]]
+
+
+这些零零星星的文档描述，拼凑出如下结论：
+
+* tiddlywiki会自动扫描wikiFolder下 `tiddlers` 文件夹下面的所有文件，并将其加载到tiddlywiki中
+* 一旦某个目录里存在 `tiddlywiki.files`，该目录就不再使用默认的“扫描所有 tiddler 文件”的行为。
+* `tiddlywiki.files` 会“接管”它所在目录的加载逻辑。
+
+同时可推测出：
+
+* `tiddlywiki.files`必须在`tiddlers`中
+* 想要自动加载的本地文件，必须在`files`中
+
+我们的目标是：
+* 通过在`tiddlers`文件夹及其子文件夹中的`tiddlywiki.files`文件，自动加载位于`files`文件夹中的文件。
+* 但是不能影响现有`tiddlers`文件夹下所有文件的加载。
+
+最终的解决方案如下：
+
+* 新建`tiddlers/images/tiddlywiki.files`文件用以制定加载`files`文件夹下的本地文件的加载规则。
+* 最终的文件结构如下：
+
+```
+mywiki/
+├── tiddlers/
+│   └── images/
+│       └── tiddlywiki.files   ← 当前规则文件
+└── files/
+    ├── photos/
+    │   ├── family/
+    │   │   └── cat.jpg
+    │   └── dog.png
+    └── logo.png
+```
+
+!! JSON文件分析：
+
+自动加载本地`image`的JSON文件如下：
+
+```json
+{
+    "directories": [
+        {
+            "path": "../../files/images",
+            "filesRegExp": "^.*\\.(?:jpg|jpeg|png|gif)$",
+            "isTiddlerFile": false,
+	        "searchSubdirectories": true,
+            "fields": {
+                "title": {"source": "basename-uri-decoded"},
+                "created": {"source": "created"},
+                "modified": {"source": "modified"},
+                "type": "image/jpeg",
+                "tags": { "source": "subdirectories" },
+                "text": "",
+                "_canonical_uri": { "source": "filepath", "prefix": "files/" }
+            }
+        }
+    ]
+}
+```
+
+其中：
+
+* `path`: 指的是相对于`tiddlywiki.files`的相对路径。
+* `filepath`：指的是相对于`path`路径的相对路径。
+
+一切完成后，保存文件，刷新tiddlywiki，本地image文件，就会以指定的规则，自动加载到tiddlywiki中。

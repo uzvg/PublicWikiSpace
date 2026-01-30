@@ -1,0 +1,29 @@
+caption: Image Info
+code-body: yes
+condition: [tag[Image]]
+created: 20250430185426852
+modified: 20260125150421031
+modifier: uzvg
+tags: $:/tags/FrontMatter
+title: $:/uzvg/FrontMatter/FrontMatters/Images
+type: text/vnd.tiddlywiki
+
+<!-- FrontMatter for image tiddler:
+1. caption
+2. description
+3. visibility
+4. image links
+-->
+
+<$twks.details
+	summary="Image Info:"
+	default="close"
+	state="$:/state/twks.details">
+
+|tc-max-width tc-table-no-border table-frontmatter|k
+|!Caption |<$edit-text tiddler=<<storyTiddler>> field="caption" class="tc-edit-texteditor"/>|
+|!Description |<$edit-text tiddler=<<storyTiddler>> field="description" class="tc-edit-texteditor"/>|
+|!Image url |<$transclude $tiddler=<<storyTiddler>> $field="_canonical_uri"/>|
+|!Visibility |<<twks-radio-visibility-selector>> |
+
+</$twks.details>

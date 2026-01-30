@@ -1,0 +1,16 @@
+caption: FleetingNotes
+code-body: yes
+condition: [function[get-all-related-notes]tag[FleetingNotes]]
+created: 20241021060936014
+creator: uzvg
+description: Reference Explorer (Fleeting Notes)
+modified: 20251221074653988
+modifier: uzvg
+order: 3
+tags: $:/tags/ReferenceExplorerTab
+title: $:/uzvg/RefExplorer/Tabs/FleetingNotes
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/RefExplorer/Share]]
+
+<<twks-refexp-table>>

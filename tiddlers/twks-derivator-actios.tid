@@ -1,0 +1,37 @@
+created: 20250425062359012
+description: 点击derivator按钮时需要执行的动作
+modified: 20250427113115662
+progress: Completed
+tags: TWKS ProjectNotes
+title: twks-derivator-actios
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 需求：
+
+* 点击derivator按钮所要执行的actions
+* 接受的输入：
+** tiddler模板👉template
+** 特殊字段值👉title,tags
+** 模板中的text内容要可以自定义👉在template中完成
+** 其他各个普通字段，如caption，medium
+** 需要从source拷贝的字段👉sync_fileds，如authors，year，
+* 需不需要给source字段赋值？👉 keepSource
+* 产生的输出：
+** 一个新的tiddler
+
+!! 原型设计：
+
+```
+twks-derivator-actions(title,tags,syncFieldsList,template,keepSource:"yes")
+```
+
+# 使用new-tiddler action，指定title、tags、template
+# 问题是，syncFieldsList如何指定？
+#* 使用setfield指定？
+#* 能不能直接赋值？
+
+!! 代码实现：
+
+* [[$:/uzvg/Derivator/Share/twks-derivator-actions]]
+

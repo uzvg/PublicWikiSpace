@@ -1,0 +1,34 @@
+caption: FleetingNotes Info
+code-body: yes
+condition: [tag[FleetingNotes]]
+created: 20241226052944278
+creator: uzvg
+modified: 20260125150142424
+modifier: uzvg
+tags: $:/tags/FrontMatter
+title: $:/uzvg/FrontMatter/FrontMatters/FleetingNotes
+type: text/vnd.tiddlywiki
+
+<$twks.details
+	summary="FleetingNotes Info:"
+	default="close"
+	state="$:/state/twks.details">
+
+<table class="tc-table-no-border tc-max-width table-frontmatter">
+	<tr>
+		<th>Progress</th>
+		<td><$transclude $variable="twks-properties-selector" tiddler=<<storyTiddler>> field="progress" noteType="FleetingNotes" property="progress" emptyValue="no" class="width-10em"/></td>
+	</tr>
+	<tr>
+		<th>Visibility</th>
+		<td><<twks-radio-visibility-selector>></td>
+	</tr>
+	<tr>
+		<th>Descrkption</th>
+		<td>
+			<$edit-text tiddler=<<storyTiddler>> field="description" class="tc-edit-texteditor" />
+		</td>
+	</tr>
+</table>
+
+</$twks.details>

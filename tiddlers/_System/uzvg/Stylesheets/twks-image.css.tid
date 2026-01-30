@@ -1,0 +1,61 @@
+created: 20241220042502651
+modified: 20260114050839639
+modifier: uzvg
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/twks-image.css
+type: text/vnd.tiddlywiki
+
+.twks-image {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	max-width: 720px;
+	box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
+	overflow: visible;
+	margin: 0;
+}
+
+.twks-image img {
+	height: auto;
+	width: 100%;
+	transition: transform 0.3s ease;
+}
+
+.twks-image:hover img {
+	transform: scale(1.1);
+}
+
+.twks-image figcaption {
+	text-align: center;
+	font-size: .9em;
+	line-height: 1.5em;
+	color: <<colour muted-foreground>>;
+}
+
+.twks-image figcaption::before {
+	content: "Caption: ";
+}
+
+.twks-image-align-left {
+	float:left;
+	margin-right: 1em;
+}
+
+.twks-image-align-center {
+	margin:0 auto;
+}
+
+.twks-image-align-right {
+	float:right;
+	margin-left: 1em;
+}
+
+.tc-tiddler-body p:has(> .twks-image) + :is(ol,ul) li {
+ 	list-style-position: inside;
+}
+
+<!-- 应用了两次has筛选器，可能会影响浏览器的性能，故废弃
+.tc-tiddler-body p:has(.twks-image) ~ :has(li) > li {
+ list-style-position: inside;
+}
+-->

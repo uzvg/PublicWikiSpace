@@ -1,0 +1,27 @@
+created: 20250321082731895
+modified: 20260103140126793
+modifier: uzvg
+tags: 
+title: $:/uzvg/ViewTemplates/TwikooComment
+type: text/vnd.tiddlywiki
+
+<$twks.details
+	summary="Open Comments"
+	closeSummary="Close Comments"
+	icon="$:/uzvg/images/Comment"
+	closeIcon="$:/uzvg/images/CommentClose"
+	default="close"
+	state="$:/state/detail/comments"
+	btnClass="twks-comment-btn"
+	btnBoxClass="twks-flexbox-row-right"
+	bdClass="twks-comment-body">
+<$twikoo
+  envId="https://twikoo-vercel-red-kappa.vercel.app/"
+  region="ap-shanghai"
+  path={{!!created}}
+  lang="us-en" />
+</$twks.details>
+
+<!--NetLify:
+https://wikispace.netlify.app/.netlify/functions/twikoo
+-->

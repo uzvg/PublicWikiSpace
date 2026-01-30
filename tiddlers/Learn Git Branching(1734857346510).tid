@@ -1,0 +1,22 @@
+authors: pcottle
+caption: Learn Git Branching
+created: 20241222084906510
+creator: uzvg
+description: An interactive git visualization and tutorial. Aspiring students of git can use this app to educate and challenge themselves towards mastery of git!
+medium: Website
+modified: 20260108025342723
+modifier: uzvg
+progress: Completed
+rating: Valuable
+tags: LiteratureNotes Source
+title: Learn Git Branching(1734857346510)
+type: text/vnd.tiddlywiki
+url: https://learngitbranching.js.org/
+visibility: Public
+year: 2026-01
+
+LearnGitBranching 是我遇到的最好的，最直观的git命令教学网站，它是一个 Git 仓库可视化工具、沙箱以及一系列教学教程和挑战。
+
+它的主要目的是通过可视化的方式帮助开发者理解 Git（这是命令行操作所缺乏的）。
+
+它通过一个包含不同关卡的游戏来实现这一点，让用户熟悉各种 Git 命令。你可以在 LearnGitBranching (LGB) 中输入各种命令——随着命令的执行，附近的提交树会动态更新，反映每个命令的效果。
