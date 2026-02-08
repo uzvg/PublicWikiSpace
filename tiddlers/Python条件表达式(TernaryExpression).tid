@@ -1,0 +1,211 @@
+created: 20260208032413047
+modified: 20260208032542683
+tags: PermanentNotes Python
+title: Python条件表达式(TernaryExpression)
+type: text/vnd.tiddlywiki
+
+!! 一、条件表达式的语法结构
+
+''基本语法：''
+
+```python
+A if condition else B
+```
+
+''含义：''
+
+* 如果 `condition` 为 `True` → 整个表达式的值是 `A`
+* 如果 `condition` 为 `False` → 整个表达式的值是 `B`
+
+这是一个''完整、不可拆分的表达式结构''。
+
+!!! 2️⃣ 执行逻辑（等价形式）
+
+```python
+result = A if condition else B
+```
+
+等价于：
+
+```python
+if condition:
+    result = A
+else:
+    result = B
+```
+
+!!! 3️⃣ 语法强约束（必须牢记）
+
+* ✅ ''必须同时有 `if` 和 `else`''
+* ❌ 不允许只写一半
+
+```python
+x if condition          # ❌ 语法错误
+```
+
+!! 三、条件表达式 vs 列表推导式
+
+!!! 1️⃣ 概念层级关系（非常重要）
+
+> ''条件表达式 ≠ 列表推导式''
+> ''条件表达式可以作为列表推导式中的“表达式”部分''
+
+它们的关系是：
+
+```
+列表推导式
+└── 表达式
+    └──（可以是）条件表达式
+```
+
+!!! 2️⃣ 列表推导式的基本结构回顾
+
+```python
+[ 表达式 for 变量 in 可迭代对象 if 条件 ]
+```
+
+这里要区分两种完全不同的 `if`。
+
+!! 四、两种 if 的本质区别（核心内容）
+
+!!! ① 列表推导式中的 ''过滤 if''
+
+```python
+[x for x in data if condition]
+```
+
+''作用：决定“要不要这个元素”''
+
+等价于：
+
+```python
+result = []
+for x in data:
+    if condition:
+        result.append(x)
+```
+
+特点：
+
+* ❌ 不满足条件 → 元素被丢弃
+* 输出列表长度 ''可能变短''
+* `if` 写在 `for ... in ...` 后面
+
+!!! ② 条件表达式中的 ''分支 if''
+
+```python
+A if condition else B
+```
+
+''作用：决定“这个元素变成什么”''
+
+等价于：
+
+```python
+if condition:
+    value = A
+else:
+    value = B
+```
+
+特点：
+
+* ✅ 每个元素都会产生结果
+* 输出结构 ''长度不变''
+* `if ... else ...` 写在表达式内部
+
+!!! 3️⃣ 并排对比（永久记忆表）
+
+| 维度        | 过滤 if           | 条件表达式              |
+| --------- | --------------- | ------------------ |
+| 所属结构      | 列表推导式           | 普通表达式              |
+| 位置        | `for ... if 条件` | `A if cond else B` |
+| 作用        | 是否保留元素          | 元素如何变换             |
+| 是否丢元素     | ✅ 会             | ❌ 不会               |
+| 是否必须 else | ❌ 否             | ✅ 是                |
+
+!! 五、条件表达式在列表推导式中的位置
+
+!!! 示例结构
+
+```python
+[
+    A if condition else B   # ← 条件表达式
+    for x in iterable
+]
+```
+
+完整示例：
+
+```python
+[c.lower() if c.isalpha() else "_" for c in s]
+```
+
+等价于：
+
+```python
+result = []
+for c in s:
+    if c.isalpha():
+        result.append(c.lower())
+    else:
+        result.append("_")
+```
+
+!! 六、使用示例（常见且稳定）
+
+!!! 示例 1：字符清洗（保留结构）
+
+```python
+s = "Hello, World!"
+masked = [c.lower() if c.isalpha() else "_" for c in s]
+```
+
+用途：
+
+* 掩码
+* 占位符
+* 格式保持
+
+!!! 示例 2：数值映射
+
+```python
+nums = [-3, -1, 0, 2, 5]
+labels = ["pos" if x > 0 else "non-pos" for x in nums]
+```
+
+!!! 示例 3：与过滤 if 对比（语义差异）
+
+```python
+# 过滤：只保留字母
+[c for c in s if c.isalpha()]
+
+# 分支：非字母替换
+[c if c.isalpha() else "*" for c in s]
+```
+
+!! 七、何时使用条件表达式（判断原则）
+
+!!! 使用条件表达式，当你想：
+
+* 保留原 iterable 的''长度和结构''
+* 对不同情况做''值映射''
+* 避免写完整的 `if/else` 块
+
+!!! 不使用条件表达式，当：
+
+* 分支逻辑复杂
+* 嵌套多层条件
+* 可读性开始下降
+
+!! 八、一句永久总结（建议加粗保存）
+
+> ''过滤 if 决定“要不要”''
+> ''条件表达式决定“变成什么”''
+>
+> ''列表推导式是结构''
+> ''条件表达式是值选择工具''
+
+如果你愿意，下一步我可以帮你把这篇笔记''升级成一组“判断题 + 反例”''，那会让你在看到代码的瞬间就知道：
+
+> 这里该不该用条件表达式？

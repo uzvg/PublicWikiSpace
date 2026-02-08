@@ -1,0 +1,16 @@
+code-body: yes
+created: 20250411120524682
+import-type: Zhihu
+modified: 20260114024913424
+modifier: uzvg
+tags: $:/tags/Initializer/Tables
+title: $:/uzvg/Initializer/Tables/Zhihu
+type: text/vnd.tiddlywiki
+
+|tc-max-width tc-edit-max-width twks-initializer-box twks-input-hide-border|k
+|!Caption |<$edit-text  field="caption" placeholder="Required" tag="input"/>|
+|!Authors |<<twks-author-pick-box>> |
+|!Year |<$edit-text default="" field="year" tag="input" type="month"/> |
+|!Description |<$edit-text default="" placeholder="Optional" field="description" tag="input"/>|
+|!Links |<$edit-text default="" placeholder=<<get-clean-url-from-imported>> field="url" />|
+|!Visibility |<<twks-radio-visibility-selector>> |

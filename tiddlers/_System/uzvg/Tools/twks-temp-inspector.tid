@@ -1,0 +1,27 @@
+code-body: yes
+created: 20250422092807602
+modified: 20260114024913437
+modifier: uzvg
+tags: $:/twks/Tools
+title: $:/uzvg/Tools/twks-temp-inspector
+type: text/vnd.tiddlywiki
+
+\function twks-temp-tiddler() [<qualify $:/temp/twks-temp/tidddler>]
+
+\procedure twks-temp-inspector()
+\whitespace trim
+\procedure clear-temp-tiddler-btn()
+	<$button class="tc-btn-invisible float-right">
+		<$action-deletetiddler $tiddler=<<twks-temp-tiddler>>/>
+		{{$:/core/images/paint}}
+		Clear Temp
+	</$button>
+\end clear-temp-tiddler-btn
+	<% if [<twks-temp-tiddler>is[tiddler]] %>
+		<<clear-temp-tiddler-btn>>
+		<<clarify>>
+		<$transclude $tiddler=<<twks-temp-tiddler>>/>
+	<% else %>
+		<<twks-alerter "warning" "The temp tiddler is not existed.">>
+	<% endif %>
+\end

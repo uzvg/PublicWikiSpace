@@ -1,0 +1,34 @@
+created: 20260108083512836
+description: twks flashcards
+modified: 20260203033834693
+progress: Researching
+tags: ProjectNotes TWKS
+title: twks-flashcards
+type: text/vnd.tiddlywiki
+visibility: Public
+
+\procedure twks-flashcard-container(id,question,answer)
+<div class="twks-flashcard-container">
+	<div class="twks-flashcard-id">
+		#<<id>>
+	</div>
+	<div class="twks-flashcard-btns">
+		<span>edit</span>
+		<span>delete</span>
+	</div>
+	<div class="twks-flashcard-question"> <<question>> </div>
+	<div class="twks-flashcard-answer"> <<answer>> </div>
+</div>
+\end
+
+<<twks-flashcard-container id:"23f23434" question:"这是一个问题？" answer:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim aeque doleamus animo, cum corpore dolemus">>
+
+!! RoadMap:
+
+* 改进卡片编辑器，可以在卡片上直接编辑。
+** `<<twks-line-editor tiddler field saveActions escActions delActions editActions displayText>>`
+* 改进在Anki中导入卡片的流程。
+** 既然数据已经保存为JSON文件了，就可以通过JSON文件直接导出，无须使用爬虫。
+* 改进被导入的flashcard在Anki上的显示效果。
+* [[twks-toggle-editor]]
+* 

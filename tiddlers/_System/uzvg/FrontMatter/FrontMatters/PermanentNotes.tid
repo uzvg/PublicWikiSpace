@@ -1,0 +1,59 @@
+caption: PermanentNotes Info
+code-body: yes
+condition: [tag[PermanentNotes]]
+created: 20241215140308100
+modified: 20260125150728068
+modifier: uzvg
+tags: $:/tags/FrontMatter
+title: $:/uzvg/FrontMatter/FrontMatters/PermanentNotes
+type: text/vnd.tiddlywiki
+
+<$twks.details
+	summary="PermanentNotes Info:"
+	default="close"
+	state="$:/state/twks.details">
+
+<table class="tc-table-no-border tc-max-width table-frontmatter">
+	<% if [<storyTiddler>get[source]] %>
+		<tr>
+			<th>Source</th>
+			<td><$link to=<<condition>>/></td>
+		</tr>
+	<% endif %>
+	<tr>
+		<th>Progress</th>
+		<td>
+			<$transclude $variable="twks-properties-selector"
+				tiddler=<<storyTiddler>>
+				field="progress"
+				noteType="PermanentNotes"
+				property="progress"
+				emptyValue="no"
+				class="width-10em"/>
+		</td>
+	</tr>
+	<tr>
+		<th>Rating</th>
+		<td>
+			<$transclude $variable="twks-properties-selector"
+				tiddler=<<storyTiddler>>
+				field="rating"
+				noteType="PermanentNotes"
+				property="rating"
+				emptyValue="no"
+				class="width-10em"/>
+		</td>
+	</tr>
+	<tr>
+		<th>Visibility</th>
+		<td><<twks-radio-visibility-selector>></td>
+	</tr>
+	<tr>
+		<th>Description</th>
+		<td>
+			<$edit-text tiddler=<<storyTiddler>> field="description" class="tc-edit-texteditor"/>
+		</td>
+	</tr>
+</table>
+
+</$twks.details>

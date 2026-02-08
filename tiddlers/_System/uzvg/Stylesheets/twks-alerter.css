@@ -1,0 +1,109 @@
+/* twks-alerter container (use grid layout) */
+.twks-alerter {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "icon title"
+    "content content";
+	column-gap: 1em;
+	padding: 0.8em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+	background-color: var(--alerter-bg);
+  border-left: 5px solid var(--alerter-border);
+  color: var(--alerter-fg);
+}
+
+/* Disable margin within the twks-alerter-content element */
+.twks-alerter-content > :first-child {
+  margin-top: 0;
+}
+
+.twks-alerter-content > :last-child {
+  margin-bottom: 0;
+}
+
+.twks-alerter-icon {
+	grid-area: icon;
+	fill: currentColor;
+}
+
+.twks-alerter-icon > svg{
+	width: 1.4em;
+	height: auto;
+}
+
+.twks-alerter-title {
+	grid-area: title;
+	font-weight: bold;
+	font-size: 1.1em;
+	font-family: serif, "宋体", "Noto Serif CJK SC";
+}
+
+.twks-alerter-content {
+	grid-area: content;
+}
+
+/* ========================== Alert types ========================== */
+
+.twks-alerter[data-alerter-type="warning"][data-color-scheme="light"] {
+	--alerter-bg: rgba(255, 243, 224, 1);
+	--alerter-border: rgba(255, 171, 64, 1);
+	--alerter-fg: rgba(102, 60, 0, 1);
+}
+
+.twks-alerter[data-alerter-type="caution"][data-color-scheme="light"] {
+	--alerter-bg: rgba(255, 235, 238, 1);
+	--alerter-border: rgba(229, 115, 115, 1);
+	--alerter-fg: rgba(95, 33, 32, 1);
+}
+
+.twks-alerter[data-alerter-type="tip"][data-color-scheme="light"] {
+	--alerter-bg: rgba(232, 245, 233, 1);
+	--alerter-border: rgba(129, 199, 132, 1);
+	--alerter-fg: rgba(27, 94, 32, 1);
+}
+
+.twks-alerter[data-alerter-type="note"][data-color-scheme="light"] {
+	--alerter-bg: rgba(227, 242, 253, 1);
+	--alerter-border: rgba(100, 181, 246, 1);
+	--alerter-fg: rgba(13, 71, 161, 1);
+}
+
+.twks-alerter[data-alerter-type="important"][data-color-scheme="light"] {
+	--alerter-bg: rgba(243, 229, 245, 1);
+	--alerter-border: rgba(149, 117, 205, 1);
+	--alerter-fg: rgba(49, 27, 146, 1);
+}
+
+/* ========================== Alert Dark types ========================== */
+
+.twks-alerter[data-alerter-type="warning"][data-color-scheme="dark"] {
+	--alerter-bg: rgba(78, 52, 46, 0.2);
+	--alerter-border: rgba(255, 171, 64, 1);
+	--alerter-fg: rgba(255, 204, 128, 1);
+}
+
+.twks-alerter[data-alerter-type="caution"][data-color-scheme="dark"] {
+	--alerter-bg: rgba(183, 28, 28, .2);
+	--alerter-border: rgba(229, 115, 115, 1);
+	--alerter-fg: rgba(255, 205, 210, 1);
+}
+
+.twks-alerter[data-alerter-type="tip"][data-color-scheme="dark"] {
+	--alerter-bg: rgba(46, 125, 50, .2);
+	--alerter-border: rgba(129, 199, 132, 1);
+	--alerter-fg: rgba(200, 230, 201, 1);
+}
+
+.twks-alerter[data-alerter-type="note"][data-color-scheme="dark"] {
+	--alerter-bg: rgba(21, 101, 192, .2);
+	--alerter-border: rgba(100, 181, 246, 1);
+	--alerter-fg: rgba(187, 222, 251, 1);
+}
+
+.twks-alerter[data-alerter-type="important"][data-color-scheme="dark"] {
+	--alerter-bg: rgba(69, 39, 160, .2);
+	--alerter-border: rgba(149, 117, 205, 1);
+	--alerter-fg: rgba(209, 196, 233, 1);
+}

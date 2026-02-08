@@ -1,0 +1,84 @@
+created: 20260123041837495
+description: zsh shell read命令使用练习
+modified: 20260123082558887
+modifier: uzvg
+progress: Completed
+rating: Personal
+source: Zsh Shell read 命令解析
+tags: PermanentNotes zsh
+title: zsh Shell read命令练习
+type: text/vnd.tiddlywiki
+visibility: Public
+
+; 显示输入提示并将输入保存到变量中：
+* `read "var?Input the value:"`
+
+```
+$ read "var?Input the value:"
+Input the value:11
+$ print $var
+11
+```
+
+; 单字符确认：
+* `read -q "?Do you confirm?"`
+* `read -q confirm` – 是/否确认；
+* 检查 `$? == 0`。
+* 输入`y/Y`返回0，否则返回`1`。
+
+```
+read -q "?Do you confirm? "
+if (( $? == 0)); then
+	print "You've confirmed.\n"
+else
+	print "You've not confirm.\n"
+fi
+```
+
+; 接收文件内容：
+* `read line < <filename>`
+* `read < <filename> line`
+
+```sh
+$ read line < /etc/passwd
+$ print $line
+root:x:0:0::/root:/usr/bin/bash
+```
+
+; 基本读取：
+* `read var` – 将一行读取到 `$var`。
+
+; 提示与静默：
+* `read -s "pass?请输入密码: "` – 显示提示，隐藏输入。
+
+```
+$ read -s "pass?请输入密码: "
+请输入密码:
+$ print $pass
+dfjijidf
+```
+
+; 超时：
+* `read -t 5 input` – 等待 5 秒，无输入返回 1。
+
+```
+$ read -t 3 -s "pass? Input the passwd:"
+Input the passwd:
+# 超时自动退出
+```
+
+; 数组：
+* `read -A words` – 将一行拆分为数组 `$words`。
+
+```
+read -A words <<< "This is a test."
+
+# 查看workds变量
+typeset -p words
+
+# 是一个数组
+typeset -a words=( This is a test. )
+```
+
+; 原始模式：
+* `read -r path` – 保留反斜杠。

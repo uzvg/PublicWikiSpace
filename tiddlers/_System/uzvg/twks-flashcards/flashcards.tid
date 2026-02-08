@@ -1,0 +1,39 @@
+created: 20260111175216522
+modified: 20260124023641273
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/flashcards
+type: text/vnd.tiddlywiki
+
+\function get-dataTiddlers() [prefix[$:/Storage/Flashcards/DataTiddlers/]]
+\function get-source-data() [<dataTiddler>get[text]]
+\function get-cards-id() [<get-source-data>jsonindexes[]]
+\function get-card-type()
+	[<get-source-data>jsonget<item>,[question]then[qa]]
+	[<get-source-data>jsonget<item>,[cloze]then[cloze]]
+\end
+
+\function get-current-question() [<get-source-data>jsonget<item>,[question]]
+\function get-current-answer() [<get-source-data>jsonget<item>,[answer]]
+\function get-current-cloze() [<get-source-data>jsonget<item>,[cloze]]
+\function get-current-ref() [<dataTiddler>get[source]]
+\function get-current-deck() [<dataTiddler>get[source]] :cascade[[$:/config/TiddlyRemember/DeckMapping]get[text]]
+
+<$list filter="[function[get-dataTiddlers]]" variable="dataTiddler">
+	<$list filter="[function[get-cards-id]]" variable="item">
+		<% if [<get-card-type>match[qa]] %>
+			<$transclude $variable="rememberq"
+				id=<<item>>
+				question=<<get-current-question>>
+				answer=<<get-current-answer>>
+				reference=<<get-current-ref>>
+				deck=<<get-current-deck>>/>
+		<% elseif [<get-card-type>match[cloze]] %>
+			<$transclude $variable="remembercz"
+				id=<<item>>
+				text=<<get-current-cloze>>
+				reference=<<get-current-ref>>
+				deck=<<get-current-deck>>/>
+		<% endif %>
+	</$list>
+</$list>

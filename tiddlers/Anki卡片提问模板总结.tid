@@ -1,0 +1,20 @@
+created: 20260113021605079
+description: Anki制卡提问方式总结
+modified: 20260113022936901
+modifier: uzvg
+progress: Completed
+rating: Valuable
+source: Anki制卡经验总结
+tags: PermanentNotes Anki Learning
+title: Anki卡片提问模板总结
+type: text/vnd.tiddlywiki
+visibility: Public
+
+在<<twks-source>>中，我提到，提问是使用Anki学习时最重要的步骤，以下是一种常见的提问方式：
+
+* 本质锚点：“X 的本质是什么？不是表现，不是用途”
+* 边界锚点：“X 在什么情况下不成立？”
+* 区分锚点：“X 和 Y 看起来相似，但关键差异在哪里？”
+* 因果锚点：“如果没有 X，会导致什么后果？”
+* 请在脑中完整回放：X 是如何从「开始条件」一步步走到「最终结果」的？
+** 关键词：A → B → C →（转折点）→ D
