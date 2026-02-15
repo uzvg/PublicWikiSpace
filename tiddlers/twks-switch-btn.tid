@@ -1,0 +1,13 @@
+created: 20251223032142522
+description: 按钮式的switch开关
+modified: 20251223044359138
+progress: Paused
+tags: ProjectNotes TWKS
+title: twks-switch-btn
+type: text/vnd.tiddlywiki
+visibility: Public
+
+<label class="switch">
+  <input type="checkbox">
+  <span class="slider"></span>
+</label>

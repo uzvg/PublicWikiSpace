@@ -1,0 +1,14 @@
+code-body: yes
+created: 20260103132815821
+modified: 20260103134759878
+modifier: uzvg
+tags: 
+title: $:/uzvg/FrontMatter/Share/get-info-functions
+type: text/vnd.tiddlywiki
+
+\function get-publisher() [<storyTiddler>get[publisher]]
+\function get-isbn() [<storyTiddler>get[isbn]]
+\function get-caption() [<storyTiddler>get[caption]]
+\function get-source() [<storyTiddler>get[source]]
+\function get-url() [<storyTiddler>get[url]]
+\function get-created() [<storyTiddler>get[created]]

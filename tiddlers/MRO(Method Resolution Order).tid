@@ -1,0 +1,189 @@
+created: 20250609053226693
+description: Python 继承中的 MRO（方法解析顺序）笔记
+modified: 20250609065505764
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: inheritance(1749441576559)
+tags: PermanentNotes
+title: MRO(Method Resolution Order)
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 📌 一、什么是 MRO？
+
+MRO（Method Resolution Order） 是 Python 在类的继承体系中，用于确定方法和属性的查找顺序，尤其在多重继承中非常关键。
+
+!! 🎯 二、MRO 的作用
+
+* 确保方法查找有确定的顺序
+* 避免多重继承中重复调用同一个类
+* 配合 `super()` 正确实现父类调用链
+
+!! 🔢 三、MRO 的查找规则（适用于简单理解）
+
+适用于你调用 `obj.method()` 时的实际行为：
+
+> ✅ “查找过程”规则：
+
+# 先查本类
+# 再查父类（从左往右）
+# 如果父类也有继承，继续向上递归查找
+# 同一个类不会被查找多次
+
+📌 这是理解 MRO 应用过程的“直觉规则”。
+
+!! 🧮 四、MRO 的计算规则（核心：C3 线性化）
+
+Python 实际使用的是 C3 线性化算法，用于计算一个类的 MRO 列表，即：`ClassName.__mro__`
+
+!!! ✅ MRO 计算三步法：
+
+> 计算一个类的 MRO 时：
+
+# 该类本身排在最前
+# 对所有父类分别递归地计算它们的 MRO
+# 将它们的 MRO 结果 + 直接父类列表，按C3 合并规则整合成一个线性顺序
+
+!!! ✅ C3 合并规则（核心原则）
+
+从多个列表中，依次选择第一个不在其他列表尾部出现的类，并将其放入最终结果中，直到所有列表清空。
+
+📌 如果没有合法的类可选，说明继承结构冲突，Python 会报错。
+
+!! 🧪 五、经典示例：菱形继承
+
+```python
+class A: pass
+class B(A): pass
+class C(A): pass
+class D(B, C): pass
+```
+
+图示结构：
+
+```
+      A
+     / \
+    B   C
+     \ /
+      D
+```
+
+!!! MRO 合并过程：
+
+要合并：
+
+* MRO(B) = [B, A, object]
+* MRO(C) = [C, A, object]
+* [B, C]（父类列表）
+
+合并结果：
+
+```
+D → B → C → A → object
+```
+
+验证：
+
+```python
+print(D.__mro__)
+# (<class 'D'>, <class 'B'>, <class 'C'>, <class 'A'>, <class 'object'>)
+```
+
+!! 🔍 六、查看 MRO 的方法
+
+```python
+print(ClassName.__mro__)
+# 或
+help(ClassName)
+```
+
+!! 🔧 七、`super()` 与 MRO 的关系
+
+`super()` 是基于 MRO 路径向后查找的工具。
+
+```python
+class A:
+    def show(self): print("A")
+
+class B(A):
+    def show(self):
+        print("B")
+        super().show()
+
+class C(A):
+    def show(self):
+        print("C")
+        super().show()
+
+class D(B, C):
+    def show(self):
+        print("D")
+        super().show()
+
+D().show()
+```
+
+输出：
+
+```
+D
+B
+C
+A
+```
+
+!! ✍️ 八、常见练习题（MRO 顺序判断）
+
+!!! 题目 1：
+
+```python
+class A: pass
+class B: pass
+class C(A, B): pass
+
+print(C.__mro__)
+# → C → A → B → object
+```
+
+!!! 题目 2：
+
+```python
+class A: pass
+class B(A): pass
+class C(A): pass
+class D(B, C): pass
+
+print(D.__mro__)
+# → D → B → C → A → object
+```
+
+!!! 题目 3：
+
+```python
+class A: pass
+class B(A): pass
+class C: pass
+class D(B, C): pass
+
+print(D.__mro__)
+# → D → B → A → C → object
+```
+
+!! 🧷 九、记忆口诀
+
+> “先类自身，后父类，左到右，公共祖先只排一次。”
+
+或者：
+
+> “本类在前，线性合并，优先不冲突，祖先不重复。”
+
+!! ✅ 十、常见问题 FAQ
+
+|tc-max-width|k
+|!问题|!解答|
+|如果父类方法重名怎么办？        |按 MRO 顺序，找第一个方法定义 |
+|`super()` 只能用于单继承吗？ |❌，适用于多继承，基于 MRO |
+|`object` 有必要吗？      |是所有新式类的最终祖先 |
+|C3 算法不合理时会怎样？       |报 `TypeError: Cannot create a consistent method resolution order` 错误 |

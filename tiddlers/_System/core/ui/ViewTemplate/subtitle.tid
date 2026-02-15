@@ -1,0 +1,16 @@
+created: 20260114015404273
+modified: 20260114024913392
+modifier: uzvg
+tags: $:/tags/ViewTemplate
+title: $:/core/ui/ViewTemplate/subtitle
+type: text/vnd.tiddlywiki
+
+\function get-current-modifier() [<storyTiddler>get[modifier]]
+\function get-created-date() [<storyTiddler>get[created]format:date[DDth mmm YYYY]]
+\function get-relative-modified() [<storyTiddler>get[modified]format:relativedate[]]
+
+<div class="flex flex-row justify-between">
+	<$link class="twks-subtitle-modifier" to=<<get-current-modifier>>/>
+ 	<span class="twks-subtitle-created">Created: <<get-created-date>> </span>
+ 	<span class="twks-subtitle-modified">Modified: <<get-relative-modified>> </span>
+</div>

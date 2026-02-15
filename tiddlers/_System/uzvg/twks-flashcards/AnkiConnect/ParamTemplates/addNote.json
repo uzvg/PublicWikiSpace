@@ -1,0 +1,22 @@
+\procedure param-note-template()
+	
+\end
+
+{
+	"deckName": "$(get-note-deck)$",
+	"modelName": "Basic",
+	"fields": {
+		"Front": "front content",
+		"Back": "back content"
+	},
+	"options": {
+		"allowDuplicate": false,
+		"duplicateScope": "deck",
+		"duplicateScopeOptions": {
+			"deckName": "Default",
+			"checkChildren": false,
+			"checkAllModels": false
+		}
+	},
+	"tags": $(get-note-tag-list)$
+}

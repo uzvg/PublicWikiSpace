@@ -1,0 +1,45 @@
+authors: geeksforgeeks
+caption: tuple data type
+created: 20250605084727713
+description: Python中的元组数据类型
+medium: Website
+modified: 20250605084838146
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: datatypes(1749029193189)
+tags: LiteratureNotes Python
+title: tuple data type(1749113247713)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+* `tuple`可以只包含单个元素，但需要在后面添加`,`用以说明它是一个`tuple`类型。
+
+```
+tup3 = (1)
+print(type(tup3))
+tup3 = (1, )
+print(type(tup3))
+
+# Result：
+<class 'int'>
+<class 'tuple'>
+```
+
+* `list`元素可以转换为`tuple`元素。
+
+```python
+tup1 = tuple([1, 2, 3, 4, 5])
+
+# access tuple items
+print(tup1[0])
+print(tup1[-1])
+print(tup1[-3])
+
+# Result:
+1
+5
+3
+```

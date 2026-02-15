@@ -1,0 +1,34 @@
+class: twks-pomodoro-clock
+created: 20250409135014265
+modified: 20260114024913426
+modifier: uzvg
+title: $:/uzvg/Pomodoro/Pomodoro
+type: text/vnd.tiddlywiki
+
+<<clarify>>
+<div class="twks-pomodoro-clock">
+12:34
+</div>
+
+
+<$button message="tm-edit-tiddler" param=<<currentTiddler>>>
+edit
+</$button>
+<style>
+	.twks-pomodoro-clock {
+		background: #BA4949;
+		border-color :#BA4949;
+		border: 0px;
+	}
+	.twks-pomodoro-clock h2.tc-title {
+		display: none;
+	}
+	.twks-pomodoro-clock .tc-subtitle {
+		display: none;
+	}
+	.twks-pomodoro-clock .tc-titlebar {
+	}
+	.twks-pomodoro-clock .tc-tiddler-controls svg {
+		
+	}
+</style>

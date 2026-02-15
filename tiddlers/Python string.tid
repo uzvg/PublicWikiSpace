@@ -1,0 +1,156 @@
+caption: string
+created: 20250607120655523
+description: Python 中 `string`（字符串）类型的全面总结，包括其定义、切片操作、常用函数、不可变性等方面的内容
+modified: 20260207093643151
+modifier: uzvg
+progress: Completed
+rating: Plain
+tags: Python PermanentNotes
+title: Python string
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+
+!! 一、基本定义：
+
+* 字符串是由 字符组成的有序序列。
+* 可以使用单引号（`'`）、双引号（`"`）、或三引号（`'''` 或 `"""`）定义字符串。
+
+```python
+s1 = 'hello'
+s2 = "world"
+s3 = '''This is
+a multi-line
+string'''
+```
+
+!! 二、特点：
+
+!!! 1. 不可变性(Immutable)：
+
+* 字符串是 不可变对象，一旦创建，就无法改变其中的字符。
+
+```python
+s = "hello"
+# s[0] = "H"  # ❌：TypeError
+s = "H" + s[1:]  # ✅ 创建新字符串
+```
+
+!!! 2. 可迭代性(itarable)：
+
+* Strings are `iterable`; you can loop through characters one by one.
+
+```py
+s = "Python"
+for char in s:
+    print(char)
+```
+
+!! 三、索引与切片（Slicing）
+
+字符串是可索引的序列，支持正向索引（从 `0` 开始）和反向索引（从 `-1` 开始）。
+
+!!! 索引：
+
+```python
+s = "python"
+print(s[0])   # 'p'
+print(s[-1])  # 'n'
+```
+
+!!! 切片：
+
+; 语法：`s[start:stop:step]`
+* 包含 `start`，不包含 `stop`，`step` 可以为负数
+
+```python
+s = "abcdefg"
+print(s[1:5])    # 'bcde'
+print(s[:4])     # 'abcd'
+print(s[::2])    # 'aceg'
+print(s[::-1])   # 'gfedcba'（倒序）
+```
+
+; 注意事项：
+
+1. `start` 和 `end` 都会被解析为同一套绝对下标体系（负下标只是从右侧计数的写法）
+
+```
+s[-1]  ==  s[len(s) - 1]
+s[-2]  ==  s[len(s) - 2]
+```
+
+2. slicing 是否返回结果，取决于 `step` 的方向 与 `start` → `end` 的可达性
+
+```
+s = "abcdef"
+s[1:4]     # 'bcd'
+s[-1:0]    # ''  空字符串
+```
+
+!! 四、常用函数与方法
+
+|tc-max-width|k
+|!方法|!功能|
+|`len(s)`                                      |返回字符串长度       |
+|`s.upper()`                                   |转为大写          |
+|`s.lower()`                                   |转为小写          |
+|`s.capitalize()`                              |首字母大写         |
+|`s.title()`                                   |每个单词首字母大写     |
+|`s.strip()`                                   |去除首尾空格或指定字符   |
+|`s.lstrip()` / `s.rstrip()`                   |去除左/右空格或字符    |
+|`s.replace(old, new)`                         |替换子串          |
+|`s.split(sep)`                                |按分隔符拆分为列表     |
+|`s.join(iterable)`                            |将序列合并成字符串     |
+|`s.find(sub)`                                 |查找子串首次出现的位置   |
+|`s.rfind(sub)`                                |查找子串最后一次出现的位置 |
+|`s.startswith(prefix)` / `s.endswith(suffix)` |判断开头/结尾       |
+|`'in'`                                        |判断子串是否存在      |
+|`s.count(sub)`                                |统计子串出现次数      |
+|`s.isdigit()`                                 |是否全是数字字符      |
+|`s.isalpha()`                                 |是否全是字母字符      |
+|`s.isalnum()`                                 |是否是字母和数字组成    |
+|`s.isspace()`                                 |是否只包含空白字符     |
+|`del s`                                 			 |删除字符串变量     |
+
+
+!!! 使用示例：
+
+```py
+s = "  Hello World  "
+print(s.strip())        # 'Hello World'
+print(s.lower())        # '  hello world  '
+print(s.split())        # ['Hello', 'World']
+print("-".join(["a", "b", "c"]))  # 'a-b-c'
+print("hello" in s)     # True
+del s					# deleting string
+```
+
+!! 五、字符串格式化：
+
+```python
+print(f"My name is {name}, I'm {age} years old")
+```
+
+!! 六、常见应用技巧：
+
+; 字符串反转：
+```py
+s[::-1]
+```
+
+; 删除指定字符：
+```py
+s.replace("a", "")
+```
+
+; 保留数字字符：
+```python
+"".join([c for c in s if c.isdigit()])
+```
+
+!! 注意事项：
+
+# 字符串连接效率低，用 `''.join(list)` 更高效。
+# `split()` 默认按任意空白字符分割，多个空格也只算一次。
+# 使用 `re` 模块（正则表达式）处理复杂的字符串模式匹配和提取。

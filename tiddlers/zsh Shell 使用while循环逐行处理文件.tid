@@ -1,0 +1,104 @@
+created: 20260107151856129
+description: 如何在zsh Shell 中使用while循环逐行处理文件
+modified: 20260123091938459
+progress: Completed
+rating: Plain
+source: Zsh Shell read 命令解析
+tags: PermanentNotes zsh
+title: zsh Shell 使用while循环逐行处理文件
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 一、从文件读取文件并处理：
+
+```zsh
+while IFS=':' read -r user _ _ _ _ _ shell; do
+    echo "$user $shell"
+done < /etc/passwd
+```
+
+* 利用 `read` 的字段拆分
+* `_` 表示“丢弃字段”
+* `/etc/passwd` 固定 7 列，丢弃中间的5列，只保留前后两列
+
+```zsh
+while read -r line; do
+    fields=("${(s/:/)line}")
+    echo "${fields[1]} ${fields[-1]}"
+done < /etc/passwd
+```
+
+!! 二、以Here-String方式读取文本并处理：
+
+```
+while IFS=$'\t' read -rA fields; do
+	printf "%-12s %-10s %-5s %-10s %-30s\n" "${fields[@]}"
+done <<< "${tsv_data}"
+```
+
+* `IFS=$'\t'`：设置字段分隔符为制表符（Tab）
+* `-r`：禁用反斜杠转义处理
+* `-A fields`：将读取结果存入数组变量fields
+* 每行数据会按制表符分割为多个字段，存入数组元素
+* `done <<< ${tsv_data}`，使用[[Here-String|HereString语法]]处理变量文本重定向
+* `<<<` 称为 `here-string` 操作符
+* 将变量内容作为标准输入传递给前面的命令
+
+!! 三、以[[HereDoc方式|HereDoc语法]]读取文本并处理：
+
+```
+while IFS=":" read -r User Age; do
+print "$User is $Age years old"
+done <<EOF
+Danny 25
+Jenny 28
+EOF
+Danny 25 is  years old
+Jenny 28 is  years old
+```
+
+!! 四、使用while读取行文本标准模板：
+
+在 zsh 里，逐行读文件的唯一推荐模板就是：
+
+
+```
+while IFS= read -r line; do
+  ...
+done < file
+```
+
+* `IFS= read -r line`，这里并不是“没赋值”，而是把 `IFS` 显式设置为`空字符串`。
+* 意思是，我在逐行读取原始文本，不允许 shell 做任何字段处理。
+* 可以避免：去掉 行首的 IFS 字符、把 IFS 当作字段分隔符等问题。
+* 对比之下，默认的 `IFS`值为`$' \t\n'`，这两者是完全不用的。
+* 有如下示例：
+
+```sh
+# 不加IFS=
+$ while read -r line; do
+while> print $line
+while> done << EOF
+heredoc>   hello
+heredoc> hello
+heredoc> EOF
+hello
+hello
+
+# 加IFS=
+$ while IFS= read -r line; do
+print $line
+done << EOF
+  hello
+hello
+EOF
+  hello
+hello
+```
+
+* 可以看到，不写 `IFS=`时，第一个`hello`的行首空格被吃掉了。
+
+!! 拓展：
+
+* [[HereDoc语法]]
+* [[HereString语法]]

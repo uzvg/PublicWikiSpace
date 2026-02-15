@@ -1,0 +1,96 @@
+created: 20250617111724542
+description: 在使用chezmoi管理配置文件时，如何处理同一文件在不同的位置？
+modified: 20260119034836720
+progress: Completed
+rating: Valuable
+tags: PermanentNotes chezmoi
+title: 使用chezmoi管理同一文件的不同路径
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+chezmoi中，如何在不同系统使用不同路径，但共享同一文件内容（chezmoi）？
+
+; 核心思路：
+* 把“内容”抽成一个共享模板，再在不同系统的目标路径中引用它，并用 `.chezmoiignore` 控制哪些系统生成哪些文件。
+
+!! 一、创建共享内容模板：
+
+把真正的文件内容放在 `.chezmoitemplates/` 里，只维护一份。
+
+```text
+.chezmoitemplates/file.conf
+```
+
+* 这个文件只负责 ''内容''
+* 在其他模板中可以用 `{{ template "file.conf" . }}` 引用
+* `.` 表示把当前模板上下文传进去（标准用法）
+
+!! 二、为不同系统创建位置模板：
+
+在 ''不同系统对应的路径'' 下创建模板文件（`.tmpl`），内容完全一样，只负责“引用”。
+
+!!! macOS 示例：
+
+```text
+# 配置文件：
+Library/Application Support/App/file.conf.tmpl
+
+# 文件内容：
+{{- template "file.conf" . -}}
+```
+
+!!! Linux 示例：
+
+```text
+# 文件路径：
+dot_config/app/file.conf.tmpl
+
+# 文件内容：
+{{- template "file.conf" . -}}
+```
+
+* 这样做的效果就是，内容只在 `file.conf` 中维护，路径差异由不同 `.tmpl` 文件负责。
+
+!! 三、用 `.chezmoiignore` 控制“哪些系统生成哪些文件”
+
+告诉 chezmoi：''在不需要的系统上，忽略对应路径''。
+
+```text
+# chezmoiignore文件：
+~/.local/share/chezmoi/.chezmoiignore
+
+# 文件内容：
+{{ if ne .chezmoi.os "darwin" }}
+Library/Application Support/App/file.conf
+{{ end }}
+
+{{ if ne .chezmoi.os "linux" }}
+.config/app/file.conf
+{{ end }}
+```
+
+; 含义是：
+* ''不是 macOS'' → 忽略 macOS 路径
+* ''不是 Linux'' → 忽略 Linux 路径
+
+!! 四、最终效果：
+
+; 一份内容：
+
+```
+.chezmoitemplates/file.conf
+```
+
+; 多个路径：
+```
+macOS  → Library/Application Support/App/file.conf
+Linux  → ~/.config/app/file.conf
+```
+
+; 一个 `source state`，多个 `target state`
+
+!! 链接：
+
+* [[Handle different file locations on different systems with the same contents|https://www.chezmoi.io/user-guide/manage-machine-to-machine-differences/#handle-different-file-locations-on-different-systems-with-the-same-contents]]

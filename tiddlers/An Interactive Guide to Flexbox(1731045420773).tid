@@ -1,0 +1,108 @@
+authors: [[Josh WComeau]]
+caption: An Interactive Guide to Flexbox
+created: 20241108055700773
+creator: uzvg
+description: 使用可视化的方式学习flexbox布局
+medium: Website
+modified: 20260125064204791
+modifier: uzvg
+progress: Completed
+rating: Valuable
+tags: LiteratureNotes CSS flexbox
+title: An Interactive Guide to Flexbox(1731045420773)
+type: text/vnd.tiddlywiki
+url: https://www.joshwcomeau.com/css/interactive-guide-to-flexbox/
+visibility: Public
+year: 2024-11
+
+这是我在搜索flexbox相关文章的时候发现了一篇博客文章，让人印象深刻。能够可视化学习flexbox布局，文章本身也写得非常好。
+
+!! layout algorithm
+
+css中有很多种布局算法，每种布局算法都相当是css中一个子语言，每种layout都被设计来解决特定的问题。
+
+<<remembercz "20260109165550241"
+	"在CSS中，默认的布局算法为{flow}布局，它其实是{Microsoft word}使用的布局方式，用于处理数码文档的排版。">>
+
+<<rememberq "20260109165640878"
+	"flexbox布局算法，要解决什么样的问题？"
+	"用于解决如何把一组元素放在一行/一列排列。">>
+
+!! flex direction
+
+<<rememberq "20241113145305782"
+	"flex-direction的作用是什么？"
+	"flex-direction有两种值，row跟column，决定了主轴的方向。">>
+
+!! alignment
+
+<<rememberq "20260109170733193"
+	"想象一下flexbox的主轴对齐，就像什么？"
+	"一根横向的肉串，几块肉块串在同一根签子上。">>
+
+<<rememberq "20260109170805606"
+	"想象一下，flexbox在纵轴上的对齐方式，就像什么？"
+	"像被一块块单独的小香肠，每块小香肠都被一根纵向的牙签贯串。">>
+
+<<rememberq "20260109171130923"
+	"justify-items属性为什么在flexbox中不起作用？"
+	"因为flexbox是一个一维布局，它的主轴空间是共享的，不是分给每一个子项的，所以justify-items这个属性对它不起作用。">>
+
+<<rememberq "20260109172103004"
+	"默想一个形象的例子来区分flexbox跟grid布局？"
+	"flexbox就像是排队，grid就像是教室里的座位，justify-items需要格子，flexbox没有格子。">>
+
+<<rememberq "20241113145800167"
+	"justify-content的作用是什么？"
+	"更改flexbox容器中的子项(们)在主轴上的排列方式">>
+
+<<rememberq "20241113145949498"
+	"如何更改flexbox容器内的子项在纵轴上的排列方式？"
+	"使用align-items属性。">>
+
+<<rememberq "20241113150040102"
+	"align-items是容器属性，还是容器内的子项的属性？"
+	"容器属性">>
+
+<<rememberq "20260109165955679"
+	"justify-items属性对flexbox有用吗？"
+	"没有。">>
+
+<<rememberq "20260109170100659"
+	"flexbox有justify-item属性吗？"
+	"没有。">>
+
+<<rememberq "20260109170134180"
+	"flexbox有align-content属性吗？"
+	"有。">>
+
+<<rememberq "20260109172309334"
+	"为什么flexbox没有justify-self属性？"
+	"因为flexbox的主轴空间是共享的，不受单个子项控制，主轴空间的使用由justify-content属性统一分配。">>
+
+!! Hypothetical size：
+
+<<remembercz "20260109172805219"
+	"CSS属性不只是一些参数，而是一个{算法模型}，其中，width属性的表现，会{随着应用模型的不同而改变}。">>
+
+<<rememberq "20260109172931688"
+	"flex-basis属性的作用是什么？"
+	"它设置了元素在主轴方向上的size，无论是横向还是纵向。">>
+
+<<rememberq "20260109173216679"
+	"跟width、height相比，flex-basis属性有什么不同？"
+	"它指定的是所在元素在主轴方向上的假定size，而非绝对size。">>
+
+<<remembercz "20260109173348289"
+	"flex-basis更像是一个{建议}，而非{限制}。">>
+
+<<remembercz "20260109173407443"
+	"flexbox布局中，一般情况下，flex-basis的作用跟{width}是相同的，但在某些特殊情况下，比如{图片}，{width}能把它缩小到比实际更小的尸寸，而{flex-basis}不能。">>
+
+!! Resize:
+
+什么时候该用flexbox布局，什么时候该用grid布局？
+
+flexbox布局能向右对齐吗？
+
+不能直接实现，需要在外面再包裹一层。

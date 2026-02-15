@@ -1,0 +1,11 @@
+code-body: yes
+created: 20250331065128464
+modified: 20260114024913432
+modifier: uzvg
+tags: $:/tags/Global
+title: $:/uzvg/Share/twks-clean-url
+type: text/vnd.tiddlywiki
+
+\function twks-clean-url(url)
+	[<url>] :cascade[all[tiddlers]tag[$:/tags/CleanUrlRules]!is[draft]get[text]]
+\end

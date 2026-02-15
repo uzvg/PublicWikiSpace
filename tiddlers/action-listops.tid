@@ -1,0 +1,44 @@
+created: 20251230151459618
+end: 
+modified: 20251231010324220
+progress: Building
+rating: Plain
+status: Paused
+tags: PermanentNotes tiddlywiki
+title: action-listops
+type: text/vnd.tiddlywiki
+visibility: Public
+
+\function timestamp() [<now TIMESTAMP>]
+\function get-end() [<currentTiddler>get[end]]
+\function get-status() [<currentTiddler>get[status]]
+
+\procedure add-timestamp-actions()
+<$action-listops $tiddler=<<currentTiddler>>
+	$field="end"
+	$filter="[<currentTiddler>get[end]enlist-input[]]"
+	$subfilter="+[append<timestamp>]"/>
+\end
+
+\procedure del-timestamp-actions()
+<$action-listops $tiddler=<<currentTiddler>>
+	$field="end"
+	$filter="[<currentTiddler>get[end]enlist-input[]]"
+	$subfilter="+[butlast[]]"/>
+\end
+
+<$checkbox tiddler=<<currentTiddler>>
+	field="status"
+	checked="WIP"
+	unchecked="Paused"
+	uncheckactions=<<del-timestamp-actions>>
+	checkactions=<<add-timestamp-actions>>>
+ ADD TIMESTAMP
+</$checkbox>
+
+<$button actions=<<del-timestamp-actions>>>
+ DEL TIMESTAMP
+</$button>
+
+* status: <<get-status>>
+* end: <<get-end>>

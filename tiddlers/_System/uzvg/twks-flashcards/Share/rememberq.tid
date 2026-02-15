@@ -1,0 +1,163 @@
+code-body: yes
+created: 20260110022604234
+modified: 20260114024913441
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/rememberq
+type: text/vnd.tiddlywiki
+
+\procedure toggle-line-editor(storeTiddler, field, text, saveActions, escActions editorClass, textClass)
+<% if [<storeTiddler>is[tiddler]] %>
+	<$keyboard key="enter" actions=<<saveActions>>>
+	<$keyboard key="escape" actions=<<escActions>>>
+	<$edit-text tiddler=<<storeTiddler>>
+		field=<<field>>
+		class=<<editorClass>>/>
+	</$keyboard>
+	</$keyboard>
+<% else %>
+	<p class=<<textClass>>> <<text>> </p>
+<% endif %>
+\end
+
+\procedure rememberq(id, question, answer, reference:"", sched:"", class:"", deck:"", tags:"", storeTiddler, saveActions, editActions, escActions, deleteActions, editorClass:"")
+
+\function get-default-class() [[$:/config/TiddlyRemember/DefaultClasses]get[text]]
+\function get-card-class() [[rememberq remembertwo]] [<class>] [<get-default-class>] +[join[]]
+<div class=<<get-card-class>>>
+	<div class="rquestion tr-ritem">
+		<div>Q:</div>
+		<$transclude $variable="toggle-line-editor"
+			storeTiddler=<<storeTiddler>>
+			field="question"
+			text=<<question>>
+			saveActions=<<saveActions>>
+			escActions=<<escActions>>
+			editorClass=<<editorClass>>/>
+	</div>
+
+	<div class="ranswer tr-ritem">
+		<div>A:</div>
+		<$transclude $variable="toggle-line-editor"
+			storeTiddler=<<storeTiddler>>
+			field="answer"
+			text=<<answer>>
+			saveActions=<<saveActions>>
+			escActions=<<escActions>>
+			editorClass=<<editorClass>>
+			textClass="mosaic"/>
+	</div>
+
+<$transclude $variable="twRememberMetadata"
+	id=<<id>>
+	reference=<<reference>>
+	sched=<<sched>>
+	deck=<<deck>>
+	tags=<<tags>>
+	editActions=<<editActions>>
+	saveActions=<<saveActions>>
+	deleteActions=<<deleteActions>>/>
+</div>
+\end
+
+\define rememberp(id, first, second, reference: "", sched: "", class: "", deck:"", tags:"")
+    <div class={{{ [[rememberp remembertwo ]addsuffix<__class__>addsuffix[ ]addsuffix{$:/config/TiddlyRemember/DefaultClasses}] }}}>
+        <div class="rfirst tr-ritem">
+            <div>1:</div>
+            <p>$first$</p>
+        </div>
+        <div class="rsecond tr-ritem">
+            <div>2:</div>
+            <p>$second$</p>
+        </div>
+		<$macrocall $name=twRememberMetadata id=<<__id__>> reference=<<__reference__>> sched=<<__sched__>> deck=<<__deck__>> tags=<<__tags__>>/>
+    </div>
+\end
+
+\procedure remembercz(id, text, mode:"block", reference:"", sched:"", class:"", deck:"", tags:"", storeTiddler, editActions, saveActions, deleteActions)
+<% if [<mode>match[inline]] %>
+	<$transclude $variable="twRememberClozeInline"
+		id=<<id>>
+		text=<<text>>
+		reference=<<reference>>
+		sched=<<sched>>
+		class=<<class>>
+		deck=<<deck>>
+		tags=<<tags>>/>
+<% elseif [<mode>!match[inline]] %>
+	<$transclude $variable="twRememberClozeBlock"
+		id=<<id>>
+		text=<<text>>
+		reference=<<reference>>
+		sched=<<sched>>
+		class=<<class>>
+		deck=<<deck>>
+		tags=<<tags>>/>
+<% endif %>
+\end
+
+\procedure twRememberMetadata(id, reference, sched, saveActions, editActions, deleteActions)
+	<div class="tr-editor-btn">
+		<$button actions=<<editActions>>> Edit </$button>
+		<$button actions=<<saveActions>>> Save </$button>
+		<$button actions=<<deleteActions>>> Delete </$button>
+	</div>
+	<div class="tr-selfidentification">
+		<% if [<reference>!is[blank]] %>
+			[<$link to=<<reference>>/>: <<id>>]
+		<% else %>
+			[<<id>>]
+		<% endif %>
+	</div>
+	<div class="rid">
+		[<<id>>]
+	</div>
+	<div class="tr-reference"> <<reference>> </div>
+	<div class="tr-sched"> <<sched>> </div>
+	<div class="tr-deck"> <<deck>> </div>
+	<div class="tr-tags"> <<tags>> </div>
+\end
+
+\procedure twRememberClozeBlock(id, text, reference, sched, class, storeTiddler, editActions, escActions, saveActions, deleteActions)
+\function get-default-class() [[$:/config/TiddlyRemember/DefaultClasses]get[text]]
+\function get-card-class() [[remembercz]] [<class>] [<get-default-class>] +[join[]]
+\function get-unescaped-text() [<text>search-replace:g[\{],[{]search-replace:g[\}],[}]]
+
+<div class=<<get-card-class>>>
+	<span class="cloze-identifier">
+		<span class="tr-name-cloze">cloze: </span>
+	</span>
+	<span class="cloze-display">
+	<!-- 这是本来需要显示的是unescaped-text，但是因为line-editor不适配
+	暂时放过。-->
+		<$transclude $variable="toggle-line-editor"
+			storeTiddler=<<storeTiddler>>
+			field="cloze"
+			text=<<text>>
+			saveActions=<<saveActions>>
+			escActions=<<escActions>>
+			editorClass=<<editorClass>>/>
+	</span>
+	<span class="cloze-text"> <<text>> </span>
+	<$transclude $variable="twRememberMetadata"
+		id=<<id>>
+		reference=<<reference>>
+		sched=<<sched>>
+		deck=<<deck>>
+		tags=<<tags>>
+		editActions=<<editActions>>
+		saveActions=<<saveActions>>
+		deleteActions=<<deleteActions>>/>
+</div>
+\end
+
+\define twRememberClozeInline(id, text, reference, sched, class)
+    <span class={{{ [[remembercz ]addsuffix<__class__>addsuffix[ ]addsuffix{$:/config/TiddlyRemember/DefaultClasses}] }}}>
+		<span class="cloze-identifier">{<span class="tr-name-cloze">cloze: </span></span>
+		<span class="cloze-display"><$set name="unescape" value={{{ [<__text__>search-replace:g[\{],[{]search-replace:g[\}],[}]] }}}><<unescape>></$set></span>
+		<span class="cloze-identifier">}</span>
+		<span class="cloze-text">$text$</span>
+		<$macrocall $name="twRememberMetadata" id=<<__id__>> reference=<<__reference__>> sched=<<__sched__>>/>
+	</span>
+\end
+

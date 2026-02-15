@@ -1,0 +1,10 @@
+action: addNote
+code-body: yes
+created: 20260213084334336
+modified: 20260213104207020
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/AnkiConnect/ParamTemplates/addNote
+type: application/json
+url: https://git.sr.ht/~foosoft/anki-connect#codeaddnotecode
+version: 6
