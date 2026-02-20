@@ -1,0 +1,9 @@
+code-body: yes
+created: 20250515033345685
+modified: 20260114024913405
+modifier: uzvg
+tags: $:/tags/TiddlerColourFilter
+title: $:/uzvg/Configs/TiddlerColourFilters
+type: text/vnd.tiddlywiki
+
+[visibility[Private]] :then[[$:/palette]get[text]getindex[alert-highlight]]

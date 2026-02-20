@@ -1,0 +1,219 @@
+caption: tuple
+created: 20250607132855086
+description: Python中tuple的总结，包括创建、基本操作、注意事项等内容。
+modified: 20260208093919722
+modifier: uzvg
+progress: Completed
+rating: Plain
+tags: Python PermanentNotes
+title: Python tuple
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 一、概念：
+
+* 元组是 有序的、不可变的 序列。
+* 元组由''逗号''定义，而非由`()`定义。通常用''小括号''包裹以提高可读性。
+* 元组可以包含''任意类型''的元素，也支持嵌套。
+
+```python
+t = (1, "hello", 3.14, [5, 6])
+t = 1, 2, 3        # 这是 tuple
+t = (1, 2, 3)      # 这也是 tuple
+t = (1)            # 这不是 tuple
+```
+<<twks-alerter tip "元组由`,`定义，通常用小括号包裹以提高可读性。">>
+
+!! 二、创建方式：
+
+; 1. 常规方式：
+
+```py
+t1 = (1, 2, 3)
+```
+
+; 2. 空元组：
+
+```python
+empty = ()
+```
+
+; 3. 单元素元组（注意逗号！）：
+
+```py
+single = (42,)  # 如果没有逗号就是整数，不是元组
+```
+
+; 4. 使用 `tuple()` 函数转换可迭代对象：
+
+```py
+tuple("abc")        # ('a', 'b', 'c')
+tuple([1, 2, 3])     # (1, 2, 3)
+tuple(range(3))      # (0, 1, 2)
+```
+
+; 5. 通过重复生成元组：
+
+```py
+t = (0,) * 5  # (0, 0, 0, 0, 0)
+
+# 一定要加逗号：
+t = (5)*5
+print(type(t))  # <class 'int'>
+print(t)        # 25
+
+t1 = (5,)*5
+print(type(t1)) # <class 'tuple'>
+print(t1)       # (5, 5, 5, 5, 5)
+
+t2 = ('s')*5
+print(type(t2)) # <class 'str'>
+print(t2)       # sssss
+```
+
+<<twks-alerter "important" "通过`*`创建重复元素的tuple元素时，一定要加逗号。">>
+
+!! 三、基本操作：
+
+; 1. 拼接（Concatenation）
+
+```py
+t1 = (1, 2)
+t2 = (3, 4)
+t3 = t1 + t2       # (1, 2, 3, 4)
+```
+
+; 2. 重复
+
+```py
+t = (1, 2) * 3     # (1, 2, 1, 2, 1, 2)
+```
+
+; 3. 切片（Slicing）
+
+```py
+t = (0, 1, 2, 3, 4)
+print(t[1:4])      # (1, 2, 3)
+print(t[::-1])     # (4, 3, 2, 1, 0)
+```
+
+; 4. 索引访问
+
+```py
+t = ("a", "b", "c")
+print(t[0])        # 'a'
+print(t[-1])       # 'c'
+```
+
+; 5. 删除整个元组（不能删除其中的元素）
+
+```py
+t = (1, 2, 3)
+del t  # 删除变量本身
+```
+
+!! 四、Tuple 常用函数和方法：
+
+虽然元组是不可变的，但它仍支持以下操作：
+
+| !函数/方法 | !功能 |
+|`len(t)`        |返回元素个数        |
+|`t.count(x)`    |统计元素 x 的出现次数  |
+|`t.index(x)`    |返回 x 第一次出现的索引 |
+|`in`/`not in` |判断元素是否存在      |
+
+```python
+t = (1, 2, 2, 3)
+print(t.count(2))   # 2
+print(t.index(3))   # 3
+```
+
+!! 五、Tuple 注意事项：
+
+; 1. 元组是不可变的
+
+```py
+t = (1, 2, 3)
+# t[0] = 10  # ❌ 会报错：TypeError
+```
+
+; 2. 但是元组可以包含可变元素
+
+```py
+# 不能改变 t[1] 指向别的对象 ❌
+# 可以改变 t[1] 内部 ✅
+
+t = (1, [2, 3])
+t[1][0] = 99        # ✅ 可行：列表本身可变
+print(t)            # (1, [99, 3])
+```
+
+<<twks-alerter "note" "tuple 的不可变性指的是：元组中“每个位置绑定的对象引用”不可变，相当于''结构不可变''，而非深度不可变">>
+
+; 3. tuple 是“轻量级结构体”的重要工具
+
+在 Python 中，tuple 常被用来表达：
+
+```
+(x, y)
+(name, age)
+(success, result)
+```
+
+; 这是 Python 的一种约定俗成的语义用法：
+* `tuple` → 结构性数据
+* `list` → 可变集合
+* `dict` → 有名字的字段
+* 这也是为什么函数经常返回 `tuple`。
+
+; 4. 单元素元组必须带''逗号''
+
+```py
+t = (5)*5
+print(type(t))  # <class 'int'>
+print(t)        # 25
+
+t1 = (5,)*5
+print(type(t1)) # <class 'tuple'>
+print(t1)       # (5, 5, 5, 5, 5)
+
+t2 = ('s')*5
+print(type(t2)) # <class 'str'>
+print(t2)       # sssss
+```
+
+; 5. 与 list 的转换
+
+```python
+t = (1, 2, 3)
+l = list(t)         # 转换为 list 后可以修改
+t2 = tuple(l)       # 再转回 tuple
+```
+
+!! 六、打包与解包（Tuple Packing & Unpacking）
+
+!!! 自动打包
+
+```py
+t = 1, 2, 3  # 等价于 t = (1, 2, 3)
+```
+
+!!! 解包
+
+```py
+a, b, c = (1, 2, 3)
+```
+
+!!! 用星号进行可变解包
+
+```py
+a, *b = (1, 2, 3, 4)  # a = 1, b = [2, 3, 4]
+```
+
+!! 七、其他：
+
+* 数据不需要修改时，建议使用元组。
+* 元组的不可变性可以作为一种保护机制，防止数据被意外更改。
+* 元组往往作为 字典的 key，或作为 函数的返回值（打包）。
+** 条件中元组中所有元素都是''不可变''、''可hash'' 的，元组就可以作为 dict key
+* 性能上，元组比列表略快，占用内存更少。

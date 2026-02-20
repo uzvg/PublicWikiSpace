@@ -1,0 +1,19 @@
+code-body: yes
+created: 20250411131349076
+import-type: Image
+modified: 20260114024913414
+modifier: uzvg
+tags: $:/tags/Initializer/Actions
+title: $:/uzvg/Initializer/Actions/Image
+type: text/vnd.tiddlywiki
+
+<$action-setfield $tiddler=<<storyTiddler>> _canonical_uri=<<get-imported-text>>/>
+<$action-setfield $tiddler=<<storyTiddler>> type=<<get-image-type>>/>
+<$action-deletefield $tiddler=<<storyTiddler>> $field="text"/>
+<<sync-fields-from-index>>
+<$action-sendmessage
+	$message="tm-rename-tiddler"
+	from=<<storyTiddler>>
+	to=<<get-image-title>>/>
+<$action-deletetiddler $tiddler="$:/tmp/image-title"/>
+<<finish-creation-actions>>

@@ -1,0 +1,27 @@
+code-body: yes
+created: 20260111140944254
+modified: 20260114024913441
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/line-editor-actions
+type: text/vnd.tiddlywiki
+
+\procedure new-card-actions()
+<% if [function[has-valid-card]] %>
+	<$action-setfield $tiddler=<<dataTiddler>>
+		text=<<get-dest-data>>
+		source=<<storyTiddler>>
+		type="application/json"/>
+	<$action-deletetiddler $tiddler=<<storeTiddler>>/>
+<% endif %>
+\end
+
+\procedure go-nextTab-actions()
+<$action-setfield $tiddler=<<explicitStateTiddler>>
+	text=<<get-next-tab>>/>
+\end
+
+\procedure go-previousTab-actions()
+<$action-setfield $tiddler=<<explicitStateTiddler>>
+	text=<<get-previous-tab>>/>
+\end

@@ -1,0 +1,156 @@
+authors: geeksforgeeks
+caption: import keywords
+created: 20250605030028530
+description: 使用import关键字导入模块
+medium: Website
+modified: 20250605031504366
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: keywords(1749028332441)
+tags: LiteratureNotes Python
+title: import keywords(1749092428530)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+!! 一、作用
+
+`import` 用于引入模块，以便使用模块中定义的函数、类、变量等内容。
+
+简而言之：
+
+> `import` 是 Python 用于模块化编程的基础机制。
+
+通过 `import`，你可以：
+
+* 重用已有代码；
+* 组织大型程序；
+* 利用 Python 标准库和第三方库。
+
+!! 二、基本语法
+
+!!! 1. `import 模块名`
+
+```python
+import math
+print(math.sqrt(16))  # 输出：4.0
+```
+
+!!! 2. `import 模块名 as 别名`
+
+```python
+import numpy as np
+print(np.array([1, 2, 3]))
+```
+
+!!! 3. `from 模块 import 成员`
+
+```python
+from math import sqrt
+print(sqrt(16))  # 直接使用 sqrt，无需 math.
+```
+
+!!! 4. `from 模块 import 成员 as 别名`
+
+```python
+from math import sqrt as s
+print(s(25))  # 输出：5.0
+```
+
+!!! 5. `from 模块 import *`（不推荐）
+
+```python
+from math import *
+print(sin(3.14))
+```
+
+<<twks-alerter "warning" "不推荐使用 `*`，因为它会导入所有成员，容易污染命名空间、产生命名冲突。">>
+
+!! 三、常用场景
+
+!!! 1. 使用标准库
+
+```python
+import os
+import datetime
+from collections import Counter
+```
+
+!!! 2. 使用第三方库
+
+```python
+import numpy as np
+import pandas as pd
+import requests
+```
+
+第三方库需通过 pip 安装，如：
+
+```bash
+pip install requests
+```
+
+!!! 3. 导入自定义模块
+
+假设有文件结构如下：
+
+```
+project/
+│
+├── main.py
+└── utils.py
+```
+
+在 `main.py` 中：
+
+```python
+import utils
+# 或 from utils import some_function
+```
+
+!!! 4. 组织包（package）
+
+文件结构：
+
+```
+mypackage/
+│
+├── __init__.py
+├── core.py
+└── tools.py
+```
+
+用法：
+
+```python
+from mypackage import core
+from mypackage.tools import helper_func
+```
+
+!! 四、执行行为细节
+
+* 模块只在第一次导入时执行，后续使用缓存；
+* 模块的路径由 `sys.path` 决定（可以通过修改环境变量或添加路径来引入自定义模块）；
+* 模块中会执行顶层代码，但不会自动执行函数除非调用。
+
+!! 五、`import` vs `from ... import`
+
+| 方式                  | 优点               | 缺点         |
+| `import 模块`         | 命名清晰、易维护         | 使用时需加模块名前缀 |
+| `from 模块 import 名称` | 更简洁              | 容易命名冲突     |
+| `import 模块 as 别名`   | 缩短名称，常见于大库如 `np` | 可读性稍差（对新手） |
+
+!! 六、总结口诀
+
+> 想用啥，就 `import` 啥；
+> 用得多，起个名（别名）；
+> 用一部分，`from` 它来；
+> 用 `*` 慎重，名字乱开！
+
+!! 其他：
+
+* `import`语句不是只能在文件开头定义，只在要调用模块中的代码前使用就可。
+
+如果你想深入了解模块查找机制、包的构建、动态导入（如 `importlib`）等高级主题，我也可以继续扩展。是否需要？

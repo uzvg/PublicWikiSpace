@@ -1,0 +1,22 @@
+created: 20260216070912604
+modified: 20260216072001580
+tags: test
+title: jsonset
+type: text/vnd.tiddlywiki
+
+\function get-request-body()
+	[[]jsonset[name],[uzvg]]
+	+[jsonset[age],[28]]
+	+[format:json[2]]
+\end
+
+[<get-source-data>jsonset:object<get-flashcard-id>]
+	+[jsonset<get-flashcard-id>,[question],<get-store-question>]
+	+[jsonset<get-flashcard-id>,[answer],<get-store-answer>]
+	+[format:json[2]]
+
+<$codeblock code=<<get-request-body>>/>
+
+<$codeblock code={{{ [[]jsonset:json] }}}
+
+/>

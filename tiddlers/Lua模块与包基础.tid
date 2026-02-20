@@ -1,0 +1,198 @@
+created: 20250629132648566
+description: Lua模块与包基础
+modified: 20250629133001473
+progress: Completed
+rating: Plain
+tags: PermanentNotes Lua
+title: Lua模块与包基础
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 一、什么是模块(module)
+
+模块是''封装在单个文件中的一组变量、函数和表''，用于实现代码的复用和组织。
+
+在Lua中，一个模块通常就是一个返回''table''的文件。
+例如：
+
+```lua
+-- mymodule.lua
+local M = {}
+
+function M.sayHello()
+    print("Hello from my module!")
+end
+
+return M
+```
+
+这个文件返回一个table `M`，里面封装了模块对外提供的内容。
+
+!! 二、加载模块：`require`
+
+加载模块使用 `require` 函数：
+
+```lua
+local mymodule = require("mymodule")
+mymodule.sayHello()
+```
+
+> ''注意：''
+
+* `require`会自动查找文件（见`package.path`）。
+* `require`返回模块返回的值（通常是table）。
+* ''同一个模块只会加载一次''（结果会缓存在`package.loaded`中）。
+
+!! 三、模块搜索路径
+
+Lua通过`package.path`和`package.cpath`来确定在哪里查找模块。
+
+!!! `package.path`
+
+用于查找Lua文件模块。
+
+* 是一个由分号分隔的字符串路径列表。
+* `?`表示模块名替换点。
+* 示例：
+
+```lua
+print(package.path)
+-- 一般会输出类似：
+-- ./?.lua;/usr/share/lua/5.4/?.lua;...
+```
+
+如果你执行：
+
+```lua
+require("foo.bar")
+```
+
+Lua会把`.`替换为`/`，尝试按`package.path`搜索：
+
+```
+./foo/bar.lua
+```
+
+等路径。
+
+!!! `package.cpath`
+
+用于查找C模块（动态库），例如.so或.dll。
+
+!! 四、module函数（老版本）
+
+在Lua 5.1里，可以使用`module()`函数创建模块：
+
+```lua
+module("mymodule", package.seeall)
+
+function sayHello()
+    print("Hello")
+end
+```
+
+但''这种写法已经被弃用''（不推荐），建议用`local M = {}; ... return M`的方式。
+
+!! 五、包(package)
+
+在Lua中，“包”一般指一组相关模块。
+Lua本身并没有严格区分模块与包，但通常一个包是多个模块的集合。
+
+!! 六、实用技巧
+
+!!! 1. 编写模块的模板
+
+最推荐的写法：
+
+```lua
+-- mymodule.lua
+local M = {}
+
+function M.add(a, b)
+    return a + b
+end
+
+function M.sub(a, b)
+    return a - b
+end
+
+return M
+```
+
+!!! 2. 在模块中隐藏内部函数
+
+可以在模块文件里定义“私有”函数（不放进返回的table）：
+
+```lua
+local M = {}
+
+local function helper(x)
+    return x * 2
+end
+
+function M.double(y)
+    return helper(y)
+end
+
+return M
+```
+
+这样`helper`不会被外部访问。
+
+!! 七、动态加载
+
+如果需要根据条件动态加载模块：
+
+```lua
+local name = "json"
+local ok, mod = pcall(require, name)
+if ok then
+    print("Loaded", name)
+else
+    print("Failed to load module:", mod)
+end
+```
+
+!! 八、卸载模块
+
+如果你希望重新加载模块（例如调试期间修改了代码），可以：
+
+```lua
+package.loaded["mymodule"] = nil
+local mymodule = require("mymodule")
+```
+
+这样`require`会再次加载文件。
+
+!! 九、示例：目录结构
+
+假设目录结构：
+
+```
+project/
+  main.lua
+  libs/
+    utils.lua
+```
+
+使用时：
+
+* 修改`package.path`：
+
+```lua
+package.path = "./libs/?.lua;" .. package.path
+```
+
+* 在`main.lua`里：
+
+```lua
+local utils = require("utils")
+utils.sayHello()
+```
+
+!! 十、注意事项
+
+* ✅ 推荐用`local M = {}; return M`来定义模块
+* ✅ 不要在模块中污染全局命名空间
+* ✅ 同一个模块只加载一次，如需重载要清理`package.loaded`
+* ✅ 如果要兼容C模块，要设置好`package.cpath`

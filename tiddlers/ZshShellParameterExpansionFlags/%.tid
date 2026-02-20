@@ -1,0 +1,114 @@
+caption: %
+created: 20250703000702150
+description: zsh shell parameter flags 👉 % 使用说明
+modified: 20250703153338732
+order: 3
+progress: Completed
+rating: Plain
+tags: ParameterExpansionFlags PermanentNotes
+title: ZshShellParameterExpansionFlags/%
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 功能解释：
+
+这个 `%` flag 的作用是：
+
+# ''把展开结果当作“prompt string”里的内容进行 `%` 转义展开''，也就是说，会把字符串中的 `%` 替换成和 shell 提示符里一样的动态内容。
+#* 比如：`%n` 会展开为用户名，`%~` 展开为当前目录。
+# 如果写成 ''两个 `%`（`%%`）''，就会执行''完整的 prompt expansion''，还会受以下变量的控制：
+#* `PROMPT_PERCENT`
+#* `PROMPT_SUBST`
+#* `PROMPT_BANG`
+
+<<twks-alerter "note" """
+简化理解：`%` flag就是：把字符串当作提示符样板字符串，替换所有 `%` 转义符。
+""">>
+
+!! 最常用的实际例子:
+
+这是最常用的应用：''在脚本里动态生成包含 prompt escape 的字符串''。
+
+!!! 例1：把 `%n` 展开为用户名
+
+```zsh
+txt='%n'
+print ${(%)txt}
+
+# 输出：
+你的用户名
+```
+
+!!! 例2：使用 `%~` 以`~`的形式展开当前目录
+
+```zsh
+txt='%~'
+print ${(%)txt}
+# 输出：
+~
+
+cd $HOME/Documents
+print ${(%)txt}
+~/Documents
+```
+
+!!! 例3：一次性展开一串 prompt 转义
+
+```zsh
+txt='User: %n, Host: %m, Dir: %~'
+print ${(%):-$txt}
+
+# 输出：
+User: uzvg, Host: ArchLinux, Dir: ~/Documents
+```
+
+!!! 例4：对比：如果没有 `%` flag
+
+```zsh
+print $txt
+
+# 输出：（不进行任何展开）
+User: %n, Host: %m, Dir: %~
+```
+
+!! `%` vs `%%`
+
+如果你写两次 `%`，效果等于在 prompt 中完整的扩展，比如 `PROMPT_SUBST` 和 `PROMPT_BANG` 的支持，能展开更多复杂情况。
+
+; 示例：
+
+```zsh
+txt='Date: %D{%Y-%m-%d}'
+print ${(%%)txt}
+
+# 输出：
+Date: 2025-07-02
+```
+
+<<twks-alerter "warning" "如果只用一个 `%`，有些复杂替换可能不工作。">>
+
+!! 小技巧：在脚本中生成动态提示符
+
+这也是在 `.zshrc` 或插件里动态生成 prompt 的技巧：
+
+```zsh
+prompt_template='[%n@%m %~]%# '
+PROMPT="${(%):-${prompt_template}}"
+```
+
+这样设置后，`PROMPT` 就会即时展开这些 `%` 转义：
+
+```
+[uzvg@ArchLinux ~/Documents]%
+```
+
+!! 小结：
+
+* ✅ ''功能：''把字符串里的 `%` prompt escape 替换成对应值。
+* ✅ ''常用：''
+** 显示用户名、主机、路径
+** 生成动态提示符
+** 输出当前时间、日期
+* ✅ ''区别：''
+** `%`：简单 prompt expansion
+** `%%`：完整 prompt expansion（支持更多功能）

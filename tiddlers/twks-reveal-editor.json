@@ -1,0 +1,15 @@
+[
+    {
+        "created": "20260124143015489",
+        "text": "!! 前期实现调查：\n\n* 使用tiddlywiki自带的editor样式，无论多行还是单行 ✅\n** [[tiddlywiki自带的Editor style]]\n* 编辑器延迟刷新机制 ✅\n** [[TiddlyWiki 刷新延迟机制（RefreshMechanism）]]\n* 使用快捷键 ✅\n** 在当前编辑器中，跟全局冲突的快捷键，会优先执行当前快捷键定义的动作。\n\n```wikitext\n<$keyboard key=\"ctrl+enter\" actions=<<twks-debug-notifier>>>\n\t<$edit tiddler=<<storyTiddler>> field=\"answer\" class=\"tc-edit-texteditor\"/>\n</$keyboard>\n```\n\n* 处理多行文本在JSON文件中的存储 ✅\n** [[如何处理多行文本在JSON文件中的存储？]]\n* 将wikitext转化为HTML ✅\n** [[如何把wikitext转化为HTML？]]\n\n",
+        "title": "twks-reveal-editor",
+        "tags": "ProjectNotes TWKS",
+        "modified": "20260220055701550",
+        "type": "text/vnd.tiddlywiki",
+        "temp": "\n\n\n\n",
+        "progress": "Researching",
+        "visibility": "Public",
+        "answer": "; Upgrade system:\n\n```sh\nsudo pacman -Syyu\n```\n\n* This is a test.",
+        "description": ""
+    }
+]

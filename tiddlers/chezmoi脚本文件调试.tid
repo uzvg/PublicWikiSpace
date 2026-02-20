@@ -1,0 +1,54 @@
+created: 20260117165556406
+description: 调试chezmoi中的脚本文件
+modified: 20260118073933424
+progress: Completed
+rating: Valuable
+tags: PermanentNotes chezmoi
+title: chezmoi脚本文件调试
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 核心原则：
+
+<<twks-alerter "important" "''脚本永远不要直接 `chezmoi apply` 调试''">>
+
+!! 预览脚本：
+
+```sh
+chezmoi apply --dry-run -v
+# 会看到：
+run_once_install.sh (will be run)
+# 但不会真的执行
+
+# 查看“最终脚本内容”（非常重要）
+chezmoi cat path/to/script
+# 或
+chezmoi cat ~/.local/share/chezmoi/.chezmoiscripts/*
+```
+
+!! 假执行
+
+```sh
+if [[ -n "${CHEZMOI_DRY_RUN:-}" ]]; then
+  echo "DRY-RUN: apt install foo"
+else
+  apt install foo
+fi
+
+# 调试：
+CHEZMOI_DRY_RUN=1 bash test.sh
+```
+
+!! 七、标准调试流程：
+
+```sh
+# 查看脚本文件内容：
+chezmoi execute-template --dry-run -f xxx.tmpl
+chezmoi cat xxx
+
+# 查看脚本文件是否执行
+chezmoi apply --dry-run -v
+
+# 最后
+chezmoi apply
+```

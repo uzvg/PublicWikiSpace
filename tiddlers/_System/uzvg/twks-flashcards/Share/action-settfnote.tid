@@ -1,0 +1,66 @@
+code-body: yes
+created: 20260218071752946
+modified: 20260218102426349
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/action-settfnote
+type: text/vnd.tiddlywiki
+
+<!-- Action to set tiddlywiki flascards note field value -->
+\procedure action-settfnote(dataTiddler,tfNoteId,fieldName,jsonData)
+\function get-json-type() [<jsonData>jsontype[]]
+\function get-store-source-data() [<dataTiddler>get[text]]
+\function get-store-note-data() [<sourceStoreData>jsonget<tfNoteId>]
+
+\function get-target-note-data()
+	[<jsonType>match[string]]
+	:then[<noteStoreData>jsonset:string<fieldName>,<jsonData>]
+	:else[<noteStoreData>jsonset:json<fieldName>,<jsonData>]
+\end get-target-note-data
+
+\function get-target-source-data()
+	[<sourceStoreData>jsonset:json<tfNoteId>,<noteTargetData>]
+	+[format:json[2]]
+\end get-target-source-data
+
+<$let
+	jsonType=<<get-json-type>>
+	sourceStoreData=<<get-store-source-data>>
+	noteStoreData=<<get-store-note-data>>
+	noteTargetData=<<get-target-note-data>>
+	sourceTargetData=<<get-target-source-data>>>
+
+	<$action-setfield
+		$tiddler=<<dataTiddler>>
+		text=<<get-target-source-data>>
+		type="application/json"/>
+
+</$let>
+\end
+
+<!--
+------------------------------Debug------------------------------
+; jsonType:
+<$codeblock code=<<jsonType>>/>
+
+; sourceStoreData:
+<$codeblock code=<<sourceStoreData>>/>
+
+; noteStoreData:
+<$codeblock code=<<noteStoreData>>/>
+
+; noteTargetData:
+<$codeblock code=<<noteTargetData>>/>
+
+; sourceTargetData:
+<$codeblock code=<<sourceTargetData>>/>
+
+------------------------------test------------------------------
+<$let tags-array='["one first","two second","three"]'>
+<$transclude $variable="action-settfnote"
+	dataTiddler=<<twks-temp-tiddler>>
+	tfNoteId="20260218"
+	fieldName="tags"
+	jsonData=<<tags-array>>/>
+</$let>
+-->

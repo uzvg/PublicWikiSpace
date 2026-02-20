@@ -1,0 +1,39 @@
+created: 20251222142324424
+description: 使用吃掉那只青蛙的流程，创建的待办列表应用
+modified: 20260102161018612
+progress: WIP
+tags: ProjectNotes TWKS
+title: twks-frog
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirements:
+
+* 从目标➡计划➡任务
+* goal➡plan➡task
+
+goalTiddler ➡ planTiddler ➡ taskTiddler
+
+* goalTiddler: status progress schedule
+* taskTiddler: progress priority schedule friction duration
+
+!! Files list:
+
+* [[$:/uzvg/twks-frog/Share/goals-table-view]]
+
+!! To-do list
+
+* task-table的已完成任务的样式，添加删除线 ✅
+* 整合task tiddler页面的total duration处理逻辑，比如当只有start而end为空的时候 ✅
+* 在goal跟task中添加对应的frontmatter
+** task info
+*** 如果该task有subtask，就需要展示当前task的进度
+*** parent信息
+*** Created info
+** goal info
+** 看看task-table的逻辑，能否应用到所有的task中？
+* 设置goal的进度条 ✅
+* 整合到Journal对应的页面中
+** goals-table-view
+** tasks-table-view
+** frogs-table-view

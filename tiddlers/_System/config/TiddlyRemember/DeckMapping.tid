@@ -1,0 +1,18 @@
+created: 20241123072106026
+creator: uzvg
+modified: 20260207095427465
+modifier: uzvg
+tags: 
+title: $:/config/TiddlyRemember/DeckMapping
+type: text/vnd.tiddlywiki
+
+[get[deck]]
+[tag[Git]then[WikiSpace::Git]]
+[tag[Python]then[WikiSpace::Python]]
+[tag[zsh]then[WikiSpace::ZSH]]
+[tag[CSS]then[WikiSpace::CSS]]
+[tag[grid]then[WikiSpace::CSS::Grid]]
+[tag[chezmoi]then[WikiSpace::Chezmoi]]
+[tag[flexbox]then[WikiSpace::CSS::Flexbox]]
+[tag[Selector]then[WikiSpace::CSS::Selector]]
+[prefix[$:/Storage/HabitTracker/]then[WikiSpace::Habits]]

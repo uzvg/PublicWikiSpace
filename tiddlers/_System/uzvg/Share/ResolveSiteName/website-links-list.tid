@@ -1,0 +1,32 @@
+code-body: yes
+created: 20260103095245329
+modified: 20260114024913431
+modifier: uzvg
+title: $:/uzvg/Share/ResolveSiteName/website-links-list
+type: text/vnd.tiddlywiki
+
+\procedure website-links-list()
+\whitespace trim
+\import [[$:/uzvg/Share/ResolveSiteName/get-website-name]]
+\function get-link-target() [<currentUrl>prefix[zotero://]then[_self]else[_blank]]
+\function get-last-url() [<storyTiddler>get[url]enlist-input[]last[]]
+\function get-website-name() [.website-name<currentUrl>]
+\function get-last-name() [.website-name<get-last-url>]
+
+<!-- Url links list but the last. -->
+<$list filter="[<storyTiddler>get[url]enlist-input[]butlast[]]" variable="currentUrl">
+	<a href=<<currentUrl>>
+		class="tc-tiddlylink-external"
+		target=<<get-link-target>>
+		rel="noopener noreferrer">
+		<<get-website-name>>
+	</a>, &#32;
+</$list>
+<!-- The last url -->
+<a href=<<get-last-url>>
+	class="tc-tiddlylink-external"
+	target=<<get-link-target>>
+	rel="noopener noreferrer">
+	<<get-last-name>>
+</a>
+\end
