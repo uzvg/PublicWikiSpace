@@ -1,0 +1,24 @@
+created: 20260108132506047
+modified: 20260223132430371
+modifier: uzvg
+tags: ViewTemplates
+title: $:/uzvg/twks-flashcards/ViewTemplate
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/twks-flashcards/Share/rememberq]]
+\import [[$:/uzvg/twks-flashcards/Share/get-store-info]]
+\import [[$:/uzvg/twks-flashcards/Share/line-editor-actions]]
+\import [[$:/uzvg/twks-flashcards/Share/twks-flashcards-list]]
+\import [[$:/uzvg/twks-flashcards/Share/flashcards-tabs-function]]
+
+\procedure twks-flashcards-creator()
+<$transclude $variable="tabs"
+	tabsList="[function[get-tabs-list]]"
+	default="$:/uzvg/twks-flashcards/Share/twks-qa-cards-creator"
+	explicitState=<<explicitStateTiddler>>/>
+\end
+
+<$list filter="[<storyTiddler>tag[PermanentNotes]has[text]] [<storyTiddler>tag[LiteratureNotes]has[text]]">
+	<<twks-flashcards-creator>>
+	<<twks-flashcards-list>>
+</$list>

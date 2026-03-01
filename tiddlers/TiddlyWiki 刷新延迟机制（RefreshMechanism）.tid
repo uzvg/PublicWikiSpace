@@ -1,0 +1,55 @@
+created: 20260126020614862
+description: TiddlyWiki 的刷新延迟机制（RefreshMechanism）
+modified: 20260126020856723
+progress: Completed
+rating: Plain
+tags: PermanentNotes tiddlywiki
+title: TiddlyWiki 刷新延迟机制（RefreshMechanism）
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 一、作用目的
+
+RefreshMechanism 用于''合并并延迟频繁发生的刷新操作''，以避免在高频修改（尤其是编辑草稿时）导致界面频繁重绘，从而提升整体响应性与编辑体验。
+
+本质上，这是一个''系统级的 debounce（防抖）机制''。
+
+!! 二、触发刷新延迟的前提条件
+
+当 tiddler 发生修改时，只有在''本次修改涉及的所有 tiddler''均满足以下条件之一，才会启用刷新延迟：
+
+* 含有字段 `draft.of`（草稿 tiddler）
+* 含有字段 `throttle.refresh`（显式允许节流刷新）
+* 标题以 `$:/temp/volatile/` 开头（临时易失性 tiddler）
+
+> ⚠️ 只要有一个被修改的 tiddler 不满足上述条件，刷新将''立即执行，不会被延迟''。
+
+!! 三、刷新延迟的执行机制
+
+1. ''设置定时器''
+
+* 当满足节流条件时，系统设置一个定时器，其延迟时间由以下配置决定：
+* [[$:/config/Drafts/TypingTimeout]]（Typing Refresh Delay）
+
+2. ''持续修改会重置定时器''
+
+* 在定时器触发前，如果发生新的修改：
+** 旧定时器被取消
+** 重新设置一个新的定时器
+* 结果是：只要修改持续发生，刷新就会持续被推迟。
+
+3. ''定时器触发 → 合并刷新''
+
+* 当修改停止并超过延迟时间后：
+** 执行一次刷新周期
+** 刷新时会携带这段时间内''所有被修改的 tiddler 标题集合''，而非逐条刷新
+
+!! 四、一句话总结
+
+> RefreshMechanism 会在“可安全延迟”的 tiddler 被频繁修改时，合并多次刷新请求，并在修改结束后统一刷新一次，以在保证语义正确的前提下显著提升性能与交互流畅度。
+
+!! 五、插件与系统设计启示
+
+* 对于''高频更新但不要求立即反映 UI 的 tiddler''，应主动使用 `throttle.refresh`
+* `$:/temp/volatile/` 适合作为计算结果、缓存、临时状态的存放空间
+* 该机制是''wiki 刷新总线级别''的能力，插件设计应顺应它，而不是自行实现刷新控制逻辑

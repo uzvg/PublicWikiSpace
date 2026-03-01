@@ -1,0 +1,24 @@
+caption: Orphans
+code-body: yes
+created: 20260104102123856
+filter: [all[tiddlers]tag[Task]!is[draft]!has[parent]sort[created]]
+modified: 20260104102455985
+order: 5
+title: $:/uzvg/twks-frog/Tabs/Orphans
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/twks-frog/Share/tasks-table-view]]
+\function get-current-filter() [<currentTab>get[filter]]
+
+\procedure save-task-actions()
+	<$action-setfield $tiddler=<<storeTiddler>>
+		tags="Task"
+		status="Pending"/>
+	<$action-sendmessage $message="tm-rename-tiddler"
+		from=<<storeTiddler>>
+		to=<<get-task-title>>/>
+\end
+
+<$transclude $variable="tasks-table-view"
+	filter=<<get-current-filter>>
+	actions=<<save-task-actions>>/>

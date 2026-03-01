@@ -1,0 +1,185 @@
+created: 20260117162937729
+description: 使用chezmoi脚本执行操作
+modified: 20260119054607886
+progress: Completed
+rating: Valuable
+tags: PermanentNotes chezmoi
+title: 使用chezmoi脚本执行操作
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 一、前言：
+
+[[chezmoi官方关于使用脚本执行操作的文档|https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/]]写得晦涩难懂，以下笔记主要是我梳理它的官方文档的内容。
+
+!! 二、概览：
+
+; chezmoi 中的脚本是做什么的？
+* chezmoi 允许我们在 dotfiles 仓库中放置脚本，并在执行 `chezmoi apply` 时自动运行这些脚本。
+
+; 脚本适用于以下场景：
+* 安装软件包
+* 执行系统配置命令
+* 完成''仅靠文件同步无法完成''的操作
+
+<<twks-alerter "warning" """
+* 脚本应当尽量''少用''。
+* chezmoi 的核心设计是 声明式（declarative），即：`系统状态` = `文件`和`模板`的结果
+* 脚本是''命令式''的，会破坏这一模型，因此：能用文件/模板完成的，不要用脚本
+* 必须使用脚本时，要保证 幂等性（idempotent）→ 脚本多次运行不会造成错误或副作用
+""">>
+
+
+!! 三、脚本类型 & 运行时机：
+
+!!! 1. 脚本的基本规则：
+
+; 脚本必须放在chezmoi `source directory`：
+* 文件名 以 `run_` 开头
+* 在 `chezmoi apply` 时执行
+* 执行顺序：按 `ASCII 字母`顺序
+
+!!! 2. 脚本前缀含义：
+
+|tc-max-width|k
+| !前缀 | !运行条件 | !行为说明 |
+|`run_`					|每次 apply	|每次执行 chezmoi apply 都会运行 |
+|`run_onchange_`	|内容发生变化	|仅当脚本内容变化后才运行 |
+|`run_once_`			|新版本内容	|每个唯一内容版本只运行一次 |
+
+; `run_once_` 的内部机制：
+* chezmoi 会对 模板渲染后的脚本内容 计算 `SHA256`
+* 该 `hash` 用于判断''是否已经运行过''
+
+; 关于模板脚本（.tmpl）
+* 脚本可以是模板文件
+* 渲染后：
+** 如果只生成空白内容 → 不会执行
+** 否则作为普通脚本执行
+
+!!! 3. 执行顺序 & 脚本放置位置：
+
+; 在一次 `chezmoi apply` 中，默认执行流程：
+# 按字母顺序
+# 先更新一部分文件
+# 执行脚本
+# 再更新剩余文件
+
+!!! 4. 控制脚本执行时机（before / after）
+
+; 通过文件名控制脚本在整体流程中的位置：
+
+```sh
+run_once_before_*.sh   # 所有文件更新之前运行
+run_once_after_*.sh    # 所有文件更新之后运行
+
+```
+
+* 脚本命名示例：`run_once_before_install-password-manager.sh`
+
+!!! 5. `.chezmoiscripts` 目录：
+
+* 脚本也可以放在 `.chezmoiscripts/` 目录中
+* 行为等同于 `run_` 脚本
+* 不会在目标目录生成任何文件
+* 适合''纯动作型脚本''
+
+!!! 6. 脚本中的环境变量：
+
+chezmoi可以自定义环境变量，你可以在 `chezmoi.toml` 中定义 `scriptEnv`：
+
+```sh
+[scriptEnv]
+MY_VAR = "my_value"
+```
+
+这些变量会自动注入到：`脚本`、`hooks`、`chezmoi 执行的外部命令`中。
+
+!!! 7. 在 `diff` / `status` 中隐藏脚本：
+
+; ➀ 默认行为：
+* `chezmoi diff` → 显示''将要运行的脚本''
+* `chezmoi status` → 标记脚本为 “to run”
+
+如果我们希望输出更干净，可以在配置中隐藏这些信息：
+
+```sh
+[diff]
+exclude = ["scripts"]
+
+[status]
+exclude = ["scripts"]
+```
+
+; ➁ 脚本安装软件包(示例)：
+
+`run_onchange_install-packages.sh`:
+
+```
+#!/bin/sh
+sudo apt install ripgrep
+```
+
+; 脚本特点：
+* 脚本内容不变 → 不会重复运行
+* 添加新软件 → 内容变化 → 再次运行
+
+; 2. 使用模板实现跨平台安装：
+
+```sh
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/sh
+sudo apt install ripgrep
+{{ else if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+brew install ripgrep
+{{ end -}}
+```
+
+; 脚本特点：
+* 一个脚本适配多个系统
+* 保持 repo 的统一性
+
+!!! 8. 因“其他文件变化”而触发脚本：
+
+chezmoi脚本的一个关键点是：`run_onchange_` 默认只监控脚本自身内容，也就是说，除非脚本自己的内容发生了变化，否则脚本不会被执行。
+
+; 假设有 `dconf.ini`，当它变化时希望自动 reload：
+```
+#!/bin/bash
+# dconf.ini hash: {{ include "dconf.ini" | sha256sum }}
+dconf load / < {{ joinPath .chezmoi.sourceDir "dconf.ini" | quote }}
+```
+
+; 机制解释：
+* `dconf.ini` 的 `hash` 被写入脚本内容
+* 文件变化 → hash 变化 → 脚本内容变化
+* `run_onchange_` 被重新触发
+* 通常会配合 `.chezmoiignore`
+* 避免 `dconf.ini` 被直接同步到 `$HOME`
+
+
+!!! 9. 重置脚本运行状态：
+
+; chezmoi 会记录脚本运行状态，如需强制重跑：
+```sh
+# 清空 run_onchange_ 状态
+chezmoi state delete-bucket --bucket=entryState
+# 清空 run_once_ 状态
+chezmoi state delete-bucket --bucket=scriptState
+```
+
+; 适合场景：
+* 逻辑修改
+* 状态损坏
+* 手动回滚后需要重跑
+
+!! 核心要点速查：
+
+* `run_`：每次 `apply` 都跑
+* `run_onchange_`：内容变了才跑
+* `run_once_`：每个版本只跑一次
+* 脚本可以是模板
+* 脚本会参与 `apply` 的执行顺序
+* 可以通过 `hash` 绑定「其他文件变化」
+* 能不用脚本，就别用脚本

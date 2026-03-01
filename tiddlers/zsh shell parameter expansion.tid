@@ -1,0 +1,433 @@
+created: 20250702094919859
+description: zsh shell 参数扩展语法
+modified: 20250702232116180
+progress: Completed
+rating: Plain
+tags: PermanentNotes zsh
+title: zsh shell parameter expansion
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 1. 基本参数扩展
+
+!!! `${name}`
+
+''功能'': 基本参数扩展，获取变量的值
+
+''标量变量示例'':
+
+```bash
+name="John"
+echo ${name}        # 输出: John
+echo $name          # 等价写法，输出: John
+```
+
+''数组变量示例'':
+
+```bash
+arr=(apple banana cherry)
+echo ${arr}         # 输出: apple (第一个元素)
+echo ${arr[@]}      # 输出: apple banana cherry (所有元素)
+echo ${arr[2]}      # 输出: banana (第二个元素，从1开始计数)
+```
+
+!! 2. 变量存在性检查
+
+!!! `${+name}`
+
+''功能'': 检查变量是否已设置，如果设置则返回1，否则返回空
+
+''标量变量示例'':
+
+```bash
+name="John"
+echo ${+name}       # 输出: 1 (变量已设置)
+unset name
+echo ${+name}       # 输出: (空，变量未设置)
+```
+
+''数组变量示例'':
+
+```bash
+arr=(a b c)
+echo ${+arr}        # 输出: 1 (数组已设置)
+echo ${+arr[2]}     # 输出: 1 (第二个元素存在)
+echo ${+arr[5]}     # 输出: (空，第五个元素不存在)
+```
+
+此外，该参数扩展语法也常用于[[判断命令是否存在|使用zsh的方式判断命令是否存在]]：
+
+```
+# 判断git命令是否存在
+if (( {+${commands[git]} )); then
+
+fi
+```
+
+
+!! 3. 默认值扩展
+
+!!! `${name-word}` 和 `${name:-word}`
+
+''功能'':
+
+* `${name-word}`: 如果name未设置，返回word；如果已设置（即使为空），返回name的值
+* `${name:-word}`: 如果name未设置或为空，返回word；否则返回name的值
+
+''标量变量示例'':
+
+```bash
+# name未设置的情况
+echo ${name-default}     # 输出: default
+echo ${name:-default}    # 输出: default
+
+# name设置为空的情况
+name=""
+echo ${name-default}     # 输出: (空)
+echo ${name:-default}    # 输出: default
+
+# name有值的情况
+name="John"
+echo ${name-default}     # 输出: John
+echo ${name:-default}    # 输出: John
+```
+
+''数组变量示例'':
+
+```bash
+# 数组未设置
+echo ${arr-"no array"}    # 输出: no array
+echo ${arr:-"no array"}   # 输出: no array
+
+# 数组设置但为空
+arr=()
+echo ${arr-"no array"}    # 输出: (空)
+echo ${arr:-"no array"}   # 输出: no array
+```
+
+''小节总结'': `${name-word}`只检查变量是否设置，而`${name:-word}`同时检查变量是否设置且非空。
+
+!! 4. 条件值扩展
+
+!!! `${name+word}` 和 `${name:+word}`
+
+''功能'':
+
+* `${name+word}`: 如果name已设置（即使为空），返回word；否则返回空
+* `${name:+word}`: 如果name已设置且非空，返回word；否则返回空
+
+''标量变量示例'':
+
+```bash
+# name未设置
+echo ${name+set}      # 输出: (空)
+echo ${name:+set}     # 输出: (空)
+
+# name设置为空
+name=""
+echo ${name+set}      # 输出: set
+echo ${name:+set}     # 输出: (空)
+
+# name有值
+name="John"
+echo ${name+set}      # 输出: set
+echo ${name:+set}     # 输出: set
+```
+
+''数组变量示例'':
+
+```bash
+# 数组有元素
+arr=(a b c)
+echo ${arr+exists}    # 输出: exists
+echo ${arr:+exists}   # 输出: exists
+
+# 数组为空
+arr=()
+echo ${arr+exists}    # 输出: exists
+echo ${arr:+exists}   # 输出: (空)
+```
+
+''小节总结'': `${name+word}`只检查变量是否设置，而`${name:+word}`要求变量既设置又非空。
+
+!! 5. 赋值扩展
+
+!!! `${name=word}`、`${name:=word}` 和 `${name::=word}`
+
+''功能'':
+
+* `${name=word}`: 如果name未设置，将word赋值给name并返回
+* `${name:=word}`: 如果name未设置或为空，将word赋值给name并返回
+* `${name::=word}`: 无论name状态如何，都将word赋值给name并返回
+
+''标量变量示例'':
+
+```bash
+# name未设置
+echo ${name=default}     # 输出: default，同时设置name=default
+echo $name              # 输出: default
+
+unset name
+name=""
+echo ${name:=default}    # 输出: default，同时设置name=default
+echo $name              # 输出: default
+
+name="existing"
+echo ${name::=new}      # 输出: new，强制设置name=new
+echo $name              # 输出: new
+```
+
+''注意'': 这些扩展主要用于标量变量，对数组的行为较复杂且不常用。
+
+''小节总结'': `=`检查是否设置，`:=`检查是否设置且非空，`::=`强制赋值。
+
+!! 6. 错误扩展
+
+!!! `${name?word}` 和 `${name:?word}`
+
+''功能'':
+
+* `${name?word}`: 如果name未设置，输出错误信息word并退出
+* `${name:?word}`: 如果name未设置或为空，输出错误信息word并退出
+
+''标量变量示例'':
+
+```bash
+# name已设置
+name="John"
+echo ${name?not set}     # 输出: John
+
+# name未设置
+unset name
+echo ${name?not set}     # 错误: zsh: name: not set
+
+# name为空
+name=""
+echo ${name:?empty}      # 错误: zsh: name: empty
+```
+
+''小节总结'': 用于参数验证，`?`检查是否设置，`:?`检查是否设置且非空。
+
+!! 7. 前缀模式删除
+
+!!! `${name#pattern}`、`${name##pattern}` 和 `${name:#pattern}`
+
+''功能'':
+
+* `${name#pattern}`: 删除最短匹配的前缀
+* `${name##pattern}`: 删除最长匹配的前缀
+* `${name:#pattern}`: 如果整个字符串匹配pattern，返回空，否则返回原值
+
+''标量变量示例'':
+
+```bash
+filename="dir1/dir2/file.txt"
+echo ${filename#*/}      # 输出: dir2/file.txt (删除最短前缀)
+echo ${filename##*/}     # 输出: file.txt (删除最长前缀)
+
+str="hello"
+echo ${str:#hello}       # 输出: (空，完全匹配)
+echo ${str:#world}       # 输出: hello (不匹配)
+```
+
+''数组变量示例'':
+
+```bash
+arr=("dir1/file1.txt" "dir2/file2.txt" "dir3/file3.txt")
+echo ${arr[@]#*/}        # 输出: file1.txt file2.txt file3.txt
+echo ${arr[@]##*/}       # 输出: file1.txt file2.txt file3.txt
+```
+
+''小节总结'': `#`删除最短前缀，`##`删除最长前缀，`:#`用于完全匹配测试。
+
+!! 8. 后缀模式删除
+
+!!! `${name%pattern}` 和 `${name%%pattern}`
+
+''功能'':
+
+* `${name%pattern}`: 删除最短匹配的后缀
+* `${name%%pattern}`: 删除最长匹配的后缀
+
+''标量变量示例'':
+
+```bash
+filename="dir1/dir2/file.txt"
+echo ${filename%.*}      # 输出: dir1/dir2/file (删除最短后缀)
+echo ${filename%%.*}     # 输出: dir1/dir2/file (同上，因为只有一个点)
+
+path="/usr/local/bin"
+echo ${path%/*}          # 输出: /usr/local (删除最短后缀)
+echo ${path%%/*}         # 输出: (空，删除最长后缀)
+```
+
+''数组变量示例'':
+
+```bash
+arr=("file1.txt" "file2.doc" "file3.txt")
+echo ${arr[@]%.*}        # 输出: file1 file2 file3 (删除扩展名)
+```
+
+''小节总结'': `%`删除最短后缀，`%%`删除最长后缀，常用于文件路径和扩展名处理。
+
+!! 9. 数组操作
+
+!!! `${name:|arrayname}`、`${name:*arrayname}`、`${name:^arrayname}` 和 `${name:^^arrayname}`
+
+''功能'':
+
+* `${name:|arrayname}`: 数组差集 (name中有但arrayname中没有的元素)
+* `${name:*arrayname}`: 数组交集 (两个数组都有的元素)
+* `${name:^arrayname}`: 数组对称差集 (只在一个数组中的元素)
+* `${name:^^arrayname}`: 数组并集 (两个数组的所有元素，去重)
+
+''数组变量示例'':
+
+```bash
+arr1=(a b c d)
+arr2=(c d e f)
+
+echo ${arr1:|arr2}       # 输出: a b (arr1有但arr2没有)
+echo ${arr1:*arr2}       # 输出: c d (两个数组都有)
+echo ${arr1:^arr2}       # 输出: a b e f (只在一个数组中)
+echo ${arr1:^^arr2}      # 输出: a b c d e f (并集)
+```
+
+''小节总结'': 这些操作符提供了完整的集合运算功能，`:|`差集，`:*`交集，`:^`对称差集，`:^^`并集。
+
+!! 10. 子字符串提取
+
+!!! `${name:offset}` 和 `${name:offset:length}`
+
+''功能'':
+
+* `${name:offset}`: 从offset位置开始提取到末尾
+* `${name:offset:length}`: 从offset位置开始提取length个字符
+
+''标量变量示例'':
+
+```bash
+str="Hello World"
+echo ${str:6}            # 输出: World (从第6个字符开始)
+echo ${str:0:5}          # 输出: Hello (从开始提取5个字符)
+echo ${str:-5}           # 输出: World (从倒数第5个字符开始)
+echo ${str:2:3}          # 输出: llo (从第2个字符开始提取3个)
+```
+
+''数组变量示例'':
+
+```bash
+arr=(a b c d e f g)
+echo ${arr:2}            # 输出: c d e f g (从第3个元素开始)
+echo ${arr:1:3}          # 输出: b c d (从第2个元素开始取3个)
+echo ${arr:-2}           # 输出: f g (最后2个元素)
+```
+
+''小节总结'': 用于字符串和数组的切片操作，支持正负索引。
+
+!! 11. 模式替换
+
+!!! `${name/pattern/repl}`、`${name//pattern/repl}` 和 `${name:/pattern/repl}`
+
+''功能'':
+
+* `${name/pattern/repl}`: 替换第一个匹配的pattern
+* `${name//pattern/repl}`: 替换所有匹配的pattern  
+* `${name:/pattern/repl}`: 只有当整个字符串匹配pattern时才替换
+
+''标量变量示例'':
+
+```bash
+str="hello world hello"
+echo ${str/hello/hi}     # 输出: hi world hello (替换第一个)
+echo ${str//hello/hi}    # 输出: hi world hi (替换所有)
+
+str="hello"
+echo ${str:/hello/hi}    # 输出: hi (完全匹配才替换)
+str="hello world"
+echo ${str:/hello/hi}    # 输出: hello world (不完全匹配)
+```
+
+''数组变量示例'':
+
+```bash
+arr=("hello world" "hello there" "goodbye")
+echo ${arr[@]/hello/hi}  # 输出: hi world hi there goodbye
+echo ${arr[@]//l/L}      # 输出: heLLo worLd heLLo there goodbye
+```
+
+''小节总结'': `/`替换第一个匹配，`//`替换所有匹配，`:/`要求完全匹配。
+
+!! 12. 长度获取
+
+!!! ${#spec}
+
+''功能'': 获取字符串长度或数组元素个数
+
+''标量变量示例'':
+
+```bash
+str="Hello World"
+echo ${#str}             # 输出: 11 (字符串长度)
+
+empty=""
+echo ${#empty}           # 输出: 0 (空字符串长度)
+```
+
+''数组变量示例'':
+
+```bash
+arr=(a b c d e)
+echo ${#arr}             # 输出: 1 (第一个元素的长度)
+echo ${#arr[@]}          # 输出: 5 (数组元素个数)
+echo ${#arr[2]}          # 输出: 1 (第二个元素的长度)
+```
+
+!! 13. 特殊扩展标志
+
+!!! `${^spec}`、`${^^spec}`、`${=spec}`、`${==spec}`、`${~spec}` 和 `${~~spec}`
+
+''功能'':
+
+* `${^spec}`: RC_EXPAND_PARAM标志，用于路径扩展
+* `${^^spec}`: 强制RC_EXPAND_PARAM标志
+* `${=spec}`: SH_WORD_SPLIT标志，按空白符分割
+* `${==spec}`: 强制SH_WORD_SPLIT标志
+* `${~spec}`: GLOB_SUBST标志，启用通配符扩展
+* `${~~spec}`: 强制GLOB_SUBST标志
+
+''标量变量示例'':
+
+```bash
+# RC_EXPAND_PARAM示例
+prefix="file"
+suffix=("1.txt" "2.txt" "3.txt")
+echo ${^prefix}${suffix}  # 输出: file1.txt file2.txt file3.txt
+
+# SH_WORD_SPLIT示例
+str="a b c d"
+echo ${=str}             # 输出: a b c d (作为分离的词)
+
+# GLOB_SUBST示例
+pattern="*.txt"
+echo ${~pattern}         # 输出: (匹配的.txt文件列表)
+```
+
+''小节总结'': 这些标志控制参数扩展的特殊行为，`^`用于参数组合，`=`用于词分割，`~`用于通配符扩展。
+
+!! 总结
+
+zsh的参数扩展提供了强大的文本和数组处理能力：
+
+# ''基础操作'': `${name}`用于基本扩展，`${+name}`检查存在性
+# ''条件处理'': `-`、`:- `、`+`、`:+`系列用于默认值和条件值
+# ''赋值操作'': `=`、`:=`、`::=`用于条件赋值
+# ''错误处理'': `?`、`:?`用于参数验证
+# ''模式匹配'': `#`、`##`删除前缀，`%`、`%%`删除后缀
+# ''数组操作'': `:|`、`:*`、`:^`、`:^^`提供集合运算
+# ''子串操作'': `:offset:length`用于切片
+# ''替换操作'': `/`、`//`、`:/`用于模式替换
+# ''长度获取'': `#`获取长度或数组大小
+# ''特殊标志'': `^`、`=`、`~`等控制扩展行为
+
+这些扩展可以组合使用，是zsh脚本编程的重要工具。

@@ -1,0 +1,14 @@
+created: 20250221065843717
+creator: uzvg
+description: 为TWKS添加footnote功能。
+modified: 20250516084251793
+modifier: uzvg
+progress: Archived
+tags: TWKS ProjectNotes
+title: Add footnote feature for twks
+type: text/vnd.tiddlywiki
+visibility: Public
+
+* 添加脚注功能。
+* 一方面，社区已经有类似的功能实现，另一方面，就TWKS而言，脚注的实用性并不高。
+* 项目暂时归档处理。

@@ -1,0 +1,64 @@
+code-body: yes
+created: 20251231134512464
+modified: 20260103152904049
+title: $:/uzvg/twks-frog/Share/focus-records-table
+type: text/vnd.tiddlywiki
+
+\procedure easy-read-format() YYYY-0MM-0DD/0hh:0mm
+\function get-start-list() [<storyTiddler>get[start]]
+\function get-end-list() [<storyTiddler>get[end]]
+\function get-nth-start() [enlist<get-start-list>nth<index>]
+\function get-zth-start() [enlist<get-start-list>zth<index>format:date[TIMESTAMP]]
+\function get-nth-end() [enlist<get-end-list>nth<index>]
+\function get-easyRead-start() [<get-nth-start>format:date<easy-read-format>]
+\function get-easyRead-end() [<get-nth-end>format:date<easy-read-format>]
+\function get-start-timestamp() [<get-nth-start>format:date[TIMESTAMP]]
+\function get-end-timestamp() [<get-nth-end>format:date[TIMESTAMP]]
+\function get-single-duration() [<get-end-timestamp>subtract<get-start-timestamp>divide[60000]round[]]
+\function get-total-duration()
+	[enlist<get-end-list>format:date[TIMESTAMP]]
+	:reduce[subtract<get-zth-start>add<accumulator>]
+	+[divide[60000]round[]]
+\end
+
+\procedure delete-record-btn()
+\procedure delete-record-actions()
+	<$action-listops $tiddler=<<storyTiddler>>
+		$field="end"
+		$filter="[enlist<get-end-list>]"
+		$subfilter="+[remove<get-nth-end>]"/>
+	<$action-listops $tiddler=<<storyTiddler>>
+		$field="start"
+		$filter="[enlist<get-start-list>]"
+		$subfilter="+[remove<get-nth-start>]"/>
+\end delete-record-actions
+
+<$button actions=<<delete-record-actions>>
+	class="tc-btn-invisible">
+	{{$:/core/images/delete-button}}
+</$button>
+\end
+
+\procedure focus-records-table()
+<table>
+	<tr>
+		<th> No </th>
+		<th>Start</th>
+		<th>End</th>
+		<th>Duration</th>
+		<th>Del</th>
+	</tr>
+	<$list filter="[enlist<get-end-list>]" counter="index">
+		<tr>
+			<td> <<index>> </td>
+			<td> <<get-easyRead-start>> </td>
+			<td> <<get-easyRead-end>> </td>
+			<td> <<get-single-duration>>min </td>
+			<td> <<delete-record-btn>> </td>
+		</tr>
+	</$list>
+	<tr>
+		<th colspan="5" style="text-align:left;">Total Duration: <span class="emphasis"><<get-total-duration>></span>min</th>
+	</tr>
+</table>
+\end

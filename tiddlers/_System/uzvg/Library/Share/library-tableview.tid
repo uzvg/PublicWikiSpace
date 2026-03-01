@@ -1,0 +1,74 @@
+code-body: yes
+created: 20250214033050210
+creator: uzvg
+description: General Procedures For Library
+modified: 20260103103625148
+modifier: uzvg
+tags: 
+title: $:/uzvg/Library/Share/library-tableview
+type: text/vnd.tiddlywiki
+
+\procedure library-tableview()
+\import [[$:/uzvg/Share/twks-isbn-link]]
+\import [[$:/uzvg/Share/twks-authors-list]]
+\import [[$:/uzvg/Share/edit-tiddler-btn]]
+\function get-book-caption() [<currentBook>get[caption]]
+<table class="tc-max-width">
+	<tr>
+		<th>No</th>
+		<th>Title</th>
+		<th>ISBN</th>
+		<th>Authors</th>
+		<th>Progress</th>
+		<th>Rating</th>
+		<th>Visibility</th>
+		<th>Edit</th>
+	</tr>
+	<$list filter=<<get-complete-filter>> variable="currentBook" counter="currentNo">
+			<tr>
+				<td>
+					<<currentNo>>
+				</td>
+				<td>
+					<$link to=<<currentBook>>>
+						<<get-book-caption>>
+					</$link>
+				</td>
+				<td>
+					<$transclude $variable="twks-isbn-link"
+						isbn={{{ [<currentBook>get[isbn]] }}} />
+				</td>
+				<td>
+					<$transclude $variable="twks-authors-list" tiddler=<<currentBook>>/>
+				</td>
+				<td>
+					<$transclude $variable="twks-properties-selector"
+						tiddler=<<currentBook>>
+						field="progress"
+						noteType="Books"
+						property="progress"
+						emptyValue="no"/>
+				</td>
+				<td>
+					<$transclude $variable="twks-properties-selector"
+						tiddler=<<currentBook>>
+						field="rating"
+						noteType="Books"
+						property="rating"
+						emptyValue="no"/>
+				</td>
+				<td>
+					<$transclude $variable="twks-visibility-selector"
+						tiddler=<<currentBook>>
+						field="visibility"
+						emptyValue="no"/>
+				</td>
+				<td>
+					<$transclude $variable="twks-edit-btn"
+						tiddler=<<currentBook>>
+						tooltip="Edit this book tiddler"/>
+				</td>
+			</tr>
+	</$list>
+</table>
+\end

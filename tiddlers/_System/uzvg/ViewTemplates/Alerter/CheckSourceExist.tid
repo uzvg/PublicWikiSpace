@@ -1,0 +1,9 @@
+created: 20250427045518386
+modified: 20250427110940259
+tags: $:/tags/ViewTemplate
+title: $:/uzvg/ViewTemplates/Alerter/CheckSourceExist
+type: text/vnd.tiddlywiki
+
+<$list filter="[all[current]!is[system]has[source]get[source]!is[tiddler]]">
+	<<twks-alerter "warning" "Source Note Verification Required!<br>The source tiddler of current note does not currently exist in the system.">>
+</$list>

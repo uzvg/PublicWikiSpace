@@ -1,0 +1,88 @@
+code-body: yes
+created: 20260126062715188
+modified: 20260126063241268
+modifier: uzvg
+tags: 
+title: $:/uzvg/Stylesheets/VerticalTab.css
+type: text/vnd.tiddlywiki
+
+<% if [{$:/layout}match[$:/uzvg/Layout/PageTemplate]] %>
+
+.tc-page-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+
+    .alt-topbar {
+        position: sticky;
+        top: 0;
+        z-index: 1100;
+        display: flex;
+        justify-content: space-between;
+        background-color: color-mix(in srgb, <<colour background>>, <<colour primary>> 20%);
+        border-bottom: 1px solid <<colour tab-border>>;
+        color: <<colour foreground>>;
+
+        .tc-topbar {
+            position: relative;
+            top: unset;  right: unset;  left: unset;
+        }
+    }
+
+    .tc-page-container-inner { 
+        flex: 1 1 auto;
+        display: flex;
+        overflow: auto;
+        position: relative;
+        min-height: unset;
+    }
+
+    .alt-sidebar {
+        position: sticky;
+        top: 0; 
+        order: -3;
+        flex: 0 0 auto;
+        padding: 1em;
+        <% if [{$:/state/.alt/sidebar}match[no]] %>
+             display: none;
+        <% else %>
+             width: 30ch;
+        <% endif %>
+    }
+
+    .tc-story-river {
+        order: -2;
+        flex: 1 1 auto;
+        margin: 0;
+        padding: 2em;
+
+       .tc-tiddler-frame::after {
+           content:" ";
+           position: relative;
+           height: 3em; 
+           bottom: -6em;
+           margin-top: -4em;
+           display: block;
+           width: 100%;
+        }
+    }
+
+    .tc-sidebar-scrollable { 
+        order: -1;
+        flex: 0 0 auto;
+        position: sticky;
+        top: 0;
+        overflow: auto;
+        margin: 0;
+        padding: 1em 1em;
+        <% if [{$:/state/sidebar}match[no]] %>
+             display: none;
+        <% else %>
+             width: {{$:/themes/tiddlywiki/vanilla/metrics/sidebarwidth}};
+        <% endif %>
+    }
+
+}
+<% endif %>

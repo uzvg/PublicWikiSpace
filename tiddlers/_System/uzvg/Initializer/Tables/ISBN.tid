@@ -1,0 +1,18 @@
+code-body: yes
+created: 20250411122200874
+import-type: ISBN
+modified: 20260114024913423
+modifier: uzvg
+tags: $:/tags/Initializer/Tables
+title: $:/uzvg/Initializer/Tables/ISBN
+type: text/vnd.tiddlywiki
+
+|tc-max-width tc-edit-max-width twks-initializer-box twks-input-hide-border|k
+|!Book Title |<$edit-text field="caption" placeholder="Required" tag="input"/>|
+|!Authors |<<twks-author-pick-box>>|
+|!Publisher |<$edit-text field="publisher" placeholder="Optional" tag="input"/>|
+|!Publish Year |<$edit-text field="year" tag="input" type="Month" placeholder=<<now YYYY-0MM-0DD>>/>|
+|!ISBN |<$edit-text field="isbn" placeholder={{!!text}} tag="input"/>|
+|!Description |<$edit-text field="description" placeholder="Optional" tag="input"/>|
+|!Reading link |<$edit-text field="url" placeholder="Optional" tag="input"/> |
+|!Visibility |<<twks-radio-visibility-selector>> |

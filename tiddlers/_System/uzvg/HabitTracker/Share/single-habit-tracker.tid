@@ -1,0 +1,26 @@
+code-body: yes
+created: 20251219011422512
+modified: 20260114024913411
+modifier: uzvg
+title: $:/uzvg/HabitTracker/Share/single-habit-tracker
+type: text/vnd.tiddlywiki
+
+\procedure habitTracker-edit-table()
+\import [[$:/uzvg/Share/edit-tiddler-btn]]
+\import [[$:/uzvg/HabitTracker/Share/twks-habit-tracker]]
+
+\procedure close-storyTiddler-actions()
+	<$action-sendmessage $message="tm-close-tiddler" $param=<<storyTiddler>>/>
+\end close-storyTiddler-actions
+
+<$keyboard key="((input-accept))" actions=<<close-storyTiddler-actions>>>
+
+|tc-max-width habit-edit-table twks-input-hide-border|k
+|!Behavior |<$edit-text tiddler=<<storyTiddler>> field="caption" class="twks-full-width-input"/>|
+|!Context |<$edit-text tiddler=<<storyTiddler>> field="context" class="twks-full-width-input"/>|
+|!Adjustment |<$edit-text tiddler=<<storyTiddler>> field="adjustment" class="twks-full-width-input"/>|
+|!Rating |<$transclude $variable="habit-rating-box" tiddler=<<storyTiddler>>/> |
+|!Note |<$transclude $variable="twks-edit-btn" tiddler=<<storyTiddler>> class="" title="Edit"/> |
+</$keyboard>
+
+\end

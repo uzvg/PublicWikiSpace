@@ -1,0 +1,150 @@
+created: 20260208032413047
+description: Python中的条件表达式的语法结构以及其在列表推导式中的应用。
+modified: 20260208073632218
+progress: Completed
+rating: Plain
+tags: PermanentNotes Python
+title: Python条件表达式(TernaryExpression)
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 一、语法结构：
+
+''1. 基本语法：''
+
+```python
+A if condition else B
+```
+
+''2. 含义：''
+
+* 如果 `condition` 为 `True` → 整个表达式的值是 `A`
+* 如果 `condition` 为 `False` → 整个表达式的值是 `B`
+
+这是一个''完整、不可拆分的表达式结构''。
+
+''3. 执行逻辑：''
+
+```py
+result = A if condition else B
+# 等价于：
+if condition:
+    result = A
+else:
+    result = B
+```
+
+''4. 语法强约束：''
+
+* ''必须同时有 `if` 和 `else`''
+* 不允许只写一半
+
+```py
+x if condition          # ❌ 语法错误
+```
+
+!! 二、在列表推导式中的应用：
+
+''列表推导式的基本结构：''
+
+```py
+[expression for item in iterable if condition]
+```
+
+条件表达式可以作为列表推导式中的“expression”部分，它们的关系是：
+
+```py
+[
+    A if condition else B   # ← 条件表达式
+    for x in iterable
+]
+```
+
+* 比如：`[c.lower() if c.isalpha() else "_" for c in s]`，其中`if c.isalpha() else "_"`就相当于`expression`表达式，只不过换成了条件表达式，在使用时，要区分这两种完全不同的 `if`。
+
+<<twks-alerter "warning" "条件表达式 ≠ 列表推导式">>
+
+!! 三、条件表达式 🆚 列表推导式：
+
+!!! 1. 列表推导式中的`if`:
+
+```py
+# 这里if的作用是，决定“要不要这个元素”
+[x for x in data if condition]
+
+# 等价于：
+result = []
+for x in data:
+    if condition:
+        result.append(x)
+```
+
+; 特点：
+* 不满足条件 → 元素被丢弃
+* 输出列表长度 ''可能变短''
+* `if` 写在 `for ... in ...` 后面
+
+!!! 2. 条件表达式中的分支 `if`:
+
+```py
+# 作用：决定“这个元素变成什么”''
+A if condition else B
+
+# 等价于：
+if condition:
+    value = A
+else:
+    value = B
+```
+
+; 特点：
+* ✅ 每个元素都会产生结果
+* 输出结构 ''长度不变''
+* `if ... else ...` 写在表达式内部
+
+!! 四、使用示例：
+
+```python
+[c.lower() if c.isalpha() else "_" for c in s]
+
+# 等价于：
+result = []
+for c in s:
+    if c.isalpha():
+        result.append(c.lower())
+    else:
+        result.append("_")
+```
+
+!!! 示例 1：字符清洗：
+
+```python
+s = "Hello, World!"
+masked = [c.lower() if c.isalpha() else "_" for c in s]
+```
+
+* 用途：掩码、占位符、格式保持
+
+!!! 示例 2：数值映射
+
+```python
+nums = [-3, -1, 0, 2, 5]
+labels = ["pos" if x > 0 else "non-pos" for x in nums]
+```
+
+!!! 示例 3：与过滤 if 对比（语义差异）
+
+```python
+# 过滤：只保留字母
+[c for c in s if c.isalpha()]
+
+# 分支：非字母替换
+[c if c.isalpha() else "*" for c in s]
+```
+
+!! 五、总结：
+
+* ''过滤 if 决定“要不要”''
+* ''条件表达式决定“变成什么”''
+* ''列表推导式是结构''
+* ''条件表达式是值选择工具''

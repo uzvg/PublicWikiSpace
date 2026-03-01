@@ -1,0 +1,22 @@
+created: 20250318084300118
+modified: 20250318085319141
+progress: Completed
+rating: Plain
+tags: PermanentNotes TWKS
+title: WikiSpace的部署流程及思路
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 需求：
+
+要在一个工作目录中派生出三个仓库：
+
+* Public：保存管理可以公开展示的文件及静态网页。
+* Private：保存所有的tiddler文件，无需静态网页。
+* System：保存系统tiddler的修改记录，需要完善的commit message，未来计划为tiddlywiki的一个edition。
+
+!! 思路：
+
+* 使用tiddlywiki自带的[[save命令|tiddlywiki save命令解析]]和[[render命令|tiddlywiki render命令解析]]，从tiddlywiki工作目录中，生成三个不用的git工作目录。
+* 集成到`tiddlywiki.info`文件中👉[[自定义tiddlywiki构建方案]]。
+* 集成到脚本中，自动化，

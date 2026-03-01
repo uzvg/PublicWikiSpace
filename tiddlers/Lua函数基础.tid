@@ -1,0 +1,254 @@
+created: 20250629035436129
+description: Lua函数基础
+modified: 20250629042238203
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: Lua知识点大纲
+tags: PermanentNotes Lua
+title: Lua函数基础
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 函数大纲：
+
+* 函数定义
+* 参数和返回值
+* 可变参数
+* 匿名函数
+* 闭包
+
+!! 练习题1：函数定义与调用
+
+写一个函数`greet`，接收一个名字，打印`Hello, <名字>`。
+
+''答案：''
+
+```lua
+function greet(name)
+  print("Hello, " .. name)
+end
+
+greet("Alice")
+```
+
+''输出：''
+
+```
+Hello, Alice
+```
+
+!! 练习题2：函数返回值
+
+写一个函数`add`，接收两个数，返回它们的和，并打印返回值。
+
+''答案：''
+
+```lua
+function add(a, b)
+  return a + b
+end
+
+local result = add(3, 4)
+print(result)
+```
+
+''输出：''
+
+```
+7
+```
+
+!! 练习题3：多返回值
+
+写一个函数，接收两个数，返回它们的和与积。
+
+''答案：''
+
+```lua
+function sum_and_product(x, y)
+  return x + y, x * y
+end
+
+local s, p = sum_and_product(2, 5)
+print("sum=", s, "product=", p)
+```
+
+''输出：''
+
+```
+sum=	7	product=	10
+```
+
+!! 练习题4：可变参数
+
+写一个函数`print_all`，接收任意个参数并逐个打印。
+
+''答案：''
+
+```lua
+function print_all(...)
+  local args = {...}
+  for i, v in ipairs(args) do
+    print(v)
+  end
+end
+
+print_all("Lua", "is", "fun")
+```
+
+''输出：''
+
+```
+Lua
+is
+fun
+```
+
+!! 练习题5：匿名函数
+
+将一个匿名函数赋值给变量`square`，计算4的平方并打印。
+
+''答案：''
+
+```lua
+local square = function(x)
+  return x * x
+end
+
+print(square(4))
+```
+
+''输出：''
+
+```
+16
+```
+
+!! 练习题6：闭包
+
+请写代码创建一个闭包函数`make_counter`，每次调用返回递增的数。
+
+''答案：''
+
+```lua
+function make_counter()
+  local count = 0
+  return function()
+    count = count + 1
+    return count
+  end
+end
+
+local counter = make_counter()
+print(counter())  -- 1
+print(counter())  -- 2
+print(counter())  -- 3
+```
+
+''输出：''
+
+```
+1
+2
+3
+```
+
+''解析：''
+闭包把`count`变量“捕获”在内部。
+
+!! 练习题7：默认参数（模拟）
+
+Lua没有内置默认参数，请写一个函数，接收一个数，如果参数为`nil`，默认使用10。
+
+''答案：''
+
+```lua
+function show(n)
+  n = n or 10
+  print(n)
+end
+
+show(5)   -- 输出5
+show(nil) -- 输出10
+```
+
+''输出：''
+
+```
+5
+10
+```
+
+!! 练习题8：递归函数
+
+写一个递归函数`factorial(n)`计算n的阶乘（n!=1*2*...\*n）。
+
+''答案：''
+
+```lua
+function factorial(n)
+  if n == 0 then
+    return 1
+  else
+    return n * factorial(n - 1)
+  end
+end
+
+print(factorial(5))
+```
+
+''输出：''
+
+```
+120
+```
+
+!! 练习题9：函数作为参数
+
+写一个函数`apply`，接收一个函数`f`和一个值`x`，返回`f(x)`。
+
+''答案：''
+
+```lua
+function apply(f, x)
+  return f(x)
+end
+
+local function double(n)
+  return n * 2
+end
+
+print(apply(double, 6))
+```
+
+''输出：''
+
+```
+12
+```
+
+!! 练习题10：表中定义函数
+
+写一个表`math_ops`，包含一个函数`increment`，它接收一个数字返回加1的结果。
+
+''答案：''
+
+```lua
+local math_ops = {}
+
+function math_ops.increment(x)
+  return x + 1
+end
+
+print(math_ops.increment(10))
+```
+
+''输出：''
+
+```
+11
+```
+
+如果你想深入（比如''元表中的函数''、''高阶函数''、''协程配合函数''），或需要更多练习题，请告诉我！
+也可以帮你整理''进阶实战示例''来进一步掌握函数用法。

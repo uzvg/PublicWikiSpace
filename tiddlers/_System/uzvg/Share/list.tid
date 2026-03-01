@@ -1,0 +1,9 @@
+code-body: yes
+created: 20260107052531870
+modified: 20260114053423546
+modifier: uzvg
+tags: $:/tags/Global
+title: $:/uzvg/Share/list
+type: text/vnd.tiddlywiki
+
+\procedure li(_) <li class="twks-list-inside"><<_>></li>

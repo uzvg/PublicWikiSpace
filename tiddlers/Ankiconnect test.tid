@@ -1,0 +1,58 @@
+created: 20260224084819532
+modified: 20260224104118375
+tags: test
+title: Ankiconnect test
+type: text/vnd.tiddlywiki
+
+\procedure message-body()
+{
+    "action": "addNote",
+    "version": 6,
+    "params": {
+        "note": {
+            "deckName": "Test",
+            "modelName": "Basic",
+            "fields": {
+                "Front": "front \"content",
+                "Back": "back content"
+            },
+            "options": {
+                "allowDuplicate": false,
+                "duplicateScope": "deck",
+                "duplicateScopeOptions": {
+                    "deckName": "Default",
+                    "checkChildren": false,
+                    "checkAllModels": false
+                }
+            },
+            "tags": [
+                "yomichan"
+            ]
+        }
+    }
+}
+\end
+
+\function storeTiddler() [[$:/temp/test/ankiconnect]]
+
+\procedure http-send()
+
+\procedure completionActions()
+<$action-setfield $tiddler="$:/temp/test/ankiconnect" status=<<status>> error=<<error>> data=<<data>> headers=<<headers>>/>
+\end completionActions
+
+<$action-sendmessage
+		$message="tm-http-request"
+		url="http://127.0.0.1:8765"
+		method="POST"
+		header-content-type="application/json"
+		body=<<message-body>>
+		bind-status=<<storeTiddler>>
+		oncompletion=<<completionActions>>/>
+\end
+
+<$button actions=<<http-send>>>
+Send
+</$button>
+
+* <$link to=<<storeTiddler>>/>

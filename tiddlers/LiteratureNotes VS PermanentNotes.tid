@@ -1,0 +1,55 @@
+created: 20250530012805464
+description: 在wikispace中，如何区分LiteratureNotes和PermanentNotes？它们的写作原则是什么？
+modified: 20250530020327938
+progress: Completed
+rating: Valuable
+tags: PermanentNotes NoteTaking(笔记管理)
+title: LiteratureNotes VS PermanentNotes
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+在设计''wikispace''的时候，我遇到一个比较难梳理的问题——如何区分`LiteratureNotes`和`PermanentNotes`？因为在具体实践中，我们事实上既可以在`LiteratureNotes`中记录作者的观点，也可以直接表达自己的观点，但这样的话，是否还必要引入`PermanentNotes`笔记？
+
+我看到很多博主会使用模板规定`LiteratureNotes`以及`PermanentNotes`的写作框架和大纲，这在tiddlywiki中不算什么难事，在我尝试了一段时间后，坦率地说，我认为''它对个人的想法拓展是一种障碍''。
+
+那么在''wikispace''中，又该如何处理这两类笔记？
+
+!! 写作原则：
+
+在''WIKISPACE''中，两类核心笔记形式：`LiteratureNotes`与`PermanentNotes`的最大区别，不在于内容是否重合、格式是否固定，而在于一个核心原则：`LiteratureNotes`与`PermanentNotes`的最大区别是在于''主体性''，即`LiteratureNotes`用于总结别人说了什么，而`PermanentNotes`则用于记录自己是怎么想的。
+
+; 1. LiteratureNotes：记录他者的声音
+> 写作者的主体是''他人''。
+
+* 文献笔记是你与某本书、某篇文章、某位作者的对话记录。它的核心目的是''理解他人如何思考''、如何表达、他们的观点和论证逻辑是什么。你可以在其中添加感想，但本质上，这类笔记围绕的是“''别人说了什么''”。
+* 写文献笔记时，你站在一个读者的位置。你在倾听、在翻译、在整理。这是''输入性写作''，你的思考在这时萌芽，但尚未生长。
+
+; 2. PermanentNotes：表达自己的声音
+> 写作者的主体是''你自己''。
+* ''PermanentNotes''是你从对话中抽身出来、进入自己内在思维的场域。在这里，笔记不再依附于哪本书、哪篇文章，而成为你独立思考的结晶。它不是你在读书时的记录，而是你''经过咀嚼后的表达''。
+* 在永久笔记中，你不再重复“别人说了什么”，而是在思考“''我如何理解这个问题''”“''我是否赞同''”“''这与我所知道的是否矛盾''”“''这是否可以被拓展''”。这类笔记将成为你''知识体系的组成部分''。
+
+; 3. 一个内容，两种声音：
+
+你完全可以围绕同一个主题，在`LiteratureNotes`和`PermanentNotes`中都进行书写。但它们的差异在于：
+
+* 在LiteratureNotes中，你或许会写：“作者认为社会结构决定了个体的选择自由。”
+* 在PermanentNotes中，你可能会写：“我认为个体虽然受到结构限制，但仍然保有某种能动性。这种能动性与社会规范之间并非完全对立。”
+
+前者是''引用、记录、理解''；后者是''回应、质疑、吸收或生长''。
+
+!! 写作原则总结：
+
+|tc-max-width|k
+|!原则|!LiteratureNotes|!PermanentNotes|
+|!主体   |他人        |自己             |
+|!写作意图 |理解并记录外部观点 |表达和发展自己的思考     |
+|!内容归属 |依托特定文献上下文 |独立存在于你自己的知识网络中 |
+|!语气特征 |客观、引用、说明  |主观、判断、联系、重构    |
+|!本质   |听别人说话     |向自己说话          |
+
+你可以自由地决定笔记的形式与结构，但请记住这条原则：
+
+* LiteratureNotes是你与他人对话的记录，而PermanentNotes，是你与自己思想的对话。两种笔记并无高低之分，但区分它们，才能让你的思维逐渐从“知道了什么”，走向“想明白了什么”。

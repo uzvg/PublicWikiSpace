@@ -1,0 +1,11 @@
+code-body: yes
+created: 20260222071650508
+modified: 20260222071806495
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/tf.target-model
+type: text/vnd.tiddlywiki
+
+\function tf.target-model()
+	[<currentTab>get[modelName]]
+\end

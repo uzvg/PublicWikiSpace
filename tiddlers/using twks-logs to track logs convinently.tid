@@ -1,0 +1,46 @@
+created: 20250529015545721
+description: 使用twks-logs快速添加log列表项，附加时间戳。
+modified: 20250529030044807
+progress: Terminated
+tags: ProjectNotes TWKS
+title: using twks-logs to track logs convinently
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirements:
+
+* 可以通过输入框直接输入log，附加时间戳。
+
+!! Project Logs:
+
+* 代码本身并不难，但真正实现后，并没有带来多大的效率提升，而且编辑的灵活性也不好，所以放弃！
+
+
+* <$twks.details summary="Code:" state="$:/state/detail">
+
+```
+\function stateTiddler() [<qualify $:/state/twks-logs>]
+\function get-log-text() [<stateTiddler>get[text]]
+\function get-log-time() [<now "0hh:0mm">]
+\function get-line-break() [charcode[13],[10]]
+\function get-log-prefix() [<get-line-break>addsuffix[*]addsuffix[ ]addsuffix<get-log-time>addsuffix[,]addsuffix[ ]]
+\function get-new-log-row() [<get-log-text>addprefix<get-log-prefix>]
+\function get-new-journal-text() [<storyTiddler>get[text]addsuffix<get-new-log-row>]
+\procedure add-log-actions()
+	<$action-setfield $tiddler=<<storyTiddler>> text=<<get-new-journal-text>>/>
+	<$action-deletetiddler $tiddler=<<stateTiddler>>/>
+\end
+
+<$list filter="[<storyTiddler>!is[draft]tag[Journal]]">
+	<span>
+		<$keyboard key="enter" actions=<<add-log-actions>>>
+			<$edit-text tiddler=<<stateTiddler>> tag="input"/>
+		</$keyboard>
+		<$button actions=<<add-log-actions>>>
+			Add
+		</$button>
+	</span>
+</$list>
+```
+
+</$twks.details>

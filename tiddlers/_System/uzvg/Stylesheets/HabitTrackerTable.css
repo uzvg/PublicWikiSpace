@@ -1,0 +1,15 @@
+.habit-rating-box {
+	gap: 8px;
+	justify-content: start;
+  align-items: center;
+}
+
+.habit-tracker-table input[type="text"] {
+	width: -webkit-fill-available;
+	max-height: fit-content;
+}
+
+.habit-edit-table th {
+	text-indent: 1em;
+	width: 12em;
+}

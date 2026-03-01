@@ -1,0 +1,12 @@
+created: 20250219114232633
+modified: 20250427172942542
+modifier: uzvg
+progress: Archived
+rating: Plain
+tags: PermanentNotes zsh Shell Dotfiles(配置文件)
+title: zsh shell配置文件组织结构
+type: text/vnd.tiddlywiki
+visibility: Public
+
+* `.zshenv`: 定义[[重要的环境变量|zsh shell startup files(1739965549292)]]。
+* `.zshrc`: 尽量保持简洁。

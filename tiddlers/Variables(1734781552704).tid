@@ -1,0 +1,82 @@
+authors: [[Bro Code]]
+caption: Variables
+created: 20241221114552704
+creator: uzvg
+description: 
+medium: Video
+modified: 20260106070855624
+modifier: uzvg
+progress: Extracting
+rating: Practical
+tags: LiteratureNotes Python
+title: Variables(1734781552704)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2024-8-20
+
+!! Variabe：
+
+<<rememberq "20241221024832017"
+	"什么是Python中的变量？"
+	"a container for a value. Behave as the value that it contains.">>
+
+<<rememberq "20241221024847132"
+	"在Python中如何查看变量name的变量类型？"
+	"`print(type(name))`">>
+
+<<rememberq "20241221024918866"
+	"在Python中，如何联结变量值`fist_name`和`seconde_name`？"
+	"""使用`+`，例如：`print(first_name+" "+secone_name)`""">>
+
+<<rememberq "20241221025041923"
+	"当为一个string类型的变量age，它是一个string变量，它的值为21，为其执行+1操作时，会发生什么？"
+	"TypeError，只有string类型的变量才能相互联结。">>
+
+<<rememberq "20241221025208049"
+	"Python中，如何把一个string类型的变量跟另一个int类型的变量联结在一起？"
+	"先把int变量转换为sting类型的变量，再联结即可。对int变量使用typecast操作符，如：str(age)之后，就可以。">>
+
+<<rememberq "20241221025429713"
+	"boolean类型的变量值有哪些？"
+	"True & False">>
+
+<<rememberq "20241221025457369"
+	"对boolean变量使用typecast操作符的结果是什么？如：str(sure)，其中sure是一个boolean变量，它的值有可能是true或者是false。"
+	"是string类型的True跟False。">>
+
+!! Multiple assignment：
+
+Multiple assignment = allow us to assign multiple variable at the same time in one line of code.
+
+```
+name="Herry"
+age="21"
+male="True"
+```
+
+在同一行定义：
+
+
+```
+name, age, male = "Herry", 21, True
+```
+
+三个人都是30岁：
+
+```
+ZhangSan = LiSi= WangEr = 30
+```
+
+
+<<rememberq "20241221025914410"
+	"什么Multiple assignment?"
+	"就是能让我们在一行内定义且分配多个变量。allow us to assign multiple variable at the same time in one line of code.">>
+
+<<rememberq "20241221030144010"
+	"回想一下multiple assignment的格式是怎样的？"
+	"""`name, age, male = "Herry", 21, True`""">>
+
+<<rememberq "20241221030434757"
+	"如何使用multiple assignment在同一行为多个变量同时赋相同的值？"
+	"`ZhangSan = LiSi = WangEr = 30 #三个人都是三十岁`">>

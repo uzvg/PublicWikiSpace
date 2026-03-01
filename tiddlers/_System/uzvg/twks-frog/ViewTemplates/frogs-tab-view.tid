@@ -1,0 +1,18 @@
+created: 20260104093756282
+modified: 20260114043232156
+tags: ViewTemplates
+title: $:/uzvg/twks-frog/ViewTemplates/frogs-tab-view
+type: text/vnd.tiddlywiki
+
+\procedure twks-frogs-tabView()
+	<$transclude $variable="tabs"
+		tabsList="[prefix[$:/uzvg/twks-frog/Tabs/]sort[order]]"
+		default="$:/uzvg/twks-frog/Tabs/Today"/>
+\end
+
+<$list filter="[<storyTiddler>tag[Journal]]">
+	<div class="tc-tiddler-body">
+		<h2>Frogs List:</h2>
+		<<twks-frogs-tabView>>
+	</div>
+</$list>

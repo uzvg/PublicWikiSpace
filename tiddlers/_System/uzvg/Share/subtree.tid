@@ -1,0 +1,18 @@
+code-body: yes
+created: 20260102045841533
+modified: 20260114024913431
+modifier: uzvg
+title: $:/uzvg/Share/subtree
+type: text/vnd.tiddlywiki
+
+<!-- Traverse all subtiddlers with function pragma recursively -->
+
+\function .children-closure(root)
+	[all[tiddlers]parent<root>]
+	:map:flat[.subtree<currentTiddler>]
+\end
+
+\function .subtree(root)
+	[<root>]
+	[.children-closure<root>]
+\end

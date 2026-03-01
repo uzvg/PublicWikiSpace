@@ -1,0 +1,96 @@
+created: 20260119041524004
+description: .chezmoiignore学习笔记
+modified: 20260122150036903
+progress: Completed
+rating: Valuable
+tags: PermanentNotes chezmoi
+title: chezmoiignore学习笔记
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 摘要：
+
+`.chezmoiignore` 用来告诉 chezmoi：在“计算和操作目标状态（target state）”时，哪些“目标路径”要被完全忽略。
+
+; 被忽略的目标路径，在 chezmoi 看来就像不存在一样：
+* 不会被 `apply`
+* 不会出现在 `status`
+* 不会参与 `diff`
+* 不会被当作需要管理或修复的对象
+
+!! 1. `.chezmoiignore` 解决的是什么问题？
+
+; chezmoi 的工作流程可以抽象为三步：
+
+```
+source state  →  计算 target state  →  应用到真实文件系统
+```
+
+> Patterns match against the target path, not the source path.
+> `.chezmoiignore` 的作用''不在 source state''，而是在 ''target state 层''。
+
+它表达的不是：“这个 source 文件不要纳入管理”，而是''“当你打算生成 / 对比 / 应用某个目标路径时，把它当作不存在。”''
+
+!! 2. `.chezmoiignore` 对 `chezmoi apply` 的真实影响
+
+| !命令                  | !行为        |
+|`chezmoi apply`     |不创建 / 不更新 |
+|`chezmoi diff`      |不显示       |
+|`chezmoi status`    |不出现       |
+|`chezmoi unmanaged` |不考虑       |
+
+* 一旦被忽略，chezmoi 在所有操作中都会“无视”这些目标路径。
+
+!! 3. 为什么匹配的是 `target path`，而不是 `source path`？
+
+这是理解 `.chezmoiignore` 的关键，主要是因为`source path` 与 `target path` 并不对等。
+
+; 典型例子：
+
+```
+source path:
+  dot_config/nvim/init.lua.tmpl
+
+target path:
+  ~/.config/nvim/init.lua
+```
+
+; 如果 `.chezmoiignore` 基于 source path：
+* 你需要记住 `dot_` / `private_`
+* 需要考虑 `.tmpl`
+* 需要理解模板展开前后的映射关系
+
+这在使用体验和设计上都非常糟糕，而chezmoi 的选择是''哪些最终落地到 `$HOME` 下的文件，要不要被我管理。''
+
+```
+# 因此.chezmoiignore 写的是：
+.config/nvim/init.lua
+# 而不是：
+dot_config/nvim/init.lua.tmpl
+```
+
+* `.chezmoiignore` 是''站在用户视角（目标文件系统）''，而不是实现视角（source 仓库）。
+
+!! 4. chezmoiignore vs gitignore：
+
+<<twks-alerter "tip" """`.chezmoiignore` 是用来忽略 target state 里的文件的，如果你的目标是不让某些文件进入 source 管理，那么你应该使用`.gitignore`，或者干脆不要 `chezmoi add`，`.chezmoiignore` 从来不是用来管理 source 的。""">>
+
+| !对比项    | !`.gitignore` | !`.chezmoiignore`      |
+|忽略对象   |仓库内容         |目标文件系统                |
+|作用时机   |提交 / 跟踪      |apply / diff / status |
+|匹配路径   |source path  | target path           |
+|是否支持模板 |否            |是                     |
+
+!! 5. .chezmoiignore 跟 .chezmoiroot的关系：
+
+当我们在 `.chezmoiroot` 中将 `source state` 设置为 `home` 时，只有 `home/` 目录下的内容，才会被当作“计算 target state 的输入”。因此，位于 `~/.local/share/chezmoi/secrets/` 下的内容，即使不写入 `.chezmoiignore`，也不会对 `target state` 产生任何影响。
+
+<<twks-alerter "important" """
+* `.chezmoiroot` 决定“谁有资格进场”，
+* `.chezmoiignore` 决定“进场后管不管”。
+""">>
+
+!! 6. 总结：
+
+; `.chezmoiignore` 的含义是：
+* 从 `$HOME` 的视角，告诉 chezmoi：哪些最终文件你别管。

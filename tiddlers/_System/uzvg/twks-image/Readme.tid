@@ -1,0 +1,214 @@
+created: 20260103112425718
+modified: 20260114055311471
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-image/Readme
+type: text/vnd.tiddlywiki
+
+!! Overview:
+
+`twks-image` is a TiddlyWiki procedure for inserting images into the current tiddler with ''consistent structure, metadata handling, and layout control''.
+
+It supports two usage modes:
+
+# ''Image tiddler mode'' – pass a tiddler that represents an image
+# ''URL mode'' – pass a direct image URL and manually provide metadata
+
+Depending on how parameters are provided, `twks-image` automatically resolves image metadata such as `caption`, `description`, and `alt` text using a defined priority system.
+
+!! Basic Syntax:
+
+```wiki
+<<twks-image
+  img:"..."
+  caption:"..."
+  description:"..."
+  width:"..."
+  float:"..."
+>>
+```
+
+Only `img` is required. All other parameters are optional.
+
+!! Parameters:
+
+!!! `img` (required):
+
+; Type:
+* Image tiddler title ''or''
+* Image URL
+
+''Behavior:''
+
+* If `img` refers to an ''image tiddler'', `twks-image` will attempt to read metadata from that tiddler.
+* If `img` is an ''image URL'', metadata must be provided manually.
+
+!!! `caption`:
+
+''Purpose:'' Text shown below the image as a caption.
+
+; Priority order:
+# Explicitly specified in the procedure
+# Read from the image tiddler
+# None (caption is not rendered)
+
+; Notes:
+* If the resolved caption is `none` or empty, the caption element is ''not rendered at all''.
+
+!!! `description`:
+
+''Purpose:''A longer textual description of the image (for accessibility, context, or extended explanations).
+
+; ''Priority order:''
+# Explicitly specified in the procedure
+# Read from the image tiddler
+# None
+
+!!! `alt`
+
+''Purpose:''Alternative text for accessibility and fallback display.
+
+''Priority order:''
+# Explicitly specified in the procedure
+# Read from the image tiddler
+# None
+
+!!! `width`
+
+''Purpose:''Controls the displayed width of the image.
+
+''Default:''`62%`.
+
+''Accepted values:''Any valid CSS width value, for example:
+
+* `62%`
+* `400px`
+* `auto`
+
+!!! `float`
+
+''Purpose:''
+Controls how the image floats relative to surrounding text.
+
+''Default:''
+
+```text
+none
+```
+
+''Accepted values:''
+
+* `none`
+* `left`
+* `right`
+
+!! Metadata Resolution Rules (Important)
+
+For `caption`, `description`, and `alt`, `twks-image` always resolves values using the same priority logic:
+
+```
+Specified in the procedure
+→ Read from the image tiddler
+→ None
+```
+
+This ensures:
+
+* Explicit usage always wins
+* Image tiddlers can act as reusable metadata containers
+* No unwanted UI elements appear when metadata is missing
+
+!! Usage Examples
+
+!!! Example 1: Using an Image Tiddler (Recommended)
+
+```wiki
+<<twks-image
+  img:"Sunset Over Lake"
+>>
+```
+
+Behavior:
+
+* Image source is taken from the tiddler `Sunset Over Lake`
+* Caption, description, and alt are automatically read from that tiddler
+* Width defaults to `62%`
+* No floating
+
+!!! Example 2: Override Caption Only
+
+```wiki
+<<twks-image
+  img:"Sunset Over Lake"
+  caption:"Evening light reflecting on the water"
+>>
+```
+
+Behavior:
+
+* Caption is overridden
+* Description and alt still come from the image tiddler
+
+!!! Example 3: Image URL with Manual Metadata
+
+```wiki
+<<twks-image
+  img:"https://example.com/images/sunset.jpg"
+  caption:"Sunset over the lake"
+  description:"A calm sunset scene with orange reflections on the water"
+  alt:"Sunset over a quiet lake"
+>>
+```
+
+Behavior:
+
+* Image is loaded from the URL
+* All metadata is explicitly defined
+* No attempt is made to read from a tiddler
+
+!!! Example 4: Floating Image with Custom Width
+
+```wiki
+<<twks-image
+  img:"Sunset Over Lake"
+  width:"40%"
+  float:"right"
+>>
+```
+
+Behavior:
+
+* Image floats to the right
+* Text flows around the image
+* Width is reduced for layout balance
+
+!!! Example 5: Explicitly Disable Caption
+
+```wiki
+<<twks-image
+  img:"Sunset Over Lake"
+  caption:"none"
+>>
+```
+
+Behavior:
+
+* Caption element is not rendered, even if the image tiddler has a caption
+
+!! Best Practices
+
+* ''Prefer image tiddlers'' for reusable images with stable metadata
+* Use explicit parameters only when you need overrides
+* Always provide `alt` text when using image URLs
+* Use `float` sparingly to avoid layout clutter
+
+!! Summary
+
+`twks-image` provides:
+
+* Clean image insertion
+* Predictable metadata resolution
+* Flexible layout control
+* Reusable image definitions via tiddlers
+
+Once you understand the priority rules, you can use it confidently without surprises.

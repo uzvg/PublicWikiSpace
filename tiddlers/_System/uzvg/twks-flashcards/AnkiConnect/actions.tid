@@ -1,0 +1,51 @@
+code-body: yes
+created: 20260216062304567
+modified: 20260216101021919
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/AnkiConnect/actions
+type: text/vnd.tiddlywiki
+
+<!-- ------------------------------------------------------------ -->
+\procedure invoke-ac-api(
+	url:"http://127.0.0.1:8765",
+	action,
+	version:"6",
+	actionParamJson,
+	dataTiddler,
+	tfNoteId,
+	oncompletionActions,
+	onprogressActions,
+	statusTiddler,
+	progressTiddler)
+
+\function get-param-wikitext() [tag[$:/tags/AnkiConnectActions]action<action>version<version>get[text]]
+\function get-actionParamJson() [<actionParamJson>!is[blank]else<defaultParamJson>]
+\function get-request-json()
+	[[]jsonset:[action],<action>]
+	+[jsonset:[version],<version>]
+	+[jsonset:json[params],<get-actionParamJson>]
+	+[format:json[2]]
+\end get-request-json
+
+<$wikify name="defaultParamJson" text=<<get-param-wikitext>> output="text">
+	<$action-sendmessage
+		$message="tm-http-request"
+		url=<<url>>
+		method="POST"
+		header-content-type="application/json"
+		body=<<get-request-json>>
+		var-dataTiddler=<<dataTiddler>>
+		var-tfNoteId=<<tfNoteId>>
+		oncompletion=<<oncompletionActions>>
+		onprogress=<<onprogressActions>>
+		bind-status=<<statusTiddler>>
+		bind-progress=<<progressTiddler>>/>
+	<$codeblock code=<<get-request-json>> language="json"/>
+</$wikify>
+\end
+
+<!-- ------------------------------------------------------------ -->
+<$transclude $variable="invoke-ac-api"
+	action="addNote"
+	version="6"/>

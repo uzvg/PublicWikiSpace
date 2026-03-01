@@ -1,0 +1,44 @@
+created: 20250405103758521
+modified: 20250530021823845
+progress: Building
+rating: Valuable
+tags: PermanentNotes TroubleShooting tiddlywiki
+title: tiddlywiki中的actions取值刷新问题
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 问题描述：
+
+在[[using twks-initializer initialize imported text]]时，遇到一个非常离谱的问题：
+
+```
+<$action-setfield
+	$tiddler=<<storyTiddler>>
+	url=<<get-clean-url-from-imported>> />
+<<sync-fields-from-index>>
+```
+这段代码先是为当前tiddler设置了url字段的值，然后从
+
+
+
+!! 解决方案：
+
+```
+\procedure sync-fields-from-index()
+\procedure tv-action-refresh-policy() always
+	<$list filter="[function[get-initializer-FieldsIndexes]]" variable="currentIndex">
+		<$action-setfield
+			$tiddler=<<storyTiddler>>
+			$field=<<currentIndex>>
+			$value=<<get-initializer-FieldsIndex-value>> />
+ </$list>
+\end
+```
+
+把`tv-action-refresh-policy`设置为`always`即可。
+
+!! 原因：
+
+action组件，
+
+[[ActionWidget Execution Modes|https://tiddlywiki.com/#ActionWidget%20Execution%20Modes]]

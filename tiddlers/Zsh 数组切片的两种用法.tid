@@ -1,0 +1,164 @@
+created: 20250701154152871
+description: Zsh 数组切片的两种用法
+modified: 20250701154651633
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: zsh Shell数组基础
+tags: PermanentNotes zsh
+title: Zsh 数组切片的两种用法
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+Zsh 提供了两套数组切片方法：
+
+# 一套是''Bash风格的参数扩展切片''
+# 另一套是''Zsh特有的下标切片''
+
+它们在''起源、下标习惯、语义''等方面都有明显不同，容易混淆。
+
+!! 1. Bash风格的参数扩展切片
+
+!!! ✦ 写法
+
+```
+${array[@]:offset:length}
+```
+
+!!! ✦ 特点
+
+* ''偏移量 `offset` 从 0 开始''（和 C/Python 类似）
+* `length` 表示要取的元素个数
+* 原本来自 Bash
+* Zsh 为了兼容 Bash，特别支持
+
+!!! ✦ 示例
+
+```zsh
+arr=(a b c d e)
+print ${arr[@]:1:3}
+```
+
+输出：
+
+```
+b c d
+```
+
+> 从第1个（即原数组第二个）开始，取3个元素。
+
+!! 🌿 2. Zsh特有的下标切片
+
+!!! ✦ 写法
+
+```
+${array[start,end]}
+```
+
+!!! ✦ 特点
+
+* ''下标从1开始''（和AWK/Perl类似）
+* `start`和`end`是区间
+* 支持负数下标（表示从数组尾部倒数）
+
+!!! ✦ 示例
+
+```zsh
+arr=(a b c d e)
+print ${arr[2,4]}
+```
+
+输出：
+
+```
+b c d
+```
+
+> 从第2个到第4个，共3个元素。
+
+!! 🧭 核心区别对比表
+
+|tc-max-width|k
+|!对比项|!参数扩展切片|!Zsh下标切片|
+|''起源''     |Bash            |Zsh 独有        |
+|''下标起始''   |0               |1             |
+|''下标语义''   |offset + length |start..end 区间 |
+|''支持负数下标'' |不支持             |支持            |
+|''可读性''    |类似C/Python/Bash |类似Perl/awk    |
+|''兼容性''    |跨 Bash 和 Zsh    |仅在 Zsh 有效     |
+
+!! 🎯 推荐用法
+
+''如果要写跨 Bash / Zsh 兼容脚本：''
+
+✅ 使用''参数扩展切片''
+
+```zsh
+${array[@]:offset:length}
+```
+
+''如果只在 Zsh 脚本中工作：''
+
+✅ 使用''下标切片''
+
+```zsh
+${array[start,end]}
+```
+
+因为：
+
+* 下标更直观
+* 支持负数
+* 结合 Zsh 的 `(r)` `(i)` 等 modifier 功能更强大
+
+!! 📝 小技巧
+
+* Zsh 中，下标切片可以很灵活：
+
+```zsh
+arr=(a b c d e f)
+print ${arr[2,-1]}
+```
+
+输出：
+
+```
+b c d e f
+```
+
+（从第2个到最后一个元素）
+
+* 参数扩展切片无法直接使用负数下标。
+
+!! 🧩 示例对比
+
+假设数组：
+
+```zsh
+arr=(a b c d e f g)
+```
+
+|tc-max-width|k
+|!用法|!输出|
+|`${arr[@]:0:3}` |a b c       |
+|`${arr[1,3]}`   |a b c       |
+|`${arr[@]:2:2}` |c d         |
+|`${arr[3,4]}`   |c d         |
+|`${arr[2,-1]}`  |b c d e f g |
+
+!! 🔚 总结
+
+Zsh 之所以看似“重复”，是因为它：
+
+* 要兼容 Bash（参数扩展切片）
+* 又要提供更强能力（下标切片）
+* 下标设计''尊重历史和多语言习惯''
+
+''建议：''
+
+* 写纯Zsh脚本时，首选 ''下标切片''
+* 写兼容脚本时，使用 ''参数扩展切片''
+
+这样可以让代码既清晰又可维护。

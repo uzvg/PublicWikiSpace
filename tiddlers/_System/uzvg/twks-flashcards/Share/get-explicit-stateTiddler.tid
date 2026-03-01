@@ -1,0 +1,18 @@
+code-body: yes
+created: 20260223133140288
+modified: 20260223163423426
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/get-explicit-stateTiddler
+type: text/vnd.tiddlywiki
+
+\function get-tabs-list() [tag[$:/tags/TfCardsCreator]!is[draft]]
+\function get-default-tab() [function[get-tabs-list]first[]]
+\function get-next-tab() [function[get-tabs-list]after<currentTab>else<currentTab>]
+\function get-previous-tab() [function[get-tabs-list]before<currentTab>else<currentTab>]
+\function get-explicit-stateTiddler()
+	[[$:/state/twks-flashcards-creator-tabs/]]
+	[<storyTiddler>get[created]]
+	+[join[]]
+\end
+\function get-focus-state() [<get-explicit-stateTiddler>is[tiddler]then[yes]else[no]]

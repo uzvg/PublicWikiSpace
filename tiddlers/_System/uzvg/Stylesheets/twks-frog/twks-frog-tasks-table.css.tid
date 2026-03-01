@@ -1,0 +1,29 @@
+created: 20260102155035061
+modified: 20260114024913436
+modifier: uzvg
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/twks-frog/twks-frog-tasks-table.css
+type: text/vnd.tiddlywiki
+
+.frog-tasks-container {
+	width: 100%;
+	margin-top: -1em;
+}
+.twks-frog-tasks-table th:not(:nth-child(2)),
+.twks-frog-tasks-table td:not(:nth-child(2)) {
+	white-space: white-space: nowrap;
+	width: 0px;
+}
+
+.twks-frog-tasks-table td:nth-child(4) input[type="checkbox"] {
+	display: none;
+}
+
+.twks-frog-tasks-table input[type="text"] {
+	width: -webkit-fill-available;
+	max-height: fit-content;
+}
+
+.twks-frog-done-task {
+	text-decoration: line-through;
+}

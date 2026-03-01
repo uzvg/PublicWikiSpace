@@ -1,0 +1,24 @@
+caption: Tasks
+code-body: yes
+created: 20260103154309943
+filter: [all[tiddlers]tag[Task]!is[draft]sort[created]]
+modified: 20260104102455984
+order: 3
+title: $:/uzvg/twks-frog/Tabs/Tasks
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/twks-frog/Share/tasks-table-view]]
+\function get-current-filter() [<currentTab>get[filter]]
+
+\procedure save-task-actions()
+	<$action-setfield $tiddler=<<storeTiddler>>
+		tags="Task"
+		status="Pending"/>
+	<$action-sendmessage $message="tm-rename-tiddler"
+		from=<<storeTiddler>>
+		to=<<get-task-title>>/>
+\end
+
+<$transclude $variable="tasks-table-view"
+	filter=<<get-current-filter>>
+	actions=<<save-task-actions>>/>

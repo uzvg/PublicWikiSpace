@@ -1,0 +1,40 @@
+created: 20250321041717903
+description: 配置twikoo的一些注意事项
+modified: 20250518153047937
+progress: Completed
+rating: Personal
+tags: twikoo PermanentNotes TWKS
+title: 配置twikoo
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 重设管理员密码：
+
+忘记了twikoo管理员密码，找回密码时，有如下官方说明：
+
+> 腾讯云请前往云开发控制台，Vercel 请前往 MongoDB，私有部署请直接编辑 data/db.json.1，编辑配置，删除 `config.ADMIN_PASS` 配置项，然后前往 Twikoo 管理面板重新设置密码。
+
+意思是删除MongoDB数据库中的`config.ADMIN_PASS`配置项，然后在twikoo评论面板重新设置管理员密码。
+
+具体操作：
+
+* 登陆[[MongoDB|https://cloud.mongodb.com]]
+* 找到twikoo数据库
+** Overview ➡ Clusters ➡ Browse Collections ➡ test ➡ config ➡ 找到`ADMIN_PASS` ➡ 删除 ➡ 更新配置 ➡ 回到twikoo评论面板 ➡ 重设密码 ➡ 完成✅
+
+!! 消息即时通知：
+
+👉 [[具体配置文档|https://pushoo.js.org/]]
+
+; 使用Qmesg
+* 选择机器人
+* 加机器人QQ号
+* 复制key，添加到twikoo对应的配置文件中
+* 完成✅
+
+!! 修改了数据库密码：
+
+修改了MangoDB数据库密码后，评论加载失败，操作步骤：
+
+# 修改对应的后端部署服务的环境变量，如vercel、netlify等。
+# 需要重新部署使环境变量生效，否则仍然无法加载。

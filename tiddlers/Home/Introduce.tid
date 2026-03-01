@@ -1,0 +1,31 @@
+caption: Introduce
+created: 20250227141216533
+description: 简要介绍TWKS
+modified: 20250615160449689
+modifier: uzvg
+order: 1
+progress: Completed
+tags: $:/twks/Documents
+title: Home/Introduce
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 管理笔记的四个维度：
+
+`TWKS`用以下四个维度来管理、分类、处理系统中的笔记：
+
+# [[笔记类型|TWKS笔记类型]]：按照zettelkasten笔记法将笔记分为不同的类型。
+# [[笔记进度|TWKS笔记进度]]：按笔记的类型设计相应的进度管理属性。
+# [[笔记评分|TWKS笔记评价]]：按笔记的类型设计相应的评分管理属性。
+# [[笔记可见性|TWKS笔记可见性]]：根据笔记的可见性(Private，Public)自动构建可公开的html文件。
+
+<<twks-alerter "tip" "打开任意类型的笔记，即可在笔记的FrontMatter中轻松管理笔记属性。">>
+
+!! TWKS笔记流程：
+
+<<twks-image "twks-workflow.svg" width:"80%">>
+
+!! 其他：
+
+* [[TWKS笔记属性]]
+* [[TWKS笔记命名规范]]

@@ -1,0 +1,19 @@
+created: 20250526144814631
+modified: 20260114024913434
+modifier: uzvg
+title: $:/uzvg/Share/twks-search-box/README
+type: text/vnd.tiddlywiki
+
+\procedure twks-search-box(filter,placeholder,inputMinLength,inputAcceptActions,clickActions,inputCancelActions,btnList,class)
+
+|!Arguments|!Description|
+|`filter` |Filter used to select a list of candidate tiddlers, where the `get-user-input` variable represents the string input by the user. |
+|`placeholder` |Placeholder text displayed in the input field. |
+|`inputMinLength` |Minimum character limit for input - if fewer characters than this value are entered, the search popup will not be displayed. |
+|`inputAcceptActions` |Actions to execute when the `enter` key is pressed. |
+|`clickActions` |Actions to execute when clicking a candidate option in the list, the `navigateTo` variable represents the tiddler which will be navigated to. |
+|`inputCancelActions` |Actions to execute when the `escape` key is pressed. |
+|`btnList` |List of buttons displayed after the search input field. |
+|`class` |Class selector assigned to the search input field. |
+
+`get-target-input`

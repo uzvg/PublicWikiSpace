@@ -1,0 +1,41 @@
+code-body: yes
+created: 20241218012710955
+modified: 20260114054409423
+modifier: uzvg
+tags: $:/tags/Global
+title: $:/uzvg/twks-image/twks-image
+type: text/vnd.tiddlywiki
+
+\procedure twks-image(img,caption,description,width:"62%",align:"center")
+\function get-image-caption() [<caption>!is[blank]] :else[<img>get[caption]]
+\function get-image-description() [<description>!is[blank]] :else[]<img>get[description]]
+\function get-image-alt()	[<alt>!is[blank]] :else[<get-image-description>]
+
+<!-- The image container in the twks-image card -->
+\procedure twks-image-container(img)
+<!-- If Here is an image link, Don't jump to the missing tiddler. -->
+<% if [<img>regexp[^https:\/\/.*(?:jpg|png|gif|jpeg|svg)$]] %>
+	<$image source=<<img>>
+		tooltip=<<get-img-description>>
+		alt=<<get-img-alt>>
+		loading="lazy"/>
+<!-- else jump to the img tiddler if img is a tiddler. -->
+<% elseif [<img>is[tiddler]] %>
+	<$link to=<<img>>>
+		<$image source=<<img>>
+			tooltip=<<get-image-description>>
+			alt=<<get-image-alt>>
+			loading="lazy"/>
+	</$link>
+<% endif %>
+\end twks-image-container
+
+<figure class=`twks-image twks-image-align-$(align)$` style=`width:$(width)$;`>
+	<$transclude $variable="twks-image-container" img=<<img>>/>
+	<% if [<get-image-caption>!is[blank]] %>
+		<figcaption>
+			<$transclude $variable="get-image-caption" $mode="inline"/>
+		</figcaption>
+	<% endif %>
+</figure>
+\end

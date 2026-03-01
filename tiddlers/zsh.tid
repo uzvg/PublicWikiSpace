@@ -1,0 +1,29 @@
+caption: zsh学习大纲
+created: 20250617010208971
+description: zsh Shell知识点大纲
+modified: 20250716153257922
+progress: Seed
+rating: Functional
+tags: IndexNotes
+title: zsh
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! zsh大纲：
+
+<!--
+* 数组（数组的声明、切片）
+* 参数拓展(历史参数拓展、基本参数拓展)
+* 参数拓展的相关练习
+* 条件判断表达式()
+* 如何读取用户输入？
+* [[while循环与Here-string语法]]
+* 
+** (())
+** `[[]]`
+* 
+-->
+
+!! 正在整理的笔记：
+
+<<list-links "[tag[zsh]progress[Building]]">>

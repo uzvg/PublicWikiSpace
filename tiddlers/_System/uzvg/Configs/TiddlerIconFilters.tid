@@ -1,0 +1,14 @@
+created: 20240816105422663
+creator: uzvg
+modified: 20260103114302113
+modifier: uzvg
+tags: $:/tags/TiddlerIconFilter
+title: $:/uzvg/Configs/TiddlerIconFilters
+type: text/vnd.tiddlywiki
+
+[get[visibility]match[Private]then[$:/core/images/locked-padlock]]
+[has[url]get[url]prefix[https://www.youtube.com]then[$:/core/images/video]]
+[has[url]get[url]prefix[https://www.bilibili.com]then[$:/uzvg/Images/bilibili]]
+[tag[Source]then[$:/uzvg/Images/source]]
+[tag[Book]then[$:/uzvg/Images/Book]]
+[tag[Journal]then[$:/uzvg/Images/journal]]

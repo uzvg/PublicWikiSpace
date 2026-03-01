@@ -1,0 +1,36 @@
+created: 20250526144707968
+modified: 20260114024913434
+modifier: uzvg
+title: $:/uzvg/Share/twks-search-box/test
+type: text/vnd.tiddlywiki
+
+\procedure input-cancel-actions()
+	<$action-deletetiddler $filter="[<stateTiddler>] [<storeTiddler>]"/>
+\end
+
+\procedure input-accept-actions()
+	<$action-setfield $tiddler=<<twks-temp-tiddler>> text=<<get-target-input>>/>
+	<$action-deletetiddler $filter="[<stateTiddler>] [<storeTiddler>]"/>
+\end
+
+\procedure click-actions()
+	<$action-setfield $tiddler=<<twks-temp-tiddler>> text=<<navigateTo>> />
+	<$action-deletetiddler $filter="[<stateTiddler>] [<storeTiddler>]"/>
+\end
+
+
+\procedure addBtn()
+	<$button actions=<<input-accept-actions>>>
+		ADD
+	</$button>
+\end
+
+<$transclude $variable="twks-search-box"
+	filter="[all[tiddlers]tag[LiteratureNotes]search<get-user-input>]"
+	placeholder="Input Your Search"
+	inputMinLength="2"
+	btnList="addBtn"
+	inputAcceptActions=<<input-accept-actions>>
+	clickActions=<<click-actions>>/>
+
+<<twks-temp-inspector>>

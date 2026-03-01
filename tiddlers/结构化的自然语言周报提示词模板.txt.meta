@@ -1,0 +1,12 @@
+code-body: yes
+created: 20250625030928120
+description: 结构化的自然语言周报提示词模板
+modified: 20250625031908171
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: 什么样的文本更容易被大语言模型识别？
+tags: PermanentNotes PromptEngineering(提示词工程)
+title: 结构化的自然语言周报提示词模板
+type: text/plain
+visibility: Public

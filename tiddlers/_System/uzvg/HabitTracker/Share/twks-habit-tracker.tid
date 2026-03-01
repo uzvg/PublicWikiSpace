@@ -1,0 +1,230 @@
+code-body: yes
+created: 20251213114911872
+modified: 20260201083520667
+modifier: uzvg
+tags: 
+title: $:/uzvg/HabitTracker/Share/twks-habit-tracker
+type: text/vnd.tiddlywiki
+
+<!-- ------------------ Preparation works ------------------ -->
+\function storageFolder() [[$:/Storage/HabitTracker/]]
+\function storeTiddler() [<qualify "$:/temp/HabitTracker/store">]
+\function get-journal-day() [<storyTiddler>get[created]format:date[YYYY0MM0DD]]
+\function get-habitTiddler-prefix() [<storageFolder>addsuffix<get-journal-day>addsuffix[/]]
+\function habitTiddler() [<get-habitTiddler-prefix>] [<now TIMESTAMP>] +[join[]]
+\function get-habit-filter() [<currentTab>get[condition]]
+
+<!-- ------------------ Get store infomation ------------------ -->
+\function get-store-rating() [<storeTiddler>get[rating]!is[blank]else[=]]
+\function get-store-caption() [<storeTiddler>get[caption]]
+
+<!-- ------------------ Get behavior information ------------------ -->
+\function get-habit-caption() [<item>get[caption]]
+\function get-habit-order() [<item>get[order]]
+\function get-habit-note() [<item>get[text]]
+\function get-habit-rating() [<item>get[rating]]
+\function get-rating-class(tiddler)
+	[<tiddler>!has[rating]then[yellow]]
+	[<tiddler>get[rating]match[-]then[red]]
+	[<tiddler>get[rating]match[=]then[yellow]]
+	[<tiddler>get[rating]match[+]then[green]]
+\end
+
+\function get-rating-text(tiddler)
+	[<tiddler>!has[rating]then[⟦中⟧]]
+	[<tiddler>get[rating]match[-]then[⟦坏⟧]]
+	[<tiddler>get[rating]match[=]then[⟦中⟧]]
+	[<tiddler>get[rating]match[+]then[⟦好⟧]]
+\end
+
+<!-- ------------------Habit Rating Box ------------------ -->
+\procedure habit-rating-box(tiddler)
+\function rating-class() [function[get-rating-class],<tiddler>]
+\function rating-text() [function[get-rating-text],<tiddler>]
+	<div class="flex flex-row habit-rating-box">
+		<span class=<<rating-class>>>
+			<<rating-text>>
+		</span>
+		<$radio tiddler=<<tiddler>>
+			field="rating"
+			value="+"/>
+		<$radio tiddler=<<tiddler>>
+			field="rating"
+			value="="/>
+		<$radio tiddler=<<tiddler>>
+			field="rating"
+			value="-"/>
+	</div>
+\end
+
+<!-- ------------------将筛选出来的tiddler以时间早晚排序------------------ -->
+\procedure time-to-minutes()
+	[<currentTiddler>!has[start]then[0]]
+	[<currentTiddler>get[start]split[:]first[]multiply[60]]
+	[<currentTiddler>get[start]split[:]last[]]
+	+[sum[]]
+\end
+
+<!-- Save Behavior Actions: ------------------------------
+* Rename storeTiddler to habitTiddler. -->
+
+\procedure save-behavior-actions()
+	<% if [<get-store-caption>trim[]!is[blank]] %>
+		<$action-setfield $tiddler=<<storeTiddler>>
+			rating=<<get-store-rating>>/>
+		<$action-sendmessage $message="tm-rename-tiddler"
+			from=<<storeTiddler>>
+			to=<<habitTiddler>>/>
+	<% endif %>
+\end
+
+<!-- Clear storeTiddler button ------------------------------ -->
+\procedure clear-storeTidder-btn()
+	<$button message="tm-delete-tiddler"
+		param=<<storeTiddler>>
+		class="tc-btn-invisible">
+		{{$:/core/images/erase}}
+	</$button>
+\end
+
+<!-- Delete habit button ------------------------------ -->
+\procedure delete-habit-btn()
+	<$button message="tm-delete-tiddler"
+		param=<<item>>
+		class="tc-btn-invisible">
+		{{$:/core/images/delete-button}}
+	</$button>
+\end
+
+<!-- Move forward and backward buttons ------------------ -->
+\procedure habit-sort-box()
+\function get-previous-item() [prefix<get-habitTiddler-prefix>before<item>]
+\function get-previous-timestamp() [<get-previous-item>split[/]last[]subtract[1]]
+\function get-next-item() [prefix<get-habitTiddler-prefix>after<item>]
+\function get-next-timestamp() [<get-next-item>split[/]last[]add[1]]
+\function get-new-title(timestamp) [<get-habitTiddler-prefix>] [<timestamp>] +[join[]]
+
+\procedure get-forward-actions()
+\function get-forward-title()
+	[<get-previous-item>is[blank]then<item>]
+	[function[get-new-title],<get-previous-timestamp>]
+\end get-forward-title
+
+<$action-sendmessage $message="tm-rename-tiddler"
+		from=<<item>>
+		to=<<get-forward-title>>/>
+\end get-forward-actions
+
+\procedure get-backward-actions()
+\function get-backward-title()
+	[<get-next-item>is[blank]then<item>]
+	[function[get-new-title],<get-next-timestamp>]
+\end get-backward-title
+
+<$action-sendmessage $message="tm-rename-tiddler"
+	from=<<item>>
+	to=<<get-backward-title>>/>
+\end get-backward-actions
+
+<div class="flex flex-row justify-around" style="width:3em">
+	<$button actions=<<get-forward-actions>> class="tc-btn-invisible">⬆️</$button>
+	<$button actions=<<get-backward-actions>> class="tc-btn-invisible">⬇️</$button>
+</div>
+\end
+
+<!-- -------------------------------------------------- -->
+\procedure habit-tracker-new()
+\function get-new-no() [subfilter<get-habit-filter>count[]add[1]]
+\whitespace trim
+<tr>
+	<th class="twks-tableCell-fit"><<get-new-no>></th>
+	<td colspan="2">
+		<$vars tiddler=<<storeTiddler>>>
+		<$keyboard key="((input-accept))" actions=<<save-behavior-actions>>>
+		<$keyboard key="alt+T" actions=<<time-complete-actions>>>
+			<$edit-text tiddler=<<storeTiddler>> field="caption"/>
+		</$keyboard>
+		</$keyboard>
+		</$vars>
+	</td>
+	<td>
+		<$transclude $variable="habit-rating-box" tiddler=<<storeTiddler>>/>
+	</td>
+	<td>
+		<<clear-storeTidder-btn>>
+	</td>
+</tr>
+\end
+
+<!-- -------------------------------------------------- -->
+\procedure habit-tracker-table()
+\function get-item-caption() [<item>get[caption]]
+<table class="tc-max-width habit-tracker-table twks-input-hide-border">
+	<tr>
+		<th class="twks-tableCell-fit">No</th>
+		<th class="twks-tableCell-fit">Sort</th>
+		<th>Habit</th>
+		<th class="twks-tableCell-fit">Rating</th>
+		<th class="twks-tableCell-fit">Edit</th>
+	</tr>
+	<$list filter=<<get-habit-filter>> variable="item" counter="counter">
+		<tr>
+			<th class="twks-tableCell-fit">
+				<<counter>>
+			</th>
+			<td class="twks-tableCell-fit">
+				<<habit-sort-box>>
+			</td>
+			<td>
+				<$link to=<<item>>> <<get-item-caption>> </$link>
+			</td>
+			<td class="twks-tableCell-fit">
+				<$transclude $variable="habit-rating-box" tiddler=<<item>>/>
+			</td>
+			<td class="twks-tableCell-fit">
+				<<delete-habit-btn>>
+			</td>
+		</tr>
+	</$list>
+	<<habit-tracker-new>>
+</table>
+\end
+
+\procedure habit-tracker-header()
+		<h2 style="margin-bottom: 0;">Habit Tracker:</h2>
+\end
+
+<!-- Table view for bad and good tabs -->
+\procedure habit-table-view()
+<table class="tc-max-width">
+	<tr>
+		<th class="twks-tableCell-fit">No</th>
+		<th>Habits</th>
+		<th class="twks-tableCell-fit">Rating</th>
+		<th class="twks-tableCell-fit">Edit</th>
+	</tr>
+	<$list filter=<<get-habit-filter>> counter="counter" variable="item">
+		<tr>
+			<td><<counter>></td>
+			<td>
+				<$link to=<<currentTiddler>>> <<get-habit-caption>> </$link>
+			</td>
+			<td>
+				<$transclude $variable="habit-rating-box" tiddler=<<item>>/>
+			</td>
+			<td> <<delete-habit-btn>> </td>
+		</tr>
+	</$list>
+</table>
+\end
+
+<!-- -------------------------------------------------- -->
+\procedure twks-habit-tracker()
+\function get-tab-filter() [<currentTiddler>get[condition]]
+\function get-habit-tabs() [prefix[$:/uzvg/HabitTracker/Panel/]!is[draft]]
+\function get-valid-tabs() [function[get-habit-tabs]] :filter[subfilter<get-tab-filter>] :else[[$:/uzvg/HabitTracker/Panel/All]]
+	<<habit-tracker-header>>
+	<$transclude $variable="tabs"
+		tabsList="[function[get-valid-tabs]]"
+		default="$:/uzvg/HabitTracker/Panel/All"/>
+\end

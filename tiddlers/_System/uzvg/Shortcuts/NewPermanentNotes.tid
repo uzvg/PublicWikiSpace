@@ -1,0 +1,12 @@
+created: 20241104030910871
+creator: uzvg
+key: ((NewPermanentNotes))
+modified: 20250322061747298
+modifier: uzvg
+tags: $:/tags/KeyboardShortcut
+title: $:/uzvg/Shortcuts/NewPermanentNotes
+type: text/vnd.tiddlywiki
+
+<$navigator story="$:/StoryList" history="$:/HistoryList" openLinkFromInsideRiver={{$:/config/Navigation/openLinkFromInsideRiver}} openLinkFromOutsideRiver={{$:/config/Navigation/openLinkFromOutsideRiver}} relinkOnRename={{$:/config/RelinkOnRename}}>
+<$action-sendmessage $message="tm-new-tiddler" title="New PermanentNotes" tags="PermanentNotes"/>
+</$navigator>

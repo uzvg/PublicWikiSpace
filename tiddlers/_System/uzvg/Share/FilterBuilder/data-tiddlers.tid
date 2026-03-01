@@ -1,0 +1,9 @@
+code-body: yes
+created: 20250517025918248
+modified: 20260114024913428
+modifier: uzvg
+title: $:/uzvg/Share/FilterBuilder/data-tiddlers
+type: text/vnd.tiddlywiki
+
+\function stateTiddler() [<qualify $:/state/FilterBuilder>]
+\function storeTiddler() [<qualify $:/temp/FilterBuilder>]

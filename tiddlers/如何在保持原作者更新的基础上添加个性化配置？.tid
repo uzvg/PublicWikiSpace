@@ -1,0 +1,144 @@
+created: 20250629050731910
+description: git工作流程之，如何在保持原作者更新的基础上添加个性化配置？
+modified: 20250629051043030
+progress: Completed
+rating: Valuable
+tags: PermanentNotes Git GitWorkFlow
+title: 如何在保持原作者更新的基础上添加个性化配置？
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+当你 fork（或者直接 clone）一个他人的 GitHub 仓库（如 Neovim 配置框架），通常会面临以下两个目标：
+
+* ''目标一：持续获取原作者的更新''
+** 原作者会不断对项目做出改进或修复，保持更新对你来说很重要。
+* ''目标二：加入自己的个性化配置''
+**   你需要对项目做出定制化修改（例如更改主题、添加插件、修改快捷键等），并将这些修改推送到你自己的 GitHub 仓库进行备份或跨设备同步。
+
+!! 一、方案原理说明
+
+要实现这两个目标，推荐使用以下 Git 策略：
+
+* 使用 `main` 分支作为''纯净的同步分支''，只用来追踪原作者的更新（上游分支 `upstream`）。
+* 基于 `main` 创建一个 `my-config` 分支，用于编写并管理你的个性化配置。
+* 定期通过 `merge` 或 `rebase` 将 `main` 分支的更新合并到 `my-config`，以同步原作者的改动。
+* 自己的修改统一推送到 `origin`（即你自己的 GitHub 仓库）。
+
+!! 二、操作步骤详解
+
+以下是从零开始配置并使用该 Git 工作流程的完整步骤。
+
+!!! 第一步：准备仓库结构
+
+; 1.1 从 GitHub fork 原作者仓库（推荐）
+
+在 GitHub 上点击 fork，将原作者仓库复制到你自己的账户下。
+
+```bash
+# 克隆你 fork 后的仓库
+git clone https://github.com/你的用户名/你的-fork.git
+cd 你的-fork
+```
+
+; 1.2 添加远程仓库引用
+
+```bash
+# 添加原作者的远程仓库为 upstream
+git remote add upstream https://github.com/原作者用户名/原仓库.git
+
+# 验证远程仓库配置
+git remote -v
+```
+
+输出应类似于：
+
+```
+origin    https://github.com/你的用户名/你的-fork.git (fetch)
+upstream  https://github.com/原作者用户名/原仓库.git (fetch)
+```
+
+!!! 第二步：设置本地分支结构
+
+; 2.1 确保 `main` 是同步分支
+
+```bash
+# 获取上游代码
+git fetch upstream
+
+# 新建并切换到本地 main 分支（若尚未存在）
+git checkout -b main upstream/main
+
+# 将 main 分支推送到你自己的远程仓库（可选）
+git push -u origin main
+```
+
+; 2.2 创建你的个性化配置分支
+
+```bash
+# 基于 main 创建自定义配置分支
+git checkout -b my-config main
+
+# 做你的个性化修改
+# ...
+
+# 提交并推送到远程
+git commit -am "添加个性化配置"
+git push -u origin my-config
+```
+
+!!! 第三步：同步原作者更新到你的个性化分支
+
+每当原作者有更新时，你可以按以下流程同步：
+
+```bash
+# 1. 更新 upstream 的变更
+git checkout main
+git fetch upstream
+git merge upstream/main     # 或者 git pull upstream main
+git push origin main        # 可选，用于备份 main 分支
+
+# 2. 将更新合并到你的个性化配置分支
+git checkout my-config
+git merge main              # 或 git rebase main（保持提交记录清晰）
+
+# 3. 处理冲突后，推送更新
+git push origin my-config
+```
+
+!! 三、可选：自动化更新脚本
+
+你也可以写一个自动化脚本（如 `sync.sh`）来简化操作流程：
+
+```bash
+#!/bin/bash
+
+# 更新 upstream/main
+git checkout main
+git fetch upstream
+git merge upstream/main
+git push origin main
+
+# 合并到你的个性化分支
+git checkout my-config
+git merge main
+git push origin my-config
+```
+
+执行权限设置：
+
+```bash
+chmod +x sync.sh
+./sync.sh
+```
+
+!! 四、总结
+
+该 Git 使用策略的核心在于：
+
+* `main` 分支只用于同步原作者（上游仓库）内容，保持干净不做任何修改。
+* `my-config` 分支用于进行个性化修改，是你日常工作的主分支。
+* 原作者更新 → 本地 `main` → 合并到 `my-config` → 推送到自己的远程仓库。
+
+这种方式将 ''原作者的维护权'' 与 ''你自己的修改权'' 解耦，既不丢更新，也不丢自定义，是管理 fork 项目时的最佳实践之一。

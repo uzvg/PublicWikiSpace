@@ -1,0 +1,155 @@
+code-body: yes
+created: 20251221021738634
+modified: 20260203033515763
+modifier: uzvg
+title: $:/uzvg/RefExplorer/Share
+type: text/vnd.tiddlywiki
+
+<!-- 获得所有的meta标签列表------------------------------ -->
+\function get-meta-notes()
+	[[LiteratureNotes]]
+	[[PermanentNotes]]
+	[[IndexNotes]]
+	[[ProjectNotes]]
+	[[FleetingNotes]]
+	[[Books]]
+	[[Source]]
+	[[PAO]]
+	[[Journal]]
+	[[Goal]]
+\end
+
+<!-- 获得与<storyTiddler>相关的所有tiddler -------------------------------->
+\function get-all-related-notes()
+	[<storyTiddler>links[]]
+	[<storyTiddler>backlinks[]]
+	[<storyTiddler>tags[]]
+	[<storyTiddler>tagging[]]
+	[all[tiddlers]source<storyTiddler>]
+	[<storyTiddler>get[source]]
+	[<storyTiddler>get[authors]enlist-input[]]
+	[all[tiddlers]contains:authors<storyTiddler>]
+	-[function[get-meta-notes]]
+	-[<storyTiddler>]
+	+[!is[draft]!is[missing]!is[draft]]
+\end
+
+<!-- 获得所有相关tiddler与storyTiddler的关系 -------------------------------->
+\function get-note-relation()
+	[all[tiddlers]tag<storyTiddler>match<item>then[Tagged]]
+	[<storyTiddler>tags[]match<item>then[Tagging]]
+	[<storyTiddler>links[]match<item>then[Link]]
+	[<storyTiddler>backlinks[]match<item>then[Backlink]]
+	[<storyTiddler>get[authors]enlist-input[]match<item>then[Author]]
+	[all[tiddlers]contains:authors<storytTiddler>match<item>then[Work]]
+	[<storyTiddler>get[source]match<item>then[Source]]
+	[<item>prefix[$:/Storage/Flashcards/DataTiddlers/]then[Flashcards]]
+	[all[tiddlers]contains:source<storyTiddler>match<item>then[Derivative]]
+	[<item>is[system]then[System Tiddler]]
+	:else[[Others]]
+\end
+
+<!-- 在每个tab页面显示的RefExplorer Table -->
+\procedure twks-refexp-table()
+\function get-refexp-caption() [<currentTab>get[description]]
+\function get-refexp-filter() [<currentTab>get[condition]]
+\function get-item-description() [<item>get[description]]
+\function get-relative-modified() [<item>get[modified]format:relativedate[]]
+<table class="refexplorer-table">
+	<caption class="refexplorer-table-caption">
+		<<get-refexp-caption>>
+	</caption>
+	<tr>
+		<th>Title</th>
+		<th>Relation</th>
+		<th>Tags</th>
+		<th style="width: 8em;">Modified</th>
+	</tr>
+	<$list filter=<<get-refexp-filter>> variable="item">
+		<tr>
+			<td>
+				<$link to=<<item>> tooltip=<<get-item-description>>/>
+			</td>
+			<td>
+				<<get-note-relation>>
+			</td>
+			<td>
+				<$list filter="[<item>tags[]]" variable="currentTag">
+					<$transclude $variable="tag-pill" tag=<<currentTag>>/>&#32;
+				</$list>
+			</td>
+			<td>
+				<<get-relative-modified>>
+			</td>
+		</tr>
+	</$list>
+</table>
+\end
+
+<!-- 只显示有效的tab -------------------------------->
+\procedure twks-ref-explorer()
+\function get-ref-tiddlers() [tag[$:/tags/ReferenceExplorerTab]!is[draft]]
+\function get-ref-condition() [<currentTiddler>get[condition]]
+\function get-ref-tabs() [function[get-ref-tiddlers]] :filter[subfilter<get-ref-condition>]
+\function get-default-tab() [<get-ref-tabs>first[]]
+\function get-ref-class() [<get-default-tab>is[blank]then[disable]]
+	<$transclude $variable="tabs"
+		tabsList="[function[get-ref-tabs]]"
+		default=<<get-default-tab>>
+		class=<<get-ref-class>>/>
+\end
+
+
+<!-- ------------------------------------------------------------
+SIB 2024/06/01:
+* Removing tooltip feature as we now have full popup previews.
+	```
+	thisTooltip={{{ [all[current]get[description]!is[blank]] ~[all[current]get[text]split[ ]first[100]join[ ]addsuffix[...]] }}}>
+	```
+
+UZVG 2024/10/21:
+* Add tooltip feature cause popup preview is useless for me.
+* Using function to get link-type, remove LinkTypeTemplate.
+* Using procedure to define refexplorer.
+
+UZVG 2025/03/25:
+* Using function <get-all-related-notes> to get all related notes.
+* Using function <get-note-relation> to get the relationship between the currentTiddler and the currentRecord.
+
+UZVG 2025/12/24：
+* 重新整理了相关的procedure跟function
+* 尤其是<<get-valid-tabs>>函数，使用function完成
+* 代码更简洁，更整齐，语义性更好
+
+uzvg 2026/01/14:
+* 优化了查找相关tiddler与当前tiddler关系的筛选器表达式
+* 更高效，逻辑更通顺，语义性更好。
+
+👉 The Older version of ref-explorer (⚠️ Deprecated)
+\procedure ref-explorer()
+<$let
+	tabList="[tag[$:/tags/ReferenceExplorerTab]!is[draft]] :filter[subfilter{!!condition}]"
+	myDefaultTab={{{ [subfilter<tabList>first[]] }}} >
+	<% if [subfilter<tabList>!is[blank]] %>
+		<<clarify>>
+		<$macrocall $name="tabs" tabsList=<<tabList>> default=<<myDefaultTab>> />
+	<% endif %>
+</$let>
+\end
+
+👉 The older version of get-note-relation(⚠️ Deprecated)
+\function get-note-relation()
+	[<item>]
+	-[<storytTiddler>tagging[]] +[else[Tagged]]
+	-[<storyTiddler>tags[]] +[else[Tagging]]
+	-[<storyTiddler>links[]] +[else[Link]]
+	-[<storyTiddler>backlinks[]] +[else[Backlink]]
+	-[<storyTiddler>get[authors]enlist-input[]] +[else[Author]]
+	-[all[tiddlers]contains:authors<storytTiddler>] +[else[Work]]
+	-[<storyTiddler>has[source]get[source]] +[else[Source]]
+	-[<item>prefix[$:/Storage/Flashcards/DataTiddlers/]] +[else[Flashcards]]
+	-[all[tiddlers]contains:source<storyTiddler>] +[else[Derivative]]
+	-[<item>is[system]] +[else[System Tiddler]]
+	-[<item>] +[else[Others]]
+\end
+------------- -->

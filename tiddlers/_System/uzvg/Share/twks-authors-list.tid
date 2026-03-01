@@ -1,0 +1,15 @@
+code-body: yes
+created: 20260103101841301
+modified: 20260114024913431
+modifier: uzvg
+tags: 
+title: $:/uzvg/Share/twks-authors-list
+type: text/vnd.tiddlywiki
+
+\procedure twks-authors-list()
+\import [[$:/uzvg/Share/twks-list-seperator]]
+\function get-authors-list() [<storyTiddler>get[authors]]
+<$transclude
+	$variable="twks-list-seperator"
+	list=<<get-authors-list>>/>
+\end

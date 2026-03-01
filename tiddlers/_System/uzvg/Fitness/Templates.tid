@@ -1,0 +1,15 @@
+created: 20250522042302911
+modified: 20260114024913409
+modifier: uzvg
+title: $:/uzvg/Fitness/Templates
+type: text/vnd.tiddlywiki
+
+\function get-templates-filter() [all[tiddlers]!is[draft]tag[$:/tags/Fitness/Template]]
+\function get-default-tab() [subfilter<get-templates-filter>first[]]
+
+!! Templates:
+
+<$transclude $variable="tabs"
+	tabsList="[function[get-templates-filter]]"
+	default=<<get-default-tab>>
+	class="tc-vertical"/>

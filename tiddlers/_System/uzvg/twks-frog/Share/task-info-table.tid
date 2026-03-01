@@ -1,0 +1,56 @@
+code-body: yes
+created: 20260102065221915
+modified: 20260103150610489
+title: $:/uzvg/twks-frog/Share/task-info-table
+type: text/vnd.tiddlywiki
+
+<!-- Show the task info ------------------------------
+* parent:
+* progress:
+* deadline:
+* created:
+* caption:
+-->
+\function get-task-caption() [<storyTiddler>get[caption]]
+\function get-task-parent() [<storyTiddler>get[parent]]
+\function get-parent-caption() [<get-task-parent>get[caption]else<get-task-parent>]
+
+\procedure task-info-table()
+\function get-max-count() [parent<storyTiddler>count[]]
+\function get-done-count() [parent<storyTiddler>status[Done]count[]]
+
+<table class="tc-max-width tc-table-no-border twks-input-hide-border twks-frog-task-info-table">
+<!--
+			<$edit-text tiddler=<<storyTiddler>>
+				field="caption"
+				class="full-width"/>
+-->
+	<tr>
+		<th>Task</th>
+		<td>
+			@@.emphasis <<get-task-caption>> @@
+		</td>
+	</tr>
+	<tr>
+		<th>Parent</th>
+		<td>
+			<$link to=<<get-task-parent>>> <<get-parent-caption>> </$link>
+		</td>
+	</tr>
+	<tr>
+		<th>Deadline</th>
+		<td>
+			<$edit-text tiddler=<<storyTiddler>> field="schedule" type="datetime-local"/>
+		</td>
+	</tr>
+	<tr>
+		<th>Progress</th>
+		<td>
+			<$transclude $variable="twks-progress-bar"
+				max=<<get-max-count>>
+				value=<<get-done-count>>
+				class="full-width"/>
+		</td>
+	</tr>
+</table>
+\end

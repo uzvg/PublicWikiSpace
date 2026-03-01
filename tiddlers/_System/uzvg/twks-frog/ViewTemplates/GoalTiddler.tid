@@ -1,0 +1,25 @@
+code-body: yes
+created: 20251224044822267
+modified: 20260104092935200
+tags: $:/tags/ViewTemplate
+title: $:/uzvg/twks-frog/ViewTemplates/GoalTiddler
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/twks-frog/Share/tasks-table-view]]
+
+\procedure save-task-actions()
+\function get-default-status() [<storeTiddler>get[status]else[Pending]]
+	<$action-setfield $tiddler=<<storeTiddler>>
+		tags="Task"
+		status=<<get-default-status>>
+		parent=<<storyTiddler>>/>
+	<$action-sendmessage $message="tm-rename-tiddler"
+		from=<<storeTiddler>>
+		to=<<get-task-title>>/>
+\end save-task-actions
+
+<$list filter="[<storyTiddler>tag[Goal]!is[draft]]">
+	<$transclude $variable="tasks-table-view"
+		filter="[all[tiddlers]parent<storyTiddler>!is[draft]sort[created]]"
+		actions=<<save-task-actions>>/>
+</$list>

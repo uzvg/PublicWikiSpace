@@ -1,0 +1,11 @@
+code-body: yes
+created: 20260222021604819
+modified: 20260222021718943
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/twks-flashcards-modifier
+type: text/vnd.tiddlywiki
+
+\procedure twks-flashcards-modifier(dataTiddler,tfCardId,type)
+
+\end

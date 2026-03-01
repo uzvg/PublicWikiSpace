@@ -1,0 +1,20 @@
+caption: Completed
+code-body: yes
+condition: [all[tiddlers]tag[Books]!is[system]!is[draft]progress[Completed]]
+created: 20250214060856544
+creator: uzvg
+modified: 20250520083339500
+modifier: uzvg
+order: 5
+page-size: 10
+tags: $:/tags/Library
+title: $:/uzvg/Library/Panels/Completed
+type: text/vnd.tiddlywiki
+
+\import [prefix[$:/uzvg/Library/Share/]]
+\import [prefix[$:/uzvg/Share/FilterBuilder/]]
+
+\function get-page-size() [<currentTab>get[page-size]]
+\function get-filter-prefix() [<currentTab>get[condition]]
+<$transclude $variable="library-tableview"/>
+<<twks-list-paginater>>

@@ -1,0 +1,142 @@
+authors: geeksforgeeks
+caption: inheritance
+created: 20250609035936559
+description: 类继承中基础语法、关键函数、属性与方法覆盖等相关知识的总结
+medium: Website
+modified: 20250609071922920
+modifier: uzvg
+progress: Building
+rating: Plain
+source: class(1749435568065)
+tags: LiteratureNotes Python
+title: inheritance(1749441576559)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+!! 🧱 一、类继承的基本语法
+
+```python
+class 父类:
+    # 定义父类属性和方法
+    ...
+
+class 子类(父类):
+    # 子类继承了父类的所有属性和方法
+    ...
+```
+
+✅ Python 支持单继承和多继承
+
+!! 🔹 示例：单继承
+
+```python
+class Animal:
+    def speak(self):
+        print("Animal speaks")
+
+class Dog(Animal):
+    pass
+
+d = Dog()
+d.speak()  # 输出: Animal speaks
+```
+
+!! 🔸 示例：多继承
+
+```python
+class A:
+    def method(self):
+        print("A")
+
+class B:
+    def method(self):
+        print("B")
+
+class C(A, B):
+    pass
+
+c = C()
+c.method()  # 输出: A（因为 A 在前面）
+```
+
+!! 🧠 二、属性和方法的覆盖（重写）
+
+子类可以\*\*覆盖（重写）\*\*父类的属性或方法：
+
+```python
+class Animal:
+    def speak(self):
+        print("Animal speaks")
+
+class Dog(Animal):
+    def speak(self):  # 覆盖了父类的方法
+        print("Dog barks")
+
+Dog().speak()  # 输出: Dog barks
+```
+
+!! 🧩 三、`__init__` 构造函数的继承与重写
+
+如果子类没有定义 `__init__()`，会自动继承父类的构造方法。
+
+!!! ✅ 自动继承：
+
+```python
+class Animal:
+    def __init__(self, name):
+        self.name = name
+
+class Dog(Animal):
+    pass
+
+d = Dog("Buddy")
+print(d.name)  # Buddy
+```
+
+!!! ✅ 重写构造函数：
+
+```python
+class Dog(Animal):
+    def __init__(self, name, breed):
+        super().__init__(name)  # 调用父类构造函数
+        self.breed = breed
+```
+
+（此处 `super()` 用于示意，具体机制你已另做笔记）
+
+!! 🔍 四、类的内置属性（常用于调试继承）
+
+|!属性 / 方法|!说明|
+|`__bases__`              |查看一个类的父类元组         |
+|`__subclasses__()`       |查看某个类的所有子类         |
+|`__dict__`               |查看类中定义的属性/方法（不含继承） |
+|`isinstance(obj, Class)` |判断对象是否属于某个类或其子类    |
+|`issubclass(A, B)`       |判断类 A 是否是类 B 的子类   |
+
+!! 🔎 五、`isinstance()` 和 `issubclass()` 用法
+
+```python
+class Animal: pass
+class Dog(Animal): pass
+
+d = Dog()
+
+print(isinstance(d, Dog))      # True
+print(isinstance(d, Animal))   # True
+print(issubclass(Dog, Animal)) # True
+```
+
+!! ✅ 小结一览表
+
+|!概念|!说明|
+|继承语法 |`class 子类(父类):`                            |
+|属性继承 |子类会自动继承父类的所有属性和方法                          |
+|方法重写 |子类可定义与父类同名的方法/属性进行覆盖                       |
+|构造函数 |子类可重写 `__init__()`，否则自动继承                  |
+|多继承  |`class C(A, B):`，按顺序查找父类成员                 |
+|类型判断 |`isinstance()` 判断对象归属，`issubclass()` 判断类关系 |
+|调试工具 |`__bases__`、`__subclasses__()` 等反射属性       |
+
+如果你以后想补充更高级的内容（如抽象基类 ABC、方法协作、`super()` 多重继承下行为），也可以基于这份笔记继续扩展。

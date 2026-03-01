@@ -1,0 +1,16 @@
+caption: ProejectNotes Derivative
+code-body: yes
+condition: [!is[system]!is[draft]tag[ProjectNotes]]
+created: 20250228151405761
+description: Derive New PermanentNotes From Current
+modified: 20250427112328954
+modifier: uzvg
+tags: $:/tags/DerivatorActions
+title: $:/uzvg/Derivator/Actions/DeriveFromProjectNotes
+type: text/vnd.tiddlywiki
+
+<$transclude $variable="twks-derivator-actions"
+	title="New PermanentNotes"
+	tags="PermanentNotes"
+	template="$:/uzvg/Derivator/Templates/PermanentNotes"
+	keepSource="yes"/>

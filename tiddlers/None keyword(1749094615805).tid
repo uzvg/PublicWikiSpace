@@ -1,0 +1,131 @@
+authors: geeksforgeeks
+caption: None keyword
+created: 20250605033655805
+description: Python中的None常量
+medium: Website
+modified: 20250605035926079
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: keywords(1749028332441)
+tags: LiteratureNotes Python
+title: None keyword(1749094615805)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+!! 一、`None` 的本质是什么？
+
+`None` 是 Python 中的一个特殊的常量，表示“空”或“无值”。
+
+* `None` 的类型是 `NoneType`，并且只有一个实例：
+
+```python
+type(None)  # <class 'NoneType'>
+```
+
+* 本质上，`None` 是一个单例对象，全局唯一：
+
+```python
+None is None  # True
+```
+
+!! 二、`None` 与普通变量值的不同
+
+|!特点    | `None`                 | 普通变量值（如数字、字符串、对象）             |
+|类型    | `NoneType`             | 取决于值，如 `int`, `str`, `list` 等 |
+|意义    | 表示“没有值”、“空”            | 表示实际的数值、字符串、对象等               |
+|运算    | 不能参与多数数学或字符串运算         | 可以进行加减乘除等运算                   |
+|判等方式  | 通常用 `is` 判断            | 用 `==` 判等更常见                  |
+|可布尔转换 | `bool(None)` 为 `False` | 非零/非空为 `True`，空为 `False`      |
+
+!! 三、常见应用场景
+
+!!! 1. 函数的默认返回值
+
+```python
+def do_something():
+    pass
+
+result = do_something()
+print(result)  # 输出：None（因为没有 return）
+```
+
+!!! 2. 函数的“空返回”表示状态
+
+```python
+def find_user(id):
+    if id not in users:
+        return None
+```
+
+!!! 3. 默认参数值
+
+```python
+def process(data=None):
+    if data is None:
+        data = []
+    # 避免使用可变默认参数如 []，防止副作用
+```
+
+!!! 4. 初始化变量占位符
+
+```python
+result = None
+# 后面根据逻辑更新 result
+```
+
+!!! 5. 数据库/JSON等“空字段”映射
+
+* 数据库中的 `NULL`；
+* JSON 的 `null`；
+* 都会在 Python 中转为 `None`。
+
+!! 四、使用时需要注意什么？
+
+!!! 1. 不要用 `==` 判断 `None`（推荐用 `is`）
+
+```python
+if value is None:        # 推荐
+    ...
+if value == None:        # ⚠️ 不推荐（可能被重载，导致误判）
+    ...
+```
+
+!!! 2. 不能对 `None` 做运算
+
+```python
+print(None + 1)  # ❌ TypeError
+```
+
+!!! 3. 注意与空字符串、空列表等区别
+
+```python
+None == ''     # False
+None == []     # False
+None == 0      # False
+```
+
+!!! 4. 对象属性可能为 `None`，访问前要检查
+
+```python
+if user.profile is not None:
+    print(user.profile.name)
+```
+
+!! 五、实际案例小结
+
+|!场景|!是否用 `None` 合适|
+|函数无返回值            | 是 |
+|默认参数占位            | 是 |
+|表示“无对象/无状态”       | 是 |
+|用作可变默认值替代品        | 是 |
+|判断空字符串、空列表        | ❌ 否（应使用 `==` 或 `len()`） |
+|替代 `False` / `0` /`''` | ❌ 否（语义不清晰） |
+
+!! 总结一句话：
+
+> `None` 表示“没有值”，是 Python 中唯一的 `NoneType` 实例，适合用来表示空、无、默认、未赋值等语义，是一种非常有用的语法和设计工具。
+
+如有需要，我可以帮你构造几个带有 `None` 用法的函数例子（比如默认参数处理或空结果检查），帮助你更好地掌握它。需要吗？

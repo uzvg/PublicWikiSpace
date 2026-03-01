@@ -1,0 +1,16 @@
+created: 20250424033106459
+modified: 20260201084849229
+modifier: uzvg
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/display.css
+type: text/vnd.tiddlywiki
+
+.disable {
+	display: none;
+}
+
+.hidden {
+  opacity: 0;
+	visibility: hidden;
+  pointer-events: none;
+}

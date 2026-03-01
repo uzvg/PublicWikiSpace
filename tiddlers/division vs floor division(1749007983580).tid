@@ -1,0 +1,61 @@
+authors: geeksforgeeks
+caption: division vs floor division
+created: 20250604033303580
+description: Python中的普通除法和地板除法的区别
+medium: Website
+modified: 20250605052229814
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: operators(1749000745123)
+tags: LiteratureNotes Python
+title: division vs floor division(1749007983580)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+!! 不同：
+
+> In Python 3.x the result of division is a floating-point while in Python 2.x division of 2 integers was an integer. To obtain an integer result in Python 3.x floored (`//` integer) is used.
+
+在 Python 中，`division` 和 `floor division` 是两种不同的除法操作，它们的主要区别在于结果的类型和精度。
+
+!! 普通除法（division） `/`
+
+* 运算符：`/`
+* 结果：''浮点数''（即使两个操作数都是整数）
+* 示例：
+
+```python
+print(7 / 2)  # 输出 3.5
+print(4 / 2)  # 输出 2.0
+```
+
+无论是否整除，结果始终是 `float` 类型。
+
+!! 2. 地板除法（floor division） `//`
+
+* 运算符：`//`
+* 结果：''向下取整'' 的结果（即地板值），类型取决于操作数：
+
+* 如果两个操作数都是整数，则结果是整数。
+* 如果至少一个是浮点数，结果是浮点数。
+* 示例：
+
+```python
+print(7 // 2)   # 输出 3
+print(-7 // 2)  # 输出 -4（向下取整到更小的整数）
+print(7.0 // 2) # 输出 3.0（浮点数）
+```
+
+<<twks-alerter "warning" "地板除法不是简单的截断，而是''向负无穷方向取整''，这对负数尤其重要。">>
+
+!! 对比总结：
+
+|tc-max-width|k
+|!操作|!表达式|!结果|!类型|
+|普通除法     | `7 / 2`    | `3.5` | float |
+|地板除法（正数） | `7 // 2`   | `3`   | int   |
+|地板除法（负数） | `-7 // 2`  | `-4`  | int   |
+|混合类型地板除法 | `7.0 // 2` | `3.0` | float |

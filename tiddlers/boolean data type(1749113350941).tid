@@ -1,0 +1,36 @@
+authors: geeksforgeeks
+caption: boolean data type
+created: 20250605084910941
+description: Python中的boolean数据类型
+medium: Website
+modified: 20250605084940783
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: datatypes(1749029193189)
+tags: LiteratureNotes Python
+title: boolean data type(1749113350941)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+!!! Boolean类型：
+
+* 只有`True`跟`False`才是属于bool变量，小写的`true`跟`false`都不是。
+
+```
+print(type(True))
+print(type(False))
+print(type(true))
+print(type(false))
+
+# Result:
+<class 'bool'>
+<class 'bool'>
+Traceback (most recent call last):
+  File "/home/uzvg/Documents/LearningPython/datatypes/boolean.py", line 3, in <module>
+    print(type(true))
+               ^^^^
+NameError: name 'true' is not defined. Did you mean: 'True'?
+```

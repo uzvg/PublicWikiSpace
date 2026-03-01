@@ -1,0 +1,23 @@
+code-body: yes
+created: 20260223040012446
+modified: 20260223040134252
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/action.focusInput
+type: text/vnd.tiddlywiki
+
+\procedure action.focus-firstInput()
+	<$action-sendmessage
+		$message="tm-focus-selector"
+		$param=".twks-flashcards-creator > .tc-flex-row:first-child textarea"
+		focusVisible="true"
+		preventScroll="true"/>
+\end
+
+\procedure action.focus-secondInput()
+	<$action-sendmessage
+		$message="tm-focus-selector"
+		$param=".twks-flashcards-creator > .tc-flex-row:nth-child(2) textarea"
+		focusVisible="true"
+		preventScroll="true"/>
+\end

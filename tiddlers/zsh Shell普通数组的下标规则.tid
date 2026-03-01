@@ -1,0 +1,201 @@
+created: 20250701161036187
+description: zsh Shell的数组下标规则
+modified: 20250701164003015
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: zsh Shell数组基础
+tags: PermanentNotes zsh
+title: zsh Shell普通数组的下标规则
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+我在学习zsh Shell的数组时，发现有如下现象：
+
+```
+keys=(name age city)
+values=(Alice 25 "New York")
+typeset -A person
+for i in {1..${#keys[@]}}; do
+    person[${keys[i]}]=${values[i]}
+done
+
+print ${(kv)person[@]}
+```
+
+* 其中，person[${keys[i]}]=${values[i]}，按照zsh Shell的语法应该是写成    `person[${keys[$i]}]=${values[$i]}`，但实际上，这两种写法都有效，再比如如下例子：
+
+<$twks.details summary="遍历关联数组：" state="$:/state/detail">
+
+来自于[[zsh Shell关联数组]]：
+
+```
+typeset -A data=(
+    name "John"
+    age "30"
+    city "Tokyo"
+    job "Developer"
+)
+
+kv_pairs=(${(kv)data[@]})
+for ((i=1; i<=${#kv_pairs[@]}; i+=2)); do
+    key=${kv_pairs[i]}
+    value=${kv_pairs[i+1]}
+    print "$key: $value"
+done
+```
+
+* 可以看到这里的数组下标，也是可以直接使用`i`变量。
+
+</$twks.details>
+
+这就涉及到了zsh Shell中的数组下标规则。Zsh 的数组下标规则相比 Bash 更灵活，支持多种写法，既方便又容易混淆。本文总结 Zsh 中数组下标的核心用法和差异。
+
+!! 基本概念：
+
+在 Zsh 中，数组下标可以写在：
+
+```
+${array[下标]}
+```
+
+这个位置里的''下标''支持多种形式：
+
+* 变量名
+* 变量引用 (`$`)
+* 算术表达式
+* 字面字符串
+
+!! 下标写法示例
+
+假设：
+
+```zsh
+arr=(zero one two three)
+i=2
+```
+
+!!! 1️⃣ 写变量名（直接写变量标识符）
+
+```zsh
+${arr[i]}
+```
+
+下标=变量`i`的值（等于2）。
+
+输出：
+
+```
+one
+```
+
+!!! 2️⃣ 写变量引用
+
+```zsh
+${arr[$i]}
+```
+
+与`${arr[i]}`等价。
+
+输出：
+
+```
+one
+```
+
+!!! 3️⃣ 写算术表达式
+
+```zsh
+${arr[i+1]}
+```
+
+Zsh自动把`i+1`求值（2+1=3）。
+
+输出：
+
+```
+two
+```
+
+!!! 4️⃣ 写负数下标（从数组尾部算起）
+
+```zsh
+${arr[-1]}
+```
+
+输出：
+
+```
+three
+```
+
+!!! 5️⃣ 写字面字符串
+
+如果是关联数组：
+
+```zsh
+typeset -A dict
+dict=(alpha A beta B)
+```
+
+可以：
+
+```zsh
+${dict[alpha]}
+```
+
+输出：
+
+```
+A
+```
+
+!! Zsh与Bash的区别：
+
+在 ''Bash'' 中：
+
+* `${array[i]}` 会把 `i` 当作字面字符串（不是变量），通常无效。
+* Bash必须写`${array[$i]}` 或 `${array[2]}`。
+
+在 ''Zsh'' 中：
+
+* `${array[i]}`会自动把`i`当成变量或表达式求值。
+* 两种写法''完全等价''。
+
+!! ✅ 推荐实践：
+
+虽然 Zsh 支持多种形式，但为了''可读性和兼容性''，建议：
+
+* 如果是变量下标：
+
+```zsh
+${array[$i]}
+```
+
+* 如果是表达式：
+
+```zsh
+${array[i+1]}
+```
+
+* 如果是字面字符串：
+
+```zsh
+${array["key"]}
+```
+
+这样更清晰，减少混淆。
+
+!! 🌱 小结
+
+Zsh 数组下标支持：
+
+* 直接写变量名（`i`）
+* 变量引用（`$i`）
+* 算术表达式（`i+1`）
+* 负数下标
+* 字符串键（关联数组）
+
+编写脚本时，务必注意区分 Bash 与 Zsh 的行为差异。

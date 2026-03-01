@@ -1,0 +1,43 @@
+created: 20260111061137939
+creator: uzvg
+modified: 20260222023143012
+modifier: uzvg
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/twks-flashcards.css
+type: text/vnd.tiddlywiki
+
+.twks-flashcards-container {
+	display: flex;
+	flex-direction: column;
+	background: <<color page-background>>;
+	gap: 1em;
+	padding: 1em;
+	justify-content: space-around;
+}
+
+.twks-flashcards-container label {
+	width: 2em;
+	color: <<color yellow>>;
+	text-align: center;
+}
+
+.twks-flashcards-container input[type="text"] {
+	border-style: none;
+	line-height: 1.5em;
+	height: 1.5em;
+	border: none;
+	width: -webkit-fill-available;
+}
+
+.tr-ritem {
+	display: flex;
+	flex-direction: row;
+}
+
+.tr-ritem .tc-keyboard {
+	width: -webkit-fill-available;
+}
+
+.tr-ritem .input[type="text"] {
+	width: -webkit-fill-available;
+}

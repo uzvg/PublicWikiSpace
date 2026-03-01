@@ -1,0 +1,27 @@
+created: 20251220133736554
+deck: WikiSpace::Habits
+modified: 20260114024913410
+modifier: uzvg
+title: $:/uzvg/HabitTracker/Flashcards
+type: text/vnd.tiddlywiki
+
+\function get-id() [<currentTiddler>get[created]]
+\function get-question() [<currentTiddler>get[context]]
+\function get-answer() [<currentTiddler>get[adjustment]]
+
+<!-- Question Cards:-------------------------------->
+<$list filter="[prefix[$:/Storage/HabitTracker/]has[context]has[adjustment]]">
+	<$transclude $variable="rememberq"
+		id=<<get-id>>
+		question=<<get-question>>
+		answer=<<get-answer>>
+		reference=<<currentTiddler>>/>
+</$list>
+
+<!-- Cloze Cards:-------------------------------->
+<$list filter="[prefix[$:/Storage/HabitTracker/]!has[context]has[adjustment]]">
+	<$transclude $variable="remembercz"
+		id=<<get-id>>
+		text=<<get-answer>>
+		reference=<<currentTiddler>>/>
+</$list>

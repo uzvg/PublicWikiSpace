@@ -1,0 +1,14 @@
+created: 20240909020607583
+creator: uzvg
+modified: 20260114020909164
+modifier: uzvg
+progress: Completed
+tags: TWKS ProjectNotes
+title: Add relative modified time for tiddlers
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirements:
+
+* 给每条tiddler添加修改文件的相对时长。✅
+* 直接修改[[$:/core/ui/ViewTemplate/subtitle]]文件即可，使用flexbox布局，轻松应对。

@@ -1,0 +1,84 @@
+created: 20250620145101811
+description: 在生产环境中应用git rebase
+modified: 20250620150059435
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: Git Rebase 命令解析
+tags: PermanentNotes Git
+title: git rebase的常见工作流程
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 引言：
+
+在对`git rebase`命令有了一个基本了解后，接下来，就需要知道它怎么用在我们的生产环境中。
+
+!! 常见操作流程：
+
+; 假设有如下开发环境：
+
+* `main`主开发分支
+* `feature`功能开发分支
+
+```bash
+git checkout main #切换到主分支
+git pull # 拉取最新的主分支代码
+git checkout feature # 切换到功能分支
+```
+
+; 黄金三连：
+
+```
+git rebase main # 将feature分支变基到main分支
+git checkout main # 切换到main分支
+git merge feature # fast-forward 合并
+# 以下命令实现同样效果：
+git rebase feature main
+```
+
+; 合并冲突：
+
+在执行上述的`git rebase main`命令时，有可能会发生代码冲突，此时：
+
+* 先手动解决冲突文件，手动编辑发生冲突的文件
+* 合并冲突完成后，使用`git add .`命令将改动添加到`staging area`
+* 中途放弃则执行`git rebase --abort`
+
+; 强制推送（慎用！）：
+
+```bash
+git push --force-with-lease  # 比--force更安全的强制推送
+```
+
+!! 生产环境实战：
+
+场景1：功能分支同步主分支更新
+
+```bash
+# 每天开始工作前：
+git fetch origin
+git rebase origin/main
+```
+
+场景2：整理本地提交
+
+```bash
+# 合并最近3个提交为1个
+git rebase -i HEAD~3
+# 在编辑器中将后两个提交标记为"squash"
+```
+
+场景3：长期分支维护
+
+```
+# 每月同步一次主分支
+git rebase --onto main legacy/v1 legacy/v2
+```
+
+!! 注意事项：
+
+* 禁止在公共分支使用`rebase`（main/dev等）
+* 本地分支推送前可随意整理
+* 已推送的分支需团队协商后使用
+* 搭配''git reflog''作为后悔药

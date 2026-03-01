@@ -1,0 +1,44 @@
+created: 20251215025448668
+description: 看完CSS grid的相关教程后，练习grid布局的一篇笔记。
+modified: 20251215044354379
+modifier: uzvg
+progress: Archived
+rating: Personal
+source: Become A Master Grid CSS In 13 Minutes(1734398742238)
+tags: PermanentNotes grid
+title: Css Grid Layout Practice
+type: text/vnd.tiddlywiki
+visibility: Public
+
+<div id="grid-layout-demo1">
+	<div class="grid-container">
+		<div class="item item1">一</div>
+		<div class="item item2">二</div>
+		<div class="item item3">三</div>
+		<div class="item item4">四</div>
+		<div class="item item1">一</div>
+		<div class="item item2">二</div>
+		<div class="item item3">三</div>
+		<div class="item item4">四</div>
+	</div>
+</div>
+
+<style>
+	.grid-container {
+		display: grid;
+		grid-template-rows: repeat(4, 100px);
+		grid-template-columns: repeat(4, 100px);
+		background: #ccc;
+		background-image:
+			linear-gradient(to right, black, 1px, transparent 1px),
+			linear-gradient(to bottom, black, 1px, transparent 1px);
+		background-size:
+			100px 100px,
+			100px 100px;
+		color: green;
+		justify-items: center;
+		align-items: center;
+	}
+	.item {
+	}
+</style>

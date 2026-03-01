@@ -1,0 +1,17 @@
+created: 20250322035852848
+description: 过滤隐私词汇
+modified: 20250322041000758
+progress: Researching
+tags: TWKS ProjectNotes
+title: filter out private phrase
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Features:
+
+* 在导出public版本的wikispace时，过滤掉含有敏感词汇的tiddler。
+
+!! Research:
+
+* [[SorenBjornstad]]在他的zettelkasten网站中写了一个类似的功能，叫做KillPhrase，原理是在导出tiddler后，使用Python脚本匹配正则表达式，搜索tiddlers中是否有指定的敏感词汇。
+* 可以使用`rgregp`工具，整合到[[twks command line requirements]]脚本中。

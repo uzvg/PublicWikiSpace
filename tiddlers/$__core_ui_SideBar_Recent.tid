@@ -1,0 +1,12 @@
+caption: {{$:/language/SideBar/Recent/Caption}}
+created: 20250616151759757
+modified: 20260114024913392
+modifier: uzvg
+title: $:/core/ui/SideBar/Recent
+type: text/vnd.tiddlywiki
+
+<!--
+<$transclude $variable="timeline" format={{$:/language/RecentChanges/DateFormat}} limit={{$:/config/RecentLimit}}/>
+-->
+
+<$macrocall $name="timeline" subfilter="!tag[$:/tags/Image]!tag[Image]" format={{$:/language/RecentChanges/DateFormat}}/>

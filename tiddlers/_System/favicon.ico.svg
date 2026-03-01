@@ -1,0 +1,80 @@
+<svg
+   t="1764653919279"
+   class="icon"
+   viewBox="0 0 1024 1024"
+   version="1.1"
+   p-id="5575"
+   width="200"
+   height="200"
+   id="svg5"
+   sodipodi:docname="notes (1).svg"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs5">
+    <rect
+       x="52.781371"
+       y="28.978008"
+       width="94.437257"
+       height="22.25097"
+       id="rect6" />
+    <rect
+       x="50.970246"
+       y="27.684347"
+       width="30.530401"
+       height="22.768435"
+       id="rect5" />
+  </defs>
+  <sodipodi:namedview
+     id="namedview5"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:zoom="3.865"
+     inkscape:cx="100"
+     inkscape:cy="100"
+     inkscape:window-width="1920"
+     inkscape:window-height="995"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg5" />
+  <path
+     d="M925.12768 353.1008H19.42016v540.25216c0 43.88352 35.57376 79.45216 79.45216 79.45216H925.1328c43.88352 0 79.45216-35.56352 79.45216-79.45216V353.1008h-79.45728z"
+     fill="#EBE2CE"
+     p-id="5576"
+     id="path1" />
+  <path
+     d="M19.42016 861.568h985.15968v-15.88736H19.42016v15.88736z m0-397.24032v15.89248h985.15968v-15.89248H19.42016z m0 270.12608h985.15968v-15.89248H19.42016v15.89248z m0-127.11424h985.15968v-15.89248H19.42016v15.89248z"
+     fill="#D9D3C6"
+     p-id="5577"
+     id="path2" />
+  <path
+     d="M194.20672 353.1008h15.89248V972.8h-15.89248z"
+     fill="#E1CACA"
+     p-id="5578"
+     id="path3" />
+  <path
+     d="M925.12768 51.2H98.87232c-43.87328 0-79.45216 35.56352-79.45216 79.44704v222.45888h985.1648V130.64704C1004.57984 86.76352 969.01632 51.2 925.12768 51.2z"
+     fill="#6D9DA1"
+     p-id="5579"
+     id="path4" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:136.533px;font-family:'Noto Serif';-inkscape-font-specification:'Noto Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#46696c;stroke-width:19.3536;stroke-dasharray:204.908, 25.6134"
+     x="151.01683"
+     y="256.63586"
+     id="text7"><tspan
+       sodipodi:role="line"
+       id="tspan7"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:136.533px;font-family:'Noto Serif';-inkscape-font-specification:'Noto Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:19.3536"
+       x="151.01683"
+       y="256.63586">WikiSpace</tspan></text>
+</svg>

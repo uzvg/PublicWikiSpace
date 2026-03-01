@@ -1,0 +1,85 @@
+code-body: yes
+created: 20250415052149050
+modified: 20251225043937557
+tags: $:/tags/Global
+title: $:/uzvg/twks-selector/Share/twks-properties-selector
+type: text/vnd.tiddlywiki
+
+<!----------Notes Properties Selectors---------->
+\procedure twks-properties-selector(tiddler,field,index,noteType,property,placeholder,actions,class,emptyValue:yes,enableOptions:yes)
+\function get-note-attributes-list(noteType,property)
+	[tag[$:/tags/Options]note-type<noteType>getindex<property>enlist-input[]]
+\end get-note-attributes-list
+
+<$transclude
+	$variable="twks-selector"
+	tiddler=<<tiddler>>
+	field=<<field>>
+	index=<<index>>
+	filter="[function[get-note-attributes-list],<noteType>,<property>]"
+	placeholder={{{ [<placeholder>!is[blank]] :else[<property>uppercase[]] }}}
+	class=<<class>>
+	actions=<<actions>>
+	emptyValue=<<emptyValue>>
+	enableOptions=<<enableOptions>> />
+\end
+
+<!----------TWKS Visibility Selector---------->
+\procedure twks-visibility-selector(tiddler,field,index,placeholder:"VISIBILITY",emptyValue:"yes",enableOptions:"yes",class,actions)
+	<$transclude $variable="twks-selector"
+		tiddler=<<tiddler>>
+		field=<<field>>
+		index=<<index>>
+		optionsList="Public Private"
+		placeholder=<<placeholder>>
+		emptyValue=<<emptyValue>>
+		enableOptions=<<enableOptions>>
+		class=<<class>>
+		actions=<<actions>>/>
+\end
+
+<!----------TWKS Medium Selectors---------->
+\procedure twks-medium-selector(tiddler,field,index,placeholder:"MEDIUM",class,emptyValue:"yes",enableOptions:"yes",actions)
+<$transclude $variable="twks-selector"
+	tiddler={{{ [<tiddler>!is[blank]else<storyTiddler>] }}}
+	field=<<field>>
+	index=<<index>>
+	filter="[all[tiddlers]get[medium]enlist-input[]unique[]]"
+	placeholder=<<placeholder>>
+	emptyValue=<<emptyValue>>
+	enableOptions=<<enableOptions>>
+	class=<<class>>
+	actions=<<actions>>/>
+\end
+
+\procedure twks-sortmode-selector(tiddler,field,index,class,placeholder:"SORT")
+	<$transclude $variable="twks-data-selector"
+		tiddler=<<tiddler>>
+		field=<<field>>
+		index=<<index>>
+		dataTiddler="$:/uzvg/Selector/Options/SortMode"
+		placeholder=<<placeholder>>
+		emptyValue="no"
+		enableOptions="yes"
+		class="class"/>
+\end
+
+\procedure twks-radio-visibility-selector(tiddler,field:"visibility")
+\function get-tiddler() [<tiddler>!is[blank]else<storyTiddler>]
+\whitespace trim
+	<$radio tiddler=<<get-tiddler>>
+		field=<<field>>
+		value="Public">
+		&nbsp;Public
+	</$radio>
+	&nbsp;&nbsp;
+	<$radio tiddler=<<get-tiddler>>
+		field=<<field>>
+		value="Private">
+		&nbsp;Private
+	</$radio>
+\end
+
+<!-- TWKS Radio Visibility Selectors
+	👉 To simplify the interface, this function has been deprecated.
+-->

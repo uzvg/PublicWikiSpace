@@ -1,0 +1,20 @@
+authors: unknown
+caption: Your dotfiles in a git repo
+created: 20250219165208540
+creator: uzvg
+description: 使用git裸仓库管理配置文件
+medium: Website
+modified: 20250620154348184
+modifier: uzvg
+progress: Archived
+rating: Plain
+tags: LiteratureNotes Git Dotfiles(配置文件)
+title: Your dotfiles in a git repo(1739983928540)
+type: text/vnd.tiddlywiki
+url: https://zwyx.dev/blog/your-dotfiles-in-a-git-repo
+visibility: Public
+year: 2023-04
+
+讲解了如何使用git的裸仓库管理dotfiles(配置文件)。
+
+但我已经不用git裸仓库，管理配置文件，我选择使用 👉 [[chezmoi]]。

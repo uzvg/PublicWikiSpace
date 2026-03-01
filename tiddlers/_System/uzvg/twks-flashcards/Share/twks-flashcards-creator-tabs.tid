@@ -1,0 +1,25 @@
+code-body: yes
+created: 20260223132246200
+modified: 20260223164501579
+modifier: uzvg
+tags: $:/tags/ViewTemplate
+title: $:/uzvg/twks-flashcards/Share/twks-flashcards-creator-tabs
+type: text/vnd.tiddlywiki
+
+\procedure twks-flashcards-creator-tabs()
+\import [[$:/uzvg/twks-flashcards/Share/get-explicit-stateTiddler]]
+
+<$let
+	tabsList="[function[get-tabs-list]]"
+	defaultTab=<<get-default-tab>>
+	explicitStateTiddler=<<get-explicit-stateTiddler>>>
+	<$transclude $variable="tabs"
+		tabsList=<<tabsList>>
+		default=<<defaultTab>>
+		explicitState=<<explicitStateTiddler>>/>
+\end
+
+<% if [<storyTiddler>tag[PermanentNotes]] [<storyTiddler>tag[LiteratureNotes]] %>
+	<<twks-flashcards-creator-tabs>>
+	<<twks-flashcards-list>>
+<% endif %>

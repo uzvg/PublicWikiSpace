@@ -1,0 +1,184 @@
+created: 20260208144530518
+description: Python dict的合并操作，在Python标准库中，所有的合并操作都是浅覆盖。
+modified: 20260208152425856
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: Python dict
+tags: PermanentNotes Python dict(字典)
+title: Python dict 合并操作
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 摘要：
+
+; Python中提供了两种合并`dict`的操作：
+* `update()`：Python 2.x+
+* `|` / `|=`：Python 3.9+
+
+!! 一、核心要点：
+
+* Python 内置的 dict 合并操作，全部都是''浅合并''
+* 👉 ''只合并第一层 key，不会递归合并嵌套 dict''
+* 当 key 冲突时：''右侧覆盖左侧''
+
+!! 二、`dict.update()` 原地合并：
+
+!!! 基本用法：
+
+```python
+d1 = {"a": 1, "b": 2}
+d2 = {"b": 20, "c": 3}
+d1.update(d2)
+
+# 结果：
+d1 == {"a": 1, "b": 20, "c": 3}
+```
+
+!!! 行为特征：
+
+* ✅ ''修改原 dict（原地更新）''
+* ❌ ''不返回新 dict''
+* ❌ ''不能用于表达式''
+* ⚠️ ''有副作用''
+
+; 等价的“赋值模型”是：
+
+```python
+for k, v in d2.items():
+    d1[k] = v
+```
+
+!!! 浅合并示例：
+
+```py
+d1 = {"cfg": {"host": "localhost", "port": 3306}}
+d2 = {"cfg": {"port": 5432}}
+
+d1.update(d2)
+
+# 结果是：
+# 👉 ''整个 value 被替换，不会递归合并''
+
+{"cfg": {"port": 5432}}
+```
+
+!! 三、dict 合并运算符 `|`：
+
+!!! 1. `|` —— 返回一个新的合并后 dict：
+
+```py
+d3 = d1 | d2
+
+# 等价于：
+d3 = {''d1, ''d2}
+```
+
+; 行为特征
+
+* ✅ ''返回新 dict''
+* ✅ ''不修改 d1 / d2''
+* ✅ ''可用于表达式''
+* ✅ ''适合配置、状态合成''
+
+```py
+config = defaults | env | cli_args
+```
+
+!!! 2. 覆盖规则：
+
+```py
+{"a": 1} | {"a": 2}
+# → {"a": 2}
+```
+
+* 👉 ''右侧优先''
+
+!!! 3. 浅合并：
+
+```py
+{"cfg": {"a": 1}} | {"cfg": {"b": 2}}
+# → {"cfg": {"b": 2}}
+```
+
+!! 四、`|=` 原地合并运算符：
+
+```py
+d1 |= d2
+
+# 本质等价于：
+d1.update(d2)
+```
+
+!!! 行为特征
+
+* ✅ ''修改左操作数''
+* ❌ ''不返回新 dict''
+* ❌ ''不能用于表达式''
+* ✅ ''语义比 update 更直观''
+
+!! 五、三种合并方式对照：
+
+| !合并方式        | !是否修改原 dict | !是否返回新 dict | !可用于表达式 | !Python 版本 |
+|`d1.update(d2)`   |✅ 是           |❌ 否            |❌ 否         |2.x+        |
+|`d1 |= d2`        |✅ 是           |❌ 否            |❌ 否         |3.9+        |
+|`d1 | d2`         |❌ 否           |✅ 是          |✅ 是       |3.9+        |
+
+!! 六、关于浅合并的精确表述：
+
+; 浅合并（shallow merge）：
+* 只在当前层级合并 key；
+* 如果 value 是复杂对象（dict / list / object），则整体替换，不进入其内部结构。
+* Python 标准库 ''默认不做递归合并''。
+
+!! 七、应用场景：
+
+; 1. 使用 `|`（最推荐）
+* 配置系统
+* 状态合成
+* 表达式风格代码
+* 希望避免副作用
+
+```py
+final_cfg = defaults | user_cfg | cli_cfg
+```
+
+; 2. 使用 `update()` / `|=`
+* 明确要修改已有 dict
+* 性能敏感、避免新对象
+* 命令式代码风格
+
+```py
+config.update(runtime_overrides)
+```
+
+!! 八、注意事项：
+
+!!! 1. `|` 只支持 ''真正的 dict''：
+
+```py
+from collections import defaultdict
+
+defaultdict(int) | {"a": 1}  # ❌ TypeError
+```
+
+* 左右两边必须是 `dict`。
+
+!!! 2. 不存在内置的深度合并：
+
+如果你需要：
+
+```python
+{"a": {"x": 1}} + {"a": {"y": 2}}
+# → {"a": {"x": 1, "y": 2}}
+```
+
+* 👉 ''必须自己写递归逻辑或使用第三方库''
+* 这是刻意的设计选择，不是缺陷。
+
+!! 九、总结：
+
+; Python 的 dict 合并：
+* `update()` / `|=`：原地、浅覆盖
+* `|`：返回新 dict、浅覆盖
+* 永远只合并第一层，右侧覆盖左侧''

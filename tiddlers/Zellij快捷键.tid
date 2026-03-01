@@ -1,0 +1,78 @@
+created: 20260107042447009
+deck: WikiSpace::Zellij
+description: Zellij中的一些快捷键记忆
+modified: 20260107180215953
+progress: Completed
+rating: Personal
+tags: PermanentNotes Zellij
+title: Zellij快捷键
+type: text/vnd.tiddlywiki
+visibility: Public
+
+<<rememberq "20260107042610259"
+	"进入 resize 模式的快捷键是什么？"
+	"Ctrl n">>
+
+<<rememberq "20260107042724935"
+	"进入 pane 模式的快捷键是什么？"
+	"Ctrl p">>
+
+<<rememberq "20260107042735652"
+	"进入 scroll 模式的快捷键是什么？"
+	"Ctrl s">>
+
+<<rememberq "20260107042745471"
+	"进入 move 模式的快捷键是什么？"
+	"Ctrl h">>
+
+<<rememberq "20260107042746216"
+	"进入tab模式的快捷键是什么？"
+	"Ctrl t">>
+
+<<rememberq "20260107042748918"
+	"进入 session 模式的快捷键是什么？"
+	"Ctrl o">>
+
+<<rememberq "20260107042751332"
+	"进入 search 模式的快捷键是什么？"
+	"Ctrl s">>
+
+<<rememberq "20260107042753717"
+	"ToggleFloatingPanes 快捷键是什么？"
+	"Alt f">>
+
+<<rememberq "20260107044054205"
+	"NewPane 快捷键是什么？"
+	"Alt n">>
+
+<<rememberq "20260107044055278"
+	"MoveTab left 快捷键是什么？"
+	"Alt i">>
+
+<<rememberq "20260107044057744"
+	"MoveTab right 快捷键是什么？"
+	"Alt o">>
+
+<<rememberq "20260107044100295"
+	"MoveFocusOr tab left快捷键是什么？"
+	"Alt h">>
+
+<<rememberq "20260107044307054"
+	"MoveFocusOr tab right快捷键是什么？"
+	"Alt l">>
+
+<<rememberq "20260107044311927"
+	"MoveFocus down 快捷键是什么？"
+	"Alt j">>
+
+<<rememberq "20260107044323191"
+	"MoveFocus up 快捷键是什么？"
+	"Alt k">>
+
+<<rememberq "20260107044906521"
+	"增加pane size的快捷键是什么？"
+	"Alt +">>
+
+<<rememberq "20260107044928512"
+	"减少pane size的快捷键是什么？"
+	"Alt -">>

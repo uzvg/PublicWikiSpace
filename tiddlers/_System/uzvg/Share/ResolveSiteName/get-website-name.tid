@@ -1,0 +1,10 @@
+code-body: yes
+created: 20260103070816645
+modified: 20260114024913430
+modifier: uzvg
+title: $:/uzvg/Share/ResolveSiteName/get-website-name
+type: text/vnd.tiddlywiki
+
+\function .website-name(url)
+	[<url>] :cascade[tag[$:/tags/SiteNameRules]!is[draft]get[text]]
+\end

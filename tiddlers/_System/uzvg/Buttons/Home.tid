@@ -1,0 +1,80 @@
+caption: Home
+created: 20260213115515129
+description: Navigate to default tiddler
+modified: 20260213141806434
+tags: $:/tags/PageControls
+title: $:/uzvg/Buttons/Home
+type: text/vnd.tiddlywiki
+
+<!--
+1. 检查今天的Journal是否被创建，如果没有，则创建
+2. navigate to journal tiddler
+3. Set Journal Tiddler as default tiddler
+-->
+
+\procedure navigate-journal-actions()
+\function get-journal-tags() [<textFieldTags>] [<tagsFieldTags>] +[join[ ]]
+\procedure prefix.bracket() [
+\procedure suffix.bracket() ]
+\function get-defaultTiddler-text()
+	[<prefix.bracket>]
+	:all[<prefix.bracket>]
+	[<journalTitle>]
+	[<suffix.bracket>]
+	:all[<suffix.bracket>]
+	+[join[]]
+\end get-defaultTiddler-text
+
+<$let
+	journalTitleTemplate={{$:/config/NewJournal/Title}}
+	textFieldTags={{$:/config/NewJournal/Tags}}
+	tagsFieldTags={{$:/config/NewJournal/Tags!!tags}}
+	journalText={{$:/config/NewJournal/Text}}
+	defaultTiddler="$:/DefaultTiddlers">
+
+<$wikify name="journalTitle" text="<$transclude $variable='now' format=<<journalTitleTemplate>>/>">
+
+	<% if [<journalTitle>is[tiddler]] %>
+		<$action-navigate $to=<<journalTitle>>/>
+	<% elseif [<journalTitle>!is[tiddler]] %>
+		<$action-createtiddler
+			$basetitle=<<journalTitle>>
+			tags=<<get-journal-tags>>
+			text=<<journalText>>>
+			<$action-navigate $to=<<createTiddler-title>>/>
+		</$action-createtiddler>
+	<% endif %>
+
+	<% if [<get-defaultTiddler-text>!match{$:/DefaultTiddlers}] %>
+		<$action-setfield $tiddler=<<defaultTiddler>>
+			text=<<get-defaultTiddler-text>>/>
+	<% endif %>
+
+	<$action-sendmessage $message="tm-home"/>
+
+</$wikify>
+</$let>
+
+\end
+
+\procedure homeButton()
+\whitespace trim
+
+<$button
+	tooltip={{$:/language/Buttons/Home/Hint}}
+	aria-label={{$:/language/Buttons/Home/Caption}}
+	class=<<tv-config-toolbar-class>>
+	actions=<<navigate-journal-actions>>>
+
+<%if [<tv-config-toolbar-icons>match[yes]] %>
+	{{$:/core/images/home-button}}
+<%endif%>
+<%if [<tv-config-toolbar-text>match[yes]] %>
+	<span class="tc-btn-text">
+		<$text text={{$:/language/Buttons/Home/Caption}}/>
+	</span>
+<%endif%>
+</$button>
+\end
+
+<<homeButton>>

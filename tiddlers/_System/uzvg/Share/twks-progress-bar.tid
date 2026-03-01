@@ -1,0 +1,32 @@
+code-body: yes
+created: 20251224033003389
+modified: 20260114024913433
+modifier: uzvg
+tags: 
+title: $:/uzvg/Share/twks-progress-bar
+type: text/vnd.tiddlywiki
+
+\procedure twks-progress-bar(value,max,class)
+<progress
+	value=<<value>>
+	max=<<max>>
+	class=<<class>>/>
+\end
+
+<!-- For testing
+\function get-progress-class()
+	[<value>divide<max>compare:number:eq[1]then[progress-stage-done]
+	[<value>divide<max>compare:number:lt[0.5]then[progress-stage-early]]
+	:else[[progress-stage-late]]
+\end
+
+<$transclude $variable="twks-progress-bar"
+	value="10"
+	max="100"
+	width="4em"/>
+
+<$transclude $variable="twks-progress-bar"
+	value="30"
+	max="100"
+	width="6em"/>
+-->

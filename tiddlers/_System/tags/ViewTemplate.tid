@@ -1,0 +1,7 @@
+created: 20240815115939443
+creator: uzvg
+list: $:/core/ui/ViewTemplate/title $:/core/ui/ViewTemplate/unfold $:/core/ui/ViewTemplate/subtitle $:/core/ui/ViewTemplate/tags $:/core/ui/ViewTemplate/classic $:/uzvg/ViewTemplates/JournalNavigator $:/uzvg/FrontMatter/ViewTemplate $:/uzvg/ViewTemplates/Alerter/TerminatedProjects $:/uzvg/ViewTemplates/Alerter/CheckSourceExist $:/uzvg/ViewTemplates/Alerter/CheckSourceSynchronized $:/uzvg/ViewTemplates/Alerter/GeneratedByAI $:/uzvg/ViewTemplates/Alerter/DoubtfulContent $:/uzvg/ViewTemplates/Website $:/uzvg/ViewTemplates/CO-Star-Prompts/copy-to-clipboard $:/uzvg/twks-frog/ViewTemplates/TaskTiddler $:/uzvg/twks-frog/ViewTemplates/GoalTiddler $:/core/ui/ViewTemplate/body $:/uzvg/twks-flashcards/Share/twks-flashcards-creator-tabs $:/uzvg/RefExplorer/ViewTemplate $:/core/ui/ViewTemplate/lazy-loading $:/uzvg/Initializer/ViewTemplate $:/uzvg/twikoo/ViewTemplate
+modified: 20260223143008528
+modifier: uzvg
+title: $:/tags/ViewTemplate
+type: text/vnd.tiddlywiki

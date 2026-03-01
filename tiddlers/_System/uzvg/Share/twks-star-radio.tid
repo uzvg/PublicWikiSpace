@@ -1,0 +1,27 @@
+code-body: yes
+created: 20251223103833395
+modified: 20260114024913435
+modifier: uzvg
+tags: 
+title: $:/uzvg/Share/twks-star-radio
+type: text/vnd.tiddlywiki
+
+\procedure twks-star-radio(tiddler,field,count)
+\whitespace trim
+	<div class="twks-star-radio-box">
+		<$list filter="[range<count>,[1],[-1]]">
+			<$radio tiddler=<<tiddler>>
+				field=<<field>>
+				value=<<currentTiddler>>
+				class="twks-star-radio">
+				★
+			</$radio>
+		</$list>
+	</div>
+\end
+
+<!-- twks-star-radio 说明：
+* tiddler: 需要修改的tiddler
+* field: 需要修改的field
+* count：总共需要几颗星
+-->

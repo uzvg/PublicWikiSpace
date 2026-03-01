@@ -1,0 +1,47 @@
+created: 20250531121333889
+description: 在浏览中为tiddlywiki打包插件
+modified: 20250615152200601
+modifier: uzvg
+progress: Completed
+rating: Personal
+source: Add twikoo comment for tiddlers
+tags: PermanentNotes tiddlywiki
+title: 如何在浏览器中为tiddlywiki打包插件 ？
+type: text/vnd.tiddlywiki
+visibility: Public
+
+1. 创建插件tiddlywiki
+* 文件名例如：`$:/plugins/uzvg/twikoo`
+
+2. 填写插件信息：
+
+|tc-max-width|k
+|!Field |!Value |
+|''dependents'' |Space separated list of dependent plugins (use square brackets for titles containing spaces) |
+|''description'' |Plugin description |
+|''name'' |Plugin name |
+|''plugin-type'' |Either "plugin" for a regular plugin, "theme" for a theme, or "language" for a language pack |
+|''type'' |Set to "application/json" |
+|''version'' |Set to the version number of the plugin (eg "0.0.1") |
+
+3. 将插件文件打包：
+
+```
+$tw.utils.repackPlugin("$:/plugins/yourname/pluginname",["$:/plugins/yourname/pluginname/mywidget.js"])
+```
+
+4. 将修改后的文件重新打包到插件中：
+
+```
+$tw.utils.repackPlugin("$:/plugins/yourname/pluginname")
+```
+
+5. 从插件中删除tiddler：
+
+```
+$tw.utils.repackPlugin("$:/plugins/yourname/pluginname",null,["$:/plugins/yourname/pluginname/mywidget.js"])
+```
+
+!! 参考：
+
+* [[tiddlywiki官方开发文档|https://tiddlywiki.com/dev/#How%20to%20create%20plugins%20in%20the%20browser]]

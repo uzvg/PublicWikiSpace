@@ -1,0 +1,32 @@
+caption: Recent
+code-body: yes
+created: 20250615124207131
+filter-prefix: [all[tiddlers]!is[system]!tag[$:/twks/Documents]progress[Completed]!sort[created]]
+modified: 20250615124821418
+note-type: PermanentNotes
+order: 1
+page-size: 4
+title: Reading/Recent
+twikoo-hide: 1
+type: text/vnd.tiddlywiki
+
+\import [prefix[$:/uzvg/Share/FilterBuilder/]]
+
+\function get-page-size() [<currentTab>get[page-size]]
+\function get-filter-prefix() [<currentTab>get[filter-prefix]]
+
+\procedure filterBuilder-rating-selector()
+	<<filterBuilder-selector-checkbox optionIndex:"rating">>
+	<$transclude $variable="twks-selector"
+		tiddler=<<storeTiddler>>
+		index="rating"
+		filter="[subfilter<get-filter-prefix>get[rating]unique[]]"
+		placeholder="RATING"
+		actions=<<clean-current-page-actions>>
+		emptyValue="no"
+		enableOptions=<<is-option-enabled rating>>/>
+\end
+
+<<filterBuilder-selector-box "rating">>
+<$transclude $variable="twks-card" filter=<<get-complete-filter>>/>
+<<twks-list-paginater twks-cardview-paginater>>

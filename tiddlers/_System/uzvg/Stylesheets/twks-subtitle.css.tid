@@ -1,0 +1,14 @@
+created: 20260114015551244
+modified: 20260114024913436
+modifier: uzvg
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/twks-subtitle.css
+type: text/vnd.tiddlywiki
+
+.twks-subtitle-modifier {
+	margin-right: .5em;
+}
+
+.twks-subtitle-modified {
+	margin-left: auto;
+}

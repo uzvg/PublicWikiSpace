@@ -1,0 +1,32 @@
+created: 20260126043817744
+description: 为tiddlywiki实现VerticalTabs
+modified: 20260126102028857
+progress: Researching
+tags: ProjectNotes tiddlywiki
+title: VerticalTabs Of Tiddlywiki
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirements:
+
+* 现有的tiddlywiki的渲染方式，是把story river中的所有tiddler同时渲染
+* 由于tiddlywiki的刷新机制，这些被打开的tiddler，会被同时渲染
+* 当打开的tiddler一多，就会明显地感觉到运行速度变慢。
+* 添加一个具有类似浏览器`vertical tab`的布局
+* 
+
+!! Reserching works:
+
+* 通过修改tiddlywiki布局的方式实现👉
+** [[Alternative page layouts|https://tiddlywiki.com/#Alternative%20page%20layouts]]
+** [[Tutorial: a basic alternative layout|https://talk.tiddlywiki.org/t/tutorial-a-basic-alternative-layout/5138]]
+** [[Alternate Layout introductory tutorial|https://alt-layout-tutorial.tiddlyhost.com/]]
+* Extra Modifications:
+** Theme
+** Disable open tab of sideBar
+
+<$twks.details summary="$:/core/ui/SideBar/Open:" state="$:/state/detail">
+<$codeblock code={{$:/core/ui/SideBar/Open}}/>
+</$twks.details>
+
+* [[$:/core/ui/PageTemplate]]

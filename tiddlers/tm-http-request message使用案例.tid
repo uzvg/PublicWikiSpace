@@ -1,0 +1,36 @@
+created: 20260105094803901
+description: tm-http-request message usage example
+modified: 20260106061842996
+progress: Completed
+rating: Plain
+tags: PermanentNotes tiddlywiki
+title: tm-http-request message使用案例
+type: text/vnd.tiddlywiki
+visibility: Public
+
+```
+\procedure completion-callback-actions()
+\function get-content-type() [<headers>jsonget[content-type]]
+<% if [<status>compare:number:gteq[200]compare:number:lteq[299]] %>
+	<$action-log status=<<status>> error=<<error>>/>
+	<$action-createtiddler $basetitle=<<title>>
+		text=<<data>>
+		type=<<get-content-type>>>
+		<$action-navigate $to=<<createTiddler-title>>/>
+	</$action-createtiddler>
+<% endif %>
+\end
+
+\procedure get-random-image-actions()
+	<$action-sendmessage $message="tm-http-request"
+		url="https://random.dog/1ae6411b-8f81-438a-a793-7642a3e61128.jpg"
+		method="GET"
+		binary="yes"
+		oncompletion=<<completion-callback-actions>>
+		var-title="Test Image"/>
+\end
+
+<$button actions=<<get-random-image-actions>>>
+	Get image
+</$button>
+```

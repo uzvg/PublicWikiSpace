@@ -1,0 +1,71 @@
+created: 20250605132719960
+description: 为什么Python中的for循环中定义的变量在for代码块外还能访问？
+modified: 20250605133225606
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: for loop(1749130328035)
+tags: PermanentNotes Python
+title: 为什么for循环的变量能在外部访问？
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 1. 变量作用域的基本概念
+
+Python 使用 LEGB 规则来查找变量的作用域：
+
+|!缩写|!名称|!描述|
+| `L` | `Local`     | 当前函数内部作用域                     |
+| `E` | `Enclosing` | 嵌套函数的外部函数作用域                  |
+| `G` | `Global`    | 当前模块的全局作用域                    |
+| `B` | `Built-in`  | Python 内建作用域（如 `len`、`range`） |
+
+!! 2. Python 中哪些结构会创建作用域？
+
+|tc-max-width|k
+|!结构|!是否创建作用域|!示例说明|
+|`def` 函数                       |✅ 是     |函数体内部是局部作用域        |
+|`class` 类                      |✅ 是     |类体有自己的命名空间         |
+|模块（`.py` 文件）                   |✅ 是     |全局作用域              |
+|`for` / `if` / `while` / `try` | ❌ 否     |不创建新作用域，变量泄漏到当前作用域 |
+
+!! 3. 示例：`for` 循环变量“泄漏”到外部
+
+```python
+for letter in 'geeksforgeeks':
+    pass
+print('Last Letter:', letter)  # 输出：Last Letter: s
+```
+
+<<twks-alerter "note" "原因：`for` 循环没有创建新的作用域，`letter` 被定义在当前作用域中（模块级），最终值是最后一个字符 `'s'`。">>
+
+!! 4. 如何限制变量作用范围？
+
+将其包裹在函数中，函数会创建局部作用域：
+
+```python
+def loop():
+    for letter in 'geeksforgeeks':
+        pass
+
+loop()
+print(letter)  # ❌ NameError: name 'letter' is not defined
+```
+
+!! 5. 模块级变量 vs 局部变量
+
+```python
+x = 10  # 模块级变量（全局变量）
+
+def func():
+    x = 5  # 局部变量
+    print(x)  # 输出：5
+
+func()
+print(x)  # 输出：10
+```
+
+!! 总结：
+
+* 函数类模块创作用域，流程结构不生成；
+* `for if while try`中，变量泄漏须留神。

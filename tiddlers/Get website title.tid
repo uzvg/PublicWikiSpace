@@ -1,0 +1,16 @@
+created: 20250601142301159
+description: 根据url字段的字段值，获得链接到的网站标题，避免直接显示网址。
+modified: 20250602074345300
+progress: Completed
+tags: ProjectNotes TWKS
+title: Get website title
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirements:
+
+* 根据给定的链接文本，识别链接到的网站的标题。
+
+!! Project Files:
+
+<<list-links filter:"[prefix[$:/uzvg/FrontMatter/Share/website-links-list]]" field:"title">>

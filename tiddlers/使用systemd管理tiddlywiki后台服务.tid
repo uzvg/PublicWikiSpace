@@ -1,0 +1,72 @@
+cover: 20250616015456508.png
+created: 20250612083408325
+description: 使用systemd service自动启动tiddlywiki后台
+modified: 20250615180413043
+progress: Completed
+rating: Plain
+tags: PermanentNotes Systemd tiddlywiki
+title: 使用systemd管理tiddlywiki后台服务
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 创建service文件:
+
+* 文件路径： `$HOME/.config/systemd/user/wikispace.service`
+* <$twks.details summary="文件内容：" state="$:/state/detail">
+
+```
+[Unit]
+Description=TiddlyWiki Listener Service
+After=network.target
+# 确保在关机时能正常停止服务
+Documentation=https://tiddlywiki.com/
+
+[Service]
+Type=simple
+# 设置工作目录（包含wiki内容的目录）
+WorkingDirectory=/home/uzvg/Documents/wikis/WikiSpace
+# 阻止服务获取新权限，满足安全要求
+ExecStart=/usr/bin/tiddlywiki --listen port="9191"
+# 确保进程在关闭时能接收停止信号
+KillMode=process
+# 设置优雅停止超时时间（根据需求调整）
+TimeoutStopSec=10
+# 系统关闭时发送SIGTERM信号
+KillSignal=SIGTERM
+# 确保服务退出后系统不会认为失败
+SuccessExitStatus=143
+Restart=on-failure
+RestartSec=10
+
+[Install]
+# WantedBy=multi-user.target
+WantedBy=default.target
+```
+</$twks.details>
+
+!! 启动service：
+
+* 重新加载配置文件
+
+```
+systemctl --user daemon-reload
+```
+
+* 开启wikispace服务：
+
+```
+systemctl --user enable --now wikispace.service
+
+```
+
+* 查看后台实时日志：
+
+```
+journalctl --user -u wikispace.service -f
+```
+
+这样，tiddlywiki后台服务就能每次开机自启动，而且可以使用systemd的相关命令控制管理后台进程。
+
+!! 遇到的问题：
+
+* [[为什么指定了User跟Group字段反而无法正常运行？]]

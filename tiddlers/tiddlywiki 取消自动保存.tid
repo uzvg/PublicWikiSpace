@@ -1,0 +1,42 @@
+created: 20240707170758580
+description: 取消tiddlywiki中的自动保存机制
+modified: 20250318131440383
+progress: Completed
+rating: Promising
+tags: PermanentNotes tiddlywiki
+title: tiddlywiki 取消自动保存
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 引言：
+
+正常使用的tiddlywiki前端网页，有一个自动保存机制，在用户关闭浏览器tab时，如果有文件未保存，会产生弹窗提示用户；但当我们只是把tiddlywiki当成一个wikispace的展示空间时，这个功能就用不上了，用户只是将wikispace当成一个普通网页浏览，所做的修改既不会影响到wikispace的原本内容，也没有必要产生任何提示。这个功能在tiddlywiki中如何实现？
+
+!! 取消自动保存：
+
+tiddlywiki是定义了一个筛选器来检查整个wiki是否处于`dirty state`，该筛选器的内容被保存在[[$:/config/SaverFilter]]中。只需要将其中的所有内容删掉即可。
+
+<<twks-alerter "warning" "是删掉其中的内容，而非直接删掉tiddler自身。因为`$:/config/SaverFilter`是一个shadow tiddler，无法真正删除。">>
+
+!! 构建自动部署方案：
+
+如何在构建public版本的wikispace时，自动设置？
+
+* 思路是先将`$:/config/SaverFilter`的`text`字段设置为空。
+* 在`render`命令完成后，再删除被修改的`$:/config/SaverFilter`，使恢复原状。
+
+; 具体方案如下：
+
+```
+"build": {
+	"public": [
+		"--output","backup",
+		"--setfield","[[$:/config/SaverFilter]]","text","", "text/plain",
+		"--save","[is[system]]","[removeprefix[$:/]addprefix[Public/tiddlers/_System/]]",
+		"--save","[!is[system]visibility[Public]]","[addprefix[Public/tiddlers/]]",
+		"--render",".","Public/output/index.html","text/plain","$:/core/save/all","publishFilter","-[prefix[$:/plugins/]] -[visibility[Private]] -[tag[Journal]]",
+		"--deletetiddlers","[[$:/config/SaverFilter]]"
+	],
+```
+
+<<twks-alerter "tip" "具体官方说明请查阅👉[[SavingMechanism|https://tiddlywiki.com/#SavingMechanism]]。">>

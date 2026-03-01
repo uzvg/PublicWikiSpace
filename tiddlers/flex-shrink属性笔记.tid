@@ -1,0 +1,23 @@
+created: 20260112092327779
+description: flex-shrink属性的学习笔记
+modified: 20260112092844365
+modifier: uzvg
+progress: Building
+rating: Valuable
+source: An Interactive Guide to Flexbox(1731045420773)
+tags: PermanentNotes flexbox CSS
+title: flex-shrink属性笔记
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! flex-shrink的作用：
+
+!! flex-shrink如何缩减尺寸：
+
+!! 如何直观地理解flex-shrink：
+
+!! flex-shrink与min-width的关系：
+
+!! 如何阻止元素shrink？
+
+!! flex-shrink与flex-grow对比：

@@ -1,0 +1,54 @@
+cover: 20250616014833073.jpg
+created: 20250615005940292
+description: 使用git mv命令，移动使用chezmoi管理的配置文件的位置。
+modified: 20260118103809513
+progress: Completed
+rating: Valuable
+tags: PermanentNotes chezmoi TroubleShooting
+title: 移动chezmoi管理的配置文件
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 引言：
+
+[[今天|15th June 2025]]早上配置虚拟机中的zsh配置文件时，总是提示如下warning：
+
+```
+warning: completion was already initialized before completion module. Will call compinit again. See https://github.com/zimfw/zimfw/wiki/Troubleshooting#completion-is-not-working
+```
+
+根据提示，在家目录下的`.zshenv`文件中添加`skip_global_compinit=1`环境变量，按理说就能解决问题，但是并不管用。
+
+!! 原因：
+
+这是因为我把自己的`ZDOTDIR`位置放在了`.config/zsh/`，而非默认的家目录中，而ubuntu在读取`.zshenv`文件时，根据其`/etc/zsh/zshrc`文件：
+
+```
+# If you don't want compinit called here, place the line
+# skip_global_compinit=1
+# in your $ZDOTDIR/.zshenv
+if (( ${${(@f)"$(</etc/os-release)"}[(I)ID*=*ubuntu]} )) &&
+   [[ -z "$skip_global_compinit" ]]; then
+  autoload -U compinit
+  compinit
+fi
+```
+
+默认读取的是`$ZDOTDIR/.zshenv`，而非家目录下的`.zshenv`，所以解决方案是把家目录下的`.zshenv`文件移到`$ZDOTDIR/`目录下。
+
+!! 移动使用chezmoi管理的配置文件：
+
+据[[chezmoi issue页面的讨论|https://github.com/twpayne/chezmoi/discussions/4243]]，实现`chezmoi mv`貌似有点难度，但暂时可以使用`git mv`命令解决这个问题，具体方案如下：
+
+```
+chezmoi cd
+git mv dot_zshenv.tmpl private_dot_config/zsh/
+chezmoi apply
+```
+
+再查看，文件已经被移动。
+
+!! 拓展：
+
+* [[zsh shell startup files(1739965549292)]]
+* [[what to put in your startup files?(1735015378724)]]

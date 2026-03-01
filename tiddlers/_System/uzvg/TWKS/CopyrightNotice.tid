@@ -1,0 +1,50 @@
+caption: wikispace版权说明
+created: 20250227170643068
+modified: 20250427060259633
+modifier: uzvg
+tags: $:/twks/Documents
+title: $:/uzvg/TWKS/CopyrightNotice
+type: text/vnd.tiddlywiki
+
+<<twks-alerter "caution" "版权声明：本网站内容采用''双重版权声明''。">>
+
+; 1. 系统文件：
+* 所有用于构建博客系统的TiddlyWiki框架文件（包括但不限于系统配置、插件、主题文件等）采用 [[MIT协议|https://opensource.org/licenses/MIT]] 开源授权，您可在遵守该协议条款的前提下自由使用、修改和分发，具体条款如下：
+
+```
+MIT License
+
+Copyright (c) [2025] [uzvg]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+; 2. 原创文章内容：
+* 所有个人创作的文章、图片及多媒体内容（发布于[个人文章分类]或标注为原创的内容）采用 [[知识共享-署名-非商业性使用-相同方式共享 4.0 国际协议|https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh]] 进行授权。具体授权条款如下：
+
+```
+1. 允许非商业性转载与演绎
+2. 必须保留原作者署名（[uzvg]）
+3. 必须保持相同协议进行共享
+4. 禁止商业性使用
+```
+
+```
+© [2025] [uzvg] 联系方式：[uzvg@qq.com] （本声明最后更新于2025/3/25）
+```

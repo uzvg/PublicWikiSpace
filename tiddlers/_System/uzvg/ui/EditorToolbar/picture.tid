@@ -1,0 +1,13 @@
+caption: {{$:/language/Buttons/Picture/Caption}}
+condition: [<targetTiddler>!has[type]] [<targetTiddler>type[text/vnd.tiddlywiki]]
+created: 20240811092318613
+creator: uzvg
+description: {{$:/language/Buttons/Picture/Hint}}
+dropdown: $:/uzvg/ui/EditorToolbar/picture-dropdown
+icon: $:/core/images/picture
+modified: 20250324092049808
+modifier: uzvg
+shortcuts: ((picture))
+tags: $:/tags/EditorToolbar
+title: $:/uzvg/ui/EditorToolbar/picture
+type: text/vnd.tiddlywiki

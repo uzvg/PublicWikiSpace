@@ -1,0 +1,15 @@
+code-body: yes
+created: 20250429075604079
+modified: 20260114024913429
+modifier: uzvg
+title: $:/uzvg/Share/FilterBuilder/get-paginater-subfilter
+type: text/vnd.tiddlywiki
+
+<!-- What we need when use list paginater:
+* get-page-size
+-->
+
+\function get-current-page() [<stateTiddler>getindex[current-page]!is[blank]else[1]]
+\function get-page-start() [<get-current-page>subtract[1]multiply<get-page-size>]
+\procedure literal-paginater-filter() [rest[$(get-page-start)$]first[$(get-page-size)$]]
+\function get-paginater-subfilter() [<literal-paginater-filter>substitute[]]

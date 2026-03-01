@@ -1,0 +1,11 @@
+.twks-journal-navigator-previous {
+	flex: 1;
+	text-align: left;
+	margin-left: 2em;
+}
+
+.twks-journal-navigator-next {
+	flex: 1;
+	text-align: right;
+	margin-right: 2em;
+}

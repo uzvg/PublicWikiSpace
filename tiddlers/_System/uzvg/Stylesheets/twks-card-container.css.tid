@@ -1,0 +1,64 @@
+created: 20260112154748780
+modified: 20260114024913436
+modifier: uzvg
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/twks-card-container.css
+type: text/vnd.tiddlywiki
+
+.twks-flashcard-container {
+	display: grid;
+	grid-template-areas:
+		"id btns"
+		"question question"
+		"answer answer";
+	padding: 1em;
+	background-color: <<color page-background>>;
+	row-gap: .5em;
+	max-width: 660px;
+	margin: .5em auto;
+	box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
+}
+
+.twks-flashcard-id {
+	grid-area: id;
+	margin-right: auto;
+	color: <<color muted-foreground>>;
+	font-size: .8em;
+}
+
+.twks-flashcard-btns {
+	grid-area: btns;
+	display: flex;
+	justify-content: flex-end;
+	gap: 1em;
+}
+
+.twks-flashcard-question {
+	grid-area: question;
+	font-weight: bold;
+	font-size: 1em;
+	font-family: serif;
+	color: <<color primary>>
+}
+
+.twks-flashcard-answer {
+	grid-area: answer;
+	font-size: .95em;
+}
+
+.twks-flashcard-id,
+.twks-flashcard-btns {
+	align-self: start;
+	line-height: .4em;
+	opacity: 0;
+	transform: translateY(-4px);
+	transition:
+		opacity 0.1s ease,
+		transform 0.1s ease;
+}
+
+.twks-flashcard-container:hover > .twks-flashcard-id,
+.twks-flashcard-container:hover > .twks-flashcard-btns {
+	opacity: 1;
+  transform: translateY(0);
+}

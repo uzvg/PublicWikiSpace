@@ -1,0 +1,76 @@
+created: 20260117170259947
+description: 
+modified: 20260118060453007
+modifier: uzvg
+progress: Completed
+rating: Valuable
+source: 使用chezmoi脚本执行操作
+tags: PermanentNotes chezmoi
+title: run_onchange_ vs run_once_
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 执行逻辑：
+
+在<<twks-source>>中，一个比较难理解的地方就是`run_onchange_`跟`run_once_`两者都能在脚本内容发生变化的时候执行脚本，那么它俩到底有什么不同呢？以下是它们的执行逻辑：
+
+; 1. `run_onchange_`的执行逻辑：
+```Python
+current_hash = hash(
+    script_content +
+    included_files +
+    templates +
+    referenced data
+)
+
+if current_hash != last_hash:
+    run()
+    store_hash()
+else:
+    skip()
+```
+
+* `referenced data` 并不是“chezmoi 自动分析的”
+* 而是通过 `include / template` 展开等方式显式纳入 hash 的部分
+
+; 2. `run_once_`的执行逻辑：
+```Python
+script_hash = hash(script_content)
+
+if script_hash not in executed_hashes:
+    run()
+    record(script_hash)
+else:
+    skip()
+```
+
+* 是否执行与`文件名`完全`无关`，只与脚本内容的 `hash` 是否已经执行过有关
+
+; 比如有如下情况：
+
+```
+# 第一次执行
+run_once_a.sh		#执行成功
+# 改名为:
+run_once_b.sh		#不会执行（脚本内容的hash值没有改变）
+
+# 删除run_once_b.sh
+chezmoi apply		# 不会影响
+
+# 新建一个run_once_test.sh，内容=run_once_a.sh
+chezmoi apply		#不会执行（已经执行过)
+```
+
+!! 总结：
+
+; 从它们的执行逻辑中就可以理解：
+* `run_onchange_`观察的，是脚本内容，相对比上次成功执行的脚本内容，是否发生了改变。
+* `run_once_`观察的，是否已经有相同内容的脚本成功执行过了，如果是，则脚本不会执行。
+
+; 在现实应用中：
+* `run_onchange_`常用于生成配置、应用配置、根据模板 / 数据重新渲染结果，保证目标状态始终和 `source` 一致。
+* `run_once_`常用于初始化数据库 schema、第一次安装某个全局工具、老配置 → 新配置的一次性迁移、打印提示 / 写 README / 建一次目录结构。
+
+; 在个人 dotfiles 中：
+* `run_onchange_` ≈ 默认
+* `run_once_` ≈ 极少数、而且必须写注释解释“为什么只能跑一次”

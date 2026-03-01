@@ -1,0 +1,63 @@
+code-body: yes
+created: 20260111060846322
+modified: 20260114024913443
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/twks-flashcards-list
+type: text/vnd.tiddlywiki
+
+\procedure editCardActions()
+<% if [.card-type<item>match[qa]] %>
+	<$action-setfield $tiddler=<<currentStoreTiddler>>
+		question=<<get-current-question>>
+		answer=<<get-current-answer>>/>
+<% elseif [.card-type<item>match[cloze]] %>
+	<$action-setfield $tiddler=<<currentStoreTiddler>>
+		cloze=<<get-current-cloze>>/>
+<% endif %>
+\end
+
+\procedure saveCardActions()
+<% if [<currentStoreTiddler>is[tiddler]] %>
+	<$action-setfield $tiddler=<<dataTiddler>>
+		text=<<current-store-data>>
+		type="application/json"/>
+	<$action-deletetiddler $tiddler=<<currentStoreTiddler>>/>
+<% endif %>
+\end
+
+\procedure cancelEditActions()
+<$action-deletetiddler $tiddler=<<currentStoreTiddler>>/>
+\end
+
+\procedure deleteCardActions()
+<$action-setfield $tiddler=<<dataTiddler>> $index=<<item>>/>
+\end
+
+\procedure twks-flashcards-list()
+\function get-card-type() [.card-type<item>]
+<$list filter="[function[get-all-cardsId]reverse[]]" variable="item">
+	<% if [.card-type<item>match[qa]] %>
+		<$transclude $variable="rememberq"
+			id=<<item>>
+			question=<<get-current-question>>
+			answer=<<get-current-answer>>
+			reference=<<storyTiddler>>
+			storeTiddler=<<currentStoreTiddler>>
+			saveActions=<<saveCardActions>>
+			editActions=<<editCardActions>>
+			escActions=<<cancelEditActions>>
+			deleteActions=<<deleteCardActions>>/>
+	<% elseif [.card-type<item>match[cloze]] %>
+		<$transclude $variable="twRememberClozeBlock"
+			id=<<id>>
+			text=<<get-current-cloze>>
+			reference=<<storyTiddler>>
+			storeTiddler=<<currentStoreTiddler>>
+			editActions=<<editCardActions>>
+			saveActions=<<saveCardActions>>
+			escActions=<<cancelEditActions>>
+			deleteActions=<<deleteCardActions>>/>
+	<% endif %>
+</$list>
+\end

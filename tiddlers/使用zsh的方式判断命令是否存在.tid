@@ -1,0 +1,41 @@
+created: 20250618134141276
+description: 使用zsh Shell的方式判断命令是否存在
+modified: 20260122140925854
+progress: Completed
+rating: Plain
+source: zsh shell basic parameter expansions
+tags: PermanentNotes zsh
+title: 使用zsh的方式判断命令是否存在
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 摘要：
+
+在zsh Shell中，常见到一种用于判断命令是否存在的判断语句，如：
+
+```bash
+# 用于判断pbzip2该命令是否存在
+if (( ${+commands[pbzip2]} )) alias bzip2=pbzip2
+if (( ${+commands[pbunzip2]} )) alias bunzip2=pbunzip2
+```
+
+; 语法解析：
+* commands是[[commands关联数组]]
+* `${+var}`用于判断变量是否存在，存在返回 `1`，不存在返回 `0`
+* `(())`用于算术运算和算术条件判断
+* 在算术条件判断中，`非零`为`真`，`零`为`假`
+
+; 最终的结果就是：
+* 如果表达式结果为''非零值''，命令`存在` → 退出状态码为 `0`（真）
+* 如果表达式结果为''零''，命令`不存在` → 退出状态码为 `1`（假）
+
+!! 注意：
+
+* `if`语句是以退出码或者布尔类型判断真假的，而非算术表达式的计算值。
+* 需要注意`(( ... ))`算术表达式的退出码。
+** 当算术表达式式的计算结果为`0`时，退出码为`1`/`假`。
+** 当算术表达式式的计算结果为非`0`时，退出码为`0`/`真`。
+
+!! 拓展：
+
+* [[由zsh Shell的算术表达式导致的bug]]

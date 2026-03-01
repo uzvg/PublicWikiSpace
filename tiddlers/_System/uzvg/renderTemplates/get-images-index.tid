@@ -1,0 +1,23 @@
+code-body: yes
+created: 20260129041510603
+modified: 20260129052212131
+tags: 
+title: $:/uzvg/renderTemplates/get-images-index
+type: text/vnd.tiddlywiki
+
+\function get-canonical-uri() [<currentTiddler>get[_canonical_uri]]
+\function get-image-caption() [<currentTiddler>get[caption]]
+\function get-all-images() [all[tiddlers]is[image]] -[[$:/favicon.ico]]
+\function set-current-index()
+	[<accumulator>jsonset:object<currentTiddler>]
+	+[jsonset<currentTiddler>,[uri],<get-canonical-uri>]
+	+[jsonset<currentTiddler>,[caption],<get-image-caption>]
+\end
+
+\function get-images-index()
+	[function[get-all-images]]
+	:reduce[function[set-current-index]]
+	+[format:json[2]]
+\end
+
+<<get-images-index>>

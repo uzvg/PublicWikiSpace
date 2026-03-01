@@ -1,0 +1,33 @@
+created: 20251223124739415
+modified: 20260114024913436
+modifier: uzvg
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/twks-star-radio.css
+type: text/vnd.tiddlywiki
+
+.twks-star-radio-box {
+	display: inline-flex;
+	flex-direction: row-reverse;
+}
+
+.twks-star-radio > input {
+	display: none;
+}
+
+.twks-star-radio > span {
+  font-size: 1em;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+<!-- 将正被hover的star及其之前的star点亮 -->
+.twks-star-radio > span:hover,
+.twks-star-radio:has(span:hover) ~ .twks-star-radio > span {
+  color: gold;
+}
+
+<!-- 将选中的star及其之后的所有span元素点亮 -->
+.twks-star-radio > input:checked + span,
+.twks-star-radio:has(input:checked) ~.twks-star-radio > span {
+  color: gold;
+}

@@ -1,0 +1,15 @@
+created: 20250614234711861
+modified: 20250615152005123
+progress: Building
+rating: Plain
+tags: Shell command PermanentNotes
+title: atuin命令使用
+type: text/vnd.tiddlywiki
+visibility: Public
+
+atuin是一个用rust写的
+
+* 注册
+* 登录
+* 同步
+* 配置

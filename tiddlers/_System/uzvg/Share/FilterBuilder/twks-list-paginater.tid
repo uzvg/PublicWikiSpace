@@ -1,0 +1,44 @@
+code-body: yes
+created: 20250517030602375
+modified: 20260114024913430
+modifier: uzvg
+title: $:/uzvg/Share/FilterBuilder/twks-list-paginater
+type: text/vnd.tiddlywiki
+
+\function get-total-count() [subfilter<get-paginater-filter-prefix>] +[count[]]
+\function get-total-page() [<get-total-count>divide<get-page-size>ceil[]]
+\function get-next-page() [<get-current-page>add[1]]
+\function get-previous-page() [<get-current-page>subtract[1]]
+\function previous-btn-class() [<get-previous-page>compare:integer:lt[1]then[hidden]]
+\function next-btn-class() [<get-next-page>compare:integer:gt<get-total-page>then[hidden]]
+
+\procedure paginater-previous-btn()
+	<$button setTitle=<<stateTiddler>>
+		setIndex="current-page"
+		setTo=<<get-previous-page>>
+		class=<<previous-btn-class>>>
+		⮜&nbsp;Previous
+	</$button>
+\end
+
+\procedure paginater-next-btn()
+	<$button setTitle=<<stateTiddler>>
+		setIndex="current-page"
+		setTo=<<get-next-page>>
+		class=<<next-btn-class>>>
+		Next&nbsp;⮞
+	</$button>
+\end
+
+\procedure paginater-page-indicator()
+	<<get-current-page>>/<<get-total-page>>
+\end
+
+\procedure twks-list-paginater(class)
+\function get-paginater-class() [[flex]] [[justify-between]] [<class>] +[join[ ]]
+	<span class=<<get-paginater-class>>>
+		<<paginater-previous-btn>>
+		<<paginater-page-indicator>>
+		<<paginater-next-btn>>
+	</span>
+\end

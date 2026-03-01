@@ -1,0 +1,20 @@
+caption: All Books
+code-body: yes
+condition: [all[tiddlers]tag[Books]!is[system]!is[draft]]
+created: 20241105061745381
+creator: uzvg
+modified: 20250520082744362
+modifier: uzvg
+order: 999
+page-size: 10
+tags: $:/tags/Library
+title: $:/uzvg/Library/Panels/All
+type: text/vnd.tiddlywiki
+
+\import [prefix[$:/uzvg/Library/Share/]]
+\import [prefix[$:/uzvg/Share/FilterBuilder/]]
+
+\function get-page-size() [<currentTab>get[page-size]]
+\function get-filter-prefix() [<currentTab>get[condition]]
+<$transclude $variable="library-tableview"/>
+<<twks-list-paginater>>

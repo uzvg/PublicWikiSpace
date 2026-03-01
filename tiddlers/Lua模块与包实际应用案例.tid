@@ -1,0 +1,138 @@
+created: 20250629133737467
+description: Lua模块与包实际应用案例
+modified: 20250629133857917
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: Lua模块与包基础
+tags: PermanentNotes Lua
+title: Lua模块与包实际应用案例
+type: text/vnd.tiddlywiki
+visibility: Public
+
+非常好，我们来给一个''多文件包的实际案例''，让你完整掌握：
+
+> ''目标：''
+> 创建一个叫 `mymath` 的包，里面有两个模块：
+
+* `add.lua`：提供加法
+* `mul.lua`：提供乘法
+
+然后通过一个主模块 `mymath.lua` 把它们整合对外暴露。
+
+!! 🎯 目录结构
+
+假设你的项目目录是：
+
+```
+project/
+  main.lua
+  mymath/
+    init.lua
+    add.lua
+    mul.lua
+```
+
+> 注：有的项目会把主模块叫 `init.lua`，这样 `require("mymath")` 会自动加载 `init.lua`。
+
+!! 📄 1. `mymath/add.lua`
+
+```lua
+local M = {}
+
+function M.add(a, b)
+    return a + b
+end
+
+return M
+```
+
+!! 📄 2. `mymath/mul.lua`
+
+```lua
+local M = {}
+
+function M.mul(a, b)
+    return a * b
+end
+
+return M
+```
+
+!! 📄 3. `mymath/init.lua`
+
+这是“主入口”模块，把其它子模块组合成一个“包”对外提供：
+
+```lua
+-- 加载子模块
+local add = require("mymath.add")
+local mul = require("mymath.mul")
+
+-- 创建一个table暴露API
+local M = {}
+
+-- 把所有函数整合
+M.add = add.add
+M.mul = mul.mul
+
+return M
+```
+
+!! 📄 4. `main.lua`
+
+主程序调用：
+
+```lua
+-- 调整 package.path 如果需要
+package.path = "./?.lua;./?/init.lua;" .. package.path
+
+-- 加载整个包
+local mymath = require("mymath")
+
+print(mymath.add(10, 20))  -- 输出: 30
+print(mymath.mul(5, 6))    -- 输出: 30
+```
+
+!! 🎁 提示：require搜索
+
+上面示例中：
+
+* `require("mymath")`：会查找`mymath/init.lua`。
+* `require("mymath.add")`：会查找`mymath/add.lua`。
+
+!! 🎯 进阶：子模块私有
+
+如果你想只让`init.lua`暴露API，而不让外部直接`require("mymath.add")`，可以不把`mymath`目录加到`package.path`，只保留`mymath/init.lua`路径。
+
+!! 🎯 进阶：自动合并所有子模块
+
+如果模块较多，也可以在`init.lua`里用循环动态加载：
+
+```lua
+local M = {}
+
+-- 定义要加载的子模块
+local submodules = {"add", "mul"}
+
+for _, name in ipairs(submodules) do
+    local mod = require("mymath." .. name)
+    for k, v in pairs(mod) do
+        M[k] = v
+    end
+end
+
+return M
+```
+
+这样以后你只需要把新模块放到`submodules`列表，就能自动合并。
+
+!! 总结
+
+这个例子展示了''多文件模块组织''：
+
+* ✅ 每个功能拆分到独立文件
+* ✅ 用`init.lua`统一出口
+* ✅ 遵循清晰的目录结构
+* ✅ 对外暴露一个整合好的API
+
+如果你想，我可以再演示''带子目录''、''LuaRocks包''或''C扩展''的高级示例。随时告诉我！

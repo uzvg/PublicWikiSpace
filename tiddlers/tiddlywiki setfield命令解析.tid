@@ -1,0 +1,45 @@
+created: 20240715084858205
+creator: uzvg
+description: tiddlywik 中的setfield command解析
+modified: 20260206055046875
+modifier: uzvg
+progress: Completed
+rating: Plain
+status: pending
+tags: tiddlywiki PermanentNotes
+title: tiddlywiki setfield命令解析
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 命令作用：
+
+将一组tiddler的指定字段（field）值设定为将指定模板[[wikify|tiddlywiki wikification]]的结果，在wikify的过程中，`currentTiddler`变量，指的是通过筛选的当前tiddler。
+
+> Sets the specified field of a group of tiddlers to the result of wikifying a template tiddler with the currentTiddler variable set to the tiddler.
+
+!! 命令格式：
+
+```sh
+tiddlywiki --setfield <filter> <fieldname> <templatetitle> <rendertype>
+```
+
+* filter - filter identifying the tiddlers to be affected（想要修改的tiddler）
+* fieldname - the field to modify (defaults to "text")（想要修改的字段）
+* templatetitle - the tiddler to wikify into the specified field. If blank or missing then the specified field is deleted（模板tiddler，如果为空，则指定的字段值将会被删除）
+* rendertype - the text type to render (defaults to "text/plain"; "text/html" can be used to include HTML tags)
+
+!! 使用示例：
+
+```
+"index": [
+    "--setfield","[[$:/config/uzvg/publishFilter]]","tags","$:/config/uzvg/RenderTemplate","text/plain",
+    "--setfield","[[$:/theme]]","text","$:/config/uzvg/theme/readonly", "text/plain",
+    "--render","$:/plugins/tiddlywiki/tiddlyweb/save/offline","index.html","text/plain",
+    "--setfield","[[$:/theme]]","text","$:/config/uzvg/theme/normal","text/plain",
+    "--setfield","[[$:/config/uzvg/publishFilter]]","tags","","text/plain"
+],
+```
+
+!! 注意：
+
+* 不能使用`setfield`命令去设置不存在的tiddler的字段值，只能设置已经存在tiddler的字段值。

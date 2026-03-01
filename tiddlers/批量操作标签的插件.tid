@@ -1,0 +1,27 @@
+created: 20241210150351531
+creator: uzvg
+description: 输入源tag跟目标tag，显示将会被替换的tiddler列表，执行批量替换。
+modified: 20250411053127971
+modifier: uzvg
+progress: WIP
+tags: tiddlywiki ProjectNotes
+title: 批量操作标签的插件
+type: text/vnd.tiddlywiki
+visibility: Public
+
+* 输入源tag跟目标tag，显示将会被替换的tiddler列表，执行批量替换。
+
+<table>
+<tr>
+	<th> Filter:</th>
+	<td><$edit-text tiddler=<<currentTiddler>> field="caption" focus="yes" focusSelectFromStart="5" /></td>
+</tr>
+<tr>
+	<th>Source Value:</th>
+	<td><$edit-text tiddler=<<currentTiddler>> field="caption" focus="yes" focusSelectFromStart="5" /></td>
+</tr>
+<tr>
+	<th>Destination Value:</th>
+	<td><$edit-text tiddler=<<currentTiddler>> field="caption" focus="yes" focusSelectFromStart="5" /></td>
+</tr>
+</table>

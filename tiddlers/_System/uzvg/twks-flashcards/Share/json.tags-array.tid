@@ -1,0 +1,30 @@
+code-body: yes
+created: 20260218102458164
+modified: 20260222064318120
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/json.tags-array
+type: text/vnd.tiddlywiki
+
+<!-- Description:
+This function generates a JSON array of Anki-compatible tags.
+
+Since Anki does not allow tags containing whitespace,
+all spaces in tag names are replaced with underscores ('_').
+
+The function reads the tags list from the previous filter run,
+normalizes each tag, and reduces the list into a proper JSON array
+that can be sent to AnkiConnect.
+-->
+
+\function get-array-reduce-step()
+	[<accumulator>jsontype[]match[array]]
+	:then[<accumulator>jsonset<index>,<currentTiddler>]
+	:else[[]jsonset:array[]jsonset<index>,<currentTiddler>]
+\end
+
+\function json.tags-array()
+	[enlist-input[]]
+	:map[search-replace:g:regexp[\s],[_]]
+	:reduce[function[get-array-reduce-step]]
+\end

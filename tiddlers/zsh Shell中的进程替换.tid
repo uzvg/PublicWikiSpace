@@ -1,0 +1,78 @@
+created: 20260123093229413
+modified: 20260207164404454
+progress: Archived
+tags: PermanentNotes zsh
+title: zsh Shell中的进程替换
+type: text/vnd.tiddlywiki
+
+# Zsh 中的进程替换
+
+进程替换（Process Substitution）是 zsh（以及 bash 等现代 shell）中的一个强大特性，它允许你将命令的输出作为文件来使用。
+
+!! 基本语法
+
+进程替换有两种形式：
+
+* ''`<(命令)`'' - 将命令的输出作为输入文件
+* ''`>(命令)`'' - 将数据作为输入传递给命令
+
+!! 工作原理
+
+当你使用进程替换时，shell 会：
+1. 创建一个命名管道（FIFO）或使用 `/dev/fd/` 文件描述符
+2. 在后台运行指定的命令
+3. 将管道或文件描述符的路径传递给主命令
+4. 主命令读取或写入这个"文件"时，实际上是在与后台进程通信
+
+!! 实用示例
+
+''比较两个命令的输出：''
+```zsh
+diff <(ls dir1) <(ls dir2)
+```
+这会比较两个目录的文件列表，而不需要创建临时文件。
+
+''同时读取多个文件：''
+```zsh
+paste <(cut -d: -f1 /etc/passwd) <(cut -d: -f3 /etc/passwd)
+```
+这会并排显示用户名和用户 ID。
+
+''将输出发送给多个命令：''
+```zsh
+echo "data" | tee >(command1) >(command2) >(command3)
+```
+
+''避免管道中的子 shell 问题：''
+```zsh
+# 传统方法：变量在子 shell 中，外部无法访问
+cat file | while read line; do count=$((count+1)); done
+echo $count  # 空值
+
+# 使用进程替换：
+while read line; do count=$((count+1)); done < <(cat file)
+echo $count  # 正确的值
+```
+
+!! 与临时文件的对比
+
+传统方法需要临时文件：
+```zsh
+command1 > /tmp/temp1
+command2 > /tmp/temp2
+diff /tmp/temp1 /tmp/temp2
+rm /tmp/temp1 /tmp/temp2
+```
+
+使用进程替换更简洁：
+```zsh
+diff <(command1) <(command2)
+```
+
+!! 注意事项
+
+* 进程替换创建的"文件"是单向的，只能读取或写入一次
+* 某些命令可能需要真实文件而不接受管道或文件描述符
+* 在脚本中使用时要确保 shell 支持此特性（`#!/bin/zsh` 或 `#!/bin/bash`）
+
+进程替换让你能够更优雅地组合命令，避免创建临时文件，使脚本更加清晰和高效。

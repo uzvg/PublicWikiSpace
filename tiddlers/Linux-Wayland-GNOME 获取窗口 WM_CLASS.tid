@@ -1,0 +1,87 @@
+created: 20251010024136094
+description: Linux-Wayland-GNOME 获取窗口 WM_CLASS
+modified: 20251010024657528
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: FlClash在Gnome桌面环境中任务栏图标显示不正确
+tags: PermanentNotes Gnome Wayland
+title: Linux-Wayland-GNOME 获取窗口 WM_CLASS
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 1. 背景
+
+* X11 时代用 `xprop | grep WM_CLASS` 即可；Wayland 下 GNOME 不再暴露 X 属性。
+* GNOME Shell 内部仍维护一份「wmclass」字段，用于匹配 .desktop 文件中的 StartupWMClass。
+* 官方调试器 Looking Glass 可直接读取该字段。
+
+!! 2. 操作步骤（一次性查询）
+
+1. 激活 Looking Glass
+
+在 GNOME 会话中按 `Alt + F2`，输入`lg`回车 → 弹出嵌入式调试器。
+
+2. 切换到 Windows 面板
+
+点击右上角「Windows」标签页，列表即显示当前所有 Shell 窗口实例。
+
+3. 定位目标窗口
+
+列表项格式：
+
+```
+id | wmclass | title
+```
+
+找到对应应用，记录其 wmclass 字符串（无法直接复制，可截图或手打）。
+
+4. 退出调试器
+
+按 `Esc` 关闭 Looking Glass，系统无残留。
+
+!! 3. 自动化脚本（可重复调用）
+
+如需批量获取，可通过 GNOME Shell 内建 gdbus 接口一次性导出：
+
+```bash
+gdbus call --session \
+  --dest org.gnome.Shell \
+  --object-path /org/gnome/Shell \
+  --method org.gnome.Shell.Eval \
+  "global.get_window_actors().map(
+    a => a.get_meta_window().get_wm_class()
+  )"
+```
+
+返回示例：
+
+`(true, '["gnome-terminal-server","firefox","code"]')`
+
+第一个元素 `true` 表示执行成功；第二个数组即为所有窗口的 wmclass 列表，按出现顺序排列。
+
+!! 4. 常见坑
+
+* Electron 旧版（<12）未设 wmclass → 升级即可。
+* Flatpak/Snap 包裹的应用 wmclass 可能带额外后缀（如 `com.github.xournalapp.xournalapp`）。
+* 若 wmclass 为空，GNOME 会回退到 .desktop 文件 `Name=` 字段，匹配规则优先顺序：
+  StartupWMClass → wmclass → Name。
+
+!! 5. 用途示例
+
+* 编写窗口管理脚本（如 `swaymsg` 兼容层）。
+* 为缺少 StartupWMClass 的第三方应用补全 .desktop 文件。
+* 在自动化测试框架中校验窗口身份。
+
+!! 6. 一键别名（可选）
+
+将自动化命令封装为别名，方便终端调用：
+
+```bash
+alias get-wmclass='gdbus call --session --dest org.gnome.Shell \
+  --object-path /org/gnome/Shell \
+  --method org.gnome.Shell.Eval \
+  "global.get_window_actors().map(a=>a.get_meta_window().get_wm_class())" | jq .[1]'
+```
+
+依赖 `jq` 解析，输出纯 JSON 数组。

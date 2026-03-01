@@ -1,0 +1,31 @@
+caption: twks-reveal-editor
+code-body: yes
+created: 20260220055758539
+modified: 20260220124104050
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/twks-reveal-editor
+type: text/vnd.tiddlywiki
+
+\procedure twks-reveal-editor(
+	stateTitle,
+	stateField,
+	storeTiddler,
+	field,
+	default,
+	revealText,
+	enterActions,
+	escActions)
+
+<$reveal stateTitle=<<stateTitle>> stateField=<<stateField>> type="match" default=<<default>> text="text">
+	<$transclude $variable="revealText" mode="block"/>
+</$reveal>
+
+<$reveal stateTitle=<<stateTitle>> stateField=<<stateField>> type="match" default=<<default>> text="editor">
+	<$keyboard event-key="alt+enter" actions=<<enterActions>>>
+	<$keyboard event-key="escape" actions=<<escActions>>>
+		<$edit tiddler=<<storeTiddler>> field=<<field>> class="tc-edit-texteditor"/>
+	</$keyboard>
+	</$keyboard>
+</$reveal>
+\end

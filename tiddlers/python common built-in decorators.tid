@@ -1,0 +1,173 @@
+created: 20250607080055476
+description: Python 常用内置装饰器（Built-in Decorators）学习笔记
+modified: 20260206133508222
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: python function decorator
+tags: PermanentNotes Python
+title: python common built-in decorators
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 1️⃣ `@staticmethod`
+
+!!! ✅ 作用：
+
+定义一个“静态方法”，不绑定到类或实例，只是被包含在类中以作组织结构之用。
+
+!!! 🧪 语法：
+
+```python
+class MyClass:
+    @staticmethod
+    def greet(name):
+        return f"Hello, {name}"
+```
+
+!!! 📌 特点：
+
+* 无需传入 `self` 或 `cls` 参数
+* 类和实例都可以调用
+
+!!! 📍 应用场景：
+
+* 与类逻辑相关，但不需要访问实例状态（`self`）或类状态（`cls`）的方法
+* 工具函数封装进类中作为组织结构
+
+!! 2️⃣ `@classmethod`
+
+!!! ✅ 作用：
+
+定义一个“类方法”，绑定在类上而非实例上，第一个参数是 `cls`（类本身）。
+
+!!! 🧪 语法：
+
+```python
+class MyClass:
+    count = 0
+
+    @classmethod
+    def increment(cls):
+        cls.count += 1
+```
+
+!!! 📌 特点：
+
+* 第一个参数是 `cls`，可访问或修改类变量
+* 类和实例都可以调用
+
+!!! 📍 应用场景：
+
+* 构造工厂方法
+* 访问/修改类状态（如类变量）
+* 实现多态构造器
+
+!! 3️⃣ `@property`
+
+!!! ✅ 作用：
+
+将方法变为“只读属性”，使其可以像访问属性一样调用。
+
+!!! 🧪 语法：
+
+```python
+class Person:
+    def __init__(self, name):
+        self._name = name
+
+    @property
+    def name(self):
+        return self._name
+```
+
+!!! 📌 特点：
+
+* 无需 `()` 调用方法（像访问属性一样）
+* 通常与 `@<name>.setter` 和 `@<name>.deleter` 配合使用
+
+!!! 📍 应用场景：
+
+* 定义只读属性
+* 控制属性访问、验证、延迟计算等逻辑
+* 替代 getter/setter 方法风格
+
+!! 4️⃣ `@abstractmethod` （在 `abc` 模块中）
+
+!!! ✅ 作用：
+
+将方法标记为抽象方法，要求子类必须实现，否则无法实例化。
+
+!!! 🧪 语法：
+
+```python
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass
+```
+
+!!! 📌 特点：
+
+* 只能在继承 `ABC` 的类中使用
+* 抽象方法不能包含完整实现（或只提供默认提示）
+* 子类必须实现所有抽象方法才能实例化
+
+!!! 📍 应用场景：
+
+* 接口规范
+* 插件架构
+* 强制子类遵循结构
+
+!! 5️⃣ `@functools.lru_cache`
+
+!!! ✅ 作用：
+
+启用函数的“缓存”（memoization），自动记忆调用结果，加快重复调用时的性能。
+
+!!! 🧪 语法：
+
+```python
+from functools import lru_cache
+
+@lru_cache(maxsize=128)
+def fibonacci(n):
+    if n < 2:
+        return n
+    return fibonacci(n - 1) + fibonacci(n - 2)
+```
+
+!!! 📌 特点：
+
+* 函数结果基于参数自动缓存
+* 参数必须是可哈希的
+* 提供缓存管理方法（如 `.cache_clear()`）
+
+!!! 📍 应用场景：
+
+* 递归函数优化（如斐波那契）
+* 对同一输入重复调用且计算代价大的函数
+
+!! 🔧 其他常见装饰器（简要）
+
+|!装饰器|!作用|
+|`@functools.wraps`           |保留原函数元信息（用于自定义装饰器）      |
+|`@dataclass`                 |自动生成类的构造器、表示方法等（在类上）    |
+|`@contextlib.contextmanager` |自定义上下文管理器（用于 `with` 语句） |
+
+!! 📚 装饰器适用对象对比总结
+
+|!装饰器|!绑定对象|!是否可被实例调用|!是否可访问类/实例|
+|`@staticmethod` |无绑定  |✅        |❌         |
+|`@classmethod`  |绑定类  |✅        |✅（类级）     |
+|`@property`     |绑定实例 |✅（像属性）   |✅（实例级）    |
+
+!! ✅ 小结
+
+* 使用 `@staticmethod`：无状态工具函数，放进类中仅为组织结构
+* 使用 `@classmethod`：需访问或修改类属性、构造逻辑多态时
+* 使用 `@property`：封装属性逻辑，提升接口设计质量
+* 使用 `@abstractmethod`：定义接口规范，约束子类实现
+* 使用 `@lru_cache`：函数调用频繁、结果重复时提高性能

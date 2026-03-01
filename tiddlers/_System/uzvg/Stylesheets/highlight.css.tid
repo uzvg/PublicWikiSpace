@@ -1,0 +1,11 @@
+created: 20260103150352333
+modified: 20260114024913435
+modifier: uzvg
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/highlight.css
+type: text/vnd.tiddlywiki
+
+.emphasis {
+	font-weight: bold;
+	color: <<color red>>;
+}

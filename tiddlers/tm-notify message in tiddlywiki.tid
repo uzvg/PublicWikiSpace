@@ -1,0 +1,19 @@
+created: 20241011010653291
+creator: uzvg
+description: tm-notify 插件的使用。
+modified: 20250521012532853
+modifier: uzvg
+progress: Archived
+rating: Plain
+tags: PermanentNotes tiddlywiki
+title: tm-notify message in tiddlywiki
+type: text/vnd.tiddlywiki
+visibility: Public
+
+* 有效参数名为`$param`，而非`param`
+* `$param`参数值必须是一个`tiddler`的标题，而非字符串
+* 可以提前定义变量，用以在"notification" tiddler中调用，如下：
+
+```
+<$action-sendmessage $message="tm-notify" mandatory-field="caption" $param="$:/uzvg/notification/lack-mandatory-field"/>
+```

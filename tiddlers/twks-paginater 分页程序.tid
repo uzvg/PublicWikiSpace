@@ -1,0 +1,17 @@
+created: 20250424170004303
+description: pagination procedure for tables
+modified: 20250424171613243
+progress: Researching
+tags: ProjectNotes TWKS
+title: twks-paginater 分页程序
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 引言：
+
+* 在twks-card，还有dashboard，Library中都有表格分页的需求
+* 直接封装一个twks-paginater procedure
+
+!! 需求：
+
+* 输入：

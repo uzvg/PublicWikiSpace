@@ -1,0 +1,53 @@
+caption: IndexNotes Info
+code-body: yes
+condition: [tag[IndexNotes]]
+created: 20250615015628559
+modified: 20250615015836018
+modifier: uzvg
+tags: $:/tags/FrontMatter
+title: $:/uzvg/FrontMatter/FrontMatters/IndexNotes
+type: text/vnd.tiddlywiki
+
+<$twks.details
+	summary="IndexNotes Info:"
+	default="close"
+	state="$:/state/twks.details">
+
+<table class="tc-table-no-border tc-max-width table-frontmatter">
+	<tr>
+		<th>Progress</th>
+		<td>
+			<$transclude $variable="twks-properties-selector"
+				tiddler=<<storyTiddler>>
+				field="progress"
+				noteType="IndexNotes"
+				property="progress"
+				emptyValue="no"
+				class="width-10em"/>
+		</td>
+	</tr>
+	<tr>
+		<th>Rating</th>
+		<td>
+			<$transclude $variable="twks-properties-selector"
+				tiddler=<<storyTiddler>>
+				field="rating"
+				noteType="IndexNotes"
+				property="rating"
+				emptyValue="no"
+				class="width-10em"/>
+		</td>
+	</tr>
+	<tr>
+		<th>Visibility</th>
+		<td><<twks-radio-visibility-selector>></td>
+	</tr>
+	<tr>
+		<th>Description</th>
+		<td>
+			<$edit-text tiddler=<<storyTiddler>> field="description" class="twks-full-width-input"/>
+		</td>
+	</tr>
+</table>
+
+</$twks.details>

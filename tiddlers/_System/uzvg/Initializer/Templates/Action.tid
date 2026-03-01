@@ -1,0 +1,20 @@
+code-body: yes
+created: 20250401055612148
+modified: 20260114024913424
+modifier: uzvg
+tags: 
+title: $:/uzvg/Initializer/Templates/Action
+type: text/vnd.tiddlywiki
+
+<% if [<storyTiddler>!has[caption]] %>
+	<<check-required-notifier fieldsList:"caption">>
+<% else %>
+	<$action-setfield url=<<get-clean-url-from-imported>> />
+	<$action-deletefield $tiddler=<<storyTiddler>> text type/>
+	<<sync-fields-from-index>>
+	<$action-sendmessage
+		$message="tm-rename-tiddler"
+		from=<<storyTiddler>>
+		to=<<get-title-suffix-timestamp>>/>
+	<<finish-creation-actions>>
+<% endif %>

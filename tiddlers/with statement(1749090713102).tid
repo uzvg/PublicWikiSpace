@@ -1,0 +1,132 @@
+authors: geeksforgeeks
+caption: with statement
+created: 20250605023153102
+description: 使用with管理Python中的资源访问会话
+medium: Website
+modified: 20250605025637471
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: keywords(1749028332441)
+tags: LiteratureNotes Python
+title: with statement(1749090713102)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+!! 一、`with` 语句的作用
+
+`with` 语句用于简化资源管理，比如文件操作、锁、数据库连接、网络会话等。
+
+* 它的核心作用是：
+
+> 自动管理资源的获取和释放，即使发生异常，也能确保资源正确关闭或清理。
+
+通常用于替代这种结构：
+
+```python
+resource = acquire()
+try:
+    do_something(resource)
+finally:
+    resource.release()
+```
+
+写成：
+
+```python
+with acquire() as resource:
+    do_something(resource)
+```
+
+!! 二、语法结构
+
+```python
+with expression [as variable]:
+    # 使用资源的代码块
+```
+
+* `expression` 是一个支持上下文管理协议（实现了 `__enter__` 和 `__exit__` 方法）的对象；
+* `as variable`（可选）用于绑定上下文管理器返回的对象。
+
+!! 三、常用场景
+
+!!! 1. 文件读写
+
+```python
+with open("data.txt", "r") as f:
+    content = f.read()
+# 文件自动关闭，不用 f.close()
+```
+
+!!! 2. 数据库连接（如 sqlite3）
+
+```python
+import sqlite3
+
+with sqlite3.connect("example.db") as conn:
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users")
+# 自动提交或回滚，关闭连接
+```
+
+!!! 3. 线程锁
+
+```python
+from threading import Lock
+lock = Lock()
+
+with lock:
+    # 临界区代码
+    # 自动加锁、释放锁
+```
+
+!!! 4. 临时文件或临时目录
+
+```python
+import tempfile
+
+with tempfile.TemporaryFile() as tmp:
+    tmp.write(b"hello world")
+# 自动删除临时文件
+```
+
+!!! 5. 上下文管理器自定义（高级用法）
+
+```python
+class MyContext:
+    def __enter__(self):
+        print("进入上下文")
+        return self
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        print("退出上下文")
+
+with MyContext():
+    print("上下文中")
+```
+
+输出：
+
+```
+进入上下文
+上下文中
+退出上下文
+```
+
+!! 四、自动资源释放的好处
+
+* 可读性强：代码结构更清晰；
+* 更安全：即使中途抛出异常，也能自动清理资源；
+* 更简洁：避免忘记写 `close()`、`release()`、`commit()` 等调用。
+
+!! 五、总结表格
+
+| 用途        | 是否推荐使用 `with` |
+| 文件操作      | 非常推荐        |
+| 数据库连接     | 推荐          |
+| 线程/进程锁    | 推荐          |
+| 异常安全的资源管理 | 推荐          |
+| 简单变量赋值    | ❌ 不适用         |
+
+如果你需要，我还可以演示如何自定义一个上下文管理器类，或使用 `contextlib` 来快速实现上下文逻辑。是否想深入了解？

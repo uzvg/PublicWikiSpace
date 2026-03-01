@@ -1,0 +1,16 @@
+caption: Journals
+code-body: yes
+condition: [function[get-all-related-notes]tag[Journal]]
+created: 20241021061159493
+creator: uzvg
+description: Reference Explorer (Journals)
+modified: 20251221074708195
+modifier: uzvg
+order: 2
+tags: $:/tags/ReferenceExplorerTab
+title: $:/uzvg/RefExplorer/Tabs/Journals
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/RefExplorer/Share]]
+
+<<twks-refexp-table>>

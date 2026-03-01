@@ -1,0 +1,77 @@
+authors: unknown
+caption: zsh shell startup files
+created: 20250219114549292
+creator: uzvg
+description: zsh shell各个启动文件的作用
+medium: Website
+modified: 20260122061459774
+modifier: uzvg
+progress: Completed
+rating: Valuable
+tags: LiteratureNotes zsh Shell
+title: zsh shell startup files(1739965549292)
+type: text/vnd.tiddlywiki
+url: https://zsh.sourceforge.io/Intro/intro_3.html
+visibility: Public
+year: 2025-02
+
+| !File Name | !When Sourced | !Usage and Content | !Special Notes |
+| `$ZDOTDIR/.zshenv` |On all invocations of the shell, unless the `-f` option is set |Contains commands to set the command search path and other important environment variables. Should not contain commands that produce output or assume the shell is attached to a tty. |If `ZDOTDIR` is not set, `HOME` value is used instead. |
+| `$ZDOTDIR/.zprofile` |Sourced before `.zshrc` |Similar to `.zlogin`, meant as an alternative to `.zlogin` for ksh fans. Can be used to set up initial configurations before the interactive shell setup. |Not intended to be used together with `.zlogin` (though it can be done if desired), and it's sourced before the interactive shell related `.zshrc`. |
+| `$ZDOTDIR/.zshrc` |In interactive shells |Contains commands to set up aliases, functions, options, key bindings, etc. |  |
+| `$ZDOTDIR/.zlogin` |In login shells |Contains commands that should be executed only in login shells. Should be used to set the terminal type and run a series of external commands (like `fortune`, `msgs`, etc). Should not be used for alias definitions, options, environment variable settings. |  |
+| `$ZDOTDIR/.zlogout` |When login shells exit |  |  |
+
+根据说明，一些重要的环境变量如`path`，`fpath`，`XDG`定义的标准路径，应该在`.zshenv`文件中定义。
+
+!! 配置环境变量：
+
+根据文档，我们可以按以下方式组织我们的配置文件：
+
+; 1. bootstrap `.zshenv` :
+
+```
+# $HOME/.zshenv
+# vim: ft=zsh
+# $HOME/.zshenv
+# bootstrap .zshenv
+
+export ZDOTDIR=$HOME/.config/zsh
+```
+
+* 它的作用是，定义`ZDOTDIR`环境变量，使其能找到真正的`.zshenv`文件。
+
+; 2. 系统级`.zshenv`：
+
+```
+# $ZDOTDIR/.zshenv
+export PATH=$PATH:$HOME/.local/bin:$HOME/.cargo/bin
+# export fpath=($ZDOTDIR $fpath)
+
+# ================= ibus input method environment ================= #
+# export INPUT_METHOD=wayland
+export INPUT_METHOD=ibus
+export GTK_IM_MODULE=ibus
+export GLFW_IM_MODULE=ibus
+export QT_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+# export RIME_USER_PATH="$HOME/.config/ibus/rime";;
+
+# ================= xdg-based environment value ================= #
+# 🔗 https://wiki.archlinux.org/title/XDG_Base_Directory#User_directories
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+```
+
+; 3. 应用级环境变量定义文件：
+
+```
+$ZDOTDIR/env.zsh
+
+# 主要针对应用的环境设置，经常改变，比如：
+#--------------------------------------------
+# mpd host socket configuration
+export MPD_HOST="$XDG_RUNTIME_DIR/mpd/socket"
+```

@@ -1,0 +1,67 @@
+action: addNote
+code-body: yes
+created: 20260216094753285
+modified: 20260224084817963
+tags: $:/tags/AnkiConnectActions
+title: $:/uzvg/twks-flashcards/AnkiConnect/Actions/addNote/v6
+type: text/vnd.tiddlywiki
+url: https://git.sr.ht/~foosoft/anki-connect#codeaddnotecode
+version: 6
+
+\procedure tfTagMappingRulesTiddler() $:/uzvg/Configs/TagMappingRules
+\function get-source-tiddler() [<dataTiddler>get[source]]
+
+\function get-target-deck()
+	[<get-source-tiddler>]
+	:cascade[tag[$:/tags/DeckMappingRules]get[text]]
+\end
+
+\function get-tag-mappingRules() [<tfTagMappingRulesTiddler>get[text]]
+
+\function get-target-tags() [<get-source-tiddler>subfilter<get-tag-mappingRules>]
+\function get-model-name() [<dataTiddler>jsonget<tfNoteId>,[modelName]]
+\function get-front-wikitext() [<dataTiddler>jsonget<twNoteId>,[front]]
+\function get-back-wikitext() [<dataTiddler>jsonget<twNoteId>,[back]]
+
+\function get-params-json()
+	[[]jsonset[note],[deckName],<get-target-deck>]
+	+[jsonset[note],[modelName],<get-model-name>]
+	+[jsonset[note],[fields],[Front],<get-front-wikified>]
+	+[jsonset[note],[fields],[Back],<get-back-wikified>]
+	+[jsonset[note],[tags],[Front],<get-front-wikified>]
+\end
+
+<$wikify name="get-front-wikified" code=<<get-front-wikitext>>>
+<$wikify name="get-back-wikified" code=<<get-back-wikitext>>>
+	<$codeblock code=<<get-param-json>>/></$wikify>
+</$wikify>
+
+<!-- <<paramsJsonDemo>> -->
+
+<!--
+------------------------------addNote Template------------------------------
+{
+	"note": {
+		"deckName": "Default",
+		"modelName": "Basic",
+		"fields": {
+				"Front": "front content",
+				"Back": "back content"
+		},
+		"options": {
+				"allowDuplicate": false,
+				"duplicateScope": "deck",
+				"duplicateScopeOptions": {
+						"deckName": "Default",
+						"checkChildren": false,
+						"checkAllModels": false
+				}
+			},
+			"tags": ["yomichan"]
+	}
+}
+
+"options": {
+  "allowDuplicate": true
+}
+-->

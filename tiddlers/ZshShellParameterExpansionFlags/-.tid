@@ -1,0 +1,142 @@
+caption: -
+created: 20250714053320116
+modified: 20250714053523539
+progress: Completed
+rating: Plain
+tags: PermanentNotes ParameterExpansionFlags
+title: ZshShellParameterExpansionFlags/-
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 功能说明:
+
+`-` flag的功能类似于`n` flag，但增加了对负数的支持。当字符串以负号开头且紧跟数字时，会被识别为负数并按数值排序。如果负号后面不是数字，则不会触发数值排序。需要注意的是，'+' 符号不会被特殊处理（这在未来可能会改变）。
+
+!! 实际应用示例:
+
+!!! 基本负数排序
+
+```bash
+# 正数和负数混合排序
+numbers=("10" "-5" "2" "-10" "1" "-1")
+sorted_numbers=(${(o-)numbers})
+echo ${sorted_numbers[@]}
+# 输出: -10 -5 -1 1 2 10
+
+# 对比使用 n flag 的排序结果
+n_sorted=(${(on)numbers})
+echo ${n_sorted[@]}
+# 输出: -1 1 -10 2 10 -5
+# n flag 将 "-" 视为普通字符，按字典序排序
+```
+
+!!! 文件名中的负数处理
+
+```bash
+# 包含负数的文件名排序
+files=("temp-5.log" "temp10.log" "temp-10.log" "temp2.log")
+sorted_files=(${(o-)files})
+echo ${sorted_files[@]}
+# 输出: temp-10.log temp-5.log temp2.log temp10.log
+
+# 版本号中的负数（如alpha版本）
+versions=("v1.0" "v1.0-2" "v1.0-10" "v2.0" "v1.0-1")
+sorted_versions=(${(o-)versions})
+echo ${sorted_versions[@]}
+# 输出: v1.0 v1.0-10 v1.0-2 v1.0-1 v2.0
+```
+
+!!! 负号后非数字的情况
+
+```bash
+# 负号后不是数字的情况
+mixed=("item-abc" "item-5" "item10" "item-2" "item-xyz")
+sorted_mixed=(${(o-)mixed})
+echo ${sorted_mixed[@]}
+# 输出: item-5 item-2 item10 item-abc item-xyz
+# "item-abc" 和 "item-xyz" 不触发数值排序，按字典序排序
+```
+
+!!! 正号处理
+
+```bash
+# 正号不被特殊处理
+plus_items=("item+5" "item-3" "item10" "item+10" "item2")
+sorted_plus=(${(o-)plus_items})
+echo ${sorted_plus[@]}
+# 输出: item+10 item-3 item2 item10 item+5
+# "+" 符号按字典序处理，不被识别为正数
+```
+
+!!! 温度数据排序
+
+```bash
+# 温度数据排序应用
+temperatures=("25°C" "-10°C" "0°C" "-5°C" "15°C")
+sorted_temps=(${(o-)temperatures})
+echo ${sorted_temps[@]}
+# 输出: -10°C -5°C 0°C 15°C 25°C
+
+# 科学计数法相关
+scientific=("1e-5" "1e-10" "1e5" "1e10" "1e-2")
+sorted_sci=(${(o-)scientific})
+echo ${sorted_sci[@]}
+# 输出: 1e-10 1e-5 1e-2 1e5 1e10
+```
+
+!!! 与其他flags组合使用
+
+```bash
+# 与 i flag 组合进行大小写不敏感排序
+mixed_case=("Item-10" "item-5" "ITEM2" "item-2")
+sorted_mixed_case=(${(oi-)mixed_case})
+echo ${sorted_mixed_case[@]}
+# 输出: item-10 Item-10 item-5 item-2 ITEM2
+
+# 与 O flag 组合进行降序排序
+numbers=("-5" "10" "-10" "5")
+reverse_sorted=(${(Oi-)numbers})
+echo ${reverse_sorted[@]}
+# 输出: 10 5 -5 -10
+```
+
+!!! 实际应用场景
+
+```bash
+# 日志文件中的错误级别排序
+log_levels=("ERROR-1" "WARN-5" "ERROR-10" "INFO-2" "DEBUG-3")
+sorted_logs=(${(o-)log_levels})
+echo "Log levels in order:"
+for level in "${sorted_logs[@]}"; do
+    echo "  $level"
+done
+
+# 数据库增量备份排序
+backups=("backup-3.sql" "backup-10.sql" "backup-1.sql" "backup-15.sql")
+sorted_backups=(${(o-)backups})
+echo "Backup order: ${sorted_backups[@]}"
+```
+
+!!! 复杂示例
+
+```bash
+# 混合正负数、前导零和特殊字符
+complex=("item-003" "item-3" "item-10" "item+5" "item0" "item-0")
+sorted_complex=(${(o-)complex})
+echo ${sorted_complex[@]}
+# 分析排序逻辑:
+# 1. 负数部分按数值排序: -10 < -003 < -3 < -0 (前导零影响排序)
+# 2. 正数部分: 0
+# 3. 特殊字符: +5 按字典序排序
+```
+
+!! 技术要点:
+
+* `-` flag的语法是`${(o-)array}`用于排序
+* 识别负号后紧跟数字的模式为负数，进行数值排序
+* 负号后不是数字时，不触发数值排序，按字典序处理
+* '+' 符号不被特殊处理，仍按字典序排序
+* 前导零规则同样适用于负数
+* 可与 `i` flag（大小写不敏感）和 `O` flag（降序）组合使用
+* 特别适用于处理包含负数的数据排序，如温度、增量数据等
+* 与 `n` flag 相比，能够正确处理负数的数值排序

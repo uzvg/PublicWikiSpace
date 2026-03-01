@@ -1,0 +1,16 @@
+code-body: yes
+created: 20260126062040399
+list-before: $:/core/ui/PageTemplate/story
+modified: 20260126062607318
+tags: $:/tags/PageTemplate
+title: $:/uzvg/Layout/VerticalTab
+type: text/vnd.tiddlywiki
+
+\function get-current-layout() [[$:/layout]get[text]]
+
+<% if [<get-current-layout>match[$:/uzvg/Layout/PageTemplate]] %>
+	<div class="alt-sidebar">
+<h1>Open tiddlers</h1>
+<$transclude tiddler="$:/core/ui/SideBar/Open" mode=block />
+</div>
+<% endif %>

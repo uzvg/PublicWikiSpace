@@ -1,0 +1,100 @@
+code-body: yes
+created: 20250517135911465
+modified: 20260114024913428
+modifier: uzvg
+title: $:/uzvg/Share/FilterBuilder/filterBuilder-selector-box
+type: text/vnd.tiddlywiki
+
+<!-- We have following properties to select:
+	1. progress 	👉 dashboard-progress-selector(noteType) ✅
+	2. rating 		👉 dashboard-rating-selector(noteType) ✅
+	3. visibility 👉 dashboard-visibility-selector() ✅
+	4. sortmode 	👉 dashboard-sortmode-selector() ✅
+	5. medium 		👉 dashboard-medium-selector() ✅
+-->
+
+\function get-note-type() [<currentTab>get[note-type]]
+\function is-option-enabled(optionIndex) [<stateTiddler>getindex<optionIndex>]
+\procedure clean-current-page-actions()
+	<$action-setfield $tiddler=<<stateTiddler>>
+		$index="current-page"/>
+\end
+
+\procedure filterBuilder-selector-checkbox(optionIndex)
+\procedure filterBuilder-options-unchecked-actions()
+	<$action-setfield $tiddler=<<storeTiddler>> $index=<<optionIndex>>/>
+\end filterBuilder-options-unchecked-actions
+	<$checkbox tiddler=<<stateTiddler>>
+		index=<<optionIndex>>
+		checked="yes"
+		unchecked="no"
+		uncheckactions=<<filterBuilder-options-unchecked-actions>>/>
+\end
+
+\procedure filterBuilder-progress-selector()
+		<<filterBuilder-selector-checkbox optionIndex:"progress">>
+		<$transclude $variable="twks-properties-selector"
+			tiddler=<<storeTiddler>>
+			index="progress"
+			noteType=<<get-note-type>>
+			property="progress"
+			placeholder="PROGRESS"
+			actions=<<clean-current-page-actions>>
+			emptyValue="yes"
+			enableOptions=<<is-option-enabled progress>>/>
+\end
+
+\procedure filterBuilder-rating-selector()
+		<<filterBuilder-selector-checkbox optionIndex:"rating">>
+		<$transclude $variable="twks-properties-selector"
+			tiddler=<<storeTiddler>>
+			index="rating"
+			noteType=<<get-note-type>>
+			property="rating"
+			placeholder="RATING"
+			actions=<<clean-current-page-actions>>
+			emptyValue="yes"
+			enableOptions=<<is-option-enabled rating>>/>
+\end
+
+\procedure filterBuilder-visibility-selector()
+		<<filterBuilder-selector-checkbox optionIndex:"visibility">>
+		<$transclude $variable="twks-visibility-selector"
+			tiddler=<<storeTiddler>>
+			index="visibility"
+			actions=<<clean-current-page-actions>>
+			emptyValue="yes"
+			enableOptions=<<is-option-enabled visibility>>/>
+\end
+
+\procedure filterBuilder-medium-selector()
+		<<filterBuilder-selector-checkbox optionIndex:"medium">>
+		<$transclude $variable="twks-medium-selector"
+			tiddler=<<storeTiddler>>
+			index="medium"
+			actions=<<clean-current-page-actions>>
+			emptyValue="yes"
+			enableOptions=<<is-option-enabled medium>>/>
+\end
+
+\procedure filterBuilder-sortmode-selector()
+	<$transclude $variable="twks-sortmode-selector"
+		tiddler=<<stateTiddler>>
+		index="sort-mode"/>
+\end
+
+\procedure filterBuilder-selector-box(selectorsList)
+\function get-filterBuilder-selector() [[filterBuilder-]] [<currentTiddler>] [[-selector]] +[join[]]
+\function selector-box-class()
+	[enlist<selectorsList>count[]compare:integer:gt[1]]
+	:then[[flex justify-between]]
+	:else[[flex justify-end]]
+\end selector-box-class
+	<span class=<<selector-box-class>>>
+		<$list filter="[enlist<selectorsList>]">
+			<span>
+				<$transclude $variable=<<get-filterBuilder-selector>>/>
+			</span>
+		</$list>
+	</span>
+\end

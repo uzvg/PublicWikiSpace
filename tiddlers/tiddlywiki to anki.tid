@@ -1,0 +1,282 @@
+created: 20260226134151467
+modified: 20260227040254296
+progress: WIP
+tags: ProjectNotes Anki tiddlywiki
+title: tiddlywiki to anki
+type: text/vnd.tiddlywiki
+
+!! 一、系统目标
+
+实现一个从 TiddlyWiki 到 Anki 的单向、声明式、强一致同步系统。
+
+特征：
+
+* 单向同步（TW → Anki）
+* JSON 为中间快照
+* 每次同步都以 JSON 为准
+* 无状态
+* 无时间戳
+* 无冲突处理
+* 不污染 Anki 原生卡片
+
+# 二、架构原则
+
+!! 1️⃣ 数据主权
+
+* TiddlyWiki 是唯一数据源
+* Anki 是投影层
+* JSON 是快照中间件
+
+!! 2️⃣ 同步方式
+
+声明式镜像同步：
+
+> Anki 中存在的 TW_ID 集合 = JSON 中的 noteId 集合
+
+# 三、tiddlywiki 导出的JSON 数据结构模板
+
+```json
+{
+  "_meta": {
+    "version": 1
+  },
+  "notes": {
+    "uuid-1": {
+      "modelName": "Basic",
+      "deckName": "Default",
+      "fields": {
+        "Front": "Question?",
+        "Back": "Answer."
+      },
+      "tags": ["tag1", "tag2"]
+    },
+    "uuid-2": {
+      "modelName": "Basic",
+      "deckName": "Default",
+      "fields": {
+        "Front": "Q2",
+        "Back": "A2"
+      },
+      "tags": []
+    }
+  }
+}
+```
+
+# 四、JSON 结构说明
+
+!! `_meta`
+
+| 字段      | 说明      |
+| ------- | ------- |
+| version | 数据结构版本号 |
+
+目前仅用于未来升级兼容。
+
+!! `notes`
+
+* key = noteId（UUID）
+* value = note 数据对象
+
+每个 note 包含：
+
+| 字段        | 说明       |
+| --------- | -------- |
+| modelName | Anki 模型名 |
+| deckName  | Anki 牌组名 |
+| fields    | 字段内容     |
+| tags      | 覆盖式 tags |
+
+注意：
+
+* noteId 不在 fields 中
+* noteId 写入 Anki 的 `TW_ID` 字段
+
+# 五、Anki 端前置条件
+
+!! 1️⃣ 所有参与同步的模型必须包含字段：
+
+```
+TW_ID
+```
+
+要求：
+
+* 永远存在
+* 不参与卡片渲染
+* 不允许手动修改
+
+!! 2️⃣ TW_ID 由 TiddlyWiki 生成 UUID
+
+Anki 不生成 ID。
+
+# 六、同步流程
+
+# Step 1：生成 JSON
+
+插件执行：
+
+```
+tiddlywiki export → cards.json
+# 运行命令：
+tiddlywiki --build flashcards-index
+```
+
+# Step 2：读取 JSON
+
+构建索引：
+
+```python
+json_index = data["notes"]
+```
+
+这是一个：
+
+```
+{ noteId → noteData }
+```
+
+查找 O(1)
+
+# Step 3：构建 Anki 索引
+
+查询：
+
+```python
+所有 TW_ID 非空的 note
+```
+
+建立：
+
+```python
+anki_index = {
+    note["TW_ID"]: note
+}
+```
+
+# Step 4：同步算法
+
+推荐执行顺序：
+
+1. 更新
+2. 新建
+3. 删除
+
+这样更安全。
+
+# 4.1 更新
+
+遍历 json_index：
+
+```
+for tw_id, json_note in json_index.items():
+```
+
+如果 tw_id 在 anki_index：
+
+比较：
+
+* fields
+* tags
+
+若不同 → 覆盖更新
+
+更新逻辑：
+
+```
+note[field] = json_value
+note.tags = json_tags
+updateNote()
+```
+
+# 4.2 新建
+
+如果 tw_id 不在 anki_index：
+
+新建：
+
+1. 获取 model
+2. 创建 note
+3. 填充 fields
+4. 设置 TW_ID
+5. 设置 tags
+6. 指定 deck
+7. addNote()
+
+# 4.3 删除
+
+遍历 anki_index：
+
+```
+for tw_id in anki_index:
+    if tw_id not in json_index:
+        删除该 note
+```
+
+# 七、字段比较策略
+
+!! Fields
+
+逐字段比较：
+
+```
+if note[field].strip() != json[field].strip():
+```
+
+忽略：
+
+* TW_ID
+
+!! Tags
+
+使用集合比较：
+
+```
+set(note.tags) != set(json.tags)
+```
+
+完全覆盖，不 merge。
+
+# 八、安全保护机制
+
+必须实现：
+
+!! 1️⃣ JSON 为空时禁止删除
+
+```
+if len(json_index) == 0:
+    abort
+```
+
+!! 2️⃣ 大规模删除警告
+
+如果：
+
+```
+删除数量 > 80%
+```
+
+弹确认框。
+
+# 九、异常处理策略
+
+| 情况         | 处理   |
+| ---------- | ---- |
+| model 不存在  | 报错终止 |
+| deck 不存在   | 自动创建 |
+| 字段不存在      | 报错终止 |
+| JSON 结构不合法 | 拒绝同步 |
+
+# 十、非目标（明确边界）
+
+本系统不支持：
+
+* 双向同步
+* 冲突解决
+* 时间戳比较
+* 增量同步
+* 保留 Anki 端修改
+
+原则：
+
+> Anki 端修改会被覆盖

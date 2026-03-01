@@ -1,0 +1,167 @@
+created: 20250629041203068
+description: Lua中用于可变参数的select语句
+modified: 20250629102448869
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: Lua函数基础
+tags: PermanentNotes Lua
+title: 用于可变参数函数的select语句
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 🌟 一、`select` 是什么？
+
+`select` 是 Lua 提供的一个''内置函数''，专门用于处理''可变参数（...）''。
+
+它有两个核心功能：
+
+1. 获取可变参数的数量。
+2. 按位置提取一个或多个参数。
+
+!! 🌟 二、基本语法
+
+```lua
+select(index, ...)
+```
+
+* ''index''：
+** 如果是数字 n ≥ 1，表示“从第 n 个参数开始，返回所有剩余参数”。
+** 如果是字符串 `"#"`，表示“返回参数的个数”。
+
+!! 🌟 三、用法详解
+
+!!! 1️⃣ 获取参数数量
+
+''语法：''
+
+```lua
+local count = select("#", ...)
+```
+
+''示例：''
+
+```lua
+function count_args(...)
+  print("参数数量:", select("#", ...))
+end
+
+count_args("A", nil, "C")
+```
+
+''输出：''
+
+```
+参数数量:	3
+```
+
+''注意：''
+即使中间有 `nil`，数量依然准确。
+
+!!! 2️⃣ 获取某个位置以后的所有参数
+
+''语法：''
+
+```lua
+select(n, ...)
+```
+
+返回从第 n 个参数到最后的所有参数。
+
+''示例：''
+
+```lua
+function show_from_second(...)
+  for i = 1, select("#", ...) - 1 do
+    local v = select(i + 1, ...)
+    print(v)
+  end
+end
+
+show_from_second("one", "two", "three")
+```
+
+''输出：''
+
+```
+two
+three
+```
+
+!!! 3️⃣ 配合 `table.unpack` 获取部分参数
+
+你可以把 `select` 的结果直接用 `table.unpack` 或 `print` 输出。
+
+''示例：''
+
+```lua
+function show_tail(...)
+  print(select(2, ...))
+end
+
+show_tail("A", "B", "C")
+```
+
+''输出：''
+
+```
+B	C
+```
+
+（从第二个开始打印）
+
+!! 🌟 四、实用案例
+
+✅ ''遍历所有参数（包括 nil）''
+
+这是 Lua 遍历可变参数最稳妥的方式：
+
+```lua
+function print_all(...)
+  for i = 1, select("#", ...) do
+    local v = select(i, ...)
+    print(i, v)
+  end
+end
+
+print_all("X", nil, "Y")
+```
+
+''输出：''
+
+```
+1	X
+2	nil
+3	Y
+```
+
+✅ ''只获取尾部参数''
+
+```lua
+function tail(...)
+  return select(2, ...)
+end
+
+print(tail("first", "second", "third"))
+```
+
+''输出：''
+
+```
+second	third
+```
+
+!! 🌟 五、注意事项
+
+* ✅ `select` 返回的不是表，而是多个值。
+* ✅ 如果使用 `select(2, ...)`，务必知道参数数量 ≥2，否则没有返回值。
+* ✅ `select("#", ...)`是统计参数数目的可靠方法。
+
+!! 🌟 六、小结
+
+|!功能|!用法示例|
+|获取参数数量 |`select("#", ...)` |
+|从某个位置开始提取参数 |`select(n, ...)` |
+|搭配循环逐个访问    |`for i=1, select("#", ... )` + `select(i, ...)` |
+
+如需更多案例或与 `ipairs`、`table.unpack` 的对比，随时告诉我！

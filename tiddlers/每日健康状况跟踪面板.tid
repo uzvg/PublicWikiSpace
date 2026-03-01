@@ -1,0 +1,20 @@
+created: 20250630130822994
+modified: 20250630193312940
+progress: WIP
+tags: ProjectNotes Health(健康)
+title: 每日健康状况跟踪面板
+type: text/vnd.tiddlywiki
+visibility: Public
+
+* 入睡时间
+* 起床时间
+* 记录睡眠情况
+
+* 做了哪些运动
+* 有氧运动
+* 无氧运动
+
+!! Health:
+
+5.5kg 
+|起床时间|<$edit-text 

@@ -1,0 +1,12 @@
+created: 20251220093116533
+modified: 20260201083915203
+modifier: uzvg
+tags: ViewTemplates
+title: $:/uzvg/HabitTracker/ViewTemplates/twks-habit-reminder
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/HabitTracker/Share/twks-habit-reminder]]
+
+<$list filter="[<storyTiddler>prefix[$:/Storage/HabitTracker/]]">
+	<<twks-habit-reminder>>
+</$list>

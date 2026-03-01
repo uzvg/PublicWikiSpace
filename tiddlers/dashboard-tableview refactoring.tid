@@ -1,0 +1,19 @@
+created: 20250328170454845
+description: Improve  dashboard-tableview proformance and code quality.
+modified: 20250427181257461
+progress: Completed
+tags: ProjectNotes TWKS
+title: dashboard-tableview refactoring
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirements:
+
+* Add pagination freature for dashboard-table ✅
+* Add sort box to filter and sort dashboard-table ✅
+* Using `function` and `procedure` to consruct `complete-filter`, rather than using `wikify`, improve dashboard panel performance. ✅
+* improve code quality. ✅
+
+!! Project files list:
+
+<<list-links "[prefix[$:/uzvg/Dashboard/]]">>

@@ -1,0 +1,18 @@
+created: 20250221203147629
+description: 在Linux系统下，使用openssl命令行生成随机密码。
+modified: 20250521013248795
+modifier: uzvg
+progress: Completed
+rating: Plain
+tags: PermanentNotes Linux
+title: 在Linux生成随机密码
+type: text/vnd.tiddlywiki
+visibility: Public
+
+```
+openssl rand -base64 32
+```
+
+* `rand`：生成随机字节。
+* `-base64 32`：生成 32 个字节并编码为 base64。
+* 输出示例：A1bZ4cF8gH0eJ2kD9sP/K7j9pX2mQ8vL5nR3tY6w==

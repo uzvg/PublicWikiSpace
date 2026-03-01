@@ -1,0 +1,11 @@
+code-body: yes
+created: 20250512015810878
+modified: 20260114024913430
+modifier: uzvg
+tags: $:/tags/Global
+title: $:/uzvg/Share/get-url-type
+type: text/vnd.tiddlywiki
+
+\function get-url-type(url)
+	[<url>] :cascade[all[tiddlers]tag[$:/tags/UrlTypeRules]!is[draft]get[text]]
+\end

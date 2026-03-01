@@ -1,0 +1,81 @@
+created: 20260108051935342
+description: 简化版的git workflow
+modified: 20260108093551372
+progress: Completed
+rating: Plain
+tags: PermanentNotes Git GitWorkFlow
+title: 简化版 Git Flow
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 分支策略：
+
+* `main`: 始终可运行、可发布
+* `develop`: 日常集成分支
+* `feature/*`: 新功能，完成后合并并删除
+* `fix/*`: Bug 修复
+* `experiment/*`: 探索性开发，允许丢弃
+
+; 核心分支只有两个:
+* `main` ➡ 永远是可用/可发布状态
+* `develop` ➡ 日常集成分支
+
+; 注意事项：
+* `develop` 是「允许混乱的地方」，`main` 是「不允许出事的地方」
+* 分支必须是短命的
+* 开 → 用 → 合 → 删
+* 不要存在长期不合并的 feature 分支，长期存在的分支 ≈ 未来一定会痛苦 rebase
+* 永远不要在 `main` 上直接写代码
+* 合并前，先 `rebase`，再 `merge`
+
+```bash
+git switch feature/xxx
+git rebase develop
+git switch develop
+git merge feature/xxx
+```
+
+!! 基本流程：
+
+; 建立feature分支:
+* 从`main`分支建立`develop`分支
+* 切换到`develop`分支
+* 从`develop`分支建立`feature/`分支
+
+```bash
+git branch -c develop main
+git switch -c feature/* develop
+```
+
+; 同步feature分支到develop：
+* `rebase develop`（整理历史）
+* 再 merge 回 develop
+
+; 同步develop分支到main:
+* 当 develop 达到一个稳定点时
+
+```bash
+git switch main
+git merge --no-ff develop
+```
+
+<<rememberq "20260108093028254"
+	"在git分支管理策略中，main分支承担什么责任？"
+	"main分支要能永远保持稳定，保证可用、可发布状态。">>
+
+<<rememberq "20260108093030351"
+	"在git分支管理策略中，develop分支的作用是什么？"
+	"develop是日常开发的主分支。">>
+
+<<remembercz "20260108093217294"
+	"{devleop}分支是允许出事的地方，而{main}分支不允许混乱。">>
+
+<<rememberq "20260108093033378"
+	"默想一下简化的git workflow流程？"
+	"main➡develop➡feature，先rebase，再merge。">>
+
+<<remembercz "20260108093407454"
+	"git{分支}一定是短命的，长时间不合并的分支一定会{造成rebase痛苦}。">>
+
+<<remembercz "20260108093507332"
+	"在合并git分支时，一定要先{rebase}，再{merge}。">>

@@ -1,0 +1,26 @@
+created: 20250624005227337
+modified: 20260114024913431
+modifier: uzvg
+tags: 
+title: $:/uzvg/Share/SensitiveWordsDetective/procedure
+type: text/vnd.tiddlywiki
+
+\whitespace trim
+
+\procedure search-replace-subfilter()
++[search-replace[${ [<currentTiddler>] }$],[${ [<configTiddler>getindex<currentTiddler>] }$]]
+\end
+
+\function search-replace-complete-filter()
+	[<configTiddler>indexes[]]
+	:map[<search-replace-subfilter>substitute[]]
+	+[join[ ]]
+\end
+
+\procedure configTiddler() $:/uzvg/Configs/sensitive_words_replace_list
+
+\function twks-sensitive-words-replace(tiddler,field,configTiddler)
+	[<tiddler>get[field]]
+\end
+
+<<search-replace-complete-filter>>

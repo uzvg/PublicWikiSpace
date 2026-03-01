@@ -1,0 +1,58 @@
+authors: Coding2GO
+caption: Learn CSS Flexbox in 20 Minutes (Course)
+created: 20260112025027047
+description: Learning about responsive web design by getting CSS Flexbox explained
+medium: Video
+modified: 20260114024947534
+modifier: uzvg
+progress: Building
+rating: Valuable
+tags: LiteratureNotes flexbox CSS
+title: Learn CSS Flexbox in 20 Minutes (Course)(1768186227047)
+type: text/vnd.tiddlywiki
+url: https://www.youtube.com/watch?v=wsTv9y931o8
+visibility: Public
+year: 2024-08
+
+!! 基础：
+
+* display:flex
+* justify👉主轴
+* align👉纵轴
+* flex-direction
+* justify-content
+* align-items
+* 一维
+* gaps
+* column-gap
+* row-gap
+
+<<remembercz "20260109165153282"
+	"flexbox是一个{一维}布局方式。">>
+
+<<rememberq "20260109165209968"
+	"flexbox的主轴方向如何控制？"
+	"由flex-direction属性控制，有row跟column两个方向。">>
+
+!! Resize
+
+* flex-shrink
+* flex-grow
+* flex-basis
+* flex: 1 1 0
+* flex-grow 与 max-width的配合
+* flex-shrink 与 min-width的配合
+* @media(max-width:575px)
+
+!! 对齐：
+
+* justify-content
+* align-items
+* align-content
+* 为什么没有justify-items
+* 为什么没有justify-self
+** 要用什么？ `margin-right: auto;`
+
+!! wrap
+
+* flow-wrap: wrap/ nowrap

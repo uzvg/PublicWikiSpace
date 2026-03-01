@@ -1,0 +1,127 @@
+caption: TFBasic
+created: 20260222021214712
+modelName: TFBasic
+modified: 20260223165320944
+tags: $:/tags/TfCardsCreator
+title: $:/uzvg/twks-flashcards/CardsCreators/Basic
+type: text/vnd.tiddlywiki
+
+\function storeTiddler() [<qualify $:/temp/flashcards>]
+\procedure storageFolder() $:/Storage/Flashcards/DataTiddlers/
+\function dataTiddler() [<storageFolder>] [<storyTiddler>get[created]] +[join[]]
+
+<!-- ------------------------------twks flashcards creator ------------------------------ -->
+\procedure twks-flashcards-creator()
+\import [[$:/uzvg/twks-flashcards/Share/action.focusInput]]
+\import [[$:/uzvg/twks-flashcards/Share/action.switch-tab]]
+\import [[$:/uzvg/twks-flashcards/Share/get-explicit-stateTiddler]]
+
+\define tv-action-refresh-policy() always
+
+<!-- send notifications if has empty fields -->
+\procedure notify-emptyField-actions()
+\function get-empty-fields()
+	[<storeTiddler>!has[front]then[front]]
+	[<storeTiddler>!has[back]then[back]]
+	[<storeTiddler>get[front]trim[]is[blank]then[front]]
+	[<storeTiddler>get[back]trim[]is[blank]then[back]]
+	+[join[,]]
+\end get-empty-fields
+
+<$action-sendmessage
+	$message="tm-notify"
+	emptyFields=<<get-empty-fields>>
+	$param="$:/uzvg/twks-flashcards/Notifications/emptyFields"/>
+\end notify-emptyField-actions
+
+<!-- action to delete storeTiddler -->
+\procedure delete-storeTiddler-actions()
+	<$action-deletetiddler $tiddler=<<storeTiddler>>/>
+\end delete-storeTiddler-actions
+
+<!-- Actions to create new card -->
+\procedure new-card-actions()
+
+\import [[$:/uzvg/twks-flashcards/Share/action.settfnote]]
+\import [[$:/uzvg/twks-flashcards/Share/json.tags-array]]
+\import [[$:/uzvg/twks-flashcards/Share/tf.target-tags]]
+\import [[$:/uzvg/twks-flashcards/Share/tf.target-deck]]
+\import [[$:/uzvg/twks-flashcards/Share/tf.convert.lst]]
+
+\function get-tfNoteId() [<storeTiddler>get[created]tf.convert.lst[]]
+\function get-json-fields()
+	[[]jsonset[Front],<frontValue>]
+	+[jsonset[Back],<backValue>]
+\end get-json-fields
+
+<!-- If storeTiddler is non-empty -->
+<% if [<storeTiddler>has[front]has[back]] %>
+
+	<!-- Initialize datatTiddler -->
+	<% if [<dataTiddler>!is[tiddler]] %>
+		<$action-setfield
+			$tiddler=<<dataTiddler>>
+			type="application/json"
+			source=<<storyTiddler>>/>
+	<% endif %>
+
+	<!-- Create Flashcard -->
+	<$let
+		frontValue={{{ [<storeTiddler>get[front]] }}}
+		backValue={{{ [<storeTiddler>get[back]] }}}
+		tfNoteId=<<get-tfNoteId>>
+		fieldsJson=<<get-json-fields>>
+		tagsJson={{{ [tf.target-tags<storyTiddler>json.tags-array[]] }}}
+		deckJson={{{ [tf.target-deck<storyTiddler>!is[blank]else[Default]] }}}
+		modelName={{{ [<currentTab>get[modelName]] }}}>
+		<$action.settfnote dataTiddler=<<dataTiddler>> tfNoteId=<<tfNoteId>> fieldName="fields" jsonData=<<fieldsJson>>/>
+		<$action.settfnote dataTiddler=<<dataTiddler>> tfNoteId=<<tfNoteId>> fieldName="tags" jsonData=<<tagsJson>>/>
+		<$action.settfnote dataTiddler=<<dataTiddler>> tfNoteId=<<tfNoteId>> fieldName="deckName" jsonData=<<deckJson>>/>
+		<$action.settfnote dataTiddler=<<dataTiddler>> tfNoteId=<<tfNoteId>> fieldName="modelName" jsonData=<<modelName>>/>
+	</$let>
+	<<delete-storeTiddler-actions>>
+
+<!-- warning empty fields -->
+<% else %>
+	<<notify-emptyField-actions>>
+<% endif %>
+\end new-card-actions
+
+<!-- ------------------------------Main Procedure------------------------------ -->
+<$keyboard key="alt+n" actions=<<new-card-actions>>>
+<$keyboard key="alt+h" actions=<<action.switch-previous-tab>>>
+<$keyboard key="alt+l" actions=<<action.switch-next-tab>>>
+<$keyboard key="alt+k" actions=<<action.focus-firstInput>>>
+<$keyboard key="alt+j" actions=<<action.focus-secondInput>>>
+<$keyboard key="escape" actions=<<delete-storeTiddler-actions>>>
+	<div class="twks-flashcards-creator">
+		<div class="tc-flex tc-flex-row">
+			<label><b>Front:</b></label>
+			<$edit
+				tiddler=<<storeTiddler>>
+				field="front"
+				focus=<<get-focus-state>>
+				focusSelectFromEnd="0"
+				class="tc-edit-texteditor"/>
+		</div>
+		<div class="tc-flex tc-flex-row">
+			<label><b>Back:</b></label>
+			<$edit
+				tiddler=<<storeTiddler>>
+				field="back"
+				class="tc-edit-texteditor"/>
+		</div>
+	</div>
+</$keyboard>
+</$keyboard>
+</$keyboard>
+</$keyboard>
+</$keyboard>
+</$keyboard>
+\end
+
+<!-- ------------------------------Invoke twks-flaschards-creator------------------------------ -->
+<<twks-flashcards-creator>>
+
+* <$link to=<<storeTiddler>>/>
+* <$link to=<<dataTiddler>>/>

@@ -1,0 +1,16 @@
+created: 20250614174253898
+list: 俯卧撑 哑铃肩推 哑铃卧推 哑铃飞鸟
+modified: 20260114024913410
+modifier: uzvg
+title: $:/uzvg/Fitness/Templates/徒手训练
+type: text/vnd.tiddlywiki
+
+
+<$transclude $variable="twks-picker-box"
+	saveTiddler=<<currentTiddler>>
+	tagField="list"
+	tagListFilter="[all[tiddlers]tag[$:/tags/Fitness/Exercise]get[caption]] -[<storyTiddler>get[list]enlist-input[]] +[unique[]]"/>
+
+<$list filter="[<storyTiddler>get[list]enlist-input[]]">
+	
+</$list>

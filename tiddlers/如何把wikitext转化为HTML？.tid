@@ -1,0 +1,55 @@
+created: 20260125095128987
+description: 如何将tiddlywiki中的wikitext转化为HTML？
+modified: 20260127123219322
+progress: Completed
+rating: Valuable
+tags: PermanentNotes tiddlywiki
+title: 如何把wikitext转化为HTML？
+type: text/vnd.tiddlywiki
+visibility: Public
+
+\procedure wikitext-phrase()
+* list item1
+* list item2
+
+```sh
+sudo pacman -Syyu
+```
+\end
+
+!! 摘要：
+
+如何把wikitext转化为HTML？主要用到的是`viewWidget`跟`wikifyWidget`。
+
+!! 使用示例：
+
+; 有如下`wikitext`字段：
+
+<$codeblock code=<<wikitext-phrase>>/>
+
+如何将其转化为对应的`HTML`格式？
+
+; 1. 使用viewWidget:
+* `<$view format="htmlwikified"/>`
+* 这种方式适用于将某个`tiddler`的字段`wikify`为HTML。
+
+; 2. 使用`wikifyWidget`:
+* 这种方法，常用于wikify变量中保存的wikitext。
+* 如下：
+
+```tid
+<$wikify name="code" text=<<wikitext-phrase>> output="html">
+	<$codeblock code=<<code>>/>
+</$wikify>
+```
+
+结果如下：
+
+<$wikify name="code" text=<<wikitext-phrase>> output="html">
+	<$codeblock code=<<code>>/>
+</$wikify>
+
+!! 拓展：
+
+* [[如何处理多行文本在JSON文件中的存储？]]
+* [[Inspect parse tree in tiddlywiki]]

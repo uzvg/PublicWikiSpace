@@ -1,0 +1,21 @@
+caption: Task Info
+code-body: yes
+condition: [<storyTiddler>tag[Task]]
+created: 20260102065122670
+modified: 20260114024913444
+modifier: uzvg
+status: open
+tags: $:/tags/FrontMatter
+title: $:/uzvg/twks-frog/Frontmatter/TaskTiddler
+type: text/vnd.tiddlywiki
+
+\import $:/uzvg/Share/twks-progress-bar
+\import [[$:/uzvg/twks-frog/Share/task-info-table]]
+\function get-frontmatter-status() [<thisTiddler>get[status]]
+
+<$twks.details
+	summary="Task Info:"
+	default=<<get-frontmatter-status>>
+	state="$:/state/twks.details">
+	<<task-info-table>>
+</$twks.details>

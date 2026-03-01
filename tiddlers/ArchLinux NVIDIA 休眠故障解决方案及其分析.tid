@@ -1,0 +1,87 @@
+created: 20250805065249227
+description: ArchLinux NVIDIA 休眠故障深度排查与解决方案分析
+modified: 20250805071909982
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: nvidia suspend error
+tags: PermanentNotes ArchLinux NVIDIA TroubleShooting
+title: ArchLinux NVIDIA 休眠故障解决方案及其分析
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+我的工作环境是ArchLinux+NVIDIA是显卡，最近一段时间，我的ArchLinux系统总是不定期出现如下故障：
+
+* 电脑静止一会儿就会出现黑屏，然后重复输出NVIDIA错误报告。
+* 棘手的点在于该故障是非定期出现，也就是说，有时电脑能正常休眠，但有时，就不能，这就很让人恼人。
+* 我使用电源键物理重启后，使用journalctl命令查看日志，有如下输出：
+
+```
+Jun 16 09:05:33 ArchLinux flatpak[46996]: libostree HTTP error from remote flathub for <https://dl.flathub.org/repo/config  >:>
+Jun 16 10:16:43 ArchLinux gdm[728]: GLib: Source ID 106 was not found when attempting to remove it
+Jun 16 12:55:14 ArchLinux kernel: nvidia 0000:01:00.0: can't suspend (nv_pmops_runtime_suspend [nvidia] returned -5)
+Jun 16 13:32:25 ArchLinux kernel: rtw89_8852ae 0000:04:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x0010 address=0x0 f>
+Jun 16 17:21:58 ArchLinux kernel: nvidia-modeset: ERROR: GPU:0: Failed to query display engine channel state: 0x0000c67e:0:0>
+Jun 16 17:21:58 ArchLinux kernel: nvidia-modeset: ERROR: GPU:0: Failed to query display engine channel state: 0x0000c67e:2:0>
+Jun 16 17:21:58 ArchLinux kernel: nvidia-modeset: ERROR: GPU:0: Failed to query display engine channel state: 0x0000c67e:4:0>
+```
+
+我之前尝试过的解决方案看起来都已经失败了，但是最近，我发现在ArchWiki中更新了如下内容：
+
+> NVIDIA's open kernel modules cannot enable D3 Power Management on Turing. This reduces battery life on notebooks with Turing in an NVIDIA Optimus configuration. Use the proprietary module (e.g. nvidia) with module parameter NVreg_EnableGpuFirmware=0 instead. More information about this issue👉https://github.com/NVIDIA/open-gpu-kernel-modules/issues/640#issuecomment-2188114679  。
+
+我认为这段描述刚好对应我遇到的故障，于是重新安装了`nvidia-dkms`，在`/etc/modprobe.d/nvidia.conf`中开启了`NVreg_EnableGpuFirmware=0`选项，目前确实没遇到过休眠故障的情况发生。但仍然不能确定是否是该故障的解决方案。
+
+!! 1. 故障描述
+
+* 系统：Arch Linux 6.15.9-zen, GNOME/Wayland
+* GPU：NVIDIA RTX 3050 Ti Mobile (Turing) + AMD iGPU (Optimus)
+* 现象：
+** 空闲自动挂起/手动 `systemctl suspend` → 随机黑屏，风扇继续运行，必须电源键强制重启。
+** 日志关键行：
+
+```
+kernel: nvidia 0000:01:00.0: can't suspend (nv_pmops_runtime_suspend [nvidia] returned -5)
+kernel: nvidia-modeset: ERROR: GPU:0: Failed to query display engine channel state: 0x0000c67e:...
+```
+
+* 复现：非定期，与空闲时机、后台任务并发有关（竞争条件）。
+
+!! 2. 解决方案
+
+* 1. 确保使用''专有驱动''（非 `nvidia-open`）：
+
+```
+sudo pacman -S nvidia-dkms
+```
+
+* 2. 创建/编辑模块参数文件：
+
+```
+sudo nano /etc/modprobe.d/nvidia.conf
+```
+
+内容：
+
+```
+options nvidia NVreg_EnableGpuFirmware=0
+```
+
+* 3. 重新生成 initramfs 并重启：
+
+```
+sudo mkinitcpio -P
+sudo reboot
+```
+
+* 4. 验证：运行 `journalctl -b | grep -i nvidia` 确认参数已生效；连续空闲挂起 3–5 次未再出现黑屏。
+
+!! 3. 疑问：
+
+; 为什么 nvidia-open 不能“同样禁用” GSP？
+* 硬编码限制：`nvidia-open` 源码中 GSP 固件加载逻辑无运行时开关，等价于 `EnableGpuFirmware=1` 固定为真。
+* 设计目标：NVIDIA 希望开源模块长期依赖 GSP 以简化代码路径，因此未暴露禁用选项。
+* 当前状态：社区补丁尚未合并，主线 `nvidia-open` 无法通过任何参数关闭 GSP；若需禁用，只能退回专有驱动。
+* 所以只有在退回专有`nvidia`驱动的情况下才能使`NVreg_EnableGpuFirmware`选项生效。

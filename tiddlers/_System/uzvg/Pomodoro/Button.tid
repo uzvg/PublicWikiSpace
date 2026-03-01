@@ -1,0 +1,125 @@
+created: 20250407145121382
+modified: 20260114024913425
+modifier: uzvg
+tags: 
+title: $:/uzvg/Pomodoro/Button
+type: text/vnd.tiddlywiki
+
+\whitespace trim
+\import $:/uzvg/Pomodoro/Settings
+\procedure twks-pomodoro-icon-off() $:/core/images/timestamp-off
+\procedure twks-pomodoro-icon-on() $:/core/images/timestamp-on
+\procedure twks-pomodoro-state-tiddler() $:/state/twks-pomodoro
+
+\function get-twks-pomodoro-status() [<twks-pomodoro-state-tiddler>getindex[status]]
+\function get-twks-pomodoro-timer() [<twks-pomodoro-state-tiddler>getindex[timer]]
+\function get-twks-pomodoro-completed() [<twks-pomodoro-state-tiddler>getindex[Completed_Pomodoro]]
+\function twks-pomodoro-completed-augment() [<get-twks-pomodoro-completed>add[1]]
+\function get-pomodoro-delay() [[60000]multiply<get-pomodoro-duration>]
+\function get-short-break-delay() [[60000]multiply<get-short-break-duration>]
+\function get-long-break-delay() [[60000]multiply<get-long-break-duration>]
+\function get-pomodoro-data-tiddler() [<get-pomodoro-data-folder>addsuffix<now YYYY0MM0DD>]
+
+\procedure twks-pomodoro-complete-actions()
+	<$setfield $tiddler=<<twks-pomodoro-state-tiddler>>
+		$index="Completed_Pomodoro"
+		$value=<<twks-pomodoro-completed-augment>>/>
+\end
+
+<!--
+1. Set phase_type
+2. Set latest_pomodoro
+3. Start Delay and Completed_Pomodoro augment
+-->
+
+\procedure pomodoro-phase-actions()
+	<$action-setfield $tiddler=<<twks-pomodoro-state-tiddler>>
+		$index="Latest_Pomodoro"
+		$value=<<now TIMESTAMP>>/>
+	<$action-setfield $tiddler=<<twks-pomodoro-state-tiddler>>
+		$index="Phase_Type"
+		$value="Pomodoro"/>
+	<$action-timeout tiddler=<<twks-pomodoro-state-tiddler>>
+		index="timer"
+		delay=<<get-pomodoro-delay>>
+		actions=<<twks-pomodoro-complete-actions>>/>
+\end
+
+\procedure short-break-phase-actions()
+	<$action-setfield $tiddler=<<twks-pomodoro-state-tiddler>>
+		$index="Phase_Type"
+		$value="ShortBreak/>
+	<$action-timeout tiddler=<<twks-pomodoro-state-tiddler>>
+		index="timer"
+		delay=<<get-pomodoro-delay>>
+		actions=<<twks-pomodoro-complete-actions>>/>
+\end
+
+\procedure long-break-phase-actions()
+
+\end
+
+\procedure twks-pomodoro-start-actions()
+	<$action-setfield $tiddler=<<twks-pomodoro-state-tiddler>> $index="status" $value="on"/>
+	<$action-setfield $tiddler=<<twks-pomodoro-state-tiddler>> $index="completed" $value="0"/>
+	<$action-setfield	$tiddler=<<twks-pomodoro-state-tiddler>> $index="currentPomodoro"	$value=<<now TIMESTAMP>>/>
+	<$list filter="[<get-twks-pomodoro-status>match[on]]">
+		<$action-timeout
+			tiddler=<<twks-pomodoro-state-tiddler>>
+			index="timer"
+			delay=<<get-pomodoro-delay>>
+			actions=<<twks-pomodoro-complete-actions>>/>
+		<% if [<get-twks-pomodoro-completed>remainder<get-long-break-interval>compare:number:eq[0]] %> 👈
+			<!-- takw a long break -->
+			<$action-timeout
+				tiddler=<<twks-pomodoro-state-tiddler>>
+				index="timer"
+				delay=<<get-long-break-delay>>/>
+		<% else %>
+			<!-- Take a short break -->
+			<$action-timeout
+				tiddler=<<twks-pomodoro-state-tiddler>>
+				index="timer"
+				delay=<<get-short-break-delay>>/>
+		<% endif %>
+	</$list>
+\end
+
+\procedure twks-pomodoro-stop-actions()
+	<$action-setfield $tiddler=<<twks-pomodoro-state-tiddler>> $index="status" $value="off"/>
+	<$action-timeout clear=<<get-twks-pomodoro-timer>>/>
+\end
+
+<$reveal stateTitle=<<twks-pomodoro-state-tiddler>> stateIndex="status" text="on" type="nomatch">
+	<$button
+		tooltip="Start the pomodoro"
+		actions=<<twks-pomodoro-start-actions>>
+		class="tc-btn-invisible">
+		<$transclude $tiddler=<<twks-pomodoro-icon-on>>/>
+	</$button>
+</$reveal>
+<$reveal stateTitle=<<twks-pomodoro-state-tiddler>> stateIndex="status" text="on" type="match">
+	<$button
+		tooltip="Stop the pomodoro"
+		actions=<<twks-pomodoro-stop-actions>>
+		class="tc-btn-invisible">
+		<$transclude $tiddler=<<twks-pomodoro-icon-off>>/>
+	</$button>
+</$reveal>
+
+<style>
+.tc-image-timestamp-off {
+	fill: <<colour alert-highlight>>;
+}
+
+.tc-image-timestamp-on {
+	fill: <<colour stability-stable>>
+}
+</style>
+
+<!-- pomodoro config
+* twks-get-pomodoro() [<twks-pomodoro-config-tiddler>getindex[pomodoro]]
+* twks-get-short-break() [<twks-pomodoro-config-tiddler>getindex[shortbreak]]
+* twks-get-long-break() [<twks-pomodoro-config-tiddler>getindex[longbreak]]
+* twks-get-break-interval()
+-->

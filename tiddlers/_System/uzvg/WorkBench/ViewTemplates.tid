@@ -1,0 +1,10 @@
+caption: ViewTemplates
+created: 20241029041955127
+creator: uzvg
+modified: 20250425094052615
+modifier: uzvg
+tags: $:/tags/WorkBench
+title: $:/uzvg/WorkBench/ViewTemplates
+type: text/vnd.tiddlywiki
+
+<<tree "$:/uzvg/ViewTemplates/">>

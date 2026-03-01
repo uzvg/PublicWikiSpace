@@ -1,0 +1,30 @@
+caption: Giscus Comment
+created: 20241025022635786
+creator: uzvg
+description: 给tiddler添加giscus评论区
+modified: 20250407132102477
+modifier: uzvg
+progress: Terminated
+tags: Giscus TWKS ProjectNotes
+title: Add giscus comment for tiddlers
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 现状：
+
+* [[tw-cpl|https://tw-cpl.netlify.app/]]中实现了类似giscus的功能。
+* giscus的评论区，也在`iframe`框架中渲染的。
+* twcpl中实现了添加giscus的效果，只要需要做更进一步的适配👉[[TWCPL GISCUS]]
+
+!! 项目文件：
+
+* [[$:/plugins/uzvg/giscus/giscus-widget.js]]
+* [[$:/plugins/uzvg/giscus/rawmarkup]]
+
+!! 实验效果：
+
+giscus会同步同一网页中的所有的giscus评论区的高度，这在tiddlywiki中会造成，一个tiddler的giscus评论区height刷新，所有tiddler的giscus评论区高度都会同步变化。
+
+!! 项目取消：
+
+* 改用👉[[Add twikoo comment for tiddlers]]

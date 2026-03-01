@@ -1,0 +1,117 @@
+caption: C
+created: 20250711090810124
+modified: 20250711091911636
+progress: Completed
+rating: Plain
+tags: PermanentNotes ParameterExpansionFlags
+title: ZshShellParameterExpansionFlags/C
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 功能说明:
+
+`C` flag 用于将结果中的单词首字母大写。这里的"单词"指的是由字母数字字符组成的序列，它们被非字母数字字符分隔，而不是通过字段分割产生的单词。
+
+!! 实际应用示例:
+
+!!! 基本用法:
+
+```bash
+# 普通字符串的首字母大写
+text="hello world"
+echo ${(C)text}
+# 输出: Hello World
+
+# 包含特殊字符的字符串
+text="hello-world_test"
+echo ${(C)text}
+# 输出: Hello-World_Test
+```
+
+!!! 与其他分隔符的处理:
+
+```bash
+# 各种分隔符的情况
+text="foo.bar@baz#qux"
+echo ${(C)text}
+# 输出: Foo.Bar@Baz#Qux
+
+# 数字和字母混合
+text="test123abc-def456"
+echo ${(C)text}
+# 输出: Test123abc-Def456
+```
+
+!!! 数组处理:
+
+```bash
+# 对数组元素进行首字母大写
+arr=("hello world" "foo-bar" "test_case")
+echo ${(C)arr}
+# 输出: Hello World Foo-Bar Test_Case
+
+# 逐个元素处理
+
+for item in ${(C)arr}; do
+    echo "Item: $item"
+done
+# 输出:
+# Item: Hello World
+# Item: Foo-Bar
+# Item: Test_Case
+```
+
+!!! 与其他flags结合使用:
+
+```bash
+# 先转换为小写，再首字母大写
+text="HELLO WORLD"
+echo ${(CL)text}
+# 输出: Hello World
+
+# 处理路径名
+path="/usr/local/bin"
+echo ${(C)path}
+# 输出: /Usr/Local/Bin
+```
+
+!!! 特殊情况处理:
+
+```bash
+# 已经是大写的情况
+text="HELLO WORLD"
+echo ${(C)text}
+# 输出: Hello World
+
+# 空字符串
+empty=""
+echo ${(C)empty}
+# 输出: (空)
+```
+
+!!! 实际应用场景:
+
+```bash
+# 处理配置文件名
+config_name="database_config"
+echo "Loading ${(C)config_name}"
+# 输出: Loading Database_Config
+
+# 处理用户输入
+user_input="john-doe"
+echo "Welcome ${(C)user_input}!"
+# 输出: Welcome John-Doe!
+
+# 处理文件名
+filename="my_important_document.txt"
+echo ${(C)filename}
+# 输出: My_Important_Document.Txt
+```
+
+!! 技术要点:
+
+# ''单词识别规则'': 只有字母数字字符序列被视为单词，非字母数字字符作为分隔符
+# ''大小写处理'': 每个单词的首字母转换为大写，其余字母转换为小写
+# ''分隔符保留'': 非字母数字字符（如空格、连字符、下划线等）保持不变
+# ''与字段分割的区别'': 不依赖于shell的字段分割规则，而是基于字符类型进行识别
+# ''常见用途'': 格式化显示文本、处理标识符、美化输出等

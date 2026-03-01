@@ -1,0 +1,58 @@
+created: 20260104090533878
+creator: uzvg
+modified: 20260104092308847
+modifier: uzvg
+tags: $:/twks/Tools
+title: $:/uzvg/Tools/BatchRenameField
+type: text/vnd.tiddlywiki
+
+<!--
+* filter
+* Old field name
+* New field name
+-->
+\function storeTiddler() [<qualify $:/temp/BatchRenameField>]
+\function get-rename-filter() [<storeTiddler>get[filter]]
+\function get-old-field() [<storeTiddler>get[old-field]]
+\function get-new-field() [<storeTiddler>get[new-field]]
+\function get-start-status() [<storeTiddler>get[start]]
+\function get-old-value() [<currentTiddler>get<get-old-field>]
+
+\procedure rename-field-actions()
+<$list filter=<<get-rename-filter>>>
+	<$actions-setfield $tiddler=<<currentTiddler>>
+		$field=<<get-new-field>>
+		$value=<<get-old-value>>/>
+	<$action-deletefield $tiddler=<<currentTiddler>>
+		$field=<<get-old-field>>/>
+</$list>
+<$action-deletetiddler $tiddler=<<storeTiddler>>/>
+\end
+
+|tc-max-width twks-input-full-width twks-input-hide-border tc-edit-max-width|k
+|!Filter |<$edit-text tiddler=<<storeTiddler>> field="filter"/>|
+|!Old Field |<$edit-text tiddler=<<storeTiddler>> field="old-field"/>|
+|!New Field |<$edit-text tiddler=<<storeTiddler>> field="new-field"/>|
+
+<table>
+	<tr>
+		<th>Tiddler</th>
+		<th>Old field</th>
+		<th>Value</th>
+		<th>New field</th>
+	</tr>
+	<$list filter=<<get-rename-filter>>>
+		<tr>
+			<td> <<currentTiddler>> </td>
+			<td> <<get-old-field>> </td>
+			<td> <<get-old-value>> </td>
+			<td> <<get-new-field>> </td>
+		</tr>
+	</$list>
+</table>
+
+<span class="flex-row-end">
+	<$button actions=<<rename-field-actions>>>
+			Rename field
+	</$button>
+</span>

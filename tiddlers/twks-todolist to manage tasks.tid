@@ -1,0 +1,27 @@
+created: 20250501043810823
+description: 在tiddlywiki中方便快捷地管理待办事项
+modified: 20251223015822914
+progress: Terminated
+tags: ProjectNotes TWKS
+title: twks-todolist to manage tasks
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirements:
+
+todo-list的作用，应该是一个轻量的待办清单，仅仅用于提醒用户有哪些事情要去做，复杂的工程项目，应该使用ProjectNotes。
+
+* 清单式的待办事项。
+* 可以转换为ProjectNotes。
+* 未完成的任务可以流转到当天。
+* 可拖动、可用快捷键。
+* 使用搜索框添加新的待办事项。
+* 
+
+!! Project Logs:
+
+!! Project Files:
+
+<<list-links filter:"[prefix[$:/uzvg/TodoList]]">>
+
+* [[$:/uzvg/TodoList/Panel]]

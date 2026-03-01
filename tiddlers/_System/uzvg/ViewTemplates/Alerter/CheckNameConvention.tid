@@ -1,0 +1,41 @@
+code-body: yes
+created: 20250425094305582
+modified: 20260103135943501
+modifier: uzvg
+tags: 
+title: $:/uzvg/ViewTemplates/Alerter/CheckNameConvention
+type: text/vnd.tiddlywiki
+
+\function stateTiddler() [<qualify $:/state/standard-title>]
+\function get-static-title() [<stateTiddler>get[text]]
+\function get-caption() [<storyTiddler>get[caption]]
+\function get-timestamp() [<storyTiddler>get[created]format:date[TIMESTAMP]]
+\function get-standard-title() [<get-caption>] [[(]] [<get-timestamp>] [[)]] +[join[]]
+\function get-title-prefix() [<storyTiddler>get[caption]!is[blank]else<storyTiddler>]
+\function get-valid-title() [<get-title-prefix>] [[(]] [<get-timestamp>] [[)]] +[join[]]
+
+\procedure correct-title-actions()
+	<$action-setfield $tiddler=<<stateTiddler>> text=<<get-valid-title>>/>
+	<% if [<storyTiddler>!has[caption]] %>
+		<$action-setfield $tiddler=<<storyTiddler>>
+			caption=<<storyTiddler>>/>
+	<% endif %>
+	<$action-sendmessage
+		$message="tm-rename-tiddler"
+		from=<<storyTiddler>>
+		to=<<get-valid-title>>/>
+	<$action-navigate $to=<<get-static-title>>/>
+	<$action-deletetiddler $tiddler=<<stateTiddler>>/>
+\end
+
+\procedure validate-title-btn()
+<$button actions=<<correct-title-actions>>>
+	Rename
+</$button>
+\end
+
+<$list filter="[all[current]!is[system]tag[LiteratureNotes]]">
+<% if [<storyTiddler>!match<get-standard-title>] %>
+	<<twks-alerter "warning" "The current LiteratureNotes title does not conform to our naming convention.<br>Please click the 👉 <<validate-title-btn>> to rename it to @@.twks-annotation-red <<get-valid-title>>@@.">>
+<% endif %>
+</$list>

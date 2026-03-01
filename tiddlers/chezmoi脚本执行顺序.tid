@@ -1,0 +1,33 @@
+created: 20260118070532006
+description: chezmoi的脚本的执行顺序
+modified: 20260118072840861
+modifier: uzvg
+progress: Completed
+rating: Valuable
+source: 使用chezmoi脚本执行操作
+tags: PermanentNotes chezmoi
+title: chezmoi脚本执行顺序
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+在<<twks-source>>中，关于脚本的执行顺序，有如下表述：
+
+<<<
+Scripts are normally run while chezmoi updates your dotfiles. For example, `run_b.sh` will be run after updating `a.txt` and before updating `c.txt`. To run scripts before or after the updates, use the `before_` or `after_` attributes, respectively, e.g., `run_once_before_install-password-manager.sh`.
+<<<[[understand how scripts work|https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/#understand-how-scripts-work]]
+
+
+!! chezmoi 脚本执行顺序：
+
+在一次 chezmoi 更新过程中，''目标文件的更新顺序是主轴''，脚本的执行是''插入到这条主轴中的''。
+
+# chezmoi 会按 ''目标文件路径的字母顺序'' 依次更新 dotfiles。
+# `run_*.sh` 脚本并不会独立参与排序，而是通过脚本名中的锚点（如 `run_b.sh`），指定其在文件更新序列中的插入位置。
+#* 例如，`run_b.sh` 会在更新完 `a.txt` 后、更新 `c.txt` 前执行。
+# `before_` 和 `after_` 用于控制脚本相对于“目标文件更新阶段”的执行时机：
+# `run_*_before_*.sh`：在任何目标文件更新之前执行
+# `run_*_after_*.sh`：在所有目标文件更新完成之后执行
+
+因此，chezmoi 的脚本执行顺序并不是“脚本排序”，而是''以文件更新为中心、脚本作为插入节点的执行模型''。

@@ -1,0 +1,55 @@
+code-body: yes
+created: 20250427133913396
+modified: 20260114024913439
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-card/twks-cardview
+type: text/vnd.tiddlywiki
+
+\procedure twks-card-list(filter)
+
+\function get-article-caption() [<currentTiddler>get[caption]!is[blank]else<currentTiddler>]
+\function get-article-summary() [<currentTiddler>get[description]!is[blank]] :else[<currentTiddler>get[text]]
+\function get-article-modified() [<currentTiddler>get[modified]format:relativedate[]]
+\function get-article-cover() [<currentTiddler>get[cover]else[https://picsum.photos/402/300]]
+\function get-cover-tooltip() [<currentTiddler>get[cover]get[description]]
+\function get-cover-alt() [<currentTiddler>get[description]!is[blank]else[The image is loading...]]
+
+<div class="twks-cards-container">
+	<$list filter=<<filter>>>
+		<article class="twks-card">
+			<div class="twks-card-content">
+				<div class="twks-card-main">
+					<$link to=<<currentTiddler>> overrideClass="twks-card-title">
+						<<get-article-caption>>
+					</$link>
+					<p class="twks-card-summary">
+						<<get-article-summary>>
+					</p>
+						<div class="twks-card-meta">
+							<div class="twks-card-tags">
+								<$list filter="[<currentTiddler>tags[]enlist-input[]]" variable="currentTag">
+										<$link to=<<currentTag>> overrideClass="twks-card-tag"/>
+								</$list>
+							</div>
+							<div class="twks-card-time">
+									<span class="twks-card-created">
+										Created:&nbsp;<$view field=created format=date template="YYYY MMM DDth" />
+									</span>
+									<span class="twks-card-modified">
+										Updated:&nbsp;<<get-article-modified>>
+									</span>
+							</div>
+						</div>
+				</div>
+				<div class="twks-card-cover">
+					<$image source=<<get-article-cover>>
+						tooltip=<<get-cover-tooltip>>
+						alt=<<get-cover-alt>>
+						loading="lazy">
+				</div>
+			</div>
+		</article>
+	</$list>
+</div>
+\end

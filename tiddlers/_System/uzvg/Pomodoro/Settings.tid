@@ -1,0 +1,33 @@
+created: 20250407134332251
+modified: 20260114024913426
+modifier: uzvg
+title: $:/uzvg/Pomodoro/Settings
+type: text/vnd.tiddlywiki
+
+<!-- Settings:
+* Pomodoro Time
+* Long Break
+* Short Break
+* Long Break interval
+
+configTiddler: $:/config/twks-pomodoro
+-->
+
+\procedure twks-pomodoro-config-tiddler() $:/config/twks-pomodoro
+\function get-pomodoro-duration() [<twks-pomodoro-config-tiddler>getindex[pomodoro]]
+\function get-short-break-duration() [<twks-pomodoro-config-tiddler>getindex[shortbreak]]
+\function get-long-break-duration() [<twks-pomodoro-config-tiddler>getindex[longbreak]]
+\function get-long-break-interval() [<twks-pomodoro-config-tiddler>getindex[long-break-interval]]
+\function get-pomodoro-data-folder() [<twks-pomodoro-config-tiddler>getindex[data-folder]else[$:/uzvg/twks-pomodoro/data/]]
+
+
+|tc-max-width-80|k
+|!Pomodoro Time |<$edit-text tiddler=<<twks-pomodoro-config-tiddler>> index="pomodoro" tag="input" type="number" size="5" /> &nbsp; ''Minutes'' |
+|!Short Break |<$edit-text tiddler=<<twks-pomodoro-config-tiddler>> index="shortbreak" tag="input" type="number" size="5" /> &nbsp; ''Minutes'' |
+|!Long Break |<$edit-text tiddler=<<twks-pomodoro-config-tiddler>> index="longbreak" tag="input" type="number" size="5" /> &nbsp; ''Minutes'' |
+|!Long Break  Interval|<$edit-text tiddler=<<twks-pomodoro-config-tiddler>> index="long-break-interval" tag="input" type="number" size="5" /> &nbsp; ''Minutes'' |
+|!Data Folder|<$edit-text tiddler=<<twks-pomodoro-config-tiddler>> index="data-folder" tag="input"/> |
+|!Record Pomodoro Log|<$checkbox />|
+
+<<get-long-break-duration>>
+<<get-pomodoro-data-folder>>

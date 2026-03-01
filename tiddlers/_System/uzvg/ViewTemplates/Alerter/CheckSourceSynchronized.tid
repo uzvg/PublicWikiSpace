@@ -1,0 +1,40 @@
+created: 20250425120716288
+modified: 20250427064008513
+modifier: uzvg
+tags: $:/tags/ViewTemplate
+title: $:/uzvg/ViewTemplates/Alerter/CheckSourceSynchronized
+type: text/vnd.tiddlywiki
+
+\function get-source-tiddler() [<storyTiddler>get[source]]
+\function get-derivate-syncValue() [<storyTiddler>get<currentTiddler>]
+\function get-source-syncValue() [<get-source-tiddler>get<currentTiddler>]
+\function get-mismatched-fields(fieldsList)
+	[enlist<fieldsList>]
+	:filter[function[get-source-syncValue]!match<get-derivate-syncValue>]
+	+[join[ ]]
+\end
+
+<!-- Sync derivative fields value from the source -->
+\procedure sync-from-source-actions()
+	<$list filter="[enlist<condition>]">
+		<$action-setfield $tiddler=<<storyTiddler>>
+			$field=<<currentTiddler>>
+			$value=<<get-source-syncValue>>/>
+	</$list>
+\end
+
+\procedure sync-from-source-btn()
+	<$button actions=<<sync-from-source-actions>>>
+		SYNC
+	</$button>
+\end
+
+<$list filter="[all[current]!is[system]tag[LiteratureNotes]has[source]]">
+	<% if [<get-mismatched-fields "authors year">!is[blank]] %>
+		<<twks-alerter "warning" """The current note has mismatched fields 👉<<condition>> with source tiddler, press <<sync-from-source-btn>> to sync.""">>
+	<% endif %>
+</$list>
+
+<!-- Debug info:
+* 		Mismatched-field👉 <<condition>>
+-->

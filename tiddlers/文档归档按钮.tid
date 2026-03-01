@@ -1,0 +1,27 @@
+created: 20251219064643992
+modified: 20251219070752318
+progress: Archived
+tags: ProjectNotes TWKS
+title: 文档归档按钮
+type: text/vnd.tiddlywiki
+visibility: Public
+
+\procedure get-json-text()
+	<$transclude $variable="jsontiddlers"
+		filter="[prefix[$:/Storage/HabitTracker/]]"
+		spaces="2"
+		$output="text/raw"/>
+\end
+
+\procedure save-json-btn()
+<$wikify name="jsonText" text=<<get-json-text>>>
+	<$button>
+		<$action-setfield $tiddler="json test tiddler"
+			text=<<jsonText>>
+			type="application/json"/>
+			Archive
+	</$button>
+</$wikify>
+\end
+
+<<save-json-btn>>

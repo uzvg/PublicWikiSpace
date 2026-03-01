@@ -1,0 +1,85 @@
+created: 20250609040750389
+description: super() 函数学习笔记
+modified: 20250609040944766
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: inheritance(1749441576559)
+tags: PermanentNotes Python
+title: super function
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 一、`super()` 是什么？
+
+* `super()` 是 Python 中一个用于调用父类方法的内建函数。
+* 最常见用途：在子类的 `__init__()` 方法中调用父类的 `__init__()`，以确保父类部分也被正确初始化。
+* 它不仅限于初始化，还可以用于调用父类的任意方法。
+
+!! 二、为什么叫做 `super()`？
+
+* `super` 是来自面向对象编程（OOP）中的术语：“superclass”即“超类”或“父类”。
+* 所以 `super()` 可以理解为 “调用超类（superclass）的方法”。
+* 并不是“中二”的命名，而是一个在多种编程语言中普遍使用的专业术语。
+
+!! 三、其他语言中类似用法
+
+|tc-max-width|k
+|!语言|!父类方法调用语法|
+|Python     |`super().method()`    |
+|Java       |`super.method()`      |
+|JavaScript |`super.method()`      |
+|C++        |`BaseClass::method()` |
+|Ruby       |`super`               |
+
+!! 四、使用场景
+
+!!! 1. 单继承中
+
+```python
+class Parent:
+    def __init__(self):
+        print("Parent initialized")
+
+class Child(Parent):
+    def __init__(self):
+        super().__init__()  # 调用父类构造函数
+        print("Child initialized")
+
+c = Child()
+# 输出：
+# Parent initialized
+# Child initialized
+```
+
+!!! 2. 多重继承中
+
+`super()` 不只是调用“直接父类”，它遵循 MRO（方法解析顺序），帮助你在复杂的继承结构中避免重复调用父类。
+
+```python
+class A:
+    def hello(self):
+        print("Hello from A")
+
+class B(A):
+    def hello(self):
+        print("Hello from B")
+        super().hello()
+
+class C(B):
+    def hello(self):
+        print("Hello from C")
+        super().hello()
+
+c = C()
+c.hello()
+
+# 输出：
+# Hello from C
+# Hello from B
+# Hello from A
+```
+
+!! 五、记忆小技巧
+
+> “子类调用 super()，就像在说：‘请调用我上一级（superior）的代码吧！’”

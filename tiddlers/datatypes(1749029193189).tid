@@ -1,0 +1,27 @@
+authors: geeksforgeeks
+caption: datatypes
+created: 20250604092633189
+description: Python datatypes
+medium: Website
+modified: 20250605084909328
+progress: Building
+rating: Plain
+tags: LiteratureNotes Source
+title: datatypes(1749029193189)
+type: text/vnd.tiddlywiki
+url: https://www.geeksforgeeks.org/python-data-types/
+visibility: Public
+year: 2025-06
+
+<<twks-image "20250604172714317.webp" width:"80%">>
+
+主要有以下注意点：
+
+!!! 1. tuple
+
+
+
+更具体的可看：
+
+* [[Python中的集合(set)与元组(tuple)]]
+* [[list data type(1749111068096)]]

@@ -1,0 +1,62 @@
+created: 20260127121958352
+description: 查看并测试tiddlywiki中的parse tree解析过程
+modified: 20260203014254310
+progress: Completed
+tags: ProjectNotes tiddlywiki
+title: Inspect parse tree in tiddlywiki
+type: text/vnd.tiddlywiki
+visibility: Public
+
+\function storeTiddler() [<qualify $:/temp/inspect-parse-tree>]
+\function get-wikitext() [<storeTiddler>get[text]]
+\function get-cloze() [<get-cloze-template>substitute[]]
+
+\function get-journals() [tag[Journal]]
+
+\procedure cloze(text, id:"c1", hint)
+\function get-cloze-id()
+	[<id>!is[blank]prefix[c]]
+	[<id>!is[blank]!prefix[c]addprefix[c]]
+\end get-cloze-id
+\function get-cloze-text() [<text>!is[blank]addprefix[::]]
+\function get-cloze-hint() [<hint>!is[blank]addprefix[::]]
+\function get-cloze-inner() [<get-cloze-id>] [<get-cloze-text>] [<get-cloze-hint>] +[join[]]
+\function get-card-cloze() [[{{]] [<get-cloze-inner>] [[}}]] +[join[]]
+	<<get-card-cloze>>
+\end
+
+这是一段<<cloze cloze>>。
+这是一段<<cloze "cloze">>。
+
+
+!! WikiText:
+
+<$edit tiddler=<<storeTiddler>> class="tc-edit-texteditor"/>
+
+!! Wikified Text:
+
+<$wikify name="code" text=<<get-wikitext>> output="text">
+	<$macrocall $name="copy-to-clipboard" src=<<code>> class="tc-tiny-gap-right"/>
+	<$codeblock code=<<code>> />
+</$wikify>
+
+!! Wikified HTML：
+
+<$wikify name="code" text=<<get-wikitext>> output="html">
+	<$macrocall $name="copy-to-clipboard" src=<<code>>/>
+	<$codeblock code=<<code>> />
+</$wikify>
+
+<$twks.details summary="Parse Tree:" state="$:/state/detail">
+<$wikify name="code" text=<<get-wikitext>> output="parsetree">
+	<$macrocall $name="copy-to-clipboard" src=<<code>>/>
+	<$codeblock code=<<code>> language="json" />
+</$wikify>
+</$twks.details>
+
+<$twks.details summary="widget Tree:" state="$:/state/detail1">
+<$wikify name="code" text=<<get-wikitext>> output="widgettree">
+	<$macrocall $name="copy-to-clipboard" src=<<code>>/>
+	<$codeblock code=<<code>> language="json" />
+</$wikify>
+</$twks.details>

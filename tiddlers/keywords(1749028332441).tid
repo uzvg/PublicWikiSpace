@@ -1,0 +1,27 @@
+authors: geeksforgeeks
+caption: keywords
+created: 20250604091212441
+description: python keywords
+medium: Website
+modified: 20250605052149672
+progress: Completed
+rating: Plain
+tags: LiteratureNotes Source Python
+title: keywords(1749028332441)
+type: text/vnd.tiddlywiki
+url: https://www.geeksforgeeks.org/python-keywords/
+visibility: Public
+year: 2025-06
+
+\procedure itemTemplates()
+\function get-derivative-caption() [<currentTiddler>get[caption]]
+\function get-derivative-progress() [<currentTiddler>get[progress]]
+	<span class="flex justify-between">
+		<span><$links to=<<currentTiddler>>><<get-derivativa-caption>></$links></span>
+		<span><$transclude $variable="tag-pill" tag=<<get-derivative-progress>>/></span>
+	</span>
+\end
+
+以下是我在学习Python中遇到的一些不太熟悉的关键字：
+
+<<list-links filter:"[source<currentTiddler>]">>

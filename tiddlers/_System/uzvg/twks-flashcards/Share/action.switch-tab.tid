@@ -1,0 +1,28 @@
+code-body: yes
+created: 20260223145544600
+modified: 20260223162647752
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/action.switch-tab
+type: text/vnd.tiddlywiki
+
+<!--Swtich twks flashcard creator tab
+1. set explicitStateTiddler value
+2. auto focus selector
+-->
+
+\procedure action.switch-previous-tab()
+<$let
+	previousTab=<<get-previous-tab>>
+	explicitStateTiddler=<<get-explicit-stateTiddler>>>
+	<$action-setfield $tiddler=<<explicitStateTiddler>> text=<<previousTab>>/>
+</$let>
+\end
+
+\procedure action.switch-next-tab()
+<$let
+	nextTab=<<get-next-tab>>
+	explicitStateTiddler=<<get-explicit-stateTiddler>>>
+	<$action-setfield $tiddler=<<explicitStateTiddler>> text=<<nextTab>>/>
+</$let>
+\end

@@ -1,0 +1,19 @@
+created: 20250429033932681
+description: 快捷地生成、复制co-star结构的提示词
+modified: 20250429034933650
+progress: Completed
+tags: ProjectNotes TWKS
+title: co-star prompt generator
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirements:
+
+* 让用户能更方便地生成结构化的提示词
+* 可以将提示词保存为一个tiddler，并且打上 <<tag "CO-STAR">> 标签
+* 提示各项要素的作用
+* 可以一键复制提示词
+
+!! Project files list:
+
+<<list-links filter:"[prefix[$:/uzvg/CO-STAR]]" field:title>>

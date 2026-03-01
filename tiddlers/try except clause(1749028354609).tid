@@ -1,0 +1,87 @@
+authors: geeksforgeeks
+caption: try except clause
+created: 20250604091234609
+description: Python中的try-except 语句
+medium: Website
+modified: 20250605014831682
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: keywords(1749028332441)
+tags: LiteratureNotes Python
+title: try except clause(1749028354609)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+!! 语法：
+
+```
+try:
+    # Some Code
+except:
+    # Executed if error in the
+    # try block
+else:
+    # execute if no exception
+finally:
+    # Some code .....(always executed)
+```
+
+* `try`，如何执行报错，则执行except语句。
+* `except`，如果发生错误，则执行except语句，可以有多个except语句。
+** 当一个 try 语句块中发生异常时，只会执行第一个匹配的 except 子句，其他的不再执行。
+** 可以指定标准错误类型。
+** 可以搭配`as`捕捉错误信息。
+* `else`，当`try`执行成功时，会执行。
+* `finally`，无论成功与否，最后都会执行。
+
+!! except clause:
+
+!!! 只识别标准错误：
+
+```
+# Python code to illustrate
+# working of try()
+def divide(x, y):
+    try:
+        # Floor Division : Gives only Fractional Part as Answer
+        result = x // y
+        print("Yeah ! Your answer is :", result)
+    except ZeroDivisionError:
+        print("Sorry ! You are dividing by zero ")
+
+# Look at parameters and note the working of Program
+divide(3, 0)
+
+# Output:
+Sorry ! You are dividing by zero
+```
+!!! 识别所有类型的错误并打印错误信息：
+
+```python
+def divide(x, y):
+    try:
+        # Floor Division : Gives only Fractional Part as Answer
+        result = x // y
+        print("Yeah ! Your answer is :", result)
+    except Exception as e:
+       # By this way we can know about the type of error occurring
+        print("The error is: ",e)
+
+divide(3, "GFG")
+divide(3,0)
+
+# Output:
+The error is:  unsupported operand type(s) for //: 'int' and 'str'
+The error is:  integer division or modulo by zero
+```
+
+; 常见的标准错误有：
+* `IOError`: if the file can't be opened
+* `KeyboardInterrupt`: when an unrequired key is pressed by the user
+* `ValueError`: when the built-in function receives a wrong argument
+* `EOFError`: if End-Of-File is hit without reading any data
+* `ImportError`: if it is unable to find the module
+

@@ -1,0 +1,13 @@
+code-body: yes
+created: 20260222065327875
+modified: 20260222065836124
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/tf.target-tags
+type: text/vnd.tiddlywiki
+
+<!--Description:
+-->
+\function tf.target-tags(sourceTiddler)
+	[<sourceTiddler>subfilter{$:/uzvg/Configs/TagMappingRules}]
+\end

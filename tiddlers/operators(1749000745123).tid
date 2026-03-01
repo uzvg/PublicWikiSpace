@@ -1,0 +1,20 @@
+authors: geeksforgeeks
+caption: operators
+created: 20250604013225123
+description: Python中的操作符
+medium: Website
+modified: 20250604105432055
+progress: Building
+rating: Plain
+tags: LiteratureNotes Source
+title: operators(1749000745123)
+type: text/vnd.tiddlywiki
+url: https://www.geeksforgeeks.org/python-operators/
+visibility: Public
+year: 2025-06
+
+	<<twks-image "20250604112548931.jpg" width:"80%">>
+
+Identity Operators in Python
+
+Membership Operators in Python

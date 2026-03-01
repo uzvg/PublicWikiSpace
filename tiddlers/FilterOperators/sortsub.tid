@@ -1,0 +1,37 @@
+created: 20251221003232881
+description: tiddlywiki中的sortsub筛选器的参数是一个变量。
+modified: 20251221003909425
+progress: Completed
+rating: Valuable
+tags: PermanentNotes FilterOperators tiddlywiki
+title: FilterOperators/sortsub
+type: text/vnd.tiddlywiki
+visibility: Public
+
+在实现[[Habit Tracker]]中的按`创建时间`排序的功能时，我需要把每个`habit tiddler`的创建时间转换为`minutes`，然后根据它的`minutes`大小开始排序，我写的`function`如下：
+
+```
+\function time-to-minutes()
+	[<currentTiddler>!has[start]then[0]]
+	[<currentTiddler>get[start]split[:]first[]multiply[60]]
+	[<currentTiddler>get[start]split[:]last[]]
+	+[sum[]]
+\end
+```
+
+从逻辑上来说，这个写法并没有错，但问题是，当我把该筛选器应用到面板上的排序筛选器中时，如下：
+
+`[prefix<get-habitTiddler-prefix>sortsub:number<time-to-minutes>]`，却发现其不能正常工作。
+
+问题其实很简单，`sortsub`筛选器的参数应该是一个`Variable`，即`变量`，而非`function`，所以其实只要将定义中`\function`，改为`\procedure`就行，如下：
+
+```
+\procedure time-to-minutes()
+	[<currentTiddler>!has[start]then[0]]
+	[<currentTiddler>get[start]split[:]first[]multiply[60]]
+	[<currentTiddler>get[start]split[:]last[]]
+	+[sum[]]
+\end
+```
+
+此时问题迎刃而解。

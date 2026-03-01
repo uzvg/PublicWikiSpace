@@ -1,0 +1,31 @@
+created: 20250301173032051
+description: Add tiddlers for tiddlers in the wikispace
+modified: 20260116034845358
+progress: Completed
+tags: ProjectNotes TWKS twikoo
+title: Add twikoo comment for tiddlers
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 项目文件：
+
+* [[$:/plugins/uzvg/twikoo]] ✅
+* [[$:/uzvg/twikoo/rawmarkup]] ✅
+* [[$:/uzvg/twikoo/twikoo.js]] ✅
+* [[$:/uzvg/twikoo/Readme]] ✅
+* [[$:/uzvg/twikoo/License]] ✅
+* [[$:/uzvg/twikoo/Settings]] ✅
+* [[$:/uzvg/twikoo/ViewTemplate]] ✅
+* [[$:/uzvg/Stylesheets/twikoo.css]] ✅
+* [[$:/uzvg/Stylesheets/twks-details.css]] ✅
+* [[$:/uzvg/Share/twks.details]] ✅
+* [[$:/uzvg/twks-selector/Share/twks-selector]] ✅
+* [[$:/uzvg/Images/Comment]] ✅
+* [[$:/uzvg/Images/CommentClose]] ✅
+* [[$:/uzvg/Stylesheets/twks-flexbox.css]] ✅
+
+!! 插件打包：
+
+```
+$tw.utils.repackPlugin("$:/plugins/uzvg/twikoo",["$:/plugins/uzvg/twikoo/twikoo.js","$:/plugins/uzvg/twikoo/rawmarkup","$:/plugins/uzvg/twikoo/readme","$:/plugins/uzvg/twikoo/License","$:/plugins/uzvg/twikoo/Settings","$:/plugins/uzvg/twikoo/ViewTemplate","$:/uzvg/Stylesheets/twikoo.css","$:/uzvg/Stylesheets/twks-details.css","$:/uzvg/Widgets/twks.details","$:/uzvg/Selector/Selector","$:/uzvg/images/Comment","$:/uzvg/images/CommentClose","$:/uzvg/Stylesheets/twks-flexbox.css"])
+```

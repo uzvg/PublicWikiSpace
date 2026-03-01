@@ -1,0 +1,13 @@
+created: 20260216083554119
+modified: 20260216093504743
+tags: test
+title: wikify & import
+type: text/vnd.tiddlywiki
+
+\procedure appearance(haircut, cloth)
+<$wikify name="content" text={{wikification}}>
+	<<content>>
+</$wikify>
+\end
+
+<<appearance haircut:"平头", cloth:"校服">>

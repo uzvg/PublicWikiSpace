@@ -1,0 +1,47 @@
+code-body: yes
+created: 20250325154136118
+modified: 20260114024913439
+modifier: uzvg
+tags: $:/tags/Global
+title: $:/uzvg/twks-card/twks-card
+type: text/vnd.tiddlywiki
+
+\procedure twks-card(filter)
+<div class="twks-cards-container">
+	<$list filter=<<filter>>>
+		<article class="twks-card">
+			<div class="twks-card-content">
+				<div class="twks-card-main">
+					<$link to=<<currentTiddler>> overrideClass="twks-card-title">
+						<$text text={{{ [<currentTiddler>get[caption]!is[blank]else<currentTiddler>] }}} />
+					</$link>
+					<p class="twks-card-summary">
+							<$text text={{{ [<currentTiddler>get[description]!is[blank]else{!!text}] }}} />
+					</p>
+						<div class="twks-card-meta">
+							<div class="twks-card-tags">
+								<$list filter="[<currentTiddler>tags[]enlist-input[]]" variable="currentTag">
+										<$link to=<<currentTag>> overrideClass="twks-card-tag"/>
+								</$list>
+							</div>
+							<div class="twks-card-time">
+									<span class="twks-card-created">
+										Created:&nbsp;<$view field=created format=date template="YYYY MMM DDth" />
+									</span>
+									<span class="twks-card-modified">
+										Updated:&nbsp; <$text text={{{ [<currentTiddler>get[modified]format:relativedate[]] }}} />
+									</span>
+							</div>
+						</div>
+				</div>
+				<div class="twks-card-cover">
+					<$image source={{{ [<currentTiddler>get[cover]else[https://picsum.photos/402/300]] }}}
+						tooltip={{{ [<currentTiddler>get[cover]get[description]] }}}
+						alt={{{ [<currentTiddler>get[cover]get[description]else[The image is loading]] }}}
+						loading="lazy">
+				</div>
+			</div>
+		</article>
+	</$list>
+</div>
+\end

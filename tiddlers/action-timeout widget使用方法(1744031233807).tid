@@ -1,0 +1,60 @@
+authors: EricShulman
+caption: action-timeout widget使用方法
+created: 20250407130713807
+creator: uzvg
+description: EricShulman实现的第三方action-timeout的使用方法
+medium: Post
+modified: 20260207172702499
+modifier: uzvg
+progress: Completed
+rating: Plain
+tags: LiteratureNotes tiddlywiki
+title: action-timeout widget使用方法(1744031233807)
+type: text/vnd.tiddlywiki
+url: https://talk.tiddlywiki.org/t/is-delay-an-attribute-of-the-action-sendmessage-widget/3275/5
+visibility: Public
+year: 2022-05
+
+!! Preface:
+
+tiddlywiki中一直缺失的一个重大功能就是能够定时执行`actions`，以下是一些相关链接，可以用于追踪关于该问题的进度跟相关讨论：
+
+* [[SetTimeout / SetInterval / SetAlarmClock widget #8967|https://github.com/TiddlyWiki/TiddlyWiki5/issues/8967]]
+* [[Colour handling improvements #8702|https://github.com/TiddlyWiki/TiddlyWiki5/pull/8702]]
+
+!! Description:
+
+; Abstract:
+* To invoke actions one time, use `<$action-timeout delay=nnnn actions=... />`.
+* To invoke actions repeatedly, use `<$action-timeout interval=nnnn actions=... />`.
+* delay and interval are specified in milliseconds (a non-zero numeric value is required).
+* actions can be specified using quoted text or a macro reference.
+
+; Methods:
+There are three different methods you can use to start interrupt-driven timer processing:
+
+* Enclose the `<$action-timeout>` widget within a `<$button>` widget. Interrupt-driven timeout processing will start when you click on the button.
+* or, place the `<$action-timeout>` widget in a tiddler tagged with `$:/tags/StartupAction/Browser`. Interrupt-driven timeout processing will automatically start when you save-and-reload your TiddlyWiki file.
+* or, place the `<$action-timeout>` widget in any tiddler and add an `autostart="yes"` param to the widget. Interrupt-driven timeout processing will automatically start each time the tiddler content is rendered.
+* If you add `tid="tiddlername"` and `field="fieldname"` params (defaults to text), a unique system-generated timeout/interval ID value will be stored in the specified tiddler field. Then, to cancel an active timeout/interval, you can use `<$action-timeout clear={{tiddlername!!fieldname}}/>`.
+
+!! For example:
+
+To click a button and delay 5 seconds before setting a tiddler field, you could write:
+
+```
+\define dosomething() <$action-setfield ... />
+<$button> CLICK ME <$action-timeout delay=5000 actions=<<dosomething>>/></$button>
+```
+
+and if you want to have a repeating action once per second that starts immediately upon rendering and automatically stops after 30 seconds, you could write:
+
+```
+\define tick()   <$action-setfield $tiddler="ticker" text=<<now "0hh:0mm:0ss">>/>
+\define stop(id) <$action-timeout clear={{$id$}}/><$action-deletetiddler $tiddler="$id$"/>
+
+<$action-timeout interval=1000 autostart=yes tid=timerID actions=<<tick>>/>
+<$action-timeout delay=30000 autostart=yes actions=<<stop timerID>>/>
+
+{{ticker}} <$list filter="[[timerID]is[tiddler]]" emptyMessage="STOPPED">RUNNING</$list>
+```

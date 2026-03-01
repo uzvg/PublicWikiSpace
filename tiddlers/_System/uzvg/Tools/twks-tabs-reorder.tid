@@ -1,0 +1,95 @@
+created: 20250307131342908
+list: TWKS笔记进度/Books
+modified: 20260103111729217
+modifier: uzvg
+tags: $:/twks/Tools
+title: $:/uzvg/Tools/twks-tabs-reorder
+type: text/vnd.tiddlywiki
+
+\function storeTiddler() [<qualify $:/temp/tabsReorder/store>]
+\function get-reorder-filter() [<storeTiddler>get[text]]
+\function get-tiddler-caption() [<currentTiddler>get[caption]!is[blank]else<currentTiddler>]
+\function get-tiddler-description() [<currentTiddler>get[description]!is[blank]else[No Description]]
+\function get-filtered-list() [subfilter<get-reorder-filter>format:titlelist[]join[ ]]
+\function get-store-list() [list<storeTiddler>]
+\function save-order-btn-class()
+	[<storeTiddler>is[tiddler]]
+	:then[[flex felx-row justify-end]]
+	:else[[disable]]
+\end
+
+\procedure list-links-draggable-drop-actions()
+	<$action-listops
+		$tiddler=<<storeTiddler>>
+		$field="list"
+		$subfilter="+[insertbefore<actionTiddler>,<currentTiddler>]"/>
+\end
+
+\procedure reorder-start-actions()
+	<$action-setfield $tiddler=<<storeTiddler>> list=<<get-filtered-list>>/>
+\end
+
+\procedure save-order-actions()
+	<$list filter="[function[get-store-list]]" counter="counter">
+		<$action-setfield
+			$tiddler=<<currentTiddler>>
+			order=<<counter>>/>
+	</$list>
+	<$action-deletetiddler $tiddler=<<storeTiddler>>/>
+</$button>
+\end
+
+<span>
+	<label>''Tab Fiilter:''</label>
+	<form class="tc-form-inline">
+		<$keyboard key="((input-accept))" actions=<<reorder-start-actions>>>
+			<$edit-text tiddler=<<storeTiddler>>
+				field="text"
+				tag="input"
+				class="tabs-reorder-input"/>
+				&nbsp;&nbsp;&nbsp;
+		</$keyboard>
+	</form>
+</span>
+<$button actions=<<reorder-start-actions>>>
+	Start
+</$button>
+
+<div class="tc-links-draggable-list">
+<$list filter="[function[get-store-list]]" counter="counter">
+	<$list-empty>
+		<<twks-alerter "tip" "Your filter doesn't filter any tiddlers.">>
+	</$list-empty>
+	<$list-template>
+		<div>
+			<$droppable actions=<<list-links-draggable-drop-actions>>>
+				<div class="tc-droppable-placeholder"/>
+				<span>
+					<strong><<counter>>. </strong>
+					<$link to=<<currentTiddler>>/> &nbsp;-&nbsp;
+					<<get-tiddler-description>>
+				</span>
+			</$droppable>
+		</div>
+	</$list-template>
+</$list>
+<div>
+	<$droppable actions=<<list-links-draggable-drop-actions>>>
+		<div class="tc-droppable-placeholder">
+			{{$:/core/images/blank}}
+		</div>
+		<div style="height:0.5em;"/>
+	</$droppable>
+</div>
+
+<div class=<<save-order-btn-class>>>
+	<$button actions=<<save-order-actions>>>
+		Save Order
+	</$button>
+</div>
+
+<style>
+input.tabs-reorder-input {
+	width: 30em;
+}
+</style>

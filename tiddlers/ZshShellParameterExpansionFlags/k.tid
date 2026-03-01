@@ -1,0 +1,139 @@
+caption: k
+created: 20250712015415842
+modified: 20250712020947656
+progress: Completed
+rating: Plain
+tags: PermanentNotes ParameterExpansionFlags
+title: ZshShellParameterExpansionFlags/k
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 功能说明:
+
+`k` flag 用于获取数组的键名（关联数组）或索引（普通数组），而不是获取数组元素的值。对于关联数组，它返回所有的键名；对于普通数组，它返回所有的索引位置。
+
+!! 实际应用示例:
+
+!!! 1. 关联数组获取键名（最常用）:
+
+```bash
+# 创建关联数组
+declare -A config
+config[host]="localhost"
+config[port]="8080"
+config[user]="admin"
+
+# 获取所有键名
+echo ${(k)config}
+# 输出: host port user
+
+# 遍历关联数组的键名
+for key in ${(k)config}; do
+    echo "Key: $key, Value: ${config[$key]}"
+done
+# 输出:
+# Key: host, Value: localhost
+# Key: port, Value: 8080
+# Key: user, Value: admin
+```
+
+!!! 2. 普通数组获取索引:
+
+```bash
+# 创建普通数组
+arr=("apple" "banana" "cherry")
+
+# 获取所有索引
+echo ${(k)arr}
+# 输出: 1 2 3
+
+# 创建稀疏数组
+sparse_arr[2]="second"
+sparse_arr[5]="fifth"
+sparse_arr[10]="tenth"
+
+# 获取实际存在的索引
+echo ${(k)sparse_arr}
+# 输出: 2 5 10
+```
+
+!!! 3. 配合其他参数扩展使用:
+
+```bash
+# 获取键名数量
+declare -A data
+data[name]="John"
+data[age]="30"
+data[city]="Tokyo"
+
+echo ${#${(k)data}}
+# 输出: 3
+
+# 按字母顺序排序键名
+echo ${(ko)data}
+# 输出: age city name
+```
+
+!!! 4. 实际配置文件处理场景:
+
+```bash
+# 模拟配置文件键值对
+declare -A settings
+settings[database_host]="db.example.com"
+settings[database_port]="5432"
+settings[cache_enabled]="true"
+settings[log_level]="info"
+
+# 列出所有配置项
+echo "Available settings:"
+for setting in ${(k)settings}; do
+    echo "  $setting = ${settings[$setting]}"
+done
+
+# 检查特定配置是否存在
+if [[ -n ${settings[database_host]+x} ]]; then
+    echo "Database host is configured"
+fi
+
+# 或者使用 -v 选项
+if [[ -v settings[database_host] ]]; then
+    echo "Database host is configured"
+fi
+```
+
+!!! 注意事项:
+
+1. ''不能与下标范围组合使用''：`k` flag 不能与 `[start,end]` 这样的范围下标一起使用
+2. ''KSH_ARRAYS 选项影响''：启用 `KSH_ARRAYS` 选项时，需要使用 `[*]` 或 `[@]` 来操作整个数组
+3. ''返回顺序''：键名的返回顺序可能不是插入顺序，特别是在关联数组中
+
+!!! 与其他 flag 的组合:
+
+```bash
+# k + o: 获取排序后的键名
+echo ${(ko)config}
+
+# k + @: 将键名作为独立参数处理
+for key in "${(k@)config}"; do
+    echo "Processing key: $key"
+done
+```
+
+!! 实用技巧:
+
+```bash
+# 检查关联数组是否包含某个键
+declare -A user_roles
+user_roles[admin]="full_access"
+user_roles[user]="read_only"
+
+# 方法1：使用 k flag 配合数组操作
+if [[ ${(k)user_roles[(r)admin]} == "admin" ]]; then
+    echo "Admin role exists"
+fi
+
+# 方法2：直接检查变量是否设置（推荐）
+if [[ -v user_roles[admin] ]]; then
+    echo "Admin role exists"
+fi
+```

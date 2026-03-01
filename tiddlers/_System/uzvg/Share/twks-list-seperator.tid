@@ -1,0 +1,16 @@
+code-body: yes
+created: 20260103101223727
+modified: 20260114024913432
+modifier: uzvg
+tags: 
+title: $:/uzvg/Share/twks-list-seperator
+type: text/vnd.tiddlywiki
+
+\procedure twks-list-seperator(list,seperator:",")
+\function get-last-item() [<list>enlist-input[]last[]]
+\whitespace trim
+<$list filter="[<list>enlist-input[]butlast[]]">
+	<$link to=<<currentTiddler>>/><<seperator>>
+</$list>
+<$link to=<<get-last-item>>/>
+\end

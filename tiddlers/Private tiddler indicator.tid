@@ -1,0 +1,35 @@
+created: 20250430182026635
+description: 把private tiddler的边框设置为警告色。
+modified: 20260103114302265
+progress: Completed
+tags: ProjectNotes TWKS
+title: Private tiddler indicator
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirements:
+
+* Show private tiddler indicator
+* such as: Use red border color for private tiddler.
+
+!! Implementation:
+
+主要有如下几种思路：
+
+* 通过设置public和private actions，设置当前tiddler的class字段来实现。⭐⭐⭐
+* 通过设置icon cascade来实现。⭐⭐⭐
+* 最好的方案是，设置红色的lock图标。 ⭐⭐⭐⭐⭐
+
+!! Project files list:
+
+* [[$:/uzvg/Configs/TiddlerIconFilters]] 👉 定义了private使用的图标为[[$:/core/images/locked-padlock]]
+* [[$:/uzvg/Configs/TiddlerColourFilters]] 👉 定义了图标颜色为`<<color alert-highlight>>`。
+
+<!-- 虽然可行，但弃用：
+<style>
+	.twks-private-indicator {
+		border-color: <<colour alert-highlight>>
+	}
+
+</style>
+-->

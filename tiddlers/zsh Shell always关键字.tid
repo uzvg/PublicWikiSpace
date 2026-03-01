@@ -1,0 +1,105 @@
+created: 20260108034506612
+description: 使用zsh Shell中的always关键字
+modified: 20260108040135402
+progress: Completed
+rating: Plain
+tags: PermanentNotes zsh
+title: zsh Shell always关键字
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+由于Shell 脚本不是“顺序执行语言”，而是“随时可能中断的环境”，比如Shell脚本的执行就可以通过<kbd>CTR C</kbd>快捷键中断，而`always` / `TRAPEXIT`就是用来对抗“不确定性”的武器，它是 zsh 提供的“收尾保障机制”。
+
+它们解决的是一个核心问题，就是不管中间发生了什么，退出时我一定要做某些事。在任何需要恢复状态 / 清理资源 / 回滚操作的场景中，它们是最安全、最干净的工具。
+
+!! 现实场景：
+
+比如执行如下代码：
+
+```zsh
+systemctl --user stop wikispace
+lazygit -p "$dir"
+systemctl --user start wikispace
+```
+
+这段代码''在理想情况下''没问题，但一旦发生：
+
+* `Ctrl+C`
+* `exit`
+* 命令失败
+* return
+
+就会导致最后一行很可能不会执行，这就是 Shell 脚本最常见、也最危险的 bug 类型。
+
+以下这种写法，是一种危险的写法：
+
+```zsh
+cmd1 && cmd2 && cleanup
+```
+
+只要`cmd1`或者`cmd2`中途发生意外，就会导致`cleanup`不会被执行，更安全的写法如下：
+
+```zsh
+{
+  cmd1
+  cmd2
+} always {
+  cleanup
+}
+```
+
+!! 使用always：
+
+`always`就相当于是zsh 中的“finally”。
+
+```zsh
+{
+  # 正常工作区
+  do_something
+} always {
+  # 收尾区（一定会执行）
+  cleanup
+}
+```
+
+这在语义上等价于很多语言里的：
+
+```python
+try {
+  do_something
+} finally {
+  cleanup
+}
+```
+
+!!! always 的关键特性：
+
+| !特性               | !说明             |
+|执行时机             |''离开 `{}` 块时'' |
+|是否受 exit code 影响 |❌ 不受           |
+|是否可读             |✅ 极强           |
+|是否 zsh 专用        |✅ 是            |
+
+
+!! always vs TRAPEXIT：
+
+除了`always`关键字，还有一个函数也可用于追踪函数结束时的行为，它就是[[zsh shell TRAPEXIT函数]]，两者的对比如下：
+
+| !维度     | `always`  | `TRAPEXIT`    |
+|作用范围   |当前 `{}` 块 |当前 shell / 函数 |
+|精确性    |🎯 很精确    |🌊 偏全局        |
+|可读性    |⭐⭐⭐⭐⭐     |⭐⭐            |
+|推荐场景   |局部资源管理    |全局兜底清理        |
+|是否嵌套安全 |✅         |⚠️ 容易踩坑       |
+
+👉 ''99% 的业务逻辑，优先用 `always`''
+
+<<rememberq "20260108035919275"
+	"zsh Shell中always关键字的作用是什么？"
+	"always关键字是zsh Shell提供的收尾保障机制，就是不管中间发生了什么，退出时我一定要做某些事。">>
+
+<<rememberq "20260108040027628"
+	"默想一个使用always关键字的zsh Shell代码结构？"
+	"{ commands } always { command2 }">>

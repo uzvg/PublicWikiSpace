@@ -1,0 +1,46 @@
+cover: URI4942.jpg
+created: 20250617122542583
+description: Wayland环境下nvidia驱动无法正常挂起的其故障
+modified: 20250805041312160
+progress: Completed
+rating: Plain
+tags: PermanentNotes NVIDIA TroubleShooting
+title: nvidia suspend error
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 问题：
+
+在ArchLinux下Wayland环境下使用NVIDIA驱动，电脑合上，可以休眠，但如果不合上，过一会儿就会出现问题。
+
+使用`journalctl`查看日志，有如下输出：
+
+```
+Jun 16 09:05:33 ArchLinux flatpak[46996]: libostree HTTP error from remote flathub for <https://dl.flathub.org/repo/config>:>
+Jun 16 10:16:43 ArchLinux gdm[728]: GLib: Source ID 106 was not found when attempting to remove it
+Jun 16 12:55:14 ArchLinux kernel: nvidia 0000:01:00.0: can't suspend (nv_pmops_runtime_suspend [nvidia] returned -5)
+Jun 16 13:32:25 ArchLinux kernel: rtw89_8852ae 0000:04:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x0010 address=0x0 f>
+Jun 16 17:21:58 ArchLinux kernel: nvidia-modeset: ERROR: GPU:0: Failed to query display engine channel state: 0x0000c67e:0:0>
+Jun 16 17:21:58 ArchLinux kernel: nvidia-modeset: ERROR: GPU:0: Failed to query display engine channel state: 0x0000c67e:2:0>
+Jun 16 17:21:58 ArchLinux kernel: nvidia-modeset: ERROR: GPU:0: Failed to query display engine channel state: 0x0000c67e:4:0>
+```
+
+* 看样子，好像是无法不能正常挂起，查看了执行的脚本，也没发现什么问题。
+
+!! 解决方案：
+
+目前没找到究竟是什么原因造成的，但既然是suspend出现了问题，那我可以先尝试着关闭挂起服务试试：
+
+```
+sudo systemctl disable nvidia-hibernate.service
+sudo systemctl disable nvidia-resume.service
+sudo systemctl disable nvidia-suspend.service
+```
+
+直接关闭这三个服务后，系统的suspend，唤醒，暂时没遇到什么问题，算是一个暂时的解决方案。
+
+!! 后续：
+
+* [[18th June 2025]]，其实今天又出现这个情况了，而且还报了一个usb文件描述符读取错误的bug，按照wiki，重新插拔所有的usb设备后，重新启动，没再报错。然后又种卸载了所有的NVIDIA相关的驱动，配置文件，重新安装。之前在Wayland环境下，NVIDIA显卡是不会自动启动的，但是现在，在ArchLinux下，很多配置都是预置的，不用添加任何参数，就能直接正常运行，重装驱动后目前没出现任何异常。
+
+* [[5th August 2025]]，该故障仍然尚未解除，今天查看[[ArchWiki|https://wiki.archlinux.org/title/NVIDIA#Installation]]，又发现一个可能的解决方案。

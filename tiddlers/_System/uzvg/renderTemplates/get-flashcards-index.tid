@@ -1,0 +1,23 @@
+code-body: yes
+created: 20260119085127100
+modified: 20260227040649264
+modifier: uzvg
+tags: 
+title: $:/uzvg/renderTemplates/get-flashcards-index
+type: text/vnd.tiddlywiki
+
+<!-- Generate flashcards json
+1. Get all flashcard dataTiddlers
+2. Get all index
+-->
+
+\function get-flashcards-dataTiddlers() [all[tiddlers]prefix[$:/Storage/Flashcards/DataTiddlers/]!is[draft]]
+\function get-ref-key() [<currentTiddler>get[source]]
+\function get-ref-value() [<currentTiddler>get[text]]
+\function get-flashcards-index()
+	[function[get-flashcards-dataTiddlers]]
+	:reduce[<accumulator>jsonset:json<get-ref-key>,<get-ref-value>]
+	+[format:json[2]]
+\end
+
+<<get-flashcards-index>>

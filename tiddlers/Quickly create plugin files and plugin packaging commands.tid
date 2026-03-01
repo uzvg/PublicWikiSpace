@@ -1,0 +1,11 @@
+created: 20250322042053539
+modified: 20250323080625903
+progress: Pending
+tags: ProjectNotes TWKS
+title: Quickly create plugin files and plugin packaging commands
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 需求：
+
+* 创建一个插件快速创建模板，可以快速创建插件所需要的文件、以及打包命令。

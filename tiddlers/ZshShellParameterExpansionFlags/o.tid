@@ -1,0 +1,79 @@
+caption: o
+created: 20250714055124187
+modified: 20250714055410819
+progress: Completed
+rating: Plain
+tags: PermanentNotes ParameterExpansionFlags
+title: ZshShellParameterExpansionFlags/o
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 功能说明:
+
+`o` flag用于对参数扩展的结果进行升序排序。当单独使用时，执行词典序排序且区分大小写（除非locale设置为不区分大小写）。由于升序排序是其他排序形式的默认行为，因此当与 `a`、`i`、`n` 或 `-` 组合使用时，此flag会被忽略。
+
+!! 实际应用举例:
+
+!!! 基础词典序排序:
+```bash
+# 创建测试数组
+files=(zebra apple Banana cherry)
+
+# 使用 o flag 进行升序排序
+echo ${(o)files}
+# 输出: apple Banana cherry zebra
+```
+
+!!! 与数字排序结合:
+
+```bash
+# 数字数组
+numbers=(10 2 100 3 1)
+
+# 词典序排序（默认）
+echo ${(o)numbers}
+# 输出: 1 10 100 2 3
+
+# 数字排序（o flag被忽略，因为n已经默认升序）
+echo ${(on)numbers}
+# 输出: 1 2 3 10 100
+```
+
+!!! 文件名排序:
+
+```bash
+# 获取当前目录文件并排序
+files=(*)
+echo ${(o)files}
+# 按字母顺序输出所有文件名
+```
+
+!!! 与其他flag组合:
+
+```bash
+# 去重并排序
+items=(banana apple banana cherry apple)
+echo ${(ou)items}
+# 输出: apple banana cherry
+
+# 不区分大小写排序（o被忽略）
+mixed=(Apple banana Cherry apple)
+echo ${(oi)mixed}
+# 输出: Apple apple banana Cherry
+```
+
+!!! 实际使用场景:
+
+```bash
+# 处理配置文件中的选项
+config_options=(verbose debug quiet help)
+echo "Available options: ${(j:, :)${(o)config_options}}"
+# 输出: Available options: debug, help, quiet, verbose
+```
+
+!! 注意事项:
+
+* 单独使用 `o` 时执行区分大小写的词典序排序
+* 与 `a`、`i`、`n`、`-` 组合时，由于这些flag已包含升序功能，`o` flag会被忽略
+* 排序结果受系统locale设置影响
+* 可以与 `u`（去重）、`j`（连接）等其他flag组合使用

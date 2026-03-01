@@ -1,0 +1,10 @@
+code-body: yes
+created: 20260222080549231
+modified: 20260222081146789
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/tf.convert.lst
+type: text/vnd.tiddlywiki
+
+<!-- Convert UTC to LST(local standard time) -->
+\function tf.convert.lst() [format:date[YYYY0MM0DD0hh0mm0ss0XXX]]

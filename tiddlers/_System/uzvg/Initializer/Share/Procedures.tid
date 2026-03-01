@@ -1,0 +1,93 @@
+code-body: yes
+created: 20250404070228928
+modified: 20260114024913422
+modifier: uzvg
+title: $:/uzvg/Initializer/Share/Procedures
+type: text/vnd.tiddlywiki
+
+<!---------- Navitate to existed tiddler actions ---------->
+\procedure navigate-to-tiddler-actions(tiddler)
+	<$action-navigate $to=<<tiddler>>/>
+	<$action-sendmessage $message="tm-close-tiddler" $param="$:/Import" />
+	<$action-sendmessage $message="tm-close-tiddler" $param=<<currentTiddler>> />
+	<$action-deletetiddler $tiddler=<<currentTiddler>> />
+	<$action-deletetiddler $tiddler="$:/Import"/>
+\end
+
+<!-- Force initialize the imported text button -->
+\procedure twks-force-initialize-btn()
+	<$button>
+		<$action-setfield $tiddler=<<stateTiddler>> text="yes"/>
+		Force Initialize
+	</$button>
+\end
+
+<!-- Navigate to existed tiddler tips -->
+\procedure navigate-to-existed-tips(tiddler)
+	<$transclude $variable="twks-warning"
+		text="""The <$link to=<<tiddler>>/> in your tiddlywiki already contains the imported text."""/>
+<div class="flex justify-between flex-wrap">
+	<<twks-initializer-cancel-btn>>
+	<<twks-force-initialize-btn>>
+</div>
+\end
+
+<!---------- Cancel Import Actions ---------->
+\procedure twks-initializer-cancel-actions()
+	<$action-deletetiddler $tiddler=<<currentTiddler>> />
+	<$action-deletetiddler $tiddler=<<stateTiddler>> />
+	<$action-deletetiddler $tiddler="$:/Import" />
+	<$action-sendmessage $message="tm-close-tiddler" param=<<currentTiddler>> />
+	<$action-sendmessage $message="tm-close-tiddler" $param="$:/Import" />
+\end
+
+<!---------- finish-creation-actions ---------->
+\procedure finish-creation-actions()
+	<$action-deletetiddler $tiddler=<<stateTiddler>> />
+	<$action-deletetiddler $tiddler="$:/Import" />
+	<$action-sendmessage $message="tm-close-tiddler" $param="$:/Import" />
+\end
+
+<!---------- Check required fields notifier ---------->
+\procedure check-required-notifier(tiddler,fieldsList)
+	<$let
+		tiddler={{{ [<tiddler>!is[blank]else<storyTiddler>] }}}
+		required-fields={{{ [enlist<fieldsList>] :filter[<tiddler>!has<currentTiddler>] +[join[,]] }}} >
+		<$action-sendmessage
+			$message="tm-notify"
+			$param="$:/uzvg/Initializer/Notifications/lack-required-warning"
+			required-fields=<<required-fields>> />
+	</$let>
+\end
+
+<!---------- Sync storyTiddler fileds from Index tiddler ---------->
+\procedure sync-fields-from-index()
+\procedure tv-action-refresh-policy() always
+	<$list filter="[function[get-initializer-FieldsIndexes]]" variable="currentIndex">
+		<$action-setfield
+			$tiddler=<<storyTiddler>>
+			$field=<<currentIndex>>
+			$value=<<get-initializer-FieldsIndex-value>> />
+ </$list>
+\end
+
+\procedure twks-initializer-cancel-btn()
+	<$button actions=<<twks-initializer-cancel-actions>>>
+		Cancel
+	</$button>
+\end
+
+\procedure twks-initializer-create-btn()
+	<$button actions=<<twks-initializer-create-actions>>>
+		Create
+	</$button>
+\end
+
+<!---------- Initializer Main Program ---------->
+\procedure twks-initializer()
+	<$transclude $tiddler=<<get-initializer-table-tiddler>> $mode="block"/>
+	<div class="flex justify-between flex-wrap">
+		<<twks-initializer-cancel-btn>>
+		<<twks-initializer-create-btn>>
+	</div>
+\end

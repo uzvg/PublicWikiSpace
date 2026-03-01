@@ -1,0 +1,6 @@
+A-Z: [sort[]]
+Z-A: [!sort[]]
+Last Modified: [!nsort[modified]]
+First Modified: [nsort[modified]]
+Last Created: [!nsort[created]]
+First Created: [nsort[created]]

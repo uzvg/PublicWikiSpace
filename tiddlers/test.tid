@@ -1,0 +1,15 @@
+created: 20260119102924985
+modified: 20260119125720755
+tags: 
+title: test
+type: text/vnd.tiddlywiki
+
+\procedure test-block()
+<<twks-alerter "warning" "this is a warning">>
+\end
+
+<$wikify name="wikified-text" text=<<test-block>> output="html">
+<$macrocall $name="copy-to-clipboard" src=<<wikified-text>>/>
+</$wikify>
+看一下效果
+滴滴滴

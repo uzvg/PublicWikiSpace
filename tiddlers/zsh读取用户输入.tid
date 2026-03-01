@@ -1,0 +1,94 @@
+created: 20260107144652819
+description: zsh shell中读取用户输入的方式
+modified: 20260107144823145
+progress: Completed
+rating: Plain
+tags: PermanentNotes zsh
+title: zsh读取用户输入
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 1. `read`（最常用）
+
+!!! 读取一行输入
+
+```zsh
+read name
+```
+
+!!! 带提示语（zsh 推荐写法）
+
+```zsh
+read "name?请输入你的名字："
+```
+
+* 提示与输入在同一行
+* 无需额外 `echo`
+* zsh 专属，优雅实用
+
+!!! 读取多个变量
+
+```zsh
+read a b c
+```
+
+!! 2. 读取单个字符（无需回车）
+
+```zsh
+read -k 1 key
+```
+
+* 读取指定数量字符
+* 常用于 y/n 确认、快捷键控制
+
+示例：
+
+```zsh
+read -k 1 "ans?是否继续？(y/n) "
+```
+
+!! 3. `vared`（交互式编辑变量，zsh 专属）
+
+```zsh
+vared var
+```
+
+* 使用 zsh 行编辑器
+* 支持方向键、快捷键、历史
+* 适合编辑已有配置或长文本
+
+!! 4. 在 stdin 被占用时读取输入
+
+```zsh
+read input < /dev/tty
+```
+
+* 即使脚本在管道中也能读取用户输入
+
+!! 5. 菜单式选择：`select`
+
+```zsh
+select opt in start stop quit; do
+  echo "你选择了 $opt"
+  break
+done
+```
+
+* 自动编号
+* 适合简单交互菜单
+
+!! 使用建议速查表
+
+| !场景         | !推荐方式            |
+|普通输入       |`read`          |
+|带提示输入      |`read "var?提示"` |
+|单键确认       |`read -k`       |
+|编辑已有值      |`vared`         |
+|菜单选择       |`select`        |
+|stdin 被重定向 |`/dev/tty`      |
+
+!! 核心结论
+
+* ''90% 场景：使用 `read`''
+* ''zsh 下优先用 `read "var?提示"`''
+* ''复杂交互或配置编辑：`vared`''

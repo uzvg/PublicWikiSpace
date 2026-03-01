@@ -1,0 +1,101 @@
+created: 20250304052115558
+description: zsh中的算术表达式总结
+modified: 20260122140458880
+modifier: uzvg
+progress: Completed
+rating: Plain
+tags: PermanentNotes zsh Shell
+title: zsh Shell算术表达式
+type: text/vnd.tiddlywiki
+visibility: Public
+
+在 Zsh 中，`(( expression ))` 被称为''算术表达式（arithmetic evaluation）''。它既可以用于数值计算，也常被用作一种''条件判断结构''，在脚本中非常常见。
+
+!! 一、基本语义
+
+; `(( expression ))` 的执行过程可以理解为：
+* ''对 `expression` 进行算术求值''（arithmetic evaluation）。
+* 根据求值结果，决定整个表达式的真假，并设置退出状态（exit status）。
+
+; 判断规则如下：
+* ''结果为非 0'' → 表达式为 ''真（true）'' → 退出状态为 `0`
+* ''结果为 0'' → 表达式为 ''假（false）'' → 退出状态为 `1`
+
+<<twks-alerter "note" "在算术上下文中：''非零即真，零即假''。">>
+
+!! 二、与 Shell 条件判断的关系：
+
+由于 Zsh（以及其他 shell）中：
+
+* ''退出状态 `0` 表示成功（真）''
+* ''非 `0` 表示失败（假）''
+
+因此 `(( expression ))` 可以直接用于：
+
+* `if` / `while` / `until`
+* `&&` / `||`
+
+; 例如：
+
+```zsh
+if (( x > 10 )); then
+  echo "x is greater than 10"
+fi
+```
+
+* 这里并不是“比较字符串”，而是''纯算术比较''。
+
+!! 三、求非（逻辑取反）：
+
+; 算术表达式支持逻辑求非运算：
+
+```zsh
+(( !expression ))
+```
+
+; 含义是：
+* 先对 `expression` 进行算术求值
+* 再对结果进行''逻辑取反''
+
+; 等价关系：
+* `expression` 结果为非 0（真） → `!expression` 为 0（假）
+* `expression` 结果为 0（假） → `!expression` 为非 0（真）
+
+; 例如：
+
+```zsh
+(( ! 0 ))   # 真（退出状态 0）
+(( ! 1 ))   # 假（退出状态 1）
+```
+
+!! 四、在 Zsh 中的常见用途：
+
+!!! 1. 数值计算
+
+```zsh
+(( a = 1 + 2 * 3 ))
+(( a++ ))
+(( a += 10 ))
+```
+
+!!! 2. 条件判断
+
+```zsh
+(( count > 0 )) && echo "count is positive"
+```
+
+相比 `[[ ... ]]`，`(( ))`：
+
+* 更简洁
+* 语义更清晰（纯算术）
+* 不涉及字符串比较和 glob 展开
+
+!!! 3. 判断命令是否存在（Zsh 特有用法）
+
+在 Zsh 中，可以利用 ''参数展开 + 算术表达式'' 判断命令是否存在：
+
+```zsh
+(( ${+commands[git]} ))
+```
+
+* 具体可看👉[[使用zsh的方式判断命令是否存在]]。

@@ -1,0 +1,33 @@
+created: 20251010023834752
+description: 解决FlClash在任务栏上的图标显示不正确的问题
+modified: 20251010024133201
+progress: Completed
+rating: Plain
+tags: PermanentNotes Gnome TroubleShooting
+title: FlClash在Gnome桌面环境中任务栏图标显示不正确
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 解决方案：
+
+编辑对应的`desktop`文件，添加`StartupWMClass`属性。
+
+```
+se /usr/share/applications/flclash.desktop
+```
+
+修改后的`desktop`文件内容如下：
+
+```
+[Desktop Entry]
+Type=Application
+Version=0.8.90+2025100801
+Name=FlClash
+Categories=Network;
+GenericName=FlClash
+Icon=flclash
+Exec=flclash %U
+Keywords=FlClash;Clash;ClashMeta;Proxy;
+StartupNotify=true
+StartupWMClass=com.follow.clash
+```

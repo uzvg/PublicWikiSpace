@@ -1,0 +1,26 @@
+created: 20260206062517031
+modified: 20260206074135897
+tags: ProjectNotes tiddlywiki
+title: 浏览器自动打包plugin
+type: text/vnd.tiddlywiki
+
+!! 需求分析：
+
+* 可以直接在浏览器控制台上打包plugins。
+* 生成plugin info 模板
+
+!!! 两种应用场景：
+
+; 1. 创建新插件
+* 指定键
+* readme
+* license
+* 
+
+; 2. 修改旧插件
+
+!! 参考资料：
+
+* plugintiddlers Operator
+* [[How to create plugins in the browser|https://tiddlywiki.com/dev/#How%20to%20create%20plugins%20in%20the%20browser]]
+* [[Add twikoo comment for tiddlers]]

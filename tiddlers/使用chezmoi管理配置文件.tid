@@ -1,0 +1,58 @@
+created: 20250219064722999
+description: 使用chezmoi管理配置文件学习大纲。
+modified: 20260117164216514
+modifier: uzvg
+progress: Seed
+rating: Fragmentary
+tags: chezmoi Dotfiles(配置文件) Linux IndexNotes
+title: 使用chezmoi管理配置文件
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 基本原理：
+
+chezmoi是一个功能强大的配置文件管理工具，它的功能很大，文档复杂，但我们可以[[站在问题的角度来学习使用它的功能|站在创造者的角度学习]]。
+
+chezmoi要解决的问题主要是各种配置文件的管理问题，配置文件往往有如下几个特性：
+
+* 第一个是''分散''。配置文件分散在文件系统的不同位置。
+* 不同的机器上，需要下载、管理的配置文件不一样。
+* 同一份配置文件，在不同的机器上，有不一样的配置。
+* 同一份配置文件，在不同类型的操作系统上，保存路径不一样。
+
+chezmoi的解决思路是：
+
+sourceDir(主要是一些模板文件) + 变量 = targetDir(最终生成的起作用的配置文件)
+czm config file + sourdeDirectory = dotfiles
+
+!! 常用操作：
+
+重点是要掌握chezmoi的工作流程👉[[站在创造者的角度学习]]
+
+* 如何添加模板
+* 如何添加加密文件？
+* 如何把加密秘钥本身添加进去
+* 脚本的执行
+* 模板文件如何生成？
+* 如何管理动态变化的文件？
+* 管理.ssh文件(需要注意文件权限)
+* 管理key文件
+* 管理外部文件
+
+1. 管理外部配置文件
+2. ignore文件格式
+3. run_script
+4. chezmoi apply时自动为age解密
+5. 像uggx这样的自动词库，既要加密，又要从外部链接，应该如何处理？
+
+* 编辑chezmoi自己的配置文件：
+
+```sh
+chezmoi edit-config-template
+
+# 实际上编辑的是：`~/.local/share/chezmoi/.chezmoi.toml.tmpl`文件
+```
+
+!! 拓展：
+
+* chezmoi应用案例 👉 [[chezmoi作者的dotfiles仓库|https://github.com/twpayne/dotfiles]]

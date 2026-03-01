@@ -1,0 +1,127 @@
+created: 20250607123031779
+description: 列表推导式（List Comprehension） 是 Python 中非常强大且简洁的语法，用于从一个可迭代对象快速构造出列表
+modified: 20260208023753834
+modifier: uzvg
+progress: Rethinking
+rating: Plain
+source: Python list
+tags: PermanentNotes Python
+title: Python列表推导式(List Comprehension)
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 一、基本格式：
+
+!!! 语法结构：
+
+```py
+[表达式 for 变量 in 可迭代对象 if 条件]
+```
+
+* 表达式：对每个元素进行的操作（可以是运算、函数调用等）
+* `for` 变量 `in` 可迭代对象：遍历过程
+* `if` 条件（可选）：筛选条件，决定是否包含该元素
+
+!!! 执行顺序：
+
+; 列表推导式的执行顺序永远是从左到右：
+```
+for 变量 in 可迭代对象:
+    if 条件:
+        计算 表达式
+```
+
+<<twks-alerter type:"important" text:"`if` 不是对表达式做判断，而是先筛选元素，再计算表达式">>
+
+!! 二、基本示例：
+
+!!! 1. 构建平方列表
+
+```python
+squares = [x**2 for x in range(5)]
+# [0, 1, 4, 9, 16]
+```
+
+!!! 2. 过滤偶数
+
+```python
+evens = [x for x in range(10) if x % 2 == 0]
+# [0, 2, 4, 6, 8]
+```
+
+!!! 3. 处理字符串
+
+```python
+s = "Hello World"
+chars = [c.lower() for c in s if c.isalpha()]
+# ['h', 'e', 'l', 'l', 'o', 'w', 'o', 'r', 'l', 'd']
+```
+
+!! 三、带多个 for 的嵌套列表推导式
+
+!!! 示例：笛卡尔积
+
+```python
+pairs = [(x, y) for x in [1, 2] for y in ['a', 'b']]
+# [(1, 'a'), (1, 'b'), (2, 'a'), (2, 'b')]
+```
+
+等价于：
+
+```python
+pairs = []
+for x in [1, 2]:
+    for y in ['a', 'b']:
+        pairs.append((x, y))
+```
+
+!! 四、常见应用场景
+
+!!! 1. 去除空格并转大写
+
+```python
+words = ["  apple ", "banana ", " kiwi"]
+clean = [w.strip().upper() for w in words]
+# ['APPLE', 'BANANA', 'KIWI']
+```
+
+!!! 2. 从二维数组提取特定列
+
+```python
+matrix = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+col1 = [row[0] for row in matrix]
+# [1, 4, 7]
+```
+
+!!! 3. 使用函数生成列表
+
+```python
+def square(x): return x*x
+result = [square(x) for x in range(5)]
+# [0, 1, 4, 9, 16]
+```
+
+!! 五、注意事项
+
+# 性能更优：比普通 `for + append` 更快，适用于大部分简单构造。
+# 可读性优先：太复杂的列表推导式会降低代码可读性，推荐最多嵌套两层。
+# 如果推导结构特别复杂，可以考虑使用普通的 `for` 循环更清晰。
+
+!! 六、推导式对比：列表、集合、字典
+
+|tc-max-width|k
+|!类型|!语法|
+|列表推导式 |`[x for x in iterable]`       |
+|集合推导式 |`{x for x in iterable}`       |
+|字典推导式 |`{k: v for k, v in iterable}` |
+
+示例：
+
+```py
+squared_set = {x**2 for x in range(5)}       # {0, 1, 4, 9, 16}
+squared_dict = {x: x**2 for x in range(5)}   # {0: 0, 1: 1, ..., 4: 16}
+```

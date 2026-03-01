@@ -1,0 +1,95 @@
+created: 20250522003620635
+modified: 20260114024913408
+modifier: uzvg
+title: $:/uzvg/Fitness/Exercises
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/Share/edit-tiddler-btn]] [[$:/uzvg/Share/delete-tiddler-btn]]
+\import [[$:/uzvg/Fitness/Share/DataTiddlers]]
+
+\procedure exercise-prefix() $:/uzvg/Fitness/Exercises/
+
+\function get-exercise-caption() [<currentTiddler>get[caption]else<currentTiddler>]
+\function get-exercise-sets() [<currentTiddler>get[sets]]
+\function get-exercise-reps() [<currentTiddler>get[reps]]
+\function get-new-exercise-caption() [<tempTiddler>get[text]]
+\function get-new-exercise-title() [<get-new-exercise-caption>addprefix<exercise-prefix>]
+\function get-addBtn-class()
+	[<get-new-exercise-caption>is[blank]then[hidden]]
+	[<get-new-exercise-title>is[tiddler]then[hidden]]
+\end
+\function get-new-exercise-reps() [<tempTiddler>get[reps]]
+\function get-new-exercise-sets() [<tempTiddler>get[sets]]
+
+\procedure add-newExercise-actions()
+	<%if [<get-new-exercise-title>!is[tiddler]] %>
+		<$action-createtiddler $basetitle=<<get-new-exercise-title>>
+			tags="$:/tags/Fitness/Exercise"
+			caption=<<get-new-exercise-caption>>/>
+		</$action-createtiddler>
+		<$action-deletetiddler $tiddler=<<tempTiddler>>/>
+	<% endif %>
+\end
+
+\procedure add-newExercise-btn()
+<$button actions=<<add-newExercise-actions>>
+	class=<<get-addBtn-class>>>
+Add
+</$button>
+\end
+
+!! Exercises:
+
+<table class="tc-max-width tc-center tc-edit-max-width">
+	<tr>
+		<th>Exercises</th>
+		<th>Reps</th>
+		<th>Sets</th>
+		<th>Notes</th>
+		<th>Edit</th>
+		<th>Del</th>
+	</tr>
+	<$list filter="[all[tiddlers]!is[draft]tag[$:/tags/Fitness/Exercise]]">
+		<tr>
+			<td>
+				<$link to=<<currentTiddler>>>
+					<<get-exercise-caption>>
+				</$link>
+			</td>
+			<td>
+				<$edit-text tiddler=<<currentTiddler>>
+					field="reps"
+					placeholder="REPS"
+					tag="input"
+					type="number"/>
+			</td>
+			<td>
+				<$edit-text tiddler=<<currentTiddler>>
+					field="sets"
+					placeholder="SETS"
+					tag="input"
+					type="number"/>
+			</td>
+			<td>
+				<$edit-text tiddler=<<currentTiddler>>
+					field="description"
+					placeholder="NOTES"
+					tag="input"/>
+			</td>
+			<td><<twks-edit-btn>></td>
+			<td><<twks-delete-btn>></td>
+		</tr>
+	</$list>
+</table>
+
+!! Add New Exercise:
+<span>
+	<$keyboard actions=<<add-newExercise-actions>> key="enter">
+		<$edit-text tiddler=<<tempTiddler>> field="text" tag="input" placeholder="Input your exercise here"/>
+	</$keyboard>
+	<<add-newExercise-btn>>
+</span>
+
+<% if [<get-new-exercise-title>is[tiddler]] %>
+	<<twks-alerter "warning" "The exercise alreay exists.">>
+<% endif %>

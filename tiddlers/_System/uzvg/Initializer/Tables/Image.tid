@@ -1,0 +1,17 @@
+code-body: yes
+created: 20250411131349075
+import-type: Image
+modified: 20260114024913423
+modifier: uzvg
+tags: $:/tags/Initializer/Tables
+title: $:/uzvg/Initializer/Tables/Image
+type: text/vnd.tiddlywiki
+
+\function get-default-title() [<storyTiddler>get[text]trim[]split[/]last[]]
+
+|tc-max-width tc-edit-max-width twks-initializer-box twks-input-hide-border|k
+|!Image Title |<$edit-text tiddler="$:/tmp/image-title" placeholder=<<get-default-title>> tag="input"/>|
+|!Image Caption |<$edit-text field="caption" placeholder="Optional" tag="input"/>|
+|!Image Links |<$wikify name="image-link" text=<<get-imported-text>>><<image-link>></$wikify>|
+|!Visibility |<<twks-radio-visibility-selector>> |
+|!Description |<$edit-text placeholder="Optional" field="description" tag="input"/>|

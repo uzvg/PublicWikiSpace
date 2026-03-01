@@ -1,0 +1,21 @@
+created: 20260122130214148
+description: 如何使用github的命令行工具为仓库自动添加开源协议
+modified: 20260122130420741
+progress: Completed
+rating: Plain
+tags: PermanentNotes Git Github
+title: 使用gh命令自动添加开源协议
+type: text/vnd.tiddlywiki
+visibility: Public
+
+; 查看协议内容：
+
+```sh
+gh repo license list
+```
+
+; 添加开源协议文件：
+
+```
+gh repo license view mit > LICENSE
+```

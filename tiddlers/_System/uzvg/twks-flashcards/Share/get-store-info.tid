@@ -1,0 +1,71 @@
+code-body: yes
+created: 20260110081926073
+modified: 20260114024913440
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/get-store-info
+type: text/vnd.tiddlywiki
+
+\procedure storageFolder() $:/Storage/Flashcards/DataTiddlers/
+\function storeTiddler() [<qualify $:/temp/flashcards>]
+\function dataTiddler() [<storageFolder>] [<storyTiddler>get[created]] +[join[]]
+\function currentStoreTiddler() [[$:/temp/flashcards/]addsuffix<item>]
+
+\function get-source-data() [<dataTiddler>get[text]]
+\function get-flashcard-id() [<storeTiddler>get[created]]
+\function get-store-question() [<storeTiddler>get[question]]
+\function get-store-answer() [<storeTiddler>get[answer]]
+\function get-store-cloze() [<storeTiddler>get[cloze]]
+\function get-all-cardsId() [<get-source-data>jsonindexes[]]
+\function get-current-question() [<get-source-data>jsonget<item>,[question]]
+\function get-current-answer() [<get-source-data>jsonget<item>,[answer]]
+\function get-current-cloze() [<get-source-data>jsonget<item>,[cloze]]
+\function current-store-question() [<currentStoreTiddler>get[question]]
+\function current-store-answer() [<currentStoreTiddler>get[answer]]
+\function current-store-cloze() [<currentStoreTiddler>get[cloze]]
+
+\function .card-type(id)
+	[<get-source-data>jsonget<id>,[cloze]then[cloze]]
+	[<get-source-data>jsonget<id>,[question]then[qa]]
+\end
+
+\function current-qa-data()
+	[<get-source-data>]
+	+[jsonset<item>,[question],<current-store-question>]
+	+[jsonset<item>,[answer],<current-store-answer>]
+	+[format:json[2]]
+\end
+
+\function current-cloze-data()
+	[<get-source-data>]
+	+[jsonset<item>,[cloze],<current-store-cloze>]
+	+[format:json[2]]
+\end
+
+\function current-store-data()
+	[.card-type<item>match[qa]then<current-qa-data>]
+	[.card-type<item>match[cloze]then<current-cloze-data>]
+\end
+
+\function get-qaDest-data()
+	[<get-source-data>jsonset:object<get-flashcard-id>]
+	+[jsonset<get-flashcard-id>,[question],<get-store-question>]
+	+[jsonset<get-flashcard-id>,[answer],<get-store-answer>]
+	+[format:json[2]]
+\end
+
+\function get-clozeDest-data()
+	[<get-source-data>jsonset:object<get-flashcard-id>]
+	+[jsonset<get-flashcard-id>,[cloze],<get-store-cloze>]
+	+[format:json[2]]
+\end
+
+\function get-dest-data()
+	[<get-store-cloze>!is[blank]then<get-clozeDest-data>]
+	[<storeTiddler>has[question]has[answer]then<get-qaDest-data>]
+\end
+
+\function has-valid-card()
+	[<storeTiddler>has[question]has[answer]]
+	[<storeTiddler>has[cloze]]
+\end

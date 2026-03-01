@@ -1,0 +1,13 @@
+created: 20250407134234139
+modified: 20260114024913427
+modifier: uzvg
+title: $:/uzvg/Pomodoro/Share/Procedures
+type: text/vnd.tiddlywiki
+
+\procedure twks-pomodoro-start-actions()
+
+\end
+
+\procedure twks-pomodoro-stop-actions()
+
+\end

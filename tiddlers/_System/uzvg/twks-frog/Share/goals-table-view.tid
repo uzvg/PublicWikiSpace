@@ -1,0 +1,144 @@
+code-body: yes
+created: 20251223013630186
+modified: 20260105045752503
+title: $:/uzvg/twks-frog/Share/goals-table-view
+type: text/vnd.tiddlywiki
+
+<!-- Preperation Works -------------------------------->
+\function storageFolder() [[$:/Storage/Frogs/]]
+\function storeTiddler() [<qualify "$:/temp/twks-frog-goals/store">]
+\function get-all-goals() [tag[Goal]!is[draft]]
+
+<!-- 获得storeTiddler的相关信息 -------------------------------->
+\function get-goal-caption() [<storeTiddler>get[caption]]
+\function get-goal-title() [[🎯]addsuffix<get-goal-caption>]
+
+<!-- Goal status select box -------------------------------->
+\procedure goal-status-box()
+	<$transclude $variable="twks-selector"
+		tiddler=<<item>>
+		field="status"
+		optionsList="Pending WIP Paused Done"
+		emptyValue="No"
+		placeholder="STATUS"/>
+\end
+
+<!-- Illegal goal warning ------------------------------
+* If the goal caption is empty, then show empty warning.
+* If the goal is already exist, then show dumplicate warning.
+-->
+\procedure illegal-goal-warning()
+	<% if [<get-goal-title>is[tiddler]] %>
+		<<twks-alerter "warning" """
+		The <$link to=<<get-goal-title>>/> tiddler has already exist, Considering rename your goal.
+		""">>
+	<% endif %>
+\end
+
+<!-- Goal progress bar ------------------------------
+* Show the goal complete progress(done-count/total-count)
+-->
+\procedure goal-progress-bar()
+\import $:/uzvg/Share/twks-progress-bar
+\function get-max-count() [parent<item>count[]]
+\function get-done-count() [parent<item>status[Done]count[]]
+	<$transclude $variable="twks-progress-bar"
+		max=<<get-max-count>>
+		value=<<get-done-count>>
+		class="twks-frog-goal-progress-bar"/>
+\end
+
+<!-- Goals table view ------------------------------
+* Show all goals in the table view.
+-->
+\procedure goals-table-view()
+\procedure save-goal-actions()
+<!-- 排除重复任务跟空任务 -->
+<% if [<get-goal-title>!is[tiddler]] [<get-goal-caption>!is[blank]] %>
+	<$action-setfield $tiddler=<<storeTiddler>>
+		tags="Goal"
+		status="Pending"/>
+	<$action-sendmessage $message="tm-rename-tiddler"
+		from=<<storeTiddler>>
+		to=<<get-goal-title>>/>
+<% endif %>
+\end save-goal-actions
+
+\procedure clear-storeTidder-btn()
+<$button message="tm-delete-tiddler"
+	param=<<storeTiddler>>
+	class="tc-btn-invisible">
+	{{$:/core/images/erase}}
+</$button>
+\end clear-storeTidder-btn
+
+\procedure delete-goal-btn()
+\procedure delete-subtree-actions()
+\import $:/uzvg/Share/subtree
+	<$action-deletetiddler $filter="[.subtree<item>]"/>
+\end delete-subtree-actions
+
+<$button actions=<<delete-subtree-actions>>
+	class="tc-btn-invisible">
+	{{$:/core/images/delete-button}}
+</$button>
+\end delete-goal-btn
+
+\procedure new-goal-row()
+\function get-new-goal-no() [function[get-all-goals]count[]add[1]]
+<tr>
+	<td> <<get-new-goal-no>> </td>
+	<td colspan="5">
+		<$keyboard key="((input-accept))" actions=<<save-goal-actions>>>
+			<$edit-text tiddler=<<storeTiddler>>
+				field="caption"
+				tag="input"/>
+		</$keyboard>
+	</td>
+	<td> <<clear-storeTidder-btn>> </td>
+</tr>
+\end new-goal-row
+
+\procedure scrollable-goals-table()
+\import [[$:/uzvg/Share/twks-star-radio]]
+<$scrollable class="twks-frog-goals-table-container">
+	<table class="tc-max-width twks-input-hide-border twks-frog-goals-table">
+		<tr>
+			<th>No</th>
+			<th>Goal</th>
+			<th>Progress</th>
+			<th>Status</th>
+			<th>Value</th>
+			<th>Deadline</th>
+			<th>Del</th>
+		</tr>
+		<$list filter="[function[get-all-goals]!sort[value]]" variable="item"
+			counter="counter">
+			<tr>
+				<th> <<counter>> </th>
+				<td> <$link to=<<item>>/> </td>
+				<td> <<goal-progress-bar>> </td>
+				<td> <<goal-status-box>> </td>
+				<td>
+					<$transclude $variable="twks-star-radio"
+						tiddler=<<item>>
+						field="value"
+						count="5"/>
+				</td>
+				<td>
+					<$edit-text tiddler=<<item>>
+						field="deadline"
+						type="date"/>
+				</td>
+				<td> <<delete-goal-btn>> </td>
+			</tr>
+		</$list>
+		<<new-goal-row>>
+	</table>
+</$scrollable>
+\end scrollable-goals-table
+
+<!-- Main Procedure -->
+<<scrollable-goals-table>>
+<<illegal-goal-warning>>
+\end

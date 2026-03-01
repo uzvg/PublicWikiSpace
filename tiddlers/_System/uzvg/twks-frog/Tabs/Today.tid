@@ -1,0 +1,41 @@
+caption: Today
+code-body: yes
+created: 20260104094008763
+filter: 
+modified: 20260104110339478
+order: 1
+title: $:/uzvg/twks-frog/Tabs/Today
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/twks-frog/Share/tasks-table-view]]
+
+\function get-journal-day() [<storyTiddler>get[created]format:date[YYYY0MM0DD]]
+\function get-created-today()
+	[all[tiddlers]tag[Task]]
+	:filter[<currentTiddler>get[created]format:date[YYYY0MM0DD]match<get-journal-day>]
+	+[sort[created]]
+\end
+\function get-end-day() [get[end]enlist-input[]last[]split[]first[8]join[]]
+\function get-done-today()
+	[all[tiddlers]tag[Task]status[Done]]
+	:filter[function[get-end-day]match<get-journal-day>]
+\end
+
+\function get-today-filter()
+	[function[get-created-today]]
+	[function[get-done-today]]
+	+[unique[]]
+\end
+
+\procedure save-task-actions()
+	<$action-setfield $tiddler=<<storeTiddler>>
+		tags="Task"
+		status="Pending"/>
+	<$action-sendmessage $message="tm-rename-tiddler"
+		from=<<storeTiddler>>
+		to=<<get-task-title>>/>
+\end
+
+<$transclude $variable="tasks-table-view"
+	filter="[function[get-today-filter]]"
+	actions=<<save-task-actions>>/>

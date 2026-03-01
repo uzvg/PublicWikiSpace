@@ -1,0 +1,14 @@
+caption: RefExplorer ViewTemplate
+created: 20240924062815628
+creator: uzvg
+modified: 20251224075016895
+modifier: uzvg
+tags: $:/tags/ViewTemplate
+title: $:/uzvg/RefExplorer/ViewTemplate
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/RefExplorer/Share]]
+
+<$list filter="[all[current]!is[system]!is[image]!is[draft]!prefix[Untitled]!has[refexplorer-hide]]">
+	<<twks-ref-explorer>>
+</$list>

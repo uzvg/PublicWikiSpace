@@ -1,0 +1,8 @@
+[prefix[https://www.bilibili.com/]then[📼Bilibili]]
+[prefix[https://www.youtube.com/]then[📼Youtube]]
+[prefix[https://youtu.be/]then[📼Youtube]]
+[prefix[https://weread.qq.com]then[📘Weread]]
+[prefix[https://www.zhihu.com/]then[🛬Zhihu]]
+[prefix[https://x.com/]then[𝕏 post]]
+[prefix[zotero://]then[ℤotero]]
+[!is[blank]then[🔗External Link]]

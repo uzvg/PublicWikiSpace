@@ -1,0 +1,17 @@
+authors: unknown
+caption: Firefox native GTK control buttons with custom themes
+created: 20250608055641575
+description: firefox使用gtk控制按钮
+medium: Website
+modified: 20250608055823286
+progress: Completed
+rating: Plain
+tags: LiteratureNotes 火狐(Firefox) TroubleShooting
+title: Firefox native GTK control buttons with custom themes(1749362201575)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+* Type in the address bar `about:config`, and press enter to see the options there.
+* Then, type `widget.gtk.non-native-titlebar-buttons.enabled` and switch it to `false`.

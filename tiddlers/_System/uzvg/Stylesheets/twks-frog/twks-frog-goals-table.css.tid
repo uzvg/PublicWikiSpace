@@ -1,0 +1,28 @@
+created: 20260102155225734
+modified: 20260114024913436
+modifier: uzvg
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/twks-frog/twks-frog-goals-table.css
+type: text/vnd.tiddlywiki
+
+<!-- 将除了第二列以外的所有列，设置为最小宽度，文本居中 -->
+.twks-frog-goals-table th:not(:nth-child(2)),
+.twks-frog-goals-table td:not(:nth-child(2)) {
+	white-space: nowrap;
+  width: 1%;
+	text-align: center;
+}
+
+.twks-frog-goals-table td:nth-child(3) span:hover {
+	cursor: pointer;
+}
+
+.twks-frog-goals-table input[type="text"] {
+	width: -webkit-fill-available;
+	max-height: fit-content;
+}
+
+.twks-frog-goals-container {
+	width: 100%;
+	position: relative;
+}

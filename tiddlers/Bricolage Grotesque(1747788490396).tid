@@ -1,0 +1,14 @@
+caption: Bricolage Grotesque
+created: 20250521004810396
+description: zen browser的changelog页面所使用的字体。
+modified: 20250521005037090
+tags: Website(网址) Font(字体)
+title: Bricolage Grotesque(1747788490396)
+type: text/vnd.tiddlywiki
+url: https://fonts.google.com/specimen/Bricolage+Grotesque
+visibility: Public
+year: 2025-05
+
+这是zen browser的changelog页面所使用的字体，在浏览器环境中，显示效果很不错。
+
+但放在桌面环境里，Gnome桌面的默认字体大小是11pt，字体渲染出来就比较模糊，但仍然是一款自起来很好看的无衬线字体。

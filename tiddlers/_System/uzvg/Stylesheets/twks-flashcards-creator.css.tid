@@ -1,0 +1,25 @@
+created: 20260222024226949
+creator: uzvg
+modified: 20260223074734711
+modifier: uzvg
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/twks-flashcards-creator.css
+type: text/vnd.tiddlywiki
+
+.twks-flashcards-creator {
+	display: flex;
+	flex-direction: column;
+	background: <<color page-background>>;
+	gap: .5em;
+	padding: 1em;
+	justify-content: space-between;
+}
+
+.twks-flashcards-creator > .tc-flex {
+	align-items: center;
+	gap: .5em;
+}
+.twks-flashcards-creator label {
+	color: <<color yellow>>;
+	width: 3em;
+}

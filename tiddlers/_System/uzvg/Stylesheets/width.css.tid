@@ -1,0 +1,22 @@
+created: 20250424141312479
+modified: 20260114024913436
+modifier: uzvg
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/width.css
+type: text/vnd.tiddlywiki
+
+.width-10em {
+	width: 10em;
+}
+
+.width-8em {
+	width: 8em;
+}
+
+.width-6em {
+	width: 6em;
+}
+
+.full-width {
+	width: 100%;
+}

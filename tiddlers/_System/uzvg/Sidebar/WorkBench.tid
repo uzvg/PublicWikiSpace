@@ -1,0 +1,16 @@
+caption: WorkBench
+created: 20250529154228642
+creator: uzvg
+modified: 20260103073116450
+modifier: uzvg
+tags: $:/tags/SideBar
+title: $:/uzvg/Sidebar/WorkBench
+type: text/vnd.tiddlywiki
+
+\function get-tabs-list() [list[$:/tags/WorkBench]]
+\function get-default-tab() [function[get-tabs-list]first[]]
+
+<$transclude $variable="tabs"
+	tabsList="[function[get-tabs-list]]"
+	default=<<get-default-tab>>
+	class="tc-vertical"/>

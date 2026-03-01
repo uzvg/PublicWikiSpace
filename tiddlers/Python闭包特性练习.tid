@@ -1,0 +1,58 @@
+created: 20250607031057276
+description: 两个应用闭包特性的例子：图片url生成器，以及函数运行时长计数器
+modified: 20250607035224919
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: Python closure
+tags: PermanentNotes Python
+title: Python闭包特性练习
+type: text/vnd.tiddlywiki
+visibility: Public
+
+学习了Python中的闭包的相关概念后，我实现了如下的几个应用闭包的例子：
+
+1. 图片url生成器
+
+```
+def build_image_url_func(base_url):
+    """
+    构建一个图片 URL 生成函数，给定图片文件名，返回完整 URL。
+    """
+    base_url = base_url.rstrip('/') + '/'  # 确保只有一个斜杠
+    def get_image_url(filename):
+        return f"{base_url}{filename}"
+    return get_image_url
+
+# 使用示例
+wallhaven_url = build_image_url_func("https://wallhaven.cc/images")
+imagehosting_url = build_image_url_func("https://imagehostinig.com/images/")
+
+print(wallhaven_url("mountain.jpg"))       # https://wallhaven.cc/images/mountain.jpg
+print(imagehosting_url("mountain.jpg"))    # https://imagehostinig.com/images/mountain.jpg
+
+```
+
+2. 函数运行时长统计
+
+```
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        end = time.time()
+        print(f"函数 {func.__name__} 执行耗时：{end - start:.4f} 秒")
+        return result
+    return wrapper
+
+@timer
+def slow_function():
+    time.sleep(1)
+    return "完成"
+
+slow_function()
+```
+
+Python中的闭包特性是Python装饰器的基础。

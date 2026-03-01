@@ -1,0 +1,153 @@
+created: 20250707004834510
+description: ArchLinux分区调整方案
+modified: 20250707061707253
+progress: Completed
+rating: Plain
+tags: PermanentNotes ArchLinux
+title: ArchLinux分区调整方案
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 最终分区方案：
+
+* EFI分区（保留，1G）
+* 系统分区 `/`（50–60G，ext4）
+* ''新的 `/home` 分区''（剩余空间）
+* swap分区（单独分区，用于 zswap 辅助）
+
+!!  1. swap 分区需要多大？
+
+现代桌面建议：
+
+|!情况|!推荐大小|
+|不需要休眠（hibernate） |4–8G足够       |
+|需要休眠（睡眠到磁盘）      |至少等于内存（≈16G） |
+
+* ''建议：'' 如果你未来不打算休眠，4–8G swap分区就非常合适。
+* 配合 ''zswap''，它先把数据压缩在内存里，写盘的机会很少。
+
+✅ ''我建议：'' 分配 ''8G swap分区''，兼顾稳定性。
+
+!! 2. 创建 swap 分区的命令行
+
+假设：
+
+* 你在 Live CD 下，已经用 `parted` 或 `fdisk` 创建了一个新的分区（比如 `/dev/nvme0n1p4`）。
+* 这个分区准备用作 swap。
+
+''创建和启用 swap 分区：''
+
+```bash
+# 格式化分区为 swap
+sudo mkswap /dev/nvme0n1p4
+
+# 启用 swap
+sudo swapon /dev/nvme0n1p4
+```
+
+''查看是否生效：''
+
+```bash
+swapon --show
+```
+
+''fstab 挂载：''
+在 `/etc/fstab` 增加：
+
+```
+UUID=<swap分区UUID> none swap defaults 0 0
+```
+
+（用 `blkid` 查看 UUID）
+
+''示例 blkid 输出：''
+
+```bash
+/dev/nvme0n1p4: UUID="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" TYPE="swap"
+```
+
+!! 3. 重装完系统后恢复 `/home` 数据
+
+''假设：''
+
+* 你已经在重装前，用 rsync 备份了 `/home` 到某个分区：
+
+```
+/mnt/bigdisk/home-backup/
+```
+
+* 新的 `/home` 分区挂载好了，假设在 `/mnt/newhome`
+
+!!! 恢复命令
+
+先挂载新分区：
+
+```bash
+sudo mount /dev/nvme0n1p3 /mnt/newhome
+```
+
+（假设 `/dev/nvme0n1p3` 是新 `/home` 分区）
+
+再用 rsync 把备份拷进去：
+
+```bash
+sudo rsync -aAXv --progress /mnt/bigdisk/home-backup/ /mnt/newhome/
+```
+
+''注意：''
+
+* 路径末尾 `/` 表示拷“里面的内容”
+* 先确认空目录再拷
+
+!!! 校验
+
+核对新 `/home` 数据大小：
+
+```bash
+sudo du -sh /mnt/newhome
+sudo du -sh /mnt/bigdisk/home-backup
+```
+
+确认一致。
+
+!!! fstab 配置
+
+在 `/etc/fstab` 添加新 `/home` 挂载：
+
+```
+UUID=<home分区UUID> /home ext4 defaults 0 2
+```
+
+（同样用 `blkid` 查看UUID）
+
+!!! 测试
+
+重启系统：
+
+```bash
+sudo reboot
+```
+
+然后：
+
+```bash
+mount | grep home
+```
+
+确认 `/home` 挂载成功。
+
+!! 最后，再次简明总结
+
+''分区建议：''
+
+* EFI：保留
+* `/`：50–60G（ext4）
+* `/home`：剩余所有空间
+* swap：8G
+
+''恢复流程：''
+
+* 1. 挂载新 `/home` 分区
+* 2. `rsync` 备份数据过去
+* 3. 配置 `/etc/fstab`
+* 4. 重启验证

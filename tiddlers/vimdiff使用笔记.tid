@@ -1,0 +1,183 @@
+created: 20260117114947391
+description: 使用vimdiff查看并合并差异。
+modified: 20260122150621334
+progress: Completed
+rating: Valuable
+tags: PermanentNotes vim Git chezmoi
+title: vimdiff使用笔记
+type: text/vnd.tiddlywiki
+visibility: Public
+
+在使用git及chezmoi时，经常需要用到diff工具，以下是`vimdiff`的使用笔记：
+
+!! 一、vimdiff 的本质：
+
+`vimdiff`的本质在是多个并排的窗口里，比较同一文件的不同版本，并用 `diff hunk`（差异块）作为操作单位。
+
+* 每个窗口是一个 ''buffer''
+* 差异以 ''hunk（块）'' 的形式存在
+* `merge` 的本质是：把某个窗口的 `hunk` 拷贝到另一个窗口
+
+所以diff的目的不是“''编辑 diff''”，而是在 ''选择哪一边的内容是最终答案''。
+
+!! 二、启动方式：
+
+```bash
+vimdiff fileA fileB
+# 或
+vim -d fileA fileB
+# nvim用户
+nvim -d fileA fileB
+```
+
+三路 diff（常见于 git）：
+
+```bash
+vimdiff base ours theirs
+```
+
+!! 三、窗口 & 移动：
+
+!!! 在窗口之间移动
+
+```vim
+Ctrl-w h   " 到左边窗口
+Ctrl-w l   " 到右边窗口
+Ctrl-w j   " 到下方窗口
+Ctrl-w k   " 到上方窗口
+```
+
+!!! 滚动同步（通常已默认开启）
+
+```vim
+:set scrollbind
+:set cursorbind
+```
+
+如果你发现左右不同步了：
+
+```vim
+:set scrollbind!
+:set cursorbind!
+```
+
+!! 四、diff 导航：
+
+!!! 跳到“下一个 / 上一个差异块”
+
+```vim
+]c   " 下一个 diff hunk
+[c   " 上一个 diff hunk
+```
+
+!! 五、如何 merge：
+
+; diffget / diffput 的本质：
+* ''diffget''：从“别的窗口”''拿内容到当前窗口''
+* ''diffput''：把“当前窗口”的内容 ''送到别的窗口''
+
+vim 提供了更直观的快捷键：
+
+!!! 用 `do` / `dp` merge
+
+假设现在是 ''左右两个窗口''：
+
+; 把''另一边''的改动合并到''当前窗口''：
+
+```vim
+do
+```
+
+等价于：
+
+```vim
+:diffget
+```
+
+; 👉 把“当前窗口”的内容推到另一边
+
+```vim
+dp
+```
+
+等价于：
+
+```vim
+:diffput
+```
+
+!!! 一个完整 merge 操作流程：
+
+# 用 `]c` 跳到一个差异块
+# 判断哪一边是你想要的
+# 把光标放在 ''目标窗口''，按：
+#* `do` ← ''接受另一边''
+#* 或 `dp` ← ''用当前覆盖另一边''
+# 继续 `]c` → 下一个差异
+
+<<twks-alerter "tip" """
+* ''do = get（拿）''
+* ''dp = put（给）''
+""">>
+
+!! 三路 diff 时怎么指定来源？
+
+在三窗口情况下（常见布局）：
+
+```
+[ LOCAL ] [ BASE ] [ REMOTE ]
+```
+
+你可以明确指定：
+
+```vim
+:diffget LOCAL
+:diffget BASE
+:diffget REMOTE
+```
+
+或者用窗口编号：
+
+```vim
+:diffget 1
+:diffget 2
+:diffget 3
+```
+
+!! 常用辅助设置：
+
+```vim
+" 高亮当前 diff
+set diffopt+=iwhite
+
+" 更易读的布局
+set diffopt+=vertical
+
+" 显示 filler 行
+set fillchars+=diff:╱
+```
+
+!! 退出 & 保存：
+
+!!! 保存当前窗口
+
+```vim
+:w
+```
+
+!!! 退出 vimdiff（全部）
+
+```vim
+:qa
+```
+
+!! 总结：
+
+```text
+]c / [c      跳 diff
+Ctrl-w h/l  切窗口
+do           接受另一边
+dp           用当前覆盖
+:w           保存
+:qa          退出
+```

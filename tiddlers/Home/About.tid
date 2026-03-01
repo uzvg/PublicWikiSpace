@@ -1,0 +1,38 @@
+caption: About
+created: 20250330034430837
+modified: 20250615162857818
+order: 6
+tags: 
+title: Home/About
+type: text/vnd.tiddlywiki
+
+\procedure twks-future-chinese()
+
+
+\end
+
+!! Resources:
+
+|tc-max-width|k
+|!Resource|!Description|!links|
+|Source Code |Source code of the wikispace system tiddlers |https://github.com/uzvg/tiddlywikispace |
+|Public tiddlers |Public part of my wikispace |https://github.com/uzvg/publicwikispace |
+|WikiSpace Crafts |Common plugins derived from wikispace |https://plugins.uzvg.site |
+
+!! Future:
+
+* TWKS 是基于 TiddlyWiki 的一套高度定制化笔记系统，其设计理念源于我对知识创作流程的深入实践与理解。与大多数通用型笔记软件不同，TWKS 的开发并非面向广泛用户，而是聚焦于一个独特的用户模型：''内容创作者 + 流程创作者 + 形式创作者''的三位一体。
+* 正因为如此，TWKS 的核心流程极大地服务于我个人的创作需求，这种高度定制性也意味着它在功能结构、界面形式乃至使用方式上，具有较强的非通用性与实验性。因此，在短期内，它难以发展为一个稳定的、面向大众的发行版本。
+* 尽管如此，我对 TWKS 的长期目标依然充满期待。我希望它未来能演变为 TiddlyWiki 官方支持的一个特殊版本（Edition），成为 TiddlyWiki 生态中的一种富有表现力的创作接口。当然，这一愿景的实现仍需视后续发展情况而定。
+* 在此之前，我将推出一个 `TWKS` 的网页版 Demo，作为 TWKS 的预览与实验平台，其中将包含完整的创作流程与环境，供有兴趣的用户探索与体验。
+
+感谢你对 TWKS 的关注与理解。
+
+---
+
+* TWKS is a highly customized note-taking system built on top of TiddlyWiki, designed to reflect my own creative workflows. Unlike general-purpose note apps, TWKS is crafted for a unique type of user — one who is simultaneously a **content creator, a workflow designer, and a form experimenter**.
+* This deep customization means that TWKS is tightly aligned with my personal creation needs. As a result, its structure, logic, and interface are inherently non-generic and exploratory in nature. Therefore, in the short term, TWKS is unlikely to become a stable, widely adopted distribution.
+* That said, I remain optimistic about its long-term potential. Ideally, TWKS may evolve into an official TiddlyWiki Edition — a specialized interface for creative expression within the TiddlyWiki ecosystem. Whether this vision is realized will depend on how the project develops over time.
+* In the near future, I will release a **web-based demo of Wikispace**, which will showcase the full creative environment of TWKS. This demo is intended for those who are curious and want to explore its possibilities.
+
+Thank you for your interest and support.

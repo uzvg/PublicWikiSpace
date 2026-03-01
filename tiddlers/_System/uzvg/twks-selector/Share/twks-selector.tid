@@ -1,0 +1,62 @@
+code-body: yes
+created: 20241214123237073
+modified: 20251225043937838
+modifier: uzvg
+tags: $:/tags/Global
+title: $:/uzvg/twks-selector/Share/twks-selector
+type: text/vnd.tiddlywiki
+
+<!---------- twks-selector
+* Get options from the optionsList and filter
+---------->
+\procedure twks-selector(tiddler,field,index,optionsList,filter,placeholder,emptyValue:yes,enableOptions:yes,actions,class)
+\function get-selector-options()
+	[<optionsList>!is[blank]enlist-input[]]
+	[subfilter<filter>]
+	+[unique[]]
+\end get-selector-options
+<$select
+	tiddler=<<tiddler>>
+	field=<<field>>
+	index=<<index>>
+	default=<<placeholder>>
+	class=<<class>>
+	actions=<<actions>>>
+	<option disabled><<placeholder>></option>
+	<% if [<enableOptions>match[yes]] %>
+		<% if [<emptyValue>match[yes]] %>
+			<option value="">(EMPTY)</option>
+		<% endif %>
+		<$list filter="[function[get-selector-options]]" variable="option">
+			<option><<option>></option>
+		</$list>
+	<% endif %>
+</$select>
+\end
+
+<!-- twks-data-selector
+* Get options from the dataTiddler.
+* Use the data index as option.
+* Use the index value as option value.
+-->
+
+\procedure twks-data-selector(tiddler,field,index,dataTiddler,placeholder,emptyValue:"yes",enableOptions:"yes",actions,class)
+\function get-index-value() [<dataTiddler>getindex<currentIndex>]
+	<$select
+		tiddler=<<tiddler>>
+		field=<<field>>
+		index=<<index>>
+		default=<<placeholder>>
+		class=<<class>>
+		actions=<<actions>>>
+		<option disabled><<placeholder>></option>
+		<% if [<enableOptions>match[yes]] %>
+			<% if [<emptyValue>match[yes]] %>
+				<option value="">(EMPTY)</option>
+			<% endif %>
+			<$list filter="[<dataTiddler>indexes[]]" variable="currentIndex">
+				<option value=<<get-index-value>>> <<currentIndex>> </option>
+			</$list>
+		<% endif %>
+	</$select>
+\end

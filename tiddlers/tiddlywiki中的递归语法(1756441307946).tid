@@ -1,0 +1,78 @@
+authors: Mohammad
+caption: tiddlywiki中的递归语法
+created: 20250829042147946
+description: 如何在tiddlywiki的筛选器中使用递归语法
+medium: Website
+modified: 20260101004616213
+progress: Completed
+rating: Valuable
+tags: LiteratureNotes tiddlywiki
+title: tiddlywiki中的递归语法(1756441307946)
+type: text/vnd.tiddlywiki
+url: https://talk.tiddlywiki.org/t/parameterised-transclusion-recursive-functions/6789
+visibility: Public
+year: 2023-04
+
+\function .factorial-recursive-step(n)
+	[<n>subtract[1]]
+	:map[.factorial<currentTiddler>multiply<n>]
+\end
+
+\function .factorial(n)
+	[<n>match[0]then[0]]
+	[<n>match[1]then[1]]
+	:else[.factorial-recursive-step<n>]
+\end
+
+!! 例子：
+
+!!! 阶乘：
+
+```
+F(0) = 0
+F(1) = 1
+For n> 1, F(n) = F(n-1) * F(n-2)
+```
+
+```
+\function .factorial-recursive-step(n)
+	[<n>subtract[1]]
+	:map[.factorial<currentTiddler>multiply<n>]
+\end
+
+\function .factorial(n)
+	[<n>match[0]then[0]]
+	[<n>match[1]then[1]]
+	:else[.factorial-recursive-step<n>]
+\end
+
+```
+
+* 结果： `<<.factorial 8>>`=<<.factorial 8>>
+
+!!! 斐波那契数列：
+
+```
+F(0) = 0
+F(1) = 1
+For n> 1, F(n) = F(n-1) + F(n-2)
+```
+
+```
+\function .step(n)
+	[<n>subtract[1]]
+	[<n>subtract[2]]
+	:map[.fibo<currentTiddler>]
+	:and[sum[]]
+\end
+
+\function .fibo(n:0)
+	[<n>match[0]then[0]]
+	[<n>match[1]then[1]]
+	:else[.step<n>]
+\end
+```
+
+!! 拓展：
+
+* 类似的递归的使用案例还有`toc`的实现。

@@ -1,0 +1,32 @@
+created: 20260125044834611
+description: 使用tiddlywiki.files管理本地图片
+modified: 20260125045648406
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: 使用tiddlywiki.files从本地文件自动创建tiddler
+tags: PermanentNotes tiddlywiki
+title: tiddlywiki.files管理本地图片测试
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 测试：
+
+* 使用`tiddlywiki.files`自动导入文件
+* 导入的文件，会以`tiddler`的形式显示在tiddlywiki中
+* 编辑文件所在的`tiddler`的字段值，会在`wikifolder`下的`tiddlers`文件夹中，新建一个与导入tiddler的同名文件：
+
+```
+# 导入图片：
+6pp2tdbkbqcg1.jpeg
+# 会在tiddlers文件夹中新建一个：
+6pp2tdbkbqcg1.jpeg.tid
+```
+
+* `tid`文件中，保存的就是关于该图片文件的字段值
+* 问题是，重启后，`tid`文件消失
+
+!! 结论：
+
+* 不论对导入的tiddler做任何操作（修改、删除）
+* 重启tiddlywiki后，都会被''删除''

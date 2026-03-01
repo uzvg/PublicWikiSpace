@@ -1,0 +1,31 @@
+created: 20251210104132861
+description: 习惯记分卡
+modified: 20251220093114025
+progress: WIP
+tags: ProjectNotes TWKS
+title: Habit Tracker
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirements:
+
+# 创建一个类似“习惯记分卡”的应用，可以用于追踪一天做过的事。
+# 为每件做过的事打分
+# 可以筛选出所有的坏习惯
+# 可以添加备注
+# 习惯➡触发条件（时间、地点、旧的习惯、事件）➡记分➡备注
+
+!! Implement:
+
+* 需要把每一条习惯保存在一个tiddler中。
+* 需要有一个保存tiddler的文件夹，前缀为[[$:/Storage/HabitTracker/data]]。
+* 每条tiddler以创建时的时间戳命名。
+* 按时间排序。
+
+!! Files:
+
+* [[$:/uzvg/HabitTracker/ViewTemplates/twks-habit-tracker]]
+
+!! Improvements:
+
+* 用JSON文件保存数据，而非将其保存在单个的tiddler中。

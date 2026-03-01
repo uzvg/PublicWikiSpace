@@ -1,0 +1,22 @@
+caption: Habit Info
+code-body: yes
+condition: [<storyTiddler>prefix[$:/Storage/HabitTracker]]
+created: 20251220094913150
+modified: 20260105061320889
+modifier: uzvg
+tags: $:/tags/FrontMatter
+title: $:/uzvg/HabitTracker/FrontMatter/habitTracker-edit-table
+type: text/vnd.tiddlywiki
+
+<!--
+\import [[$:/uzvg/HabitTracker/Share/twks-habit-tracker]]
+-->
+
+\import [[$:/uzvg/HabitTracker/Share/single-habit-tracker]]
+
+<$twks.details
+	summary="Habit Info:"
+	default="open"
+	state="$:/state/twks.details">
+	<$transclude $variable="habitTracker-edit-table" $mode="block"/>
+</$twks.details>

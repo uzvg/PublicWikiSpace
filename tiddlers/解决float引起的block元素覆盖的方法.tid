@@ -1,0 +1,146 @@
+created: 20260114013033973
+description: 如何解决由浮动元素引起的block元素被覆盖的问题
+modified: 20260114142140585
+modifier: uzvg
+progress: Completed
+rating: Valuable
+source: 如何理解css中的float属性？
+tags: PermanentNotes float CSS
+title: 解决float引起的block元素覆盖的方法
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 核心问题：
+
+根据[[之前对float属性的理解|如何理解css中的float属性？]]，`float`浮动元素的本质是`脱离文档流(块级)` + `保持行内影响(内容)`，主要用于制造文字环绕的效果，但同时，它也经常造成布局问题，比如：
+
+```html
+<div class="container">
+  <img src="pic.jpg" style="float: left;">
+  <div class="content">这是一个块级元素，会被图片覆盖</div>
+</div>
+```
+
+此时，`.content` 的盒子会从图片起始位置开始，导致背景色、边框等被图片覆盖。
+
+!! 解决方案对比：
+
+`float`元素造成的布局问题，主要有以下三种解法：
+
+!!! 1. 传统方法: `clear`
+
+如果我们把 `float` 比作“浮木”，那 `clear` 的意思就是：“我这个元素，不能和浮木在同一水平线上”，它的效果不是“清除浮动”，而是强制自己站到所有相关浮木的下面。
+
+这种方法的缺点是，只能用于后续元素，无法解决父容器高度塌陷，有如下示例：
+
+```html
+<div class="parent">
+  <img class="float-img" src="x.jpg">
+</div>
+
+<div class="content">
+  后续内容
+</div>
+
+<style>
+.parent {
+  background: lightblue;
+  height: 3em;
+  border: 5px;
+}
+
+.float-img {
+  float: left;
+  width: 100px;
+  height: 100px;
+}
+
+.content {
+  clear: both;
+  background: lightgreen;
+}
+</style>
+```
+
+; 在这个示例中：
+* `clear:both`确实使得block元素`.content`另起一行，不跟`float-img`同处一行
+* 但同时也带来了新的问题，那就是`.float-img`的高度没有被计入`.parent`元素，最终效果就是：
+
+```
+[img].parent
+[img]
+.content
+```
+
+* `.parent`虽然是`.float-img`的父元素，但却比`.float-img`还要“矮”。
+* `.float-img`虽然是一个浮动元素，不会影响`.content`的排列，但`.content`又紧挨着它，而非`.parent`。
+
+!!! 2. 传统方法: Clearfix 技巧
+
+为了解决第一种方法的缺点，就有了以下这种clearfix的技巧：
+
+```css
+.container::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+```
+
+这种方法，既保证了后面的block元素另起一行，站在当前当前`float`元素的后面，又解决了父容器高度塌陷（父元素无法包裹浮动子元素）的问题，被广泛使用。
+
+!!! 3. 现代方案: `display: flow-root`
+
+除了上述两种比较传的方案以外，更现代的方案是在父元素中使用`display:flow-root`，它创建了一个新的块级格式化上下文（BFC），翻译成人话就是：“这里是一个独立的水池，里面的浮木，不准影响外面”。
+
+; flow-root 对 float 的三个直接效果：
+* 父元素会包住 float（不塌陷）
+* `float` 不会影响外部兄弟元素
+* 等价于最干净的 `clearfix`
+
+```css
+.container {
+  display: flow-root;
+}
+```
+
+; 对比示例：
+
+```html
+<style>
+  .without-flow-root {
+    border: 2px solid red;
+    /* 父元素高度塌陷为 0 */
+  }
+
+  .with-flow-root {
+    display: flow-root;
+    border: 2px solid green;
+    /* 父元素高度包含浮动子元素 */
+  }
+
+  img {
+		float: left;
+		width: 100px;
+		height: 100px;
+	}
+</style>
+
+<!-- 塌陷 -->
+<div class="without-flow-root">
+  <img src="pic.jpg">
+</div>
+
+<!-- 正常 -->
+<div class="with-flow-root">
+  <img src="pic.jpg">
+</div>
+```
+
+!! 总结：
+
+* `float` = 浮木（脱离竖向排队，但挡住水流）
+* `inline` 内容会绕，`block` 不会
+* `clear` = 我不要和浮木同一行
+* `flow-root` = 建一个围栏，把浮木关在里面
+* 实践建议: 优先使用 `flow-root`（IE 不支持，但现代开发已不需考虑）。

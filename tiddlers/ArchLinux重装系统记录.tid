@@ -1,0 +1,33 @@
+created: 20250707061001050
+modified: 20260207163259475
+progress: Archived
+rating: Personal
+tags: PermanentNotes ArchLinux
+title: ArchLinux重装系统记录
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+我的ArchLinux之前的分区方案中，只有一个`1G`容量的`boot`分区跟`500G`左右的Linux分区，这里的Linux分区既包含了系统分区跟`home`分区，当初安装的时候，没想那么多，但在用了一段时间(其实是刚装完之后)就意识到，有如下缺点：
+
+* 没有`swap`分区，就无法执行`systemctl hibernate`命令，系统只能挂起，无法休眠。
+* `home`目录跟系统文件存放在一个分区，有时如果需要重装系统，就需要把整个Linux分区全部删除，重新备份`home`目录是一个很麻烦的事。
+
+更为合理的[[方案|ArchLinux分区调整方案]]应该是：
+
+* `16G`的swap分区
+* `1G`的`boot`分区
+* `60G`的系统分区
+* 以及剩余的home分区
+
+所以这次的任务就是，先备份home分区，在重装系统后，再恢复home分区。
+
+!! 解决方案：
+
+!!! 备份home分区：
+
+建议在备份前，删除掉home目录中一些没用的缓存文件，比如浏览器缓存，未清空的垃圾桶，减少备份跟恢复需要的时间。
+
+备份home分区使用的是`rsync`命令，该命令常用于同步本地和远程的文件夹。
+

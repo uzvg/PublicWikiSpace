@@ -1,0 +1,17 @@
+created: 20250319092219762
+modified: 20250428163238365
+progress: WIP
+tags: TWKS ProjectNotes
+title: twks-cardview
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Feature:
+
+* 👉 [[substack style article card list|https://on.substack.com/s/news?utm_source=substack&utm_medium=menu&sort=community]]
+* Compatible with the tiddlywiki palette.
+
+!! Project Files:
+
+* [[$:/uzvg/twks-card/twks-card]]
+* [[$:/uzvg/Stylesheets/twks-cardview.css]]

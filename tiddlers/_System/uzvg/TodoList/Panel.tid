@@ -1,0 +1,10 @@
+created: 20241226005908095
+modified: 20250527130605198
+modifier: uzvg
+tags: 
+title: $:/uzvg/TodoList/Panel
+type: text/vnd.tiddlywiki
+
+<$transclude $variable="tabs"
+	tabsList="[tag[$:/tags/TodolistTab]!is[draft]sort[order]]"
+	default="$:/uzvg/TodoList/Tabs/Todo"/>

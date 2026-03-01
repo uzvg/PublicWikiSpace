@@ -1,0 +1,24 @@
+created: 20250318034624791
+description: 介绍了如何把tiddlywiki中的tiddler按照指定的规则映射到本地路径及文件
+modified: 20250521011656075
+modifier: uzvg
+progress: Completed
+rating: Valuable
+tags: PermanentNotes tiddlywiki
+title: tiddlywiki中的tiddler与本地文件路径映射
+type: text/vnd.tiddlywiki
+visibility: Public
+
+; 如何把tiddlywiki中的tiddler按照指定的规则映射到本地路径及文件？
+
+在[[$:/config/FileSystemPaths]]文件中，写入如下内容：
+
+```
+[visibility[Private]addprefix[Private/]]
+[tag[Journal]addprefix[Journal/]]
+[visibility[Public]addprefix[Public/]]
+[is[system]removeprefix[$:/]addprefix[System/]]
+[tag[Image]addprefix[Images/]]
+```
+
+<<twks-alerter "tip" "在tiddlywiki文档中查找`$:/config/FileSystemPaths`关键字，即可查看相关wiki。">>

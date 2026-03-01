@@ -1,0 +1,89 @@
+created: 20250705043516078
+description: BIOS 升级后ArchLinux引导丢失问题排查与解决
+modified: 20250707065011021
+progress: Completed
+rating: Plain
+tags: PermanentNotes TroubleShooting ArchLinux
+title: BIOS 升级后ArchLinux引导丢失问题排查与解决
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 问题概述：
+
+在一次 BIOS 升级后，原本使用 `systemd-boot` + `Unified Kernel Image` (UKI) 启动的 Arch Linux 系统无法正常进入系统。
+
+具体情况：
+
+* BIOS 启动菜单中不再显示 “Linux Boot Manager” 或任何与 Arch Linux 有关的启动项。
+* 使用 Live USB 启动后检查，EFI 分区仍然存在，/boot/efi/EFI/systemd/systemd-bootx64.efi 文件完整。
+
+bootctl install 和 bootctl list 能识别 systemd-boot 和 boot entry，但系统启动时仍然无法引导。
+
+!! ✅ 问题分析：
+
+这类问题通常发生在：
+
+* BIOS/UEFI 升级后，主板会清空或重置 NVRAM 中的启动项（BootOrder 和 BootEntry），导致原有的 Linux 启动项丢失；
+* 尤其是在 `systemd-boot` + `UKI` 的方案中，因为引导入口不是传统的 GRUB，因此 BIOS 可能无法自动识别或重建启动项。
+
+
+!! 🔧 解决方案：
+
+!!! 步骤一：确认 EFI 分区是否挂载
+
+```
+mount | grep efi
+# 若未挂载：
+mount /dev/nvme0n1p1 /boot/efi
+```
+
+!!! 步骤二：确认 systemd-boot EFI 文件是否存在
+
+```
+ls /boot/efi/EFI/systemd/systemd-bootx64.efi
+```
+
+!!! 步骤三：使用 efibootmgr 重新注册启动项
+
+```
+efibootmgr --create \
+  --disk /dev/nvme0n1 \
+  --part 1 \
+  --label "Linux Boot Manager" \
+  --loader '\EFI\systemd\systemd-bootx64.efi'
+```
+
+* `--disk` 是整块磁盘，不带分区号（如 `/dev/nvme0n1`）；
+* `--part` 是 EFI 分区的编号（如 1）；
+* `--loader` 路径必须使用反斜杠，符合 UEFI 规范；
+* 你可通过 `lsblk -f` 或 `fdisk -l` 确认磁盘与分区信息。
+
+!!! 步骤四（可选）：查看或修改启动顺序
+
+```
+efibootmgr        # 查看现有 boot entries
+efibootmgr --bootorder 0004  # 设置优先级（替换为你实际的启动项编号）
+```
+
+!! 🔍 原理解析
+
+* `systemd-boot` 是一个轻量级的 EFI 引导器，它通过 EFI 固件的启动项（NVRAM）启动；
+* `bootctl install` 会安装 `systemd-boot` 的 EFI 文件，并调用 `efibootmgr` 注册 UEFI 启动项；
+* UEFI 固件的启动项（BootEntry）储存在主板的 `NVRAM` 中，升级 BIOS 时这部分数据可能会丢失；
+* 此时虽然 EFI 文件仍在磁盘上，但 BIOS 不知道该如何找到并执行它，所以开机时就无法看到或进入 Arch Linux；
+* 重新运行 `efibootmgr --create` 即可重新在 NVRAM 中注册启动项，让 BIOS 能识别并加载 `systemd-boot`。
+
+!! 📎 相关工具简表
+
+|tc-max-width|k
+|!命令|!功能说明|
+|`bootctl install` |安装或修复 `systemd-boot`（含自动调用 `efibootmgr` 注册启动项） |
+|`efibootmgr` |管理 UEFI 启动项（查看、创建、删除、修改顺序） |
+|`lsblk -f` |查看磁盘与分区及文件系统挂载信息 |
+|`fdisk -l` |显示分区结构及类型 （如 EFI System 分区） |
+
+!! 🧠 补充建议
+
+* BIOS 升级前建议导出现有 UEFI 启动项配置（备份 NVRAM）；
+* 如果主板频繁清空启动项，可考虑使用 Boot from File 功能手动选择 EFI 文件测试；
+* 尽量关闭 Secure Boot（除非你使用已签名的 UKI）；

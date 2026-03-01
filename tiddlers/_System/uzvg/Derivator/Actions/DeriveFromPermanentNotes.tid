@@ -1,0 +1,16 @@
+caption: PermanentNotes Derivative
+code-body: yes
+condition: [!is[system]!is[draft]tag[PermanentNotes]]
+created: 20250603142558390
+description: Derive A New PermanentNotes From The Current PermanentNotes Tiddler
+modified: 20260114024913407
+modifier: uzvg
+tags: $:/tags/DerivatorActions
+title: $:/uzvg/Derivator/Actions/DeriveFromPermanentNotes
+type: text/vnd.tiddlywiki
+
+<$transclude $variable="twks-derivator-actions"
+	title="New PermanentNotes"
+	tags="PermanentNotes"
+	template="$:/uzvg/Derivator/Templates/PermanentNotes"
+	keepSource="yes"/>

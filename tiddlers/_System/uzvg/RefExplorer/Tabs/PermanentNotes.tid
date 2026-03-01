@@ -1,0 +1,16 @@
+caption: PermanentNotes
+code-body: yes
+condition: [function[get-all-related-notes]tag[PermanentNotes]]
+created: 20240925153004069
+creator: uzvg
+description: Reference Explorer (Permanent Notes)
+modified: 20251221074718756
+modifier: uzvg
+order: 4
+tags: $:/tags/ReferenceExplorerTab
+title: $:/uzvg/RefExplorer/Tabs/PermanentNotes
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/RefExplorer/Share]]
+
+<<twks-refexp-table>>

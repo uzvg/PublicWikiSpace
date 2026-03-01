@@ -1,0 +1,51 @@
+created: 20240811124009020
+description: 如何在tiddlywiki中创建快捷键
+modified: 20250322063253330
+modifier: uzvg
+progress: Completed
+rating: Plain
+tags: tiddlywiki PermanentNotes
+title: Customize keyboard shortcuts in tiddlywiki
+type: text/vnd.tiddlywiki
+visibility: Public
+
+\procedure add-new-shortcutsinfo-btn()
+<$button>
+	<$action-new-tiddler
+</$button>
+\end
+
+\procedure add-global-shortcuts-config()
+
+\end
+
+!! 引言：
+
+参考tiddlywiki文档👉[[how to create keyboard shortcuts|https://tiddlywiki.com/#How%20to%20create%20keyboard%20shortcuts]]，自定义tiddlywiki中快捷键。
+
+!! 快捷键的类型：
+
+; tiddlywiki中有两类shortcuts：
+* 一类是在编辑器快捷键，只在tiddlywiki中的编辑区域起作用。
+* 另一类是全局快捷键，需要等tiddlywiki加载完成，在全局起作用。
+
+!! 创建步骤：
+
+; 1. 添加全局快捷键：
+# 创建以`$:/config/ShortcutInfo/`+`suffix`命名的tiddler，在`text`字段添加对快捷键的描述信息。
+# 在[[shortcuts tab|$:/core/ui/ControlPanel/KeyboardShortcuts]]中找到对应`suffix`的快捷键，自定义快捷键。
+# 自定义快捷键的`Action`，具体来说，就是添加按下快捷键，所要执行的动作。
+#* 创建一个以<<tag-pill $:/tags/KeyboardShortcut>>为标签的tiddler，在其中：
+#* 将`key`字段设为`((suffix))`
+#* `text`字段需要用到`navigatorWidget`，内容如下：
+
+```
+\whitespace trim
+<$navigator story="$:/StoryList" history="$:/HistoryList" openLinkFromInsideRiver={{$:/config/Navigation/openLinkFromInsideRiver}} openLinkFromOutsideRiver={{$:/config/Navigation/openLinkFromOutsideRiver}} relinkOnRename={{$:/config/RelinkOnRename}}>
+<$action-sendmessage $message="tm-new-tiddler" $param="$:/uzvg/Shortcuts/Templates/NewFleetingNotes" title="NewFleetingNotes"/>
+</$navigator>
+```
+
+; 2. 添加编辑器快捷键：
+
+* 跟全局快捷键的配置类型，被保存在<<tag $:/tags/EditorToolbar>>下。

@@ -1,0 +1,18 @@
+created: 20260127123431963
+modified: 20260127124114811
+progress: Completed
+rating: Personal
+tags: PermanentNotes tiddlywiki
+title: Escape brackets in tiddlywiki
+type: text/vnd.tiddlywiki
+visibility: Public
+
+在tiddlywiki中，所有类似`{{tiddler}}`的文本都将会被解析为`transclusion`。
+
+; 早在2015年，就有相关方面的讨论，但目前仍未实现：
+: [[New wikitext syntax for representing literal text #1473|https://github.com/TiddlyWiki/TiddlyWiki5/issues/1473]]
+
+可行实现的方案有：
+
+* 添加到code element中。
+* 在`wikify`组件中，添加一个`rulesFilter`参数，用于指定或者排除，指定的parse。
