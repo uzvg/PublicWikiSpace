@@ -1,0 +1,20 @@
+code-body: yes
+created: 20251225011906146
+modified: 20260102161019080
+title: $:/uzvg/twks-frog/Share/twks-meter-bar
+type: text/vnd.tiddlywiki
+
+<!-- 使用说明：
+* min ➡ low ➡ high ➡ max
+* optimum: 最佳值
+-->
+
+\procedure twks-meter-bar(value,min,max,low,high,optimum,class)
+	<meter value=<<value>>
+		min=<<min>>
+		max=<<max>>
+		low=<<low>>
+		high=<<high>>
+		optimum=<<optimum>>
+		class=<<class>>/>
+\end

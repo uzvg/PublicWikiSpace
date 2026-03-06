@@ -1,0 +1,22 @@
+created: 20260114101329897
+modified: 20260114163515559
+progress: Building
+rating: Doubtful
+tags: PermanentNotes tiddlywiki
+title: 在tiddlywiki中引入externalImages
+type: text/vnd.tiddlywiki
+visibility: Public
+
+1. tiddlywiki.files
+
+* 自动把image文件导入为tiddler
+这里面的坑非常多：
+
+1. tiddlywiki.files必须在一个tiddlers文件夹中的子目录中，不能在tiddlers文件夹中。
+
+2. _canonical_uri
+
+* 在浏览器中，浏览并使用本地图片。
+
+3. 构建external image，使其能远程浏览
+

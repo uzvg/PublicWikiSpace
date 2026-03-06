@@ -1,0 +1,21 @@
+caption: IndexNotes
+created: 20250615032213814
+creator: uzvg
+description: TWKS中的IndexNotes进度管理说明
+modified: 20250615032513889
+modifier: uzvg
+progress: Completed
+rating: Plain
+tags: $:/twks/Documents
+title: TWKS笔记进度/IndexNotes
+type: text/vnd.tiddlywiki
+visibility: Public
+
+|tc-max-width|k
+| !进度 | !说明 |
+|`Seed` |The index note is just a placeholder or has minimal content. |
+|`Sketched` |Initial structure or ideas are outlined, but links are sparse or missing. |
+|`Linked` |Core related notes are linked, but structure is still rough or incomplete. |
+|`Structured` |The note has clear sections, relevant links, and starts forming a coherent map. |
+|`Refined` |Well-structured with thoughtful summaries, organized categories, and rich links. |
+|`Mature` |Fully integrated into the Zettelkasten — acts as a reliable hub for its topic. |

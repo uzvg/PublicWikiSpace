@@ -1,0 +1,41 @@
+code-body: yes
+created: 20260126061404795
+description: The verticalTab layout for tiddlywiki
+icon: $:/core/images/standard-layout
+modified: 20260126062036479
+name: VerticalTab
+tags: $:/tags/Layout
+title: $:/uzvg/Layout/PageTemplate
+type: text/vnd.tiddlywiki
+
+\whitespace trim
+\import [subfilter{$:/core/config/GlobalImportFilter}]
+\function get-PageTemplates()
+	[all[shadows+tiddlers]tag[$:/tags/PageTemplate]!has[draft.of]]
+	-[prefix[$:/core/ui/PageTemplate/top]]
+\end
+
+<$vars
+	tv-config-toolbar-icons={{$:/config/Toolbar/Icons}}
+	tv-config-toolbar-text={{$:/config/Toolbar/Text}}
+	tv-config-toolbar-class={{$:/config/Toolbar/ButtonClass}}
+	tv-enable-drag-and-drop={{$:/config/DragAndDrop/Enable}}
+	tv-show-missing-links={{$:/config/MissingLinks}}
+	storyviewTitle={{$:/view}}
+	languageTitle={{{ [{$:/language}get[name]] }}}>
+
+<div class={{{ [all[shadows+tiddlers]tag[$:/tags/ClassFilters/PageTemplate]!is[draft]] :map:flat[subfilter{!!text}] tc-page-container [[tc-page-view-]addsuffix<storyviewTitle>] [[tc-language-]addsuffix<languageTitle>] :and[unique[]join[ ]] }}} >
+
+<$navigator story="$:/StoryList" history="$:/HistoryList" openLinkFromInsideRiver={{$:/config/Navigation/openLinkFromInsideRiver}} openLinkFromOutsideRiver={{$:/config/Navigation/openLinkFromOutsideRiver}} relinkOnRename={{$:/config/RelinkOnRename}}>
+
+<$dropzone enable=<<tv-enable-drag-and-drop>> class="tc-dropzone tc-page-container-inner">
+	<$list filter="[function[get-PageTemplates]]" variable="listItem">
+		<$transclude tiddler=<<listItem>>/>
+	</$list>
+</$dropzone>
+
+</$navigator>
+
+</div>
+
+</$vars>

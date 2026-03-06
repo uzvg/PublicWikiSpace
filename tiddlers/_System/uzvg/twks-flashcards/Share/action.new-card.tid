@@ -1,0 +1,63 @@
+code-body: yes
+created: 20260302145744363
+modified: 20260305084939829
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/action.new-card
+type: text/vnd.tiddlywiki
+
+<!-- Actions to create new card -->
+\procedure action.new-card()
+\import [[$:/uzvg/twks-flashcards/Share/tf.storage-vars]]
+\import [[$:/uzvg/twks-flashcards/Share/tf.convert-lst]]
+\import [[$:/uzvg/twks-flashcards/Share/tf.note-id]]
+\import [[$:/uzvg/twks-flashcards/Share/action.delete-store]]
+\import [[$:/uzvg/twks-flashcards/Share/action.switch-focus]]
+\import [[$:/uzvg/twks-flashcards/Share/notifier.empty-fields]]
+\import [[$:/uzvg/twks-flashcards/Share/tf.empty-fields]]
+\import [[$:/uzvg/twks-flashcards/Share/action.set-note]]
+\import [[$:/uzvg/twks-flashcards/Share/notifier.new-card]]
+
+\function get-model-name() [<currentTab>get[model-name]]
+\function get-model-version() [<currentTab>get[model-version]]
+\function get-currentValue() [<storeTiddler>get<currentTiddler>]
+
+\function get-fields-json()
+	[<currentTab>!is[blank]else<storyTiddler>]
+	+[get[fields-list]]
+	+[enlist-input[]]
+	:reduce[<accumulator>jsonset<currentTiddler>,<get-currentValue>]
+\end get-fields-json
+
+\function get-note-json()
+	[[]jsonset:json[fields],<get-fields-json>]
+	+[jsonset[modelName],<get-model-name>]
+	+[jsonset[modelVersion],<get-model-version>]
+\end get-note-json
+
+<!-- ------------------------------If reqired fields are all non-empty------------------------------ -->
+<% if [<tf.empty-fields>is[blank]] %>
+
+	<!-- Initialize datatTiddler -->
+	<% if [<dataTiddler>!is[tiddler]] %>
+		<$action-setfield
+			$tiddler=<<dataTiddler>>
+			type="application/json"
+			source=<<storyTiddler>>
+			model-version=<<get-model-version>>/>
+	<% endif %>
+
+	<!-- Create Flashcard -->
+	<$action.set-note
+		dataTiddler=<<dataTiddler>>
+		noteId=<<tf.note-id>>
+		jsonData=<<get-note-json>>/>
+
+	<<action.delete-store>>
+	<<notifier.new-card>>
+
+<!-- Else warning empty fields -->
+<% else %>
+	<<notifier.empty-fields>>
+<% endif %>
+\end action.new-card

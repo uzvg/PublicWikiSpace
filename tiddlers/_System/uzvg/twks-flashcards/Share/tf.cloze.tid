@@ -1,0 +1,12 @@
+code-body: yes
+created: 20260304111658273
+modified: 20260305090506245
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/tf.cloze
+type: text/vnd.tiddlywiki
+
+\function tf.cloze(id,text) [[{{]addsuffix<id>addsuffix[::]addsuffix<text>addsuffix[}}]]
+\function cloze(id,text) [[{{]addsuffix<id>addsuffix[::]addsuffix<text>addsuffix[}}]]
+\function cz(id,text) [[{{]addsuffix<id>addsuffix[::]addsuffix<text>addsuffix[}}]]
+\function c1(text) [[{{]addsuffix[c1::]addsuffix<text>addsuffix[}}]]

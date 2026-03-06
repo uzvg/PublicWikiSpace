@@ -1,0 +1,49 @@
+caption: twks-flashcard-container
+code-body: yes
+created: 20260220104007637
+modified: 20260220124405461
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/twks-flashcard-container
+type: text/vnd.tiddlywiki
+
+\procedure twks-flashcard-qa-card(id,question,answer)
+\import [[$:/uzvg/twks-flashcards/Share/twks-reveal-editor]]
+\function storeTiddler() [[$:/temp/twks-flashcards/store/]addsuffix<id>]
+\function get-reveal
+
+<div class="twks-flashcard-container">
+	<div class="twks-flashcard-id">
+		#<<id>>
+	</div>
+	<div class="twks-flashcard-btns">
+		<span>edit</span>
+		<span>delete</span>
+	</div>
+	<div class="twks-flashcard-question">
+		<$transclude
+			$variable="twks-reveal-editor"
+			stateTiddler=<<storeTiddler>>
+			stateField="reveal-status"
+			storeTiddler=<<storeTiddler>>
+			field="front"
+			default="text"
+			revealText=<<get-reveal-text>>
+			enterActions=<<save-card-actions>>
+			escActions=<<discard-card-actions>>/>
+	</div>
+	<div class="twks-flashcard-answer"> <<answer>> </div>
+</div>
+\end
+
+<<twks-flashcard-container id:"23f23434" question:"这是一个问题？" answer:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim aeque doleamus animo, cum corpore dolemus">>
+
+<$transclude
+	$variable="twks-reveal-editor"
+	stateTitle=<<storeTiddler>>
+	stateField="reveal-status"
+	storeTiddler=<<storeTiddler>>
+	field="reveal-status"
+	revealText=<<get-revealed-text>>
+	enterActions=<<>>
+	enterActions=<<>>/>

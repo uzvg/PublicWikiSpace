@@ -1,0 +1,32 @@
+created: 20251226124109220
+modified: 20251227023626570
+tags: 
+title: test tidddler
+type: text/vnd.tiddlywiki
+
+\function tempTiddler() [<qualify $:/temp/test>]
+\function get-temp-value() [<tempTiddler>get[progress]]
+\function get-timestamp() [<now TIMESTAMP>]
+\function get-start() [<tempTiddler>get[start]]
+\function get-end() [<tempTiddler>get[end]]
+
+\procedure select-value-actions()
+	<% if [<get-temp-value>match[WIP]] %>
+		<$action-setfield $tiddler<<tempTiddler>> start=<<get-timestamp>>/>
+	<% elseif [<get-temp-value>match[Paused]] %>
+		<$action-setfield $tiddler<<tempTiddler>> end=<<get-timestamp>>/>
+	<% endif %>
+\end
+
+<$select tiddler=<<tempTiddler>> field="progress" actions=<<select-value-actions>>>
+	<option>Pending</option>
+	<option>WIP<$action-setfield $tiddler<<tempTiddler>> start=<<get-timestamp>>/>
+	</option>
+	<option>Paused<$action-setfield $tiddler<<tempTiddler>> end=<<get-timestamp>>/>
+	</option>
+	<option>Done</option>
+</$select>
+
+* <$link to=<<tempTiddler>>/>
+* start: <<get-start>>
+* end: <<get-end>>

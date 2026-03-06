@@ -1,0 +1,9 @@
+created: 20250427165752549
+modified: 20250427170100333
+tags: $:/tags/ViewTemplate
+title: $:/uzvg/ViewTemplates/Alerter/DoubtfulContent
+type: text/vnd.tiddlywiki
+
+<$list filter="[all[current]!is[system]rating[Doubtful]]">
+	<<twks-alerter "caution" "The current article contains potentially ''doubtful'' content, which often comes from the author's personal experiences. Please exercise discretion.">>
+</$list>

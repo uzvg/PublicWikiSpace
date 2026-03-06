@@ -1,0 +1,18 @@
+code-body: yes
+created: 20260218104253974
+modified: 20260218104817029
+modifier: uzvg
+tags: $:/tags/DeckMappingRules
+title: $:/uzvg/Configs/DeckMappingRules
+type: text/vnd.tiddlywiki
+
+[get[deck]]
+[tag[Git]then[WikiSpace::Git]]
+[tag[Python]then[WikiSpace::Python]]
+[tag[zsh]then[WikiSpace::ZSH]]
+[tag[CSS]then[WikiSpace::CSS]]
+[tag[grid]then[WikiSpace::CSS::Grid]]
+[tag[chezmoi]then[WikiSpace::Chezmoi]]
+[tag[flexbox]then[WikiSpace::CSS::Flexbox]]
+[tag[Selector]then[WikiSpace::CSS::Selector]]
+[prefix[$:/Storage/HabitTracker/]then[WikiSpace::Habits]]

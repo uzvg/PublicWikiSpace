@@ -1,0 +1,47 @@
+created: 20260108083512836
+description: twks flashcards
+modified: 20260305113344328
+progress: WIP
+tags: ProjectNotes TWKS
+title: twks-flashcards
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Todo-list:
+
+* 以`JSON`格式保存卡片数据。 ✅
+* 通过`renderTemplate`渲染为`JSON`文件。✅
+* `twks-flashcards-list`，既可以查看卡片内容，又可以直接编辑。
+** `<<twks-line-editor tiddler field saveActions escActions delActions editActions displayText>>`
+** 需要用到[[twks-reveal-editor]]
+* 改进在Anki中导入卡片的流程。
+** 既然数据已经保存为JSON文件了，就可以通过JSON文件直接导出，无须使用爬虫。 ✅
+** 使用Python，将从tiddlywiki中导出的JSON文件，导入并同步为Anki卡片 ✅
+** 👉[[twks flashcards sync to anki]]
+* 在被引进的tiddler中，父级调用中的变量，可以在wikify中使用吗？
+* 如何解决快捷键冲突的问题？✅
+** 避开已分配的快捷键，使用<kbd>alt+n</kbd>来新建卡片。✅
+* 使用`edit-text`组件，默认的`editWidget`会被codemirror接管，无法配置快捷键。
+** 添加wrap cloze快捷键。✅
+* 完善`action.switch-focus`动作。✅
+** 无法实现，只能用`focus`将就一下。❌
+* 为`CardCreator`设置`placeHolder`。✅
+* 完善`action.new-card`。✅
+** 设计`required-fields`字段。✅
+* 调整`cardCreator`中的输入框中的`CSS`样式。✅
+** 使用`monospace`字体。
+** 调整`line-height`。
+** 使用默认的edit样式。
+* 检查是否符合格式（cloze）
+
+!! Troubles:
+
+* tiddlywiki自带的`tm-focus-selector` message会阻止`codemirror`字段值的刷新。
+* 无法在`editWidget`中自定义操作快捷键。
+* `wikify` operator需要在`5.5`版本才有可能发布，单纯使用各种组件拼凑出来的`JSON`文件，效率比较差。
+
+!! Develop Logs：
+
+* @[[4th March 2026]]，今天终于把`JSON`数据导出的部分内容完成了。因为缺少`wikify` operator，真的是费了老劲。
+* @[[5th March 2026]]，调整了快捷键，tiddlywiki组件的刷新机制有问题，算了，先这样吧。
+* 

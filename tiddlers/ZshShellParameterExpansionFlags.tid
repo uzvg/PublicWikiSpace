@@ -1,0 +1,21 @@
+caption: Zsh Shell Parameter Expansion Flags
+created: 20250702102711596
+description: 
+modified: 20250716150822484
+modifier: uzvg
+progress: Building
+rating: Valuable
+source: zsh shell parameter expansion
+tags: PermanentNotes zsh
+title: ZshShellParameterExpansionFlags
+type: text/vnd.tiddlywiki
+visibility: Public
+
+\function get-tabsList-prefix() [<storyTiddler>addsuffix[/]]
+\function get-tabsList-filter() [all[tiddlers]!is[system]prefix<get-tabsList-prefix>sort[order]]
+\function get-default-tab() [subfilter<get-tabsList-filter>first[]]
+
+<$transclude $variable="tabs"
+	tabsList="[function[get-tabsList-filter]]"
+	default=<<get-default-tab>>
+	class="tc-vertical"/>

@@ -1,0 +1,11 @@
+code-body: yes
+created: 20260222065205989
+modified: 20260222065322428
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/tf.target-deck
+type: text/vnd.tiddlywiki
+
+\function tf.target-deck(sourceTiddler)
+	[<sourceTiddler>] :cascade[tag[$:/tags/DeckMappingRules]get[text]]
+\end
