@@ -1,0 +1,86 @@
+created: 20250707071151334
+description: 把Linux的备份文件，有效保存在ntfs文件系统中
+modified: 20250717115816269
+progress: Completed
+rating: Plain
+tags: PermanentNotes ArchLinux TroubleShooting
+title: 如何把Linux的备份文件有效保存在ntfs文件系统中？
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+我在[[重装ArchLinux|ArchLinux重装系统记录]]时范了一个非常严重的错误，导致被恢复回来的`home`分区中的文件跟文件夹的权限全都变成了`777`，包括了`.ssh`文件夹。
+
+!! 过程：
+
+操作过程很简单，先以下命令，将原先的`home`文件夹中的内容，备份到外接硬盘的一个文件夹中：
+
+```
+rsync -aAXv --one-file-system --progress /home/ /mnt/bigdisk/home-backup/
+```
+
+等新的系统安装完毕，再使用以下命令恢复：
+
+```
+rsync -aAXv --one-file-system --progress  /mnt/bigdisk/home-backup/ /home/
+chome -R uzvg:uzvg /home/uzvg
+```
+
+按理说，此时文件的内容及权限应该能够准确地被保存且恢复，但问题出在了权限恢复上，尽管我已经使用`chown`命令，修改了文件的属主，但home文件夹下的所有文件、目录的权限却全都变成了`777`，这是一个非常严重的后果。
+
+但如果是成功执行了`rsync`命令，就不应该出现这样的问题，但其实，问题出在了`ntfs`文件系统上。
+
+!! 原因：
+
+原因在于在 `Linux` 下使用 `ntfs-3g` 驱动挂载 `NTFS` 分区时，NTFS 本身并不支持 POSIX 权限模，它就没有 chmod、chown 这些概念。
+
+我们在备份目录中查看文件的权限，乍一看好像都是正确的，但其实不是。`ntfs-3g` 它是用驱动挂载选项来模拟文件权限。这些权限不是实际存储在 NTFS里的，而是通过 `umask`, `dmask`, `fmask`, `uid`, `gid` 等挂载选项来统一呈现的。
+
+我们以不同的方式、不同的参数挂载`ntfs`分区，再使用`ls -l`命令查看文件和目录的权限，往往得到不一样的权限显示结果。
+
+我在NTFS里“看起来”权限没错（这是模拟显示）。但当 `rsync` 从 NTFS分区拷回 ext4时，它其实看不到真实的权限和xattr，只能用默认权限去创建文件。最终的结果就是，全部文件新建为默认的 `777`。
+
+也就是说，这个问题和我们使用的 `rsync` 命令的参数没有关系，而是 NTFS 文件系统和 Linux 权限模型不兼容导致的。
+
+!! 正确做法：
+
+既然使用`rsync`命令，无法从NTFS 分区中精准保存、恢复`ext4`文件系统中文件的权限，那有没有什么办法，能把`ext4`文件系统中的文件、目录的权限完整保存在`ntfs`文件系统中且能正常恢复？
+
+正确做法是使用`tar`命令，这是最通用、最靠谱、最兼容的方法。
+
+!!! 备份命令：
+
+```
+sudo tar --xattrs --acls --numeric-owner -cvpzf /mnt/ntfs/home-backup.tar.gz /home
+```
+
+* --xattrs：保留扩展属性
+* --acls：保留ACL权限
+* --numeric-owner：用UID/GID保存所有权，避免用户不一致的问题
+* -p：保留权限
+* -z：压缩（可省略）
+* -f：指定输出文件
+* /mnt/ntfs/ 是我挂载NTFS分区的位置
+
+<<twks-alerter "note" "`tar` 是应用层工具，它会把所有权限信息封装进压缩包里，不依赖目标文件系统的权限能力，所以写入NTFS时不会丢失权限信息。">>
+
+!!! 恢复命令：
+
+```
+sudo tar --xattrs --acls --numeric-owner -xvpzf /mnt/ntfs/home-backup.tar.gz -C /
+```
+
+; 使用tar命令的优点是：
+* 权限、所有者、时间戳、ACL、xattr 全部保留
+* 可压缩节省空间
+* 跨平台兼容性好（你也可以在 Windows 上用 7-Zip 看里面内容）
+
+; 需要注意的是：
+* 必须确保你在恢复时也用 `sudo` 解压，否则文件权限可能仍然出错
+* 压缩过程较慢，占 CPU
+* 整个 /home 是打包为一个大文件（但多数情况这是优点）
+
+!! 拓展：
+
+* [[rsync命令参数解析]]

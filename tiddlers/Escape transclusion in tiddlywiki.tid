@@ -1,0 +1,15 @@
+created: 20260127122140566
+description: Escape transclusion in tiddlywiki
+modified: 20260127122339492
+progress: Completed
+rating: Plain
+tags: PermanentNotes tiddlywiki
+title: Escape transclusion in tiddlywiki
+type: text/vnd.tiddlywiki
+visibility: Public
+
+`\rules`用于定义解析wikitext的parse列表，使用如下`rules`pragma，可以避免tiddler中类似`{{tiddler}}`的语法被解析：
+
+```wikitext
+\rules except transcludeinline filteredtranscludeinline filteredtranscludeblock transcludeblock
+```

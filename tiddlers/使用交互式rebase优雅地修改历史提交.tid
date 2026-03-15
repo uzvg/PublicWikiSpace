@@ -1,0 +1,109 @@
+created: 20250626155604197
+description: 使用交互式rebase优雅地修改历史提交
+modified: 20250626235621869
+modifier: uzvg
+progress: Completed
+rating: Valuable
+source: 如何把新添加的修改合并到已存在的commit？
+tags: PermanentNotes Git Rebase
+title: 使用交互式rebase优雅地修改历史提交
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 引言：
+
+在<<twks-source>>中，谈到了一些可以用于修改历史提交的方法，但其实都不是特别理想，实际上，我们可以使用交互式rebase，结合fixup、squash等操作，优雅地修改历史提交。
+
+!! 使用场景：
+
+当我们需要对''历史中的某个提交（不是最新）进行修改、补充或合并内容''，同时希望''保留提交顺序并使历史整洁无多余 merge commit''，使用交互式 rebase 的 `squash` 或 `fixup` 是最推荐的方式。
+
+!! 核心思想：
+
+通过如下步骤：
+
+# 创建一个新的 commit，作为对旧提交的补充；
+# 使用 `git rebase -i`，将这个新 commit 与目标旧提交合并为一个；
+# 合并方式选择：
+#* `squash`：合并内容并保留多个 commit 的提交信息；
+#* `fixup`：合并内容但只保留旧 commit 的提交信息（更常用、更干净）。
+
+<<twks-alerter "tip" "[[Git squash跟fixup的区别]]">>
+
+!! 操作流程：
+
+!!! 1. 创建一个新 commit 作为补丁
+
+先对代码进行修改，然后提交：
+
+```bash
+git add .
+git commit -m "修复 bug：补充处理边界情况"
+```
+
+这个新提交是为修改前面某个旧提交（例如 3 个提交之前的一个）。
+
+!!! 2. 启动交互式 rebase
+
+假设你想修改的是倒数第 4 个提交，你可以：
+
+```bash
+git rebase -i HEAD~4
+```
+
+!!! 3. 修改 rebase 脚本
+
+Git 会弹出一个编辑界面：
+
+```
+pick 123aaa 某旧提交
+pick 456bbb 中间提交
+pick 000ddd 最新提交
+pick 789ccc 修复 bug：补充处理边界情况
+```
+
+你可以将目标行改为：
+
+```
+pick 123aaa 某旧提交
+fixup 789ccc 修复 bug：补充处理边界情况
+pick 456bbb 中间提交
+pick 000ddd 最新提交
+```
+
+> ✅ ''注意顺序''：`fixup` 一定要跟在你想合并进的 commit 后面！
+
+保存退出后，Git 会自动将你的补丁合并进目标 commit，且不会中断流程。
+
+> 🔧 如果你希望提交历史非常清晰、简洁 —— ''首选 `fixup`''。
+> [[Git squash跟fixup的区别]]。
+
+!! 高阶技巧：使用 `--autosquash` 自动 fixup
+
+如果你用如下格式命名补丁提交：
+
+```bash
+git commit -m "fixup! 某旧提交说明"
+```
+
+然后运行：
+
+```bash
+git rebase -i --autosquash HEAD~4
+```
+
+Git 会''自动将该补丁行移动并标记为 fixup''，省去了手动编辑的麻烦。
+
+!! ✅ 总结优势
+
+|!优势|!说明|
+|保持线性历史          |没有 merge commit，利于审查与维护  |
+|精准修改任意历史 commit |无需 reset、无需 stash，操作清晰   |
+|更安全             |不会误操作其他 commit，修改粒度明确    |
+|适合日常开发和多人协作场景   |尤其是在提交前准备 PR 或合并主分支时清理历史 |
+
+!! 🚨 注意事项
+
+* `rebase` 会重写历史，仅适用于尚未 push 或可以 force push 的分支；
+* 操作前建议 `git log` / `tig` 明确你要修改的是哪一个 commit；
+* 如果遇到冲突，按提示 `resolve` 后执行 `git rebase --continue`。

@@ -1,0 +1,59 @@
+created: 20250511224108401
+isbn: 9787301257517
+modified: 20250526153627255
+progress: Researching
+tags: ProjectNotes TWKS
+title: Open zotero local library in tiddlywiki
+type: text/vnd.tiddlywiki
+url: zotero://select/library/items/KT63W5GC
+visibility: Public
+
+\procedure twks-isbn-link()
+\function get-isbn() [<storyTiddler>get[isbn]]
+\function get-isbn-link()
+	[[https://search.douban.com/book/subject_search?search_text=]]
+	[<get-isbn>]
+	+[join[]]
+\end get-isbn-link
+<a href=`$(get-isbn-link)$`
+	class="tc-tiddlylink-external"
+	target="_blank"
+	rel="noopener noreferrer">
+	<<get-isbn>>
+</a>
+\end
+
+\procedure zotero-links()
+\function get-zotero-index() [<storyTiddler>get[url]]
+\end
+
+\function text() [<storyTiddler>get[url]]
+
+<<get-url-type>>
+
+<<twks-isbn-link>>
+
+<!--
+zotero://select/library/items/S5QE6GSR
+-->
+
+<$link to="zotero://select/library/items/LF8QV9MV">
+	Open Books
+</$link>
+
+<a href=`${ [<storyTiddler>get[url]] }$`
+	class="tc-tiddlylink-external"
+	target="_blank"
+	rel="noopener noreferrer">
+	Open Books
+</a>
+
+\function get-url-type(text)
+	[<text>] :cascade[all[tiddlers]tag[$:/tags/UrlType/rules]!is[draft]get[text]]
+\end
+
+\function get-url-type(url)
+	[<url>] :cascade[tag[$d]]
+\end
+
+<$transclude field="url"/>

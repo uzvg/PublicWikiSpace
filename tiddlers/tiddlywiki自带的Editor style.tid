@@ -1,0 +1,26 @@
+created: 20260125100403879
+description: 使用tiddlywiki自带的editor style👉tc-edit-texteditor
+modified: 20260304071227140
+progress: Completed
+rating: Plain
+tags: PermanentNotes tiddlywiki
+title: tiddlywiki自带的Editor style
+type: text/vnd.tiddlywiki
+visibility: Public
+
+\import $:/uzvg/Tools/twks-temp-inspector
+
+!! 前言：
+
+在开发[[twks-reveal-editor]]时，想直接使用tiddlywiki自带的编辑`tiddler`的编辑器，一番搜索，发现tiddlywiki自带的editor样式`tc-edit-texteditor`，足以满足绝大多数的使用场景。
+
+!! 样式演示：
+
+; 1. EditTextWidget:
+* `<$edit-text autoHeight="yes" class="tc-edit-texteditor"/>`
+
+<$edit-text tiddler=<<twks-temp-tiddler>> class="tc-edit-texteditor"/>
+
+; 2. EditWidget:
+* `<$edit class="tc-edit-texteditor"/>`
+<$edit tiddler=<<twks-temp-tiddler>> class="tc-edit-texteditor"/>

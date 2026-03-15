@@ -1,0 +1,10 @@
+created: 20241215042516082
+modified: 20260103100542339
+modifier: uzvg
+tags: $:/tags/ViewTemplate
+title: $:/uzvg/FrontMatter/ViewTemplate
+type: text/vnd.tiddlywiki
+
+<$list filter="[all[tiddlers]tag[$:/tags/FrontMatter]!is[draft]] :filter[<storyTiddler>!is[system]subfilter{!!condition}]">
+	<$transclude $tiddler=<<currentTiddler>> $mode="block"/>
+</$list>

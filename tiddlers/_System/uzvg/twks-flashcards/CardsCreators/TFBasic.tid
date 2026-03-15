@@ -1,0 +1,66 @@
+caption: TFBasic
+created: 20260222021214712
+fields-list: Front Back
+model-name: TFBasic
+model-version: 1.3
+modified: 20260305113535372
+modifier: uzvg
+order: 2
+tags: $:/tags/TfCardsCreator
+title: $:/uzvg/twks-flashcards/CardsCreators/TFBasic
+type: text/vnd.tiddlywiki
+
+<!-- ------------------------------twks flashcards creator ------------------------------ -->
+\procedure twks-flashcards-creator()
+\import [[$:/uzvg/twks-flashcards/Share/tf.storage-vars]]
+\import [[$:/uzvg/twks-flashcards/Share/action.switch-focus]]
+\import [[$:/uzvg/twks-flashcards/Share/action.switch-tab]]
+\import [[$:/uzvg/twks-flashcards/Share/notifier.empty-fields]]
+\import [[$:/uzvg/twks-flashcards/Share/action.new-card]]
+\import [[$:/uzvg/twks-flashcards/Share/action.delete-store]]
+\import [[$:/uzvg/twks-flashcards/Share/tf.creator-id]]
+
+<!-- ------------------------------Main Procedure------------------------------ -->
+<$keyboard key="alt+n" actions=<<action.new-card>>>
+<$keyboard key="alt+h" actions=<<action.switch-previous-tab>>>
+<$keyboard key="alt+l" actions=<<action.switch-next-tab>>>
+<$keyboard key="alt+k" actions=<<action.focus-first>>>
+<$keyboard key="alt+j" actions=<<action.focus-second>>>
+<$keyboard key="escape" actions=<<action.delete-store>>>
+
+<div class="twks-flashcards-creator">
+	<div class="tc-flex tc-flex-row">
+		<label><b>Front:</b></label>
+		<$edit
+			tiddler=<<storeTiddler>>
+			field="Front"
+			focus={{{ [<explicitStateTiddler>is[tiddler]then[yes]] }}}
+			placeholder="Type your question"
+			class="tc-edit-texteditor tf-creator-input-first"/>
+	</div>
+	<div class="tc-flex tc-flex-row">
+		<label><b>Back:</b></label>
+		<$edit
+			tiddler=<<storeTiddler>>
+			field="Back"
+			placeholder="Type the question"
+			class="tc-edit-texteditor tf-creator-input-second"/>
+	</div>
+</div>
+
+</$keyboard>
+</$keyboard>
+</$keyboard>
+</$keyboard>
+</$keyboard>
+</$keyboard>
+\end
+
+<!--
+* <$link to=<<storeTiddler>>/>
+* <$link to=<<dataTiddler>>/>
+* <$link to=<<explicitStateTiddler>>/>
+-->
+
+<!-- ------------------------------Invoke twks-flaschards-creator------------------------------ -->
+<<twks-flashcards-creator>>

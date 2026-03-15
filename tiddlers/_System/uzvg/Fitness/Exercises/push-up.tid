@@ -1,0 +1,11 @@
+caption: 俯卧撑
+created: 20250522035148283
+modified: 20260114024913409
+modifier: uzvg
+sets: 0
+tags: $:/tags/Fitness/Exercise
+title: $:/uzvg/Fitness/Exercises/push-up
+type: text/vnd.tiddlywiki
+
+|!Weight |<$edit-text tiddler="AppSettings" field="myconfig"/><p/>
+Value of ''myconfig'' : {{AppSettings!!myconfig}}|

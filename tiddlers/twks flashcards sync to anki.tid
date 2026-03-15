@@ -1,0 +1,14 @@
+created: 20260226134151467
+description: 把从tiddlywiki中导出的JSON卡片数据，导入为Anki的卡片。
+modified: 20260305134616410
+progress: WIP
+tags: ProjectNotes Anki tiddlywiki
+title: twks flashcards sync to anki
+type: text/vnd.tiddlywiki
+visibility: Public
+
+导出命令：
+
+```sh
+tiddlywiki "/home/uzvg/Documents/wikis/WikiSpace" --render "$:/uzvg/renderTemplates/flashcards-json-test" "/tmp/flashcards-index-test.json" "text/plain"
+```

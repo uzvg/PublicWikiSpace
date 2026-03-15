@@ -1,0 +1,144 @@
+created: 20250701090945008
+description: zsh Shell数组赋值
+modified: 20250701153939109
+progress: Completed
+rating: Plain
+source: zsh Shell数组基础
+tags: PermanentNotes zsh Shell
+title: zsh Shell数组赋值
+type: text/vnd.tiddlywiki
+visibility: Public
+
+在 Zsh Shell 中，数组操作非常灵活，支持直接将一个数组的内容赋值到另一个数组，以及多种衍生操作。以下是核心知识点。
+
+!! 🎯 基本数组赋值
+
+将一个数组的所有元素赋值到另一个数组：
+
+```zsh
+arr1=(a b c)
+arr2=("${arr1[@]}")
+print -l $arr2
+
+# 输出结果：
+a
+b
+c
+```
+
+> 注意：一定要写 `("${arr1[@]}")`，这样才会逐个拷贝元素，避免合并成一个字符串。
+
+!! 🎯 错误示例
+
+''不要这样写：''
+
+```zsh
+arr2=$arr1
+print -l $arr2
+
+# 输出结果：
+a b c
+```
+
+这里的赋值方法，其实就是把`$arr1`数组展开为一个字符串，然后赋值给变量`$arr2`，相当于`"${arr1[@]}"`，真正关键的，其实是外层的`()`，它会将原先的`arr1`变量以数组的形式展开，然后赋值给`arr2`。
+
+!! 🎯 数组拼接
+
+把多个数组合并成一个：
+
+```zsh
+arr1=(x y)
+arr2=(1 2)
+
+arr3=("${arr1[@]}" "${arr2[@]}")
+```
+
+!! 🎯 子数组赋值（切片）
+
+只取部分元素：
+
+```zsh
+arr=(a b c d e)
+
+# arr2包含第2到第4个元素
+arr2=("${arr[@]:1:3}")
+```
+
+解释：
+
+* `:1:3` 表示从下标1（第二个元素）开始，取3个。
+
+!! 🎯 数组元素加前缀/后缀
+
+在赋值时批量修改元素：
+
+```zsh
+arr1=(apple banana)
+
+# 给每个元素加 "X_"
+arr2=(X_${^arr1})
+print -lr $arr2
+```
+
+结果：
+
+```
+X_apple
+X_banana
+```
+
+!! 🎯 去重后赋值
+
+去掉重复元素：
+
+```zsh
+arr1=(a b a c b)
+
+arr2=(${(u)arr1})
+```
+
+`(u)` 表示 unique。
+
+!! 🎯 筛选/过滤后赋值
+
+保留以 a 开头的元素：
+
+```zsh
+arr1=(apple banana apricot cherry)
+
+arr2=(${arr1:M:a*})
+```
+
+!! 🎯 赋值后拼接成字符串
+
+直接将数组赋值成一个拼接的字符串：
+
+```zsh
+arr1=(x y z)
+
+joined="${(j:, :)arr1}"
+```
+
+结果：
+
+```
+x, y, z
+```
+
+!! 🎯 获取数组长度
+
+赋值后可以取长度：
+
+```zsh
+arr1=(a b c)
+arr2=("${arr1[@]}")
+
+len=${#arr2}
+echo "Length: $len"
+```
+
+!! 总结：
+
+* 如果从一个数组变量取值赋值给另一个数组变量，最重要的点在于使用`()`展开，比如`arr2=(${arr1})`
+* 而从一个数组拼接成一个字符串赋值给另一个变量，则可以不用`()`展开，比如`arr1=${arr1}`
+* 另外，需要注意的是，Zsh 数组下标从 ''1'' 开始。

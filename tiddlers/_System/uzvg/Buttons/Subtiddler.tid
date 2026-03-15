@@ -1,0 +1,38 @@
+caption: new subtiddler here
+created: 20250217124550639
+description: Create a new tiddler on the basis of current tiddler
+modified: 20260103114107055
+modifier: uzvg
+tags: $:/tags/ViewToolbar
+title: $:/uzvg/Buttons/Subtiddler
+type: text/vnd.tiddlywiki
+
+\procedure new-subtiddler-btn()
+\function get-current-suffix() [<storyTiddler>split[/]last[]]
+\function get-current-folder() [<storyTiddler>removesuffix<get-current-suffix>]
+\procedure new-subtiddler-actions()
+	<$action-createtiddler
+		$basetitle=<<get-current-folder>>
+		$template=<<storyTiddler>>
+		text="">
+		<$action-sendmessage $message="tm-edit-tiddler"
+			$param=<<createTiddler-title>>/>
+	</$action-createtiddler>
+\end new-subtiddler-actions
+
+<$button actions=<<new-subtiddler-actions>>
+	tooltip={{!!description}}
+	aria-label={{$:/language/Buttons/Clone/Hint}}
+	class=<<tv-config-toolbar-class>>>
+	<%if [<tv-config-toolbar-icons>match[yes]] %>
+		{{$:/uzvg/Images/subtiddler}}
+	<%endif%>
+	<%if [<tv-config-toolbar-text>match[yes]] %>
+		<span class="tc-btn-text">
+			<$text text="new subtiddler here"/>
+		</span>
+	<%endif%>
+</$button>
+\end
+
+<<new-subtiddler-btn>>

@@ -1,0 +1,151 @@
+created: 20250331121624013
+modified: 20260114024913417
+modifier: uzvg
+title: $:/uzvg/Initializer/Panel
+type: text/vnd.tiddlywiki
+
+\procedure manage-config-tiddler() $:/tmp/twks-initializer
+
+\function get-import-type()
+	[<manage-config-tiddler>getindex[import-type]]
+\end
+
+\function get-initializer-prefix()
+	[<manage-config-tiddler>getindex[title-prefix]!is[blank]else[$:/uzvg/Initializer/]]
+\end
+
+\function get-composed-initializer-subtiddler(subfolder)
+	[<get-import-type>]
+	+[addprefix[/]addprefix<subfolder>]
+	+[addprefix<get-initializer-prefix>]
+\end
+
+<!--
+* 	Get title of the subtiddler from the manage-config-tiddler
+* 	Otherwise get the composed subtiddler title from the subfolder and prefix.
+-->
+\function get-initializer-subtiddler(index,subfolder)
+	[<manage-config-tiddler>getindex<index>]
+	:else[function[get-composed-initializer-subtiddler],<subfolder>]
+\end
+
+\function get-initializer-caption()
+	[<manage-config-tiddler>getindex[caption]]
+	:else[<manage-config-tiddler>getindex[import-type]]
+\end
+
+\function get-initializer-template(type)
+	[[$:/uzvg/Initializer/Templates/]addsuffix<type>]
+\end
+
+\function get-initializer-regexp()
+	[<manage-config-tiddler>getindex[regexp]]
+\end
+
+\procedure create-new-initializer-actions()
+	<!-- Steps:
+		1. Create Initializer Tiddler
+		2. Create Initializer Table Tiddler
+		3. Create Initializer Actions Tiddler
+		4. Create Initializer FieldsIndex Tiddler
+	-->
+
+	<!-- Create Initializer Tiddler -->
+	<$action-createtiddler
+		$basetitle=<<get-initializer-subtiddler initializer Initializers>>
+		$template=<<get-initializer-template Initializer>>
+		tags="$:/tags/Initializer"
+		caption=<<get-initializer-caption>>
+		regexp-pattern=<<get-initializer-regexp>>
+		import-type=<<get-import-type>>>
+	</$action-createtiddler>
+
+	<!-- Create Initializer Table Tiddler -->
+	<$action-createtiddler
+		$basetitle=<<get-initializer-subtiddler table Tables>>
+		$template=<<get-initializer-template Table>>
+		tags="$:/tags/Initializer/Tables"
+		import-type=<<get-import-type>>>
+	</$action-createtiddler>
+
+	<!-- Create Initializer Action Tiddler -->
+	<$action-createtiddler
+		$basetitle=<<get-initializer-subtiddler actions Actions>>
+		$template=<<get-initializer-template Action>>
+		tags="$:/tags/Initializer/Actions"
+		import-type=<<get-import-type>>>
+	</$action-createtiddler>
+
+<!-- Create Initializer FieldsIndex Tiddler -->
+	<$action-createtiddler
+		$basetitle=<<get-initializer-subtiddler index FieldsIndex>>
+		$template="$:/uzvg/Initializer/Templates/FieldsIndexTiddler"
+		tags="$:/tags/Initializer/FieldsIndex"
+		import-type=<<get-import-type>>>
+	</$action-createtiddler>
+	<$action-deletetiddler $tiddler=<<manage-config-tiddler>>/>
+\end
+
+!! Initializers:
+
+<% if [tag[$:/tags/Initializer]!is[draft]get[import-type]] %>
+	<table class="overflow-wrap-anywhere">
+		<tr>
+				<th>Import Type</th>
+				<th>Initializer Tiddler</th>
+				<th>Table Tiddler</th>
+				<th>Actions Tiddler</th>
+				<th>FieldsIndex Tiddler</th>
+				<th>Delete</th>
+		</tr>
+		<$list filter="[!is[draft]tag[$:/tags/Initializer]get[import-type]unique[]enlist-input[]]" variable="importType">
+			<tr>
+				<td><code><<importType>></code></td>
+				<td>
+					{{{ [!is[draft]tag[$:/tags/Initializer]import-type<importType>] }}}
+				</td>
+				<td>
+					{{{ [!is[draft]tag[$:/tags/Initializer/Tables]import-type<importType>] }}}
+				</td>
+				<td>
+					{{{ [!is[draft]tag[$:/tags/Initializer/Actions]import-type<importType>] }}}
+				</td>
+				<td>
+					{{{ [!is[draft]tag[$:/tags/Initializer/FieldsIndex]import-type<importType>] }}}
+				</td>
+				<td style="text-align: center;">
+					<$button>
+						<$action-deletetiddler $filter="[import-type<importType>]"/>
+						{{$:/core/images/delete-button}}
+					</$button>
+				</td>
+			</tr>
+		</$list>
+	</table>
+<% else %>
+	<<twks-alerter "tip" "You don't any initializers yet.">>
+<% endif %>
+
+!! Add Initializer:
+
+|tc-edit-max-width tc-max-width|k
+|!Import type |<$edit-text tiddler=<<manage-config-tiddler>> placeholder="Required" index="import-type" tag="input"/>|
+|!Caption |<$edit-text tiddler=<<manage-config-tiddler>> index="caption" tag="input" placeholder=<<get-import-type>> />|
+|!Regexp |<$edit-text tiddler=<<manage-config-tiddler>> index="regexp" tag="input" />|
+|!Title Prefix |<$edit-text tiddler=<<manage-config-tiddler>> index="title-prefix" tag="input" placeholder="$:/uzvg/Initializer/"/>|
+|!Initializer |<$edit-text tiddler=<<manage-config-tiddler>> index="initializer" tag="input" placeholder=<<get-composed-initializer-subtiddler Initializers>>/>|
+|!Table Tiddler |<$edit-text tiddler=<<manage-config-tiddler>> index="table" tag="input" placeholder=<<get-composed-initializer-subtiddler Tables>>/>|
+|!Actions Tiddler |<$edit-text tiddler=<<manage-config-tiddler>> index="actions" tag="input" placeholder=<<get-composed-initializer-subtiddler Actions>>/>|
+|!FieldsIndex Tiddler |<$edit-text tiddler=<<manage-config-tiddler>> index="index" tag="input" placeholder=<<get-composed-initializer-subtiddler FieldsIndexTiddlers>>/>|
+
+<% if [contains:import-type<get-import-type>] %>
+	<<twks-alerter "warning" "The <code><<get-import-type>></code> import-type already exists in your Initializer.">>
+<% elseif [<get-import-type>trim[]!is[blank]] %>
+	<div class="flex justify-end">
+		<$button actions=<<create-new-initializer-actions>>>
+			Create
+		</$button>
+	</div>
+<% else %>
+	<<twks-alerter "tip" "The @@.twks-annotation-red import-type@@ field is required.">>
+<% endif %>

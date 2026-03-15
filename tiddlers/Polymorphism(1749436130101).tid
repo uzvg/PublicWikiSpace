@@ -1,0 +1,28 @@
+authors: geeksforgeeks
+caption: Polymorphism
+created: 20250609022850101
+description: 
+medium: Website
+modified: 20250609035929517
+modifier: uzvg
+progress: 
+rating: 
+source: class(1749435568065)
+tags: LiteratureNotes Python
+title: Polymorphism(1749436130101)
+type: text/vnd.tiddlywiki
+url: 
+visibility: 
+year: 2025-06
+
+1. 多态的概念
+2. 多态的语法
+3. 多态的表现形式
+* 多态在对象中的表现形式
+* 多态在函数
+* 多态在operator
+
+多态的类型：
+* Compile-time 多态
+* Runtime 多态
+* 

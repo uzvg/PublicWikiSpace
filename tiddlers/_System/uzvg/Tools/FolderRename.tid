@@ -1,0 +1,54 @@
+created: 20251225041732569
+modified: 20260114024913437
+modifier: uzvg
+tags: $:/twks/Tools
+title: $:/uzvg/Tools/FolderRename
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/Share/delete-tiddler-btn]]
+\function storeTiddler() [[$:/temp/store]]
+\function get-old-folder() [<storeTiddler>get[old-folder]]
+\function get-new-folder() [<storeTiddler>get[new-folder]]
+\function get-old-tiddlers() [all[tiddlers]prefix<get-old-folder>]
+\function get-new-tiddler() [<currentTiddler>removeprefix<get-old-folder>addprefix<get-new-folder>]
+
+\procedure folder-verifier()
+<% if [<get-old-folder>!suffix[/]] %>
+	<<twks-alerter "warning" "Your old folder is not a folder.">>
+<% endif %>
+\end
+
+\procedure rename-all-actions()
+<$list filter="[function[get-old-tiddlers]]">
+	<$action-sendmessage $message="tm-rename-tiddler"
+		from=<<currentTiddler>> to=<<get-new-tiddler>>/>
+</$list>
+\end
+
+|tc-max-width tc-edit-max-width twks-input-hide-border|k
+|!Old Folder |<$edit-text tiddler=<<storeTiddler>> field="old-folder"/>|
+|!New Folder |<$edit-text tiddler=<<storeTiddler>> field="new-folder"/>|
+
+<span class="flex-row-end">
+	<$transclude $variable="twks-delete-btn"
+		tiddler=<<storeTiddler>>
+		class=""/>
+</span>
+<<folder-verfier>>
+
+<table>
+	<tr>
+		<th>Old Tiddlers</th>
+		<th>New Tiddlers</th>
+	</tr>
+	<$list filter="[<get-old-folder>!is[blank]] :then[all[tiddlers]prefix<get-old-folder>]">
+		<tr>
+			<td> <<currentTiddler>> </td>
+			<td> <<get-new-tiddler>> </td>
+		</tr>
+	</$list>
+</table>
+
+<$button actions=<<rename-all-actions>>>
+Rename All
+</$button>

@@ -1,0 +1,19 @@
+caption: Goal Info
+code-body: yes
+created: 20251224144140932
+modified: 20260114024913444
+modifier: uzvg
+status: open
+title: $:/uzvg/twks-frog/Frontmatter/GoalTiddler
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/HabitTracker/Share/twks-habit-tracker]]
+\import [[$:/uzvg/HabitTracker/Share/single-habit-tracker]]
+\function get-frontmatter-status() [<thisTiddler>get[status]]
+
+<$twks.details
+	summary="Goal Info:"
+	default=<<get-frontmatter-status>>
+	state="$:/state/twks.details">
+	<$transclude $variable="habitTracker-edit-table" $mode="block"/>
+</$twks.details>

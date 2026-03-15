@@ -1,0 +1,21 @@
+code-body: yes
+created: 20250411122200876
+import-type: ISBN
+modified: 20260114024913414
+modifier: uzvg
+tags: $:/tags/Initializer/Actions
+title: $:/uzvg/Initializer/Actions/ISBN
+type: text/vnd.tiddlywiki
+
+<% if [<storyTiddler>!has[caption]] %>
+	<<check-required-notifier fieldsList:"caption">>
+<% else %>
+	<$action-setfield isbn=<<get-imported-text>> />
+	<$action-deletefield $tiddler=<<storyTiddler>> text type/>
+	<<sync-fields-from-index>>
+	<$action-sendmessage
+		$message="tm-rename-tiddler"
+		from=<<storyTiddler>>
+		to=<<get-title-sufix-isbn>>/>
+	<<finish-creation-actions>>
+<% endif %>

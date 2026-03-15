@@ -1,0 +1,9 @@
+code-body: yes
+created: 20260302150635767
+modified: 20260302150716862
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/tf.creator-id
+type: text/vnd.tiddlywiki
+
+\function tf.creator-id() [<storyTiddler>get[created]]

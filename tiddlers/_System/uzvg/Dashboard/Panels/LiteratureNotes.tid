@@ -1,0 +1,22 @@
+caption: LiteratureNotes
+code-body: yes
+created: 20250419025659173
+filter-prefix: [all[tiddlers]!is[system]tag[LiteratureNotes]]
+modified: 20260114024913406
+modifier: uzvg
+note-type: LiteratureNotes
+order: 2
+page-size: 10
+tags: $:/tags/Dashboard
+title: $:/uzvg/Dashboard/Panels/LiteratureNotes
+type: text/vnd.tiddlywiki
+
+\import [prefix[$:/uzvg/Share/FilterBuilder/]]
+\import [prefix[$:/uzvg/Dashboard/Share/]]
+\function get-page-size() [<currentTab>get[page-size]]
+\function get-filter-prefix() [<currentTab>get[filter-prefix]]
+
+<<filterBuilder-selector-box "progress rating visibility medium sortmode">>
+<$transclude $variable="twks-dashboard-tableview"
+	filter=<<get-complete-filter>>/>
+<<twks-list-paginater>>

@@ -1,0 +1,30 @@
+code-body: yes
+created: 20250425062815203
+modified: 20260114024913407
+modifier: uzvg
+title: $:/uzvg/Derivator/Share/twks-derivator-actions
+type: text/vnd.tiddlywiki
+
+\procedure twks-derivator-actions(title,tags,syncFieldsList,template,keepSource:"yes")
+\function get-source-fieldValue() [<storyTiddler>get<currentField>]
+	<$action-createtiddler
+		$basetitle=<<title>>
+		$template=<<template>>
+		tags=<<tags>>>
+		<% if [<keepSource>match[yes]] %>
+			<$action-setfield
+				$tiddler=<<createTiddler-title>>
+				$field="source"
+				$value=<<storyTiddler>>/>
+		<% endif %>
+		<$list filter="[enlist<syncFieldsList>]" variable="currentField">
+			<$action-setfield
+				$tiddler=<<createTiddler-title>>
+				$field=<<currentField>>
+				$value=<<get-source-fieldValue>>/>
+		</$list>
+		<$action-sendmessage
+			$message="tm-edit-tiddler"
+			$param=<<createTiddler-title>>/>
+	</$action-createtiddler>
+\end

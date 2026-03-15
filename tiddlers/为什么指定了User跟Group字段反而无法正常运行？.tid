@@ -1,0 +1,82 @@
+cover: 20250530120430238.jpg
+created: 20250614091140062
+description: 当在服务文件中指定User跟Group时，本质上是要求用户级的systemd实例执行用户切换操作，但非管理用户没有该权限，即使是切换到自己也不行，因为这需要特权。
+modified: 20250615180355499
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: 使用systemd管理tiddlywiki后台服务
+tags: PermanentNotes Systemd TroubleShooting
+title: 为什么指定了User跟Group字段反而无法正常运行？
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 问题：
+
+在为wikispace写一个Linux本地的用户级服务的时候，遇到一个问题，有如下serivce文件：
+
+* 文件位置：`$HOME/.config/systemd/user/wikispace.service`
+* <$twks.details summary="文件内容：" state="$:/state/detail">
+
+```
+[Service]
+Type=simple
+# 替换为您实际运行tiddlywiki的用户
+User=uzvg
+Group=uzvg
+# 设置工作目录（包含wiki内容的目录）
+WorkingDirectory=/home/uzvg/Documents/wikis/WikiSpace
+# 阻止服务获取新权限，满足安全要求
+ExecStart=/usr/bin/tiddlywiki --listen port="9191"
+# 确保进程在关闭时能接收停止信号
+KillMode=process
+# 设置优雅停止超时时间（根据需求调整）
+TimeoutStopSec=10
+# 系统关闭时发送SIGTERM信号
+KillSignal=SIGTERM
+# 确保服务退出后系统不会认为失败
+SuccessExitStatus=143
+Restart=on-failure
+RestartSec=10
+```
+</$twks.details>
+
+
+加载并启动服务：
+
+```
+systemctl --user daemon-reload
+systemctl --user start wikispace.service
+```
+
+查看日志：
+
+```
+journalctl --user -u wikispace.service -f
+```
+
+出现如下报错：
+
+```
+ArchLinux (ddlywiki)[14451]: wikispace.service: Failed at step GROUP spawning /usr/bin/tiddlywiki: Operation>
+ArchLinux (ddlywiki)[14469]: wikispace.service: Failed to determine supplementary groups: Operation not perm>
+```
+
+
+如果指定了User字段跟Group字段，服务反而无法正常启动，而只要删掉这两个字段，服务就能正常启动，为什么？
+
+!! 原因：
+
+这是由于用户级systemd实例没有特权执行用户切换或组操作，即使是切换到当前用户以及当前用户所在的组。而不指定这些字段时，服务以当前用户身份运行，避免了权限问题，因此能正常启动。
+
+; 不指定User和Group时：
+* 服务会默认以当前登录用户的身份运行（比如uzvg）。
+* 进程会直接继承用户环境，包括主用户组和可能的补充用户组。
+* 因为没有尝试切换用户或修改组信息，systemd不需要额外的权限，所以服务可以正常启动。
+
+; 指定User和Group：
+* 当在服务文件中指定User跟Group时，systemd会尝试将服务进程的身份切换到uzvg。
+* 但问题在于，用户级的systemd实例本身就是以uzvg身份运行的，它没有权限执行用户切换操作——即使是切换到自己也不行，因为这需要特权。
+* 同样地，如果你指定了Group，systemd可能需要处理组信息（比如补充用户组），但用户级实例没有权限完成这些操作。
+
+结果就是，指定User或Group会触发权限错误，导致服务无法启动。

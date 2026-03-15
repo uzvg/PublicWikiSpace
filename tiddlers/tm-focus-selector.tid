@@ -1,0 +1,52 @@
+code-body: yes
+created: 20260223034922551
+description: tiddlywiki tm-focus-selector message
+modified: 20260223040250148
+progress: Completed
+rating: Personal
+tags: PermanentNotes tiddlywiki
+title: tm-focus-selector
+type: text/vnd.tiddlywiki
+visibility: Public
+
+\procedure focus-firstInput-actions()
+	<$action-sendmessage
+		$message="tm-focus-selector"
+		$param=".twks-flashcards-creator > .tc-flex-row:first-child textarea"
+		focusVisible="true"
+		preventScroll="true"/>
+\end
+
+\procedure focus-secondInput-actions()
+	<$action-sendmessage
+		$message="tm-focus-selector"
+		$param=".twks-flashcards-creator > .tc-flex-row:nth-child(2) textarea"
+		focusVisible="true"
+		preventScroll="true"/>
+\end
+
+
+<div class="twks-flashcards-creator">
+	<div class="tc-flex tc-flex-row">
+		<label><b>Front:</b></label>
+		<$edit
+			tiddler=<<currentTiddler>>
+			field="front"
+			class="tc-edit-texteditor"/>
+	</div>
+	<div class="tc-flex tc-flex-row">
+		<label><b>Back:</b></label>
+		<$edit
+			tiddler=<<currentTiddler>>
+			field="back"
+			class="tc-edit-texteditor"/>
+	</div>
+</div>
+
+<$button actions=<<focus-firstInput-actions>>>
+	Focus First
+</$button>
+
+<$button actions=<<focus-secondInput-actions>>>
+	Focus Second
+</$button>

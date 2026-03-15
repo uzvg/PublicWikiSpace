@@ -1,0 +1,23 @@
+created: 20250801145403490
+description: 解决Linux下文明六无法正常启动的故障
+modified: 20250801145844830
+progress: Completed
+rating: Plain
+tags: PermanentNotes Linux Steam TroubleShooting
+title: Linux下安装文明六
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 问题描述：
+
+在Linux下安装文明六，总是出现问题，游戏完整性是没问题的，看了好多次archwiki，也没发现什么问题，但每次打开Steam，点击`start`，游戏加载后就出现直接崩了。
+
+原因在于我的游戏内容是被安装在一个`ntfs`格式的磁盘中，而Linux内核对ntfs文件系统的支持是不太完善的。
+
+!! 解决方案：
+
+把游戏内容，重新安装到Linux系统所在的文件系统中就可以，比如`ext4`等。
+
+!! 其他：
+
+Linux下Steam游戏的安装位置：`$home/.local/share/Steam/steamapps/common`。
