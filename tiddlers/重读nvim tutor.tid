@@ -1,0 +1,46 @@
+created: 20250628014844601
+description: 重读nvim tutor
+modified: 20250630130711424
+progress: Completed
+rating: Plain
+tags: PermanentNotes vim
+title: 重读nvim tutor
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+虽然已经使用vim很长时间了，但重读tutor，还是有了意想不到的收获。
+
+!! 知识点：
+
+!!! 快捷键：
+
+# `ctrl + r` redo
+# `ctrl + g` show your location in a file and the file status.
+# `?` search forward
+# `%` match parentness search
+# `v` select and :w TEST  save changes in TEST
+# `<C-w><C-w>`{normal} to jump to another window
+
+!!! substitute:
+
+* `:s/thee/the/`  只匹配当前行的第一个出现的字符串
+* `:s/thee/the/g` 匹配当前行所有匹配的字符串
+* `:#,#s/old/new/g` 匹配指定行的所有匹配到的字符串
+* `:%s/old/new/gc` 匹配整个文件中的字符串，需要确认
+
+!!! Retrieve and merge:
+
+* `:r filename` 把文件中的内容，读取到当前位置中
+* `:r !{unix:(ls),win:(dir)}`{vim} 把命令的输出读入鼠标所在的行之后。
+
+!!! Disable options:
+
+* `:set noic` 关闭选项
+* `:set invic` 反转选项
+
+!!! Completion:
+
+* <kbd>ctrl+d</kbd>，显示所有以e开头的命令。
+* <kbd>tab/s-tab</kbd>，显示补全菜单。

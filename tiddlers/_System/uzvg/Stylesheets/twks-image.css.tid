@@ -1,0 +1,59 @@
+created: 20260404051946037
+creator: uzvg
+modified: 20260408093117416
+modifier: uzvg
+tags: 
+title: $:/uzvg/Stylesheets/twks-image.css
+type: text/vnd.tiddlywiki
+
+.twks-image {
+	display: flex;
+	flex-direction: column;
+	max-width: 720px;
+	overflow: hidden;
+	border-radius: 6px;
+	border: 1px solid <<colour page-background>>;
+	margin: 0;
+}
+
+.twks-image img {
+	height: auto;
+	width: 100%;
+	display: block;
+	transition: transform 0.3s ease;
+}
+
+.twks-image:hover img {
+	transform: scale(1.05);
+}
+
+.twks-image figcaption {
+	padding: 0.45em 0.75em;
+	text-align: center;
+	font-size: 0.9em;
+	line-height: 1.5;
+	color: <<colour muted-foreground>>;
+}
+
+.twks-image figcaption::before {
+    content: "▶ ";
+}
+
+.twks-image-align-left {
+	float: left;
+	margin: 0 1em 1em 0;
+}
+
+.twks-image-align-center {
+	margin: 0 auto;
+}
+
+.twks-image-align-right {
+	float: right;
+	margin: 0 0 1em 1em;
+}
+
+/* 浮动图片紧邻列表时，列表项改为内部编号以防环绕错位 */
+.tc-tiddler-body p:has(> .twks-image) + :is(ol, ul) li {
+	list-style-position: inside;
+}

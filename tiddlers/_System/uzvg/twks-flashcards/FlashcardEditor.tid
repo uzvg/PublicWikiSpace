@@ -1,0 +1,22 @@
+created: 20260319024637265
+modified: 20260319041048830
+modifier: uzvg
+tags: 
+tfnote-id: 20260319103325423
+title: $:/uzvg/twks-flashcards/FlashcardEditor
+type: text/vnd.tiddlywiki
+
+<!-- The entry to edit TiddlyFlashcards: -->
+
+\function get-noteId() [<..currentTiddler>get[tfnote-id]]
+\function get-dataTiddler()
+	[all[tiddlers]prefix[$:/Storage/Flashcards/DataTiddlers/]]
+	:filter[get[text]jsonindexes[]match<get-noteId>]
+\end
+
+\function get-sourceTiddler()
+	[<get-dataTiddler>get[source]]
+\end
+
+* dataTiddler: <$link to=<<get-dataTiddler>>/>
+* dataTiddler: <$link to=<<get-sourceTiddler>>/>

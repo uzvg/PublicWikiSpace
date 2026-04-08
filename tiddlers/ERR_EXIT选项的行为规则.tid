@@ -1,0 +1,113 @@
+created: 20250618103102749
+description: ERR_EXIT在返回非0退出码而Shell脚本程序却没有终结的原因
+modified: 20250618133019368
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: 由zsh Shell的算术表达式导致的bug
+tags: PermanentNotes zsh
+title: ERR_EXIT选项的行为规则
+type: text/vnd.tiddlywiki
+visibility: Public
+
+<<twks-alerter "tip" "在zsh Shell中，想要查看某个选项是否开启，可以使用`setopt`命令，查看已经打开的选项。">>
+
+!! ERR_EXIT 的例外情况：
+
+`ERR_EXIT` 确实会在命令返回非零退出码时让Shell退出，但是有几个重要的''例外情况''，其中最关键的一个就是：
+
+''在 `&&`、`||`、`if` 等条件控制结构中，ERR_EXIT 不会生效''
+
+!! 具体的规则：
+
+!!! 1. ERR_EXIT 会生效的情况：
+
+```bash
+#!/bin/zsh
+setopt ERR_EXIT
+
+count=0
+((count++))  # 这里会直接退出Shell！
+echo "这行不会执行"
+```
+
+!!! 2. ERR_EXIT 不会生效的情况：
+
+```bash
+#!/bin/zsh
+setopt ERR_EXIT
+
+count=0
+# 在 && 或 || 结构中，ERR_EXIT 不生效
+some_command && ((count++)) || echo "失败了"
+echo "这行会执行"
+
+# 在 if 结构中，ERR_EXIT 也不生效
+if ((count++)); then
+    echo "成功"
+else 
+    echo "失败"
+fi
+echo "这行也会执行"
+```
+
+!! 我的代码中发生了什么？
+
+```bash
+rm -f "$file" && {
+    print_info "  已删除: $file"
+    ((deleted_count++))     # 这里返回1（失败）
+} || {
+    print_error "  删除失败: $file"  # 但ERR_EXIT不生效，所以执行这里
+}
+```
+
+执行流程：
+
+# `rm -f "$file"` 成功（返回0）
+# 执行 `&&` 后面的代码块
+# `print_info` 成功
+# `((deleted_count++))` 返回1（因为原值是0）
+# ''整个代码块因为最后一个命令失败而失败''
+# ''但因为在 `&&` 结构中，ERR_EXIT 不生效''
+# 转而执行 `||` 后面的代码块
+# 脚本继续执行
+
+!! 验证这个行为：
+
+!!! 测试1：ERR_EXIT 会生效
+```bash
+#!/bin/zsh
+setopt ERR_EXIT
+
+count=0
+echo "开始测试"
+((count++))           # 直接退出
+echo "不会看到这行"   # 不会执行
+```
+
+!!! 测试2：ERR_EXIT 不生效
+```bash
+#!/bin/zsh
+setopt ERR_EXIT
+
+count=0
+echo "开始测试"
+true && ((count++)) || echo "捕获到错误"
+echo "会看到这行"     # 会执行
+```
+
+!! POSIX 标准的规定：
+
+这种行为实际上是符合POSIX标准的。标准规定：
+
+> ERR_EXIT 选项不应该在以下情况下导致Shell退出：
+> * 在 `&&` 或 `||` 列表中的命令失败
+> * 在 `if`、`while`、`until` 的条件部分的命令失败
+> * 在管道中非最后一个命令失败（除非设置了 PIPE_FAIL）
+
+!! 总结：
+
+`ERR_EXIT` 确实会在错误时退出Shell，但在我的代码中，`((deleted_count++))` 是在 `&&...||` 结构中执行的，这是ERR_EXIT的例外情况之一，所以Shell不会退出，而是继续执行 `||` 分支。
+
+这就是为什么看到了"已删除"和"删除失败"两条消息，但脚本没有退出的原因。

@@ -1,0 +1,11 @@
+caption: Indent Unit
+created: 20260319113929532
+description: The Unit used for Indentation
+modified: 20260319113929532
+option-names: Spaces Tabs
+option-values: spaces tabs
+settings-template: $:/plugins/BTC/tiddlywiki-codemirror-6/ui/templates/settings/select
+title: $:/config/codemirror-6/indentUnit
+type: text/vnd.tiddlywiki
+
+spaces

@@ -1,0 +1,22 @@
+authors: geeksforgeeks
+caption: variables
+created: 20250602175115392
+description: Python中的变量
+medium: Website
+modified: 20260208074958690
+modifier: uzvg
+progress: Building
+rating: Plain
+source: Learn Python Programming Language(1748882144149)
+tags: LiteratureNotes
+title: variables(1748886675392)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+* [[Python多变量解包赋值]]
+* [[Python中的集合(set)与元组(tuple)]]
+* 判断是否是类型？
+
+ isinstance(var, int)

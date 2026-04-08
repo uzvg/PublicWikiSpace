@@ -1,0 +1,13 @@
+caption: {{$:/language/codemirror6/foldGutter/caption}}
+caption-zh: {{$:/language/codemirror6/zh/foldGutter/caption}}
+created: 20260319115139185
+description: {{$:/language/codemirror6/foldGutter/description}}
+description-zh: {{$:/language/codemirror6/zh/foldGutter/description}}
+id: 2
+modified: 20260319115139185
+settings-group: fold
+settings-template: input-switch
+title: $:/config/codemirror-6/foldGutter
+type: text/vnd.tiddlywiki
+
+yes

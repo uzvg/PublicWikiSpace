@@ -1,0 +1,13 @@
+caption: {{$:/language/codemirror6/highlightTrailingWhitespace/caption}}
+caption-zh: {{$:/language/codemirror6/zh/highlightTrailingWhitespace/caption}}
+created: 20260319114946940
+description: {{$:/language/codemirror6/highlightTrailingWhitespace/description}}
+description-zh: {{$:/language/codemirror6/zh/highlightTrailingWhitespace/description}}
+id: 18
+modified: 20260319114946940
+settings-group: general
+settings-template: input-switch
+title: $:/config/codemirror-6/highlightTrailingWhitespace
+type: text/vnd.tiddlywiki
+
+yes
