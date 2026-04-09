@@ -1,0 +1,28 @@
+code-body: yes
+created: 20260223040012446
+modified: 20260305074537060
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/action.switch-focus
+type: text/vnd.tiddlywiki
+
+\procedure action.set-focus(suffix)
+<$action-sendmessage
+	$message="tm-focus-selector"
+	$param=`[data-tiddler-title="$(storyTiddler)$"] .tf-creator-input-$(suffix)$ textarea`
+	focusVisible="true"
+	preventScroll="true"/>
+\end
+
+\procedure action.focus-first() <<action.set-focus first>>
+\procedure action.focus-second() <<action.set-focus second>>
+
+<!--
+<$let
+	stateTiddler="$:/state/twks-flashcards/input-focus-selector"
+	selector=`[data-tiddler-title="$(storyTiddler)$"] .tf-creator-input-$(suffix)$`>
+	<$action-setfield
+		$tiddler=<<stateTiddler>>
+		text=<<selector>>/>
+</$let>
+-->

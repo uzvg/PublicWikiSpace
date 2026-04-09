@@ -1,0 +1,77 @@
+created: 20250106054849678
+creator: uzvg
+modified: 20251225041123487
+modifier: uzvg
+progress: WIP
+tags: $:/twks/Tools
+title: $:/uzvg/Tools/BatchRenamer
+type: text/vnd.tiddlywiki
+visibility: Public
+
+\function getTargetTiddler(sourceString,targetString)
+	[<currentTiddler>search-replace<sourceString>,<targetString>]
+\end
+
+\procedure renameAllactions()
+<$list filter="[all[tiddlers]!is[draft]!prefix[$:/state]!prefix[$:/tmp]search:title<sourceString>]">
+	<$action-sendmessage
+		$message="tm-rename-tiddler"
+		from=<<currentTiddler>>
+		to={{{ [function[getTargetTiddler],<sourceString>,<targetString>] }}} />
+<$list>
+\end
+
+|tc-max-width twks-full-width-input|k
+|Search tiddlers |<$edit-text tiddler="$:/temp/batchRename/source" tag="input"/>|
+|Replaced with |<$edit-text tiddler="$:/temp/batchRename/target" tag="input"/>|
+
+<$let
+	sourceStringTiddler="$:/temp/batchRename/source"
+	targetStringTiddler="$:/temp/batchRename/target"
+	sourceString={{{ [<sourceStringTiddler>get[text]] }}}
+	targetString={{{ [<targetStringTiddler>get[text]else<sourceString>] }}} >
+
+<% if [[$:/tmp/batchRename/source]!has[text]] %>
+	<<twks-alerter "caution" "Empty Input.">>
+<% elseif [all[tiddlers]!is[draft]!prefix[$:/state]!prefix[$:/temp]search:title<sourceString>count[]compare:integer:eq[0]] %>
+		<<twks-alerter "tip" "The search result are empty.">>
+<% else %>
+	<table class="tc-max-width">
+		<tr>
+			<th>Source Tiddler</th>
+			<th>Renamed with</th>
+			<th>Rename Actions</th>
+		</tr>
+		<$list filter="[all[tiddlers]!prefix[$:/state]!prefix[$:/tmp]search:title:literal,casesensitive{$:/tmp/batchRename/source}]">
+			<tr>
+				<td><<currentTiddler>></td>
+				<td>
+					{{{ [function[getTargetTiddler],<sourceString>,<targetString>] }}}
+				</td>
+				<td>
+					<$button>
+						Perform
+						<$action-sendmessage
+							$message="tm-rename-tiddler"
+							from=<<currentTiddler>>
+							to={{{ [function[getTargetTiddler],<sourceString>,<targetString>] }}} />
+					</$button>
+				</td>
+			</tr>
+		</$list>
+	</table>
+	<$button actions=<<renameAllactions>>>
+		Rename All
+	</$button>
+<% endif %>
+</$let>
+<style>
+.twks-full-width-input input{
+	width: 100%;
+}
+</style>
+
+👉 The Tool needs to be overhauled:
+
+* use filter to get source tiddlers
+* use filter to get target title

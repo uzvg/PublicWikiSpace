@@ -1,0 +1,398 @@
+created: 20260322134814808
+modified: 20260322141918800
+progress: Completed
+rating: Plain
+tags: PermanentNotes Python toml
+title: Python + TOML 完整笔记
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 一、为什么 Python 项目喜欢用 TOML？
+
+在 JSON、YAML、TOML 三者中：
+
+!!! 1. TOML 的优势（核心结论）
+
+* ✅ ''语法简单，接近 Python dict''
+* ✅ ''类型明确（不会像 YAML 那样“猜类型”）''
+* ✅ ''支持注释（JSON 不支持）''
+* ✅ ''结构清晰（比 YAML 更不容易写乱）''
+* ✅ ''官方被 Python 采纳（pyproject.toml）''
+
+👉 一句话总结：
+
+> TOML = 可读性 + 类型安全 + 工程友好
+
+!! 二、TOML 基础语法
+
+!!! 1. 键值对（Key-Value）
+
+```toml
+name = "Alice"
+age = 25
+pi = 3.14
+is_active = true
+```
+
+👉 对应 Python：
+
+```python
+{
+    "name": "Alice",
+    "age": 25,
+    "pi": 3.14,
+    "is_active": True
+}
+```
+
+!!! 2. 注释
+
+```toml
+# 这是注释
+name = "Alice" # 行尾也可以
+```
+
+* 👉 JSON ❌ 不支持
+* 👉 TOML ✅ 支持（很重要）
+
+!!! 3. 字符串（重点）
+
+; （1）普通字符串（支持转义）
+
+```toml
+path = "C:\\Users\\name"
+newline = "hello\nworld"
+```
+
+👉 ⚠️ ''转义字符只能在双引号中使用''
+
+; （2）原始字符串（不转义）
+
+```toml
+path = 'C:\Users\name'
+regex = '\d+'
+```
+
+👉 用于：
+
+* 文件路径
+* 正则表达式
+
+; （3）多行字符串
+
+```toml
+text = """
+这是多行文本
+不会保留首行换行（有规则）
+"""
+```
+
+👉 适合：
+
+* Markdown
+* prompt
+* 长文本
+
+!! 三、Table（表）= Python dict
+
+!!! 1. 基本 table
+
+```toml
+[user]
+name = "Alice"
+age = 25
+```
+
+👉 Python：
+
+```python
+{
+    "user": {
+        "name": "Alice",
+        "age": 25
+    }
+}
+```
+
+!!! 2. 点语法（等价写法）
+
+```toml
+user.name = "Alice"
+user.age = 25
+```
+
+👉 和上面完全等价
+
+!!! 3. Table 合并规则（重要）
+
+```toml
+[user]
+name = "Alice"
+
+[user]
+age = 25
+```
+
+👉 ❌ 错误（不能重复声明）
+
+正确写法：
+
+```toml
+[user]
+name = "Alice"
+age = 25
+```
+
+或：
+
+```toml
+user.name = "Alice"
+user.age = 25
+```
+
+!! 四、Array（列表）
+
+```toml
+numbers = [1, 2, 3]
+names = ["Alice", "Bob"]
+```
+
+👉 Python：
+
+```python
+{
+    "numbers": [1, 2, 3],
+    "names": ["Alice", "Bob"]
+}
+```
+
+!! 五、Array of Tables（重点🔥）
+
+👉 这是 TOML 最强的地方之一
+
+```toml
+[[account]]
+name = "Alice"
+age = 25
+
+[[account]]
+name = "Bob"
+age = 30
+```
+
+👉 Python：
+
+```python
+{
+    "account": [
+        {"name": "Alice", "age": 25},
+        {"name": "Bob", "age": 30}
+    ]
+}
+```
+
+!! 六、时间类型（TOML 原生支持）
+
+```toml
+created_at = 2024-03-20T12:00:00
+```
+
+👉 Python：
+
+```python
+datetime.datetime(...)
+```
+
+👉 优势：
+
+* 不需要手动解析字符串
+* 比 JSON 强很多
+
+!! 七、Python 中读取 TOML
+
+!!! 1. 标准库：`tomllib`（Python 3.11+）
+
+```python
+import tomllib
+
+with open("config.toml", "rb") as f:  # ⚠️ 必须是二进制模式
+    config = tomllib.load(f)
+
+print(config)
+```
+
+!!! ⚠️ 为什么是 `"rb"`？
+
+* TOML 是 ''字节流解析''
+* `tomllib` 要求 binary mode
+
+* 👉 `"r"` ❌
+* 👉 `"rb"` ✅
+
+!!! 2. 结果类型
+
+```python
+type(config)  # dict
+```
+
+👉 所有 TOML 最终 → Python dict
+
+!!! 3. 调试建议
+
+```python
+from pprint import pp
+pp(config)
+```
+
+👉 比 `print()` 更清晰
+
+!! 八、写入 / 编辑 TOML
+
+* ⚠️ ''关键现实：''
+* 👉 `tomllib ❌ 不支持写入`
+
+!!! 解决方案
+
+使用第三方库：
+
+* tomli-w（简单写入）
+* tomlkit（推荐，支持保留格式）
+
+!!! 示例（tomli-w）
+
+```python
+import tomli_w
+
+with open("config.toml", "wb") as f:
+    tomli_w.dump(config, f)
+```
+
+!!! 示例（tomlkit，更强）
+
+```python
+from tomlkit import document, table
+
+doc = document()
+user = table()
+user["name"] = "Alice"
+
+doc["user"] = user
+```
+
+👉 优点：
+
+* 保留注释
+* 保留格式
+* 可编辑结构
+
+!! 九、常见坑：
+
+!!! 1. 重复 table ❌
+
+```toml
+[user]
+name = "A"
+
+[user]
+age = 10
+```
+
+!!! 2. 转义问题
+
+```toml
+path = "C:\Users\name" ❌
+```
+
+必须：
+
+```toml
+path = "C:\\Users\\name"
+```
+
+或：
+
+```toml
+path = 'C:\Users\name'
+```
+
+!!! 3. 多行字符串缩进问题
+
+TOML：
+
+* 不会自动帮你去掉缩进
+* 你看到什么就是什么
+
+👉 这就是你之前踩的坑
+
+<<twks-alerter note "`toml`不会帮我们自动去掉缩进，你看到什么就是什么。">>
+
+!!! 4. `tomllib` 不能写文件
+
+👉 必须用第三方库
+
+!! 十、最佳实践（工程经验）
+
+!!! 1. 配置结构设计
+
+推荐：
+
+```toml
+[database]
+host = "localhost"
+port = 5432
+
+[[users]]
+name = "Alice"
+role = "admin"
+```
+
+👉 清晰、可扩展
+
+!!! 2. 场景选择
+
+用 TOML：
+
+* 配置文件 ✅
+* 工程参数 ✅
+* 静态数据 ✅
+
+不用 TOML：
+
+* 超大数据 ❌
+* 高频写入 ❌
+
+!!! 3. Python 项目标准
+
+现代 Python 项目统一：
+
+```toml
+pyproject.toml
+```
+
+👉 构建 / 依赖 / 工具配置都在这里
+
+!! 最后总结（帮你压缩记忆）
+
+你可以只记这 6 条：
+
+1. TOML ≈ ''更安全的 JSON + 更简单的 YAML''
+
+2. `table = dict`
+
+3. `[[table]] = list[dict]`
+
+4. 字符串：
+
+   * `"` 支持转义
+   * `'` 原始字符串
+   * `"""` 多行
+
+5. Python 读取：
+
+```python
+tomllib + rb
+```
+
+6. 写入必须用：
+
+   * tomli-w / tomlkit

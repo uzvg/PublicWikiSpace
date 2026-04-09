@@ -1,0 +1,57 @@
+code-body: yes
+created: 20260405170816950
+creator: uzvg
+modified: 20260405172805138
+modifier: uzvg
+tags: $:/tags/ViewTemplate
+title: $:/uzvg/twikoo/ViewTemplate 1
+type: text/vnd.tiddlywiki
+
+<!-- Twikoo commment will be disabled in following tiddlers:
+	1. missing tiddler
+	2. system tiddler
+	3. image tiddler
+	4. Private tiddler
+	5. Journal tiddler
+	6. If the tiddler has "twikoo-hide" field, then twikoo comment will be disabled
+	7. If the tiddler has empty text field, then twikoo comment will be disabled
+[<storyTiddler>!is[missing]!is[system]!visibility[Private]!is[image]!tag[Journal]has[text]]
+-->
+
+<$let
+	configTiddler="$:/config/twks-twikoo/data"
+	envId={{{ [<configTiddler>getindex[envId]] }}}
+	language={{{ [<configTiddler>getindex[language]] }}}
+	region={{{ [<configTiddler>getindex[region]] }}}
+	pathFilter={{{ [<configTiddler>get[path-filter]] }}}
+	path={{{ [subfilter<pathFilter>!is[blank]] :else[<storyTiddler>get[created]] }}}
+	userFilter={{{ [<configTiddler>get[user-filter]] }}}
+	defaultFilter="[<storyTiddler>!is[missing]!is[system]"
+	twikooHideSubfilter="+[!has[twikoo-hide]]"
+	twikooFilter={{{ [<configTiddler>getindex[user-filter]!is[blank]]
+									 :else[<defaultFilter>]
+									 [<twikooHideSubfilter>]
+									 +[join[ ]] }}}>
+
+	<$list filter=<<twikooFilter>>>
+		<$twks.details
+			summary="Open Comments"
+			collapsedSummary="Close Comments"
+			expandIcon="$:/plugins/uzvg/twks-twikoo/icons/comment_on"
+			collapseIcon="$:/plugins/uzvg/twks-twikoo/icons/comment_off"
+			initialState="collapsed"
+			state="$:/state/twks-twikoo"
+			triggerClass="twks-twikoo-btn"
+			triggerWrapperClass="twks-flexbox-row-right"
+			contentClass="twks-comment-body">
+
+			<$twikoo
+				envId=<<envId>>
+				region=<<region>>
+				path=<<path>>
+				lang=<<language>>/>
+
+		</$twks.details>
+	</$list>
+
+</$let>

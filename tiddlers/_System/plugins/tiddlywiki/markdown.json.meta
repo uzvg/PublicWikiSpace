@@ -1,0 +1,12 @@
+created: 20260114024913393
+dependents: 
+description: Markdown parser based on markdown-it
+list: readme settings syntax license
+modified: 20260114024913393
+modifier: uzvg
+name: Markdown
+plugin-type: plugin
+stability: STABILITY_2_STABLE
+title: $:/plugins/tiddlywiki/markdown
+type: application/json
+version: 5.3.8

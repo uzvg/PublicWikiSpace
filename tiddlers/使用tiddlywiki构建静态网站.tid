@@ -1,0 +1,31 @@
+created: 20260125050730689
+modified: 20260125055348862
+progress: Researching
+tags: ProjectNotes tiddlywiki
+title: 使用tiddlywiki构建静态网站
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 重点：
+
+```sh
+tiddlywiki wikipath --render '[!is[system]]' '[encodeuricomponent[]addprefix[static/]addsuffix[.html]]' text/plain $:/core/templates/static.tiddler.html
+tiddlywiki wikipath --render $:/core/templates/static.template.html static.html text/plain
+tiddlywiki wikipath --render $:/core/templates/static.template.css static/static.css text/plain
+```
+
+; [[$:/core/templates/static.tiddler.html]]的内容：
+<$codeblock code={{$:/core/templates/static.tiddler.html}}/>
+
+* 反引号的主要作用对象不是 `widget`，而是“widget 之外的普通文本（尤其是 HTML 节点）”；在 render 阶段，widget 会照常执行，而非 widget 的内容保持为字面文本。
+* 这里的反引号的作用是，是把一段文本标记为 literal text run，其中只有 widget 语法会被执行，其余文本不进入 wikifier。
+
+!! 参考链接：
+
+[[Generating Static Sites with TiddlyWiki|https://tiddlywiki.com/#Generating%20Static%20Sites%20with%20TiddlyWiki]]
+
+; [[$:/core/ui/ViewTemplate]]的内容：
+
+<$twks.details summary="Tiddler Content" state="$:/state/detail">
+<$codeblock code={{$:/core/ui/ViewTemplate}}/>
+</$twks.details>

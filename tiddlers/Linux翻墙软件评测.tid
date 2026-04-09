@@ -1,0 +1,29 @@
+created: 20260405054740654
+creator: uzvg
+description: Linux上的各种翻墙软件评测
+modified: 20260405064440922
+modifier: uzvg
+progress: Completed
+rating: Personal
+tags: PermanentNotes proxy
+title: Linux翻墙软件评测
+type: text/vnd.tiddlywiki
+visibility: Public
+
+''System Info:''
+
+```
+system: ArchLinux
+Desktop: Gnome4.9
+```
+
+|tc-max-width|k
+| !项目名称 | !项目地址(github) | !占用内存 | !使用体验 | !评分 |
+|clash verge rev |https://github.com/clash-verge-rev/clash-verge-rev | `800M` |3A 大作，功能既不稳定，也不好用 | 4.5/10 |
+|clash party |https://github.com/mihomo-party-org/clash-party | `896M` |3A 大作，但功能比较稳定 | 6.5/10 |
+|gui for singbox |https://github.com/GUI-for-Cores/GUI.for.SingBox | `990M` |以为是轻量，但更是重量级选手，在Linux上功能不稳定 | 5.0/10 |
+|throne |https://github.com/throneproj/Throne | `216M` |运行效率高，但极不稳定，测速，连接，全看概率 | 5.0/10 |
+|dae |https://github.com/daeuniverse/dae | `极低` |内核级透明代理，据说有dns泄露的问题，不适合小白，没进行深入了解 | 6.0/10 |
+|karing |https://github.com/KaringX/karing | `482M` |稳定好用，一键开启，gui使用的类似移动端设计，在客户端不太好用，但总体功能是好用。 | 8.0/10 |
+|flclash |https://github.com/chen08209/FlClash | `460M` |稳定好用，一键开启，功能相对于其他代理客户端软件，比较少，但贵在稳定 | 8.5/10 |
+|hiddify |https://github.com/hiddify/hiddify-app | `480M` |不稳定，但能用，功能比较简陋 | 7.5/ 10 |

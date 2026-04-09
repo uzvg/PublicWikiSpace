@@ -1,0 +1,75 @@
+caption: 上肢训练
+created: 20250520032105611
+modified: 20260114024913409
+modifier: uzvg
+tags: $:/tags/Fitness/Template
+title: $:/uzvg/Fitness/Templates/上肢训练
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/Share/delete-tiddler-btn]]
+
+\function get-fitness-template() [<currentTiddler>get[caption]]
+\function get-template-tag() [[$:/Fitness/Template/]addsuffix<get-fitness-template>]
+\function get-exercise-caption() [<currrentExercise>get[caption]]
+\function get-sets-tiddler() [<currentTiddler>addsuffix[/setsTiddler]]
+\function get-reps-tiddler() [<currentTiddler>addsuffix[/repsTiddler]]
+\function get-default-sets() [<currentExercise>get[sets]]
+\function get-default-reps() [<currentExercise>get[reps]]
+
+<!-- Delete Exercise From The Template:
+1. Untag the exerciseTiddler
+2. Delete the index in setsTiddler
+3. Delete the index in repsTiddler
+-->
+
+\procedure del-exercise-actions()
+<$action-listops $tiddler=<<currentExercise>>
+	$subfilter="-[<get-template-tag>]"/>
+<$action-setfield $tiddler=<<get-sets-tiddler>>
+	$index=<<get-exercise-caption>>/>
+<$action-setfield $tiddler=<<get-reps-tiddler>>
+	$index=<<get-exercise-caption>>/>
+\end
+
+\procedure del-exercise-btn()
+<$button actions=<<del-exercise-actions>>>
+	<$transclude $tiddler="$:/core/images/delete-button"/>
+</$button>
+\end
+
+<table class="tc-max-width tc-center tc-edit-max-width">
+	<tr>
+		<th>Exercise</th>
+		<th>Reps</th>
+		<th>Sets</th>
+		<th>Del</th>
+	</tr>
+	<$list filter="[all[tiddlers]!is[draft]tag<get-template-tag>]" variable="currentExercise">
+		<tr>
+			<td>
+				<$link to=<<currentExercise>>>
+					<<get-exercise-caption>>
+				</$link>
+			</td>
+			<td>
+				<$edit-text tiddler=<<get-reps-tiddler>>
+					tag="input"
+					type="number"
+					index=<<get-exercise-caption>>
+					placeholder=<<get-default-sets>>/>
+			</td>
+			<td>
+				<$edit-text tiddler=<<get-sets-tiddler>>
+					tag="input"
+					type="number"
+					index=<<get-exercise-caption>>
+					placeholder=<<get-default-sets>>/>
+			</td>
+			<td>
+				<<del-exercise-btn>>
+			</td>
+		</tr>
+	</$list>
+</table>
+
+!! 

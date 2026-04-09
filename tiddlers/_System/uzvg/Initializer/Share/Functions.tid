@@ -1,0 +1,86 @@
+code-body: yes
+created: 20250404050558772
+modified: 20260114024913420
+modifier: uzvg
+title: $:/uzvg/Initializer/Share/Functions
+type: text/vnd.tiddlywiki
+
+<!----------Get Image Type---------->
+\function get-image-type(field:"text")
+	[<storyTiddler>get<field>trim[]split[.]last[]]
+	-[[jpg]] +[else[image/jpeg]]
+	-[[webp]] +[else[image/jpeg]]
+	-[[jpeg]] +[else[image/jpeg]]
+	-[[png]] +[else[image/png]]
+	-[[gif]] +[else[image/gif]]
+	-[[ico]] +[else[image/x-icon]]
+	-[[svg]] +[else[image/svg+xml]]
+\end
+
+<!-- Get stateTiddler for whether force initialize storyTiddler -->
+\function stateTiddler() [<qualify $:/temp/intializer/state>]
+
+<!-- Get default image title -->
+\function get-default-image-title() [<storyTiddler>get[_canonical_uri]trim[]split[/]last[]]
+
+<!-- Get image title -->
+\function get-image-title()
+	[[$:/tmp/image-title]get[text]else<get-default-image-title>]
+\end
+
+<!-- Get text from the exported tiddler-->
+\function get-imported-text() [<storyTiddler>get[text]]
+
+<!-- Get import-type from the initializer tiddler-->
+\function get-import-type() [<currentTab>get[import-type]]
+
+<!-- Get clean url from the imported text with twks-clean-url -->
+\function get-clean-url-from-imported()
+	[<storyTiddler>get[url]]
+	:else[function[twks-clean-url],<get-imported-text>]
+\end
+
+<!-- Get current initializer tiddler -->
+\function get-initializer-tiddler()
+	[!is[draft]tag[$:/tags/Initializer]import-type<get-import-type>]
+\end
+
+<!-- Get current initializer table tiddler -->
+\function get-initializer-table-tiddler()
+	[!is[draft]tag[$:/tags/Initializer/Tables]import-type<get-import-type>]
+\end
+
+<!-- Get current initializer action tiddler -->
+\function get-initializer-actions-tiddler()
+	[!is[draft]tag[$:/tags/Initializer/Actions]import-type<get-import-type>]
+\end
+
+<!-- Get current initializer fiedsIndex tiddler -->
+\function get-initializer-FieldsIndex-tiddler()
+	[tag[$:/tags/Initializer/FieldsIndex]import-type<get-import-type>]
+\end
+
+\function get-initializer-FieldsIndexes()
+	[<get-initializer-FieldsIndex-tiddler>indexes[]]
+	:filter[<storyTiddler>!has<currentTiddler>]
+\end
+
+\function get-initializer-FieldsIndex-value()
+	[<get-initializer-FieldsIndex-tiddler>getindex<currentIndex>]
+\end
+
+\function twks-initializer-create-actions()
+	[<get-initializer-actions-tiddler>get[text]]
+\end
+
+\function get-title-suffix-timestamp()
+	[<storyTiddler>get[caption]addsuffix[(]]
+	[<storyTiddler>get[created]format:date[TIMESTAMP]addsuffix[)]]
+	+[join[]]
+\end
+
+\function get-title-sufix-isbn()
+	[<storyTiddler>get[caption]addsuffix[(]]
+	[<storyTiddler>get[isbn]trim[]addsuffix[)]]
+	+[join[]]
+\end

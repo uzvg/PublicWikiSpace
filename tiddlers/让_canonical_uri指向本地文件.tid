@@ -1,0 +1,35 @@
+created: 20260114162322721
+description: 如何让_canonical_uri指向本地文件
+modified: 20260114164535659
+progress: Completed
+rating: Valuable
+tags: PermanentNotes tiddlywiki
+title: 让_canonical_uri指向本地文件
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+在本地使用nodejs tiddlywiki时，一种很合理的需求是：怎么在我的tiddlywiki中显示本地图片，这个功能应该是不难的，tiddlywiki自身也有这个能力，但文档组织得不太完善，我费了老大劲，才在👉[[Using the integrated static file server|https://tiddlywiki.com/#Using%20the%20integrated%20static%20file%20server]]中找到了相关文档的只言片语的描述。
+
+!! 解决方案：
+
+<<<
+Any files in the subfolder files of the wiki folder will be available via the route `\files\<uri-encoded-filename>`.
+
+For example: `http://127.0.0.1:8080/files/Motovun%20Jack.jpg`
+<<<
+
+
+意思就是说：
+
+* 在tiddlywiki的根目录下的`files`文件夹（如果没有，就新建一个）
+* 里面的文件，可以通过`http://127.0.0.1:8080/files/文件路径/文件名`的方法访问
+* 这也就意味着，我们可以将其设置为`_canonical_uri`字段的值。
+
+!! 指向图片：
+
+* 在`wikiFolder`中创建`files/images`文件夹
+* 把本地图片放到`files/images/`文件夹中
+* 在tiddlywiki中新建一个图片tiddler，将它的`_canonical_uri`值设置为`files/images/image.jpg`，选择图片类型，就可以在tiddlywiki中显示本地图片了
+* 不需要添加任何前缀，非常方便。

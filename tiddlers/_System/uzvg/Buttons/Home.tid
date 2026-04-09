@@ -1,0 +1,42 @@
+caption: {{$:/core/images/home-button}} {{$:/language/Buttons/Home/Caption}}
+created: 20260316100318703
+description: {{$:/language/Buttons/Home/Hint}}
+modified: 20260318021843514
+tags: $:/tags/PageControls
+title: $:/uzvg/Buttons/Home
+type: text/vnd.tiddlywiki
+
+\procedure go-home-actions()
+<$let journalTitle=<<now "DDth MMM YYYY">>>
+
+	<% if [<journalTitle>!is[tiddler]] %>
+		<!-- Create Journal Tiddler -->
+		<$action-createtiddler
+			$basetitle=<<journalTitle>>
+			tags="Journal"
+			text={{$:/config/NewJournal/Text}}/>
+	<% endif %>
+	<!-- Set Default Tiddler -->
+	<$action-setfield
+		$tiddler="$:/DefaultTiddlers"
+		text={{{ [<journalTitle>format:titlelist[]] }}} />
+	<$action-sendmessage $message="tm-home"/>
+
+</$let>
+\end
+
+\procedure twks-home-btn()
+\whitespace trim
+<$button actions=<<go-home-actions>> tooltip={{$:/language/Buttons/Home/Hint}} aria-label={{$:/language/Buttons/Home/Caption}} class=<<tv-config-toolbar-class>>>
+<%if [<tv-config-toolbar-icons>match[yes]] %>
+{{$:/core/images/home-button}}
+<%endif%>
+<%if [<tv-config-toolbar-text>match[yes]] %>
+<span class="tc-btn-text">
+<$text text={{$:/language/Buttons/Home/Caption}}/>
+</span>
+<%endif%>
+</$button>
+\end
+
+<<twks-home-btn>>

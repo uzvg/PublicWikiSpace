@@ -1,0 +1,17 @@
+created: 20241022055543242
+creator: uzvg
+description: tiddlywiki paletter manager
+modified: 20250318153047962
+modifier: uzvg
+progress: Archived
+rating: Plain
+tags: tiddlywiki PermanentNotes
+title: tiddlywiki palette-manager
+type: text/vnd.tiddlywiki
+visibility: Public
+
+发现的一个可以用于给tiddlywiki创造主题的插件：
+
+* [[palette-manager|https://wikilabs.github.io/editions/palette-manager/]]
+
+<<twks-alerter "tip" "但更快的方式是套用已有的palette文件，然后丢给claude ai，让AI根据已有的palette格式自动创造。">>

@@ -1,0 +1,15 @@
+created: 20241214053952789
+modified: 20260304122720783
+modifier: uzvg
+progress: Completed
+tags: ProjectNotes TWKS
+title: Generate clean url from dirty url
+type: text/vnd.tiddlywiki
+url: https://youtu.be/2pHz-UzFV9E?si=c8Vs5x1_nmh3M1gs
+visibility: Public
+
+* 项目已经完成，遇到的最大障碍在于wikify widget的作用跟使用方式。
+
+[[18th March 2025]]👉需要更完善的模块，要更容易添加新的规则，规则跟代码实现分离。
+
+@[[26th May 2025]]，代码已完成，需要补充文档

@@ -1,0 +1,95 @@
+created: 20260117161821162
+description: 调试chezmoi中的模板文件
+modified: 20260118021847934
+modifier: uzvg
+progress: Completed
+rating: Valuable
+tags: PermanentNotes chezmoi
+title: chezmoi模板文件调试
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 一、最核心的 3 个调试命令
+
+```sh
+chezmoi data
+chezmoi execute-template --dry-run -f <template>
+chezmoi apply --dry-run -v
+```
+
+| !命令                 | !用途         |
+|`chezmoi data`     |查看所有模板变量   |
+|`execute-template` |渲染模板，不写文件  |
+|`apply --dry-run`  |预览所有变更，不执行 |
+
+!! 二、模板调试（.tmpl）
+
+!!! 查看模板可用变量
+
+```sh
+chezmoi data
+```
+
+常用字段：
+
+```text
+.chezmoi.os
+.chezmoi.arch
+.chezmoi.username
+.chezmoi.homeDir
+.chezmoi.sourceDir
+```
+
+快速测试：
+
+```sh
+chezmoi execute-template --dry-run '{{ .chezmoi.os }}'
+```
+
+!!! 渲染模板文件
+
+```sh
+chezmoi execute-template --dry-run -f path/to/file.tmpl
+```
+
+* 可以显示 ''最终写入系统的内容''
+
+!!! 快速调试模板表达式
+
+```sh
+chezmoi execute-template --dry-run '{{ if eq .chezmoi.os "linux" }}YES{{ end }}'
+```
+
+测试：
+
+* `if / else`
+* `range`
+* `with`
+* `include`
+* `lookup`
+
+!!! 模板“打日志”
+
+```tmpl
+{{ printf "DEBUG os=%s\n" .chezmoi.os }}
+{{ toYaml .chezmoi | indent 2 }}
+```
+
+搭配：
+
+```sh
+chezmoi execute-template --dry-run -f file.tmpl
+```
+
+!! 三、文件层面的调试
+
+```sh
+#  查看执行`apply`后文件的内容
+chezmoi cat ~/.gitconfig
+
+# 查看 source 与 target 差异
+chezmoi diff
+
+# 使用外部 diff（如 vimdiff）
+chezmoi diff ~/.gitconfig
+```
