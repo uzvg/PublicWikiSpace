@@ -1,0 +1,18 @@
+created: 20260109091953418
+modified: 20260114024913435
+modifier: uzvg
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/mosaic.css
+type: text/vnd.tiddlywiki
+
+.mosaic {
+  filter: blur(4px);
+}
+
+.mosaic:hover {
+  filter: none;
+}
+
+.mosaic::selection {
+  background: transparent;
+}

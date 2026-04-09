@@ -1,0 +1,24 @@
+created: 20240923061212775
+creator: uzvg
+description: The stylesheet setting of initialization table.
+modified: 20250424143202355
+modifier: uzvg
+tags: $:/tags/Stylesheet
+title: $:/uzvg/Stylesheets/twks-initializer.css
+type: text/vnd.tiddlywiki
+
+.twks-initializer-box {
+	overflow: auto;
+}
+.twks-initializer-box .tc-edit-tags {
+	border: hidden;
+}
+.twks-initializer-box th {
+	width: 30%;
+	text-align: left;
+	padding: 0 1em 0;
+}
+
+.twks-initializer-box input[type="radio"] {
+	width: unset;
+}

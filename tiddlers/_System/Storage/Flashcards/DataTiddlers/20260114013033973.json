@@ -1,0 +1,66 @@
+{
+  "20260114143125253": {
+    "cloze": "float元素常用于制造{文字环绕}的效果。"
+  },
+  "20260114143146564": {
+    "question": "默想一下，float布局最常造成的两种问题是什么？",
+    "answer": "一个是元素覆盖，比如覆盖父元素跟后续的兄弟元素。另一个是父元素高度崩塌的问题。"
+  },
+  "20260114143538368": {
+    "question": "默想一下由float元素造成的block元素覆盖的效果？",
+    "answer": "主要是对父元素跟后续的兄弟block元素的覆盖。"
+  },
+  "20260114143638325": {
+    "question": "解决float造成的布局问题，主要有哪几种方法？",
+    "answer": "三种，clear:both; clearfix; flow-root。"
+  },
+  "20260114143746477": {
+    "cloze": "float元素会挡住{inline}元素，却挡不住{block}元素。"
+  },
+  "20260114143724293": {
+    "question": "如果我们把float比作浮木，那么clear属性的作用是什么？",
+    "answer": "我这个元素，不能跟浮木处于同一排。"
+  },
+  "20260114160959017": {
+    "question": "使用clear both时，clear属性是被定义在float元素里吗？",
+    "answer": "不是，是定义在后面的常规block元素里。"
+  },
+  "20260114161301527": {
+    "question": "clear both的作用是什么？",
+    "answer": "保证使用clear both的非float元素，另起一行，从而避免了被float元素覆盖。"
+  },
+  "20260114161522063": {
+    "question": "clear both方法的缺陷是什么？",
+    "answer": "无法解决父容器的高度塌陷问题。"
+  },
+  "20260114161605734": {
+    "question": "回想一下，在使用clear both时，遇到的父容器的高度塌陷问题是什么样的？",
+    "answer": "当float元素的高度大于父元素时，父元素被float子元素覆盖。"
+  },
+  "20260114161715071": {
+    "question": "clearfix方法的CSS属性有哪些？",
+    "answer": ".container::after {   content: \"\";   display: table;   clear: both; }"
+  },
+  "20260114161845395": {
+    "cloze": "clearfix 既保证了后面的block元素{另起一行}，站在{当前float元素的后面}，又解决了{父容器高度塌陷}（父元素无法包裹浮动子元素）的问题"
+  },
+  "20260114161817869": {
+    "question": "比clear both跟clearfix更现代，更优雅的解决方案是？",
+    "answer": "flow-root方案。"
+  },
+  "20260114162004949": {
+    "question": "flow-root方案的CSS代码包含哪些？",
+    "answer": "在父元素中使用display:flow-root"
+  },
+  "20260114162034501": {
+    "question": "如何理解display:flow-root?(翻译成人话)",
+    "answer": "这里是一个独立的水池，里面的浮木，不准影响外面"
+  },
+  "20260114162117098": {
+    "question": "flow-root会对父元素有哪些效果？",
+    "answer": "1. 阻止父元素高度塌陷。 2. 阻止内部的float元素影响后续兄弟元素。"
+  },
+  "20260114162244116": {
+    "cloze": "在工作实践中，解决float问题是，优化选择{flow-root}方案。"
+  }
+}

@@ -1,0 +1,119 @@
+created: 20260117152420140
+description: 使用chezmoi+age实现加密密钥的跨设备同步
+modified: 20260118034245189
+progress: Completed
+rating: Valuable
+tags: PermanentNotes chezmoi Dotfiles(配置文件)
+title: 使用chezmoi+age实现加密密钥的跨设备同步
+type: text/vnd.tiddlywiki
+visibility: Public
+
+在[[使用chezmoi管理配置文件]]时，一个非常重要但容易被误解的能力是：''安全地将敏感文件（如 SSH 私钥）纳入 dotfiles 仓库，并实现跨设备无缝同步。''
+
+`chezmoi` 内置了对 [[age加密]] 的支持，使我们可以：
+
+* ''明文管理 → 加密存储 → 解密使用''
+* 即使仓库是公开的，也不会泄露任何密钥内容
+* 在新设备上快速恢复 SSH / API key 等敏感配置
+
+!! 一、核心思路（先讲清楚原理）
+
+整个方案本质上是一个 ''两层加密模型''：
+
+1. ''第一层：使用 age 公钥加密“真正的秘密文件”''
+
+* 例如：`~/.ssh/id_ed25519`
+
+2. ''第二层：使用“人类可记忆的密码”来保护 age 私钥''
+
+* 解决“私钥如何跨设备安全同步”的问题
+
+换句话说：
+
+<<twks-alerter "note" "密钥文件用公钥加密，公钥对应的私钥再用密码保护。">>
+
+!! 二、整体流程概览
+
+看起来步骤不少，但逻辑非常线性：
+
+1. 使用 `age` 生成一对密钥：
+
+* ''公钥''：用于加密文件（可以公开）
+* ''私钥''：用于解密文件（必须严格保护）
+
+2. 在 `chezmoi` 配置中声明：
+
+* 使用哪个私钥解密
+* 使用哪个公钥加密
+
+3. 使用 `chezmoi age encrypt`（或 `age`）加密 SSH 私钥等敏感文件
+
+4. 将 ''加密后的文件'' 提交到 GitHub
+
+5. 为了解决「新设备没有 age 私钥」的问题：
+
+* 使用 ''密码'' 对 age 私钥再加密一次
+* 将“被密码加密的私钥文件”也存入仓库
+
+6. 在新设备上：
+
+* 先用密码解密 age 私钥
+* 再用该私钥解密 SSH 私钥等敏感文件
+
+!! 三、chezmoi 中的 age 配置
+
+在 `~/.config/chezmoi/chezmoi.toml` 中配置：
+
+```toml
+[age]
+identity = "<age 私钥文件路径>"
+recipient = "<age 公钥文本>"
+```
+
+; 说明：
+* `identity`
+** 指向 ''本地 age 私钥文件''
+** 仅存在于目标机器，不应直接明文提交
+* `recipient`
+** 是公钥的''字符串形式''
+** 用于加密文件，可以放心写入配置
+
+!! 四、加密文件的实际方式
+
+!!! 使用 age 直接加密（原理层）
+
+```bash
+age --encrypt -r <public-key-text> \
+  --output file.txt.age \
+  file.txt
+```
+
+!!! 使用 chezmoi（推荐）
+
+chezmoi 会自动识别 `.age` 文件，并在 apply 时解密：
+
+```bash
+chezmoi add ~/.ssh/id_ed25519
+```
+
+前提是该文件被标记为加密（如 `*.age` 或通过脚本控制）。
+
+!! 五、私钥的存放与同步策略
+
+* ''加密后的敏感文件''
+** 存放在 `source state` 中（如 `private_*.age`）
+* ''被密码保护的 age 私钥''
+** 例如：`.config/chezmoi/key.txt`
+* 私钥文件本身 ''不应直接明文提交''
+** 而是通过脚本：
+* 首次 `chezmoi init` 时请求密码
+* 解密并写入本地
+
+官方推荐方案见：👉 [[How do I configure chezmoi to encrypt files but only request a passphrase the first time chezmoi init is run?|https://www.chezmoi.io/user-guide/frequently-asked-questions/encryption]]
+
+!! 六、总结
+
+* 在 ''源主机''：用 ''age 公钥'' 加密敏感文件，再用 ''密码'' 保护 age 私钥
+* 在 ''新主机''：先用 ''密码'' 解密 age 私钥，再用 ''私钥'' 解密敏感文件
+
+最终结果就是，只有密码需要我们“记住”''，其余一切都可以安全自动同步。

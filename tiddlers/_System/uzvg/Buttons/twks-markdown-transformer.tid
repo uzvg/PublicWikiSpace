@@ -1,0 +1,75 @@
+code-body: yes
+created: 20250626135746305
+modified: 20260207173307679
+modifier: uzvg
+tags: $:/tags/ViewToolbar
+title: $:/uzvg/Buttons/twks-markdown-transformer
+type: text/vnd.tiddlywiki
+
+<!-- markdown table seperator pattern:
+👉 It seems not work!
+	+[search-replace:gm:regexp[<markdown-table-seperator-regexp>],[]]
+	+[search-replace:gm:regexp[^\d\.\s],[# ]]
+<$codeblock code=<<twks-markdown-transformer>>/>
+-->
+\whitespace trim
+\function storeTiddler() [<qualify $:/temp/markdown-transformed-tiddler>]
+\procedure markdown-table-seperator-pattern() ^\|-+(\||-|\s)+\|\n
+\procedure disorder-list-pattern() ^\s+-
+\function get-transformed-text()
+	[<storyTiddler>get[text]]
+	+[search-replace:gm:regexp[\*\*],['']]
+	+[search-replace:gm:regexp[^---\n\n],[]]
+	+[search-replace:gm:regexp[^## ],[!! ]]
+	+[search-replace:gm:regexp[^### ],[!!! ]]
+	+[search-replace:gm:regexp[^#### ],[; ]]
+	+[search-replace:gm:regexp[^-\s],[* ]]
+	+[search-replace:gm:regexp[^\s\s\*\s],[** ]]
+\end
+
+\procedure twks-markdown-retrieve-actions()
+\function get-origin-markdown-text() [<storeTiddler>get[text]]
+	<$action-setfield $tiddler=<<storyTiddler>>
+		text=<<get-origin-markdown-text>>
+		type="text/markdown"/>
+	<$action-deletetiddler $tiddler=<<storeTiddler>>/>
+\end
+
+\procedure twks-markdown-transform-actions()
+\function get-origin-markdown-text() [<storyTiddler>get[text]]
+	<$action-setfield $tiddler=<<storeTiddler>>
+		text=<<get-origin-markdown-text>>
+		transform-from=<<storyTiddler>>/>
+	<$action-setfield $tiddler=<<storyTiddler>>
+		text=<<get-transformed-text>>
+		type="text/vnd.tiddlywiki"/>
+\end
+
+\procedure twks-markdown-transformer-btn-actions()
+	<% if [<storeTiddler>!is[tiddler]] %>
+		<<twks-markdown-transform-actions>>
+	<% else %>
+		<<twks-markdown-retrieve-actions>>
+	<% endif %>
+\end
+
+\procedure twks-markdown-transformer-btn()
+	<$button
+		actions=<<twks-markdown-transformer-btn-actions>>
+		tooltip="Transform markdown into wikitext"
+		aria-label={{$:/language/Buttons/Derivator/Hint}}
+		class=<<tv-config-toolbar-class>>>
+		<%if [<tv-config-toolbar-icons>match[yes]] %>
+			{{$:/uzvg/Images/Transform}}
+		<%endif%>
+		<%if [<tv-config-toolbar-text>match[yes]] %>
+			<span class="tc-btn-text">
+				<$text text="Simple transformer to transform markdown into wikitext."/>
+			</span>
+		<%endif%>
+	</$button>
+\end
+
+<$list filter="[all[current]type[text/markdown]] [all[tiddlers]prefix[$:/temp/markdown-transformed-tiddler]transform-from<storyTiddler>]">
+	<<twks-markdown-transformer-btn>>
+</$list>

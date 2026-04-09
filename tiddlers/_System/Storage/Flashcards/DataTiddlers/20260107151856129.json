@@ -1,0 +1,6 @@
+{
+    "20260123085209961": {
+        "question": "在zsh Shell中，使用while循环逐行处理文本的方式有几种？",
+        "answer": "1. `<` 直接从文件重定向，2. 使用HereDoc语法`<<EOF EOF` 3. 使用HereString语法 `<<<$var`"
+    }
+}

@@ -1,0 +1,15 @@
+created: 20260402140553620
+modified: 20260402141005289
+progress: WIP
+tags: ProjectNotes tiddlywiki
+title: 格式化WikiSpace图片名
+type: text/vnd.tiddlywiki
+visibility: Public
+
+之前被插入到WikiSpace中的图片，文件名比较乱，最好是能统一成字符长度一致的图片名。
+
+需要做的工作：
+
+# 下载上传到云盘中的图片，使用图片hash重命名图片名。
+# 修改WikiSpace中的图片tiddlywiki，使其跟命名中的图片保持一致。
+# 修改构建方案，使得能自动生成对应的图片url。

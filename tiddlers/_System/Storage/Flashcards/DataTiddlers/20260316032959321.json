@@ -1,0 +1,26 @@
+{
+  "20260317224632495": {
+    "fields": {
+      "Text": "现代图标通常使用<<c1 \"24 * 24\">> 作用图标网络基础",
+      "Back Extra": ""
+    },
+    "modelName": "TFCloze",
+    "modelVersion": "1.3"
+  },
+  "20260317224627712": {
+    "fields": {
+      "Front": "为什么现代图标通常使用 24 × 24作为图标网格基础？",
+      "Back": "因为''可整除性好''，24 可以被 2、3、4、6、8 整除，方便在不同尺寸缩放。"
+    },
+    "modelName": "TFBasic",
+    "modelVersion": "1.3"
+  },
+  "20260317224949026": {
+    "fields": {
+      "Front": "如何防止元素超出画布？",
+      "Back": "Transform\n   → Scale\n       → Scale proportionally\n       → Apply to each object separately\n       → Apply"
+    },
+    "modelName": "TFBasic",
+    "modelVersion": "1.3"
+  }
+}

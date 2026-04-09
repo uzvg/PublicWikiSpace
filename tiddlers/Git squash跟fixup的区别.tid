@@ -1,0 +1,49 @@
+created: 20250620073358532
+description: git squash跟fixup这两个命令都用于合并commit，它们之间的区别不大，主要在于一个不会修comit 的hash，而另一个会。
+modified: 20260107050026912
+modifier: uzvg
+progress: Completed
+rating: Personal
+source: 命令行神器lazygit(1750399464648)
+tags: PermanentNotes Git
+title: Git squash跟fixup的区别
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 引言：
+
+`squash`跟`fixup`commit，两者都是用来合并commmit的操作。一般来说，在当前commit上执行这两个操作，都会把当前commit跟上一个commit两个commit合并为一个commit，但两者的区别是什么呢？
+
+!! 区别：
+
+从字面意义上来看，`squash`具有''压缩''、''压榨''的意思，而`fixup`具有''修理''、''修补''的意思。虽然两个都有合并`commit`的功能，但是：
+
+* `squash`会导致上一个commit的信息会被改变，导致上一个commit，也就是被合并进去的commit的index会有变化。
+* 而`fixup`，会把当前的commit当做上一个commit的修补，它会直接删掉后面的commit，而且不会修改上一个commit的信息。
+
+!! 总结：
+
+|!操作方式|!是否合并提交|!是否保留多个提交信息|!提交历史整洁|
+|`squash` | ✅ 是   |✅ 是（可编辑合并说明） |中等      |
+|`fixup`  | ✅ 是   |❌ 否（直接省略说明）  |✅ 最干净   |
+
+<<twks-alerter "note" "🔧 如果你希望提交历史非常清晰、简洁 —— 首选 `fixup`。">>
+
+<<rememberq "20260107045330009"
+	"squash是什么意思？"
+	"压榨、挤压。">>
+
+<<rememberq "20260107035129513"
+	"git rebase中的fixup操作，会做哪些动作？"
+	"将fixup commit视为上一个commit的修改，将fixup commit的修改添加到上一个commit中，不修改上commit index。">>
+
+<<rememberq "20260107042343701"
+	"git rebase的squash操作会做什么动作？"
+	"将squash commit与目标commit 挤压为一个新的commit，该commit具有新的index。">>
+
+<<rememberq "20260107035015841"
+	"fixup跟squash的区别是什么？"
+	"fixup不会导致被合并的commit的index发生变化，而squash会挤压为一个新的commit。">>
+
+<<remembercz "20260107045952540"
+	"如果你希望提交历史清晰、简洁，首选{fixup}。">>

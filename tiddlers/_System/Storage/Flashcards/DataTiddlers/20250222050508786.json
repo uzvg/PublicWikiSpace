@@ -1,0 +1,18 @@
+{
+  "20260317225907851": {
+    "fields": {
+      "Front": "请在脑海里默想`git soft reset`会做的动作",
+      "Back": "把指定commit之后的所有提交，从书架放回盒子里，桌面上的内容保持不变。"
+    },
+    "modelName": "TFBasic",
+    "modelVersion": "1.3"
+  },
+  "20260317225937636": {
+    "fields": {
+      "Front": "请默想`git mixed reset`会做的动作",
+      "Back": "把指定commit之后的所有commit，甚至连盒子里的内容，跟桌面上原先的内容，全都被放在桌面上，用于整重新整理。"
+    },
+    "modelName": "TFBasic",
+    "modelVersion": "1.3"
+  }
+}

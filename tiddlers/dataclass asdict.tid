@@ -1,0 +1,13 @@
+created: 20260322144625122
+description: 
+modified: 20260322144648221
+modifier: uzvg
+progress: Pending
+rating: Plain
+source: dataclass:懂事的类会自己生成方法(1774189667232)
+tags: PermanentNotes dataclass asdict
+title: dataclass asdict
+type: text/vnd.tiddlywiki
+visibility: Public
+
+dataclass 还有很有一个特性是可以在 dataclass里嵌套dataclass，可以链式调用也可以全部转dict。这可比多层dict清晰、好用太多了。

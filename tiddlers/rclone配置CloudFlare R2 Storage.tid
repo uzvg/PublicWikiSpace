@@ -1,0 +1,61 @@
+created: 20260409030506597
+creator: uzvg
+description: 为rclone 配置 CloudFlare R2 Storage的详细说明
+modified: 20260409033959998
+modifier: uzvg
+progress: Completed
+rating: Valuable
+tags: PermanentNotes CloudFlare OSS ImageHost(图床) rclone
+title: rclone配置CloudFlare R2 Storage
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 创建令牌：
+
+第一次在rclone中配置CloudFlare R2 Storage时，费了老劲，主要是它的界面经常改动，文档也过时了，它的傻逼AI也提供不了准确信息，半天找不到添加`user api`的入口。
+
+添加好CloudFlare R2 Storage后，找到如下界面：
+
+<<twks-image "cloudflare-add-user-api.png">>
+
+* 点击`Manage`
+* 创建用户API令牌
+* 根据提示，选择可以管理的bucket
+* 记录下access_key_id和access_key
+
+!! 配置rclone：
+
+把令牌添加到rclone后，调用`rclone rync`命令，发现并不起作用，这是因为R2 不是标准 AWS S3，所以光有令牌还不够，配置rclone时，它必须指定 endpoint，正确格式一般是：
+
+```
+https://<account_id>.r2.cloudflarestorage.com
+```
+
+可以用如下命令查看：
+
+```
+rclone config show CloudFlare
+```
+
+如果没有，需要手动添加：
+
+<<twks-image "CloudFlare-add-endpoint.png">>
+
+* 获得路径：CloudFlare R2 Storage ➡ 概述/Overview ➡Account Details ➡ S3API
+
+添加到rclone配置中，手动编辑如下文件：
+
+```
+vim ~/.config/rclone/rclone.conf
+
+# 检查是否有endpoint，没有的话，把刚才复制的S3 API 以如下格式添加到endpoint中：
+[CloudFlare]
+type = s3
+provider = Cloudflare
+access_key_id = ***
+secret_access_key = ***
+region = auto
+endpoint = https://***.r2.cloudflarestorage.com
+```
+
+重新使用`rclone sync`命令，运行成功。

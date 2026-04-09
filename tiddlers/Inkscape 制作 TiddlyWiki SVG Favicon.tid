@@ -1,0 +1,230 @@
+created: 20260316032959321
+description: 使用Inkscape为tiddlywiki制作favicon的过程
+modified: 20260316035310707
+progress: Completed
+rating: Plain
+tags: PermanentNotes Inkscape tiddlywiki
+title: Inkscape 制作 TiddlyWiki SVG Favicon
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 如何将 viewport 调整为 `24`？
+
+!!! 为什么现代图标通常使用 24 × 24？
+
+; 现代 UI 设计（Material / Fluent / iOS 等）通常使用 ''24 × 24 作为基础图标网格''，原因是：
+* ''可整除性好''：24 可以被 2、3、4、6、8 整除，方便在不同尺寸缩放。
+* ''适配 UI 系统''：很多 UI 组件默认使用 24px icon。
+* ''视觉平衡好''：比 16px 更清晰，比 32px 更紧凑。
+
+因此很多 SVG icon 库（Material Icons、Heroicons 等）都会使用：
+
+```
+viewBox="0 0 24 24"
+```
+
+!!! 在 Inkscape 中设置 24 × 24 viewport：
+
+; 1. 设置画布尺寸
+
+```
+Settings
+  → Document Properties
+      → Front page
+          → Width / Height
+```
+
+设置为：
+
+```
+Width  = 24
+Height = 24
+```
+
+这样可以保证画布比例正确。
+
+; 2. 设置 ViewBox
+
+继续在 ''Document Properties'' 中：
+
+```
+Viewbox
+   X
+   Y
+   Width
+   Height
+```
+
+设置为：
+
+```
+X = 0
+Y = 0
+Width  = 24
+Height = 24
+```
+
+最终 SVG 会类似：
+
+```xml
+viewBox="0 0 24 24"
+```
+
+这也是 Web icon 的标准写法。
+
+!! 如何防止元素超出画布？
+
+很多时候导入或缩放图形后，元素会超出 `24×24` 区域。
+
+可以使用 ''统一比例缩放''：
+
+```
+Transform
+   → Scale
+       → Scale proportionally
+       → Apply to each object separately
+       → Apply
+```
+
+; 作用：
+* 按比例缩放
+* 防止形变
+* 确保图形整体适配 24×24 画布
+
+; 常见做法：
+# `Ctrl + A` 选择全部
+# 缩放到合适大小
+# 使用 ''Align and Distribute'' 居中到画布
+
+!! 缩减 SVG 文件大小：
+
+; SVG 从 Inkscape 导出时，通常会包含大量冗余结构，例如：
+* group (`<g>`)
+* transform
+* metadata
+* style
+
+需要进行简化。
+
+!!! 1. 取消分组（Ungroup）:
+
+减少不必要的 `<g>` 元素：
+
+```
+Ctrl + A
+Ctrl + Shift + G
+```
+
+多执行几次，直到无法继续取消。这样可以：
+
+* 减少 SVG 层级
+* 方便后续优化
+
+!!! 2. Object → Path / Stroke → Path
+
+把所有对象转换为 ''纯 path''：
+
+```
+Path → Object to Path
+Path → Stroke to Path
+```
+
+; 作用：
+* 消除 `shape / text / stroke`
+* 转换为标准 `<path>`
+* 兼容性更好
+* 文件更小
+
+最终 SVG 结构会类似：
+
+```xml
+<path d="..." />
+```
+
+!! 3. Simplify Path
+
+快捷键：`Ctrl + L`
+
+; 路径简化会：
+* 减少 path 控制点
+* 合并重复路径节点
+* 降低 SVG 大小
+
+; 注意：
+* 不要过度 simplify，否则形状会变形。
+
+!!! 4. Optimized SVG 导出
+
+导出时选择：
+
+```
+File
+  → Save As
+      → Optimized SVG
+```
+
+; 可以自动：
+* 删除 metadata
+* 删除 editor 信息
+* 合并 style
+* 删除 unused id
+
+最终 SVG 会比普通 SVG ''小很多''。
+
+!! 如何适配为 TiddlyWiki 图标？
+
+TiddlyWiki 的 favicon SVG 有一个特殊要求。
+
+虽然 SVG 的 ''viewport'' 可以使用：
+
+```
+viewBox="0 0 24 24"
+```
+
+但 ''width 和 height 必须较大（通常 512）''，否则浏览器或 TiddlyWiki 可能无法正确识别。
+
+推荐写法：
+
+```xml
+<svg
+  width="512"
+  height="512"
+  viewBox="0 0 24 24"
+>
+```
+
+原因：
+
+* favicon 需要高分辨率版本
+* 浏览器会自动缩放
+* 512×512 是常见的 PWA icon 尺寸
+
+因此：
+
+| !属性      | !建议值         |
+|viewBox |`0 0 24 24` |
+|width   |512         |
+|height  |512         |
+
+* 这样既能保持 ''24 网格设计规范''，又能保证 ''浏览器识别 favicon''。
+
+!!! 推荐的最终 SVG 结构
+
+一个干净的 icon SVG 通常类似：
+
+```xml
+<svg width="512" height="512" viewBox="0 0 24 24"
+     xmlns="http://www.w3.org/2000/svg">
+
+  <path d="..." fill="#..." />
+
+</svg>
+```
+
+; 特点：
+* 无 `<g>`
+* 无 `transform`
+* 无 metadata
+* 只有 path
+
+这是 ''最适合 Web icon 的 SVG 结构''。

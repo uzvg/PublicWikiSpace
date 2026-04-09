@@ -1,0 +1,10 @@
+{
+  "20260122130429135": {
+    "question": "如何使用gh命令查看开源协议？",
+    "answer": "gh repo license list"
+  },
+  "20260122130504459": {
+    "question": "如何使用gh命令为当前仓库添加开源协议？",
+    "answer": "gh repo license view mit > LICENSE"
+  }
+}

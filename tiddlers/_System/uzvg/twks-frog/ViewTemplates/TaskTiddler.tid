@@ -1,0 +1,32 @@
+created: 20251231134605316
+modified: 20260104095837314
+tags: $:/tags/ViewTemplate
+title: $:/uzvg/twks-frog/ViewTemplates/TaskTiddler
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/twks-frog/Share/tasks-table-view]]
+\import [[$:/uzvg/twks-frog/Share/focus-records-table]]
+
+\procedure save-task-actions()
+\function get-default-status() [<storeTiddler>get[status]else[Pending]]
+	<$action-setfield $tiddler=<<storeTiddler>>
+		tags="Task"
+		status=<<get-default-status>>
+		parent=<<storyTiddler>>/>
+	<$action-sendmessage $message="tm-rename-tiddler"
+		from=<<storeTiddler>>
+		to=<<get-task-title>>/>
+\end
+
+<$list filter="[<storyTiddler>tag[Task]!is[draft]]">
+	<div class="tc-tiddler-body">
+		<h2> Tasks Explorer: </h2>
+		<$transclude $variable="tasks-table-view"
+			filter="[all[tiddlers]parent<storyTiddler>!is[draft]sort[created]]"
+			actions=<<save-task-actions>>/>
+		<% if [<storyTiddler>has[start]] %>
+			<h2> Focus Records:	</h2>
+			<<focus-records-table>>
+		<% endif %>
+	</div>
+</$list>

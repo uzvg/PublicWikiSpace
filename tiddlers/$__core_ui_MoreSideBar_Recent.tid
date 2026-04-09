@@ -1,0 +1,5 @@
+caption: {{$:/language/SideBar/Recent/Caption}}
+tags: 
+title: $:/core/ui/MoreSideBar/Recent
+
+<$macrocall $name="timeline" format={{$:/language/RecentChanges/DateFormat}}/>

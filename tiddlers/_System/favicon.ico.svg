@@ -1,0 +1,23 @@
+<svg version="1.1" viewBox="0 0 24 24" width="512" height="512" xmlns="http://www.w3.org/2000/svg">
+ <g transform="matrix(.039 0 0 .039 2.45 2)">
+  <path d="m376 88.8h107v49.4h-107z" fill="#eab528"/>
+  <path d="m383 23.8h107v49.4h-107z" fill="#962229"/>
+  <path d="m370 154h107v49.4h-107z" fill="#188a96"/>
+  <g fill="#060001">
+   <path d="m358 88.8h107v49.4h-107z" opacity=".1"/>
+   <path d="m358 23.8h107v49.4h-107z" opacity=".1"/>
+   <path d="m358 154h107v49.4h-107z" opacity=".1"/>
+  </g>
+  <path d="m47.5 0h399v512h-399z" fill="#edcba0"/>
+  <path d="m5.91 0h138v512h-138z" fill="#884860"/>
+  <path d="m0 0h11.8v512h-11.8z" fill="#eaa277"/>
+  <g fill="#565657">
+   <path d="m144 248h168v23.3h-168z"/>
+   <path d="m186 332h226v3.28h-226z"/>
+   <path d="m186 394h226v3.28h-226z"/>
+   <path d="m186 455h226v3.28h-226z"/>
+  </g>
+  <text transform="rotate(90)" x="45.383236" y="-61.192562" fill="#f4e3d7" font-family="'sans-serif'" font-size="70px" stroke-dasharray="853.782, 106.723" stroke-width="80" style="font-variation-settings:'opsz' 32, 'wght' 900;line-height:0.95" xml:space="preserve"><tspan x="45.383236" y="-61.192562" stroke-width="80">WikiSpace</tspan></text>
+  <path d="m209 336 246-246h33.8v49.4h-37.2v15.6h30.9v49.4h-30.9v309h-381v-38.6l47.5-47.5 4.78-4.71 32.6-32.6z" fill="#231815" opacity=".05"/>
+ </g>
+</svg>

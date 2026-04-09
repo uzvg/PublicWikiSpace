@@ -1,0 +1,37 @@
+{
+  "20260113084931141": {
+    "question": "float属性的本质作用是什么？",
+    "answer": "是让内容绕着它流动"
+  },
+  "20260113085016171": {
+    "question": "float属性能否使元素上下流动？",
+    "answer": "不能，它只能让浮动元素左右流动"
+  },
+  "20260113085122215": {
+    "question": "float属性常用于哪种布局？",
+    "answer": "flow布局。"
+  },
+  "20260113085234848": {
+    "question": "float属性会使浮动元素彻底脱离正常文本流吗？",
+    "answer": "不会，它会使元素脱离文档流，但却仍然参与行盒(line box)计算。"
+  },
+  "20260113085427380": {
+    "question": "absolute position的本质作用是什么？",
+    "answer": "把元素放到指定坐标，我不跟你们玩布局了。"
+  },
+  "20260113085507400": {
+    "question": "absolut position是否会把元素完全移出normal flow?",
+    "answer": "会"
+  },
+  "20260113085553444": {
+    "question": "absolute position元素的位置，是否会影响其他兄弟元素或文本布局？",
+    "answer": "不会，因为它已经完全脱离了normal flow。"
+  },
+  "20260113085643030": {
+    "question": "float 属性跟 absolute position的本质不同是什么？",
+    "answer": "float仍然依赖于normal flow，而absolute position 会移除normal flow。"
+  },
+  "20260113085838843": {
+    "cloze": "position: absolute; {会}使 float 失效 "
+  }
+}

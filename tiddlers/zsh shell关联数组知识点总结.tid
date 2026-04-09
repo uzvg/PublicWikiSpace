@@ -1,0 +1,72 @@
+created: 20250702024527718
+description: zsh shell关联数组的相关知识点总结
+modified: 20250702033959533
+modifier: uzvg
+progress: Structured
+rating: Functional
+source: zsh Shell关联数组
+tags: zsh Array(数组) IndexNotes
+title: zsh shell关联数组知识点总结
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 摘要：
+
+关联数组的相关知识，主要包括了如下
+
+!! 创建：
+
+创建关联数组的第一步，就是声明一个关联数组变量，如`typset -A dict`，直接为元素赋值会报错，如：
+
+```
+config[key]="value"
+zsh: config: assignment to invalid subscript range
+```
+
+这里的本意是将`config`当成一个关联数组并为其中的`key`键名赋值，但是会报错。
+
+正确做法是：先使用`typset -A dict`声明再赋值。
+
+!!! 元素赋值：
+
+为关联数组中的元素赋值有三种方式：
+
+```
+#  第一种方式：整体赋值
+dict=(name "John" age 38 city ShangHai)
+
+# 第二种方式：单个赋值
+dict[name]="John"
+dict[age]="38"
+dict[city]="Shanghai"
+
+# 第三种方式：从普通数组创建关联数组
+keys=(name age city)
+values=(Alice 25 "New York")
+typeset -A person
+for i in {1..${#keys[@]}}; do
+    person[${keys[$i]}]=${values[$i]}
+done
+```
+
+<<twks-alerter "tip" '可以使用`typeset -p dict`命令来查看关联数组的键值情况'>>
+
+!! 访问和修改
+
+访问关联数组的元素值，需要关注的是[[zsh Shell关联数组的下标规则]]，这是一个很
+
+!! 删除：
+
+关联数组的删除主要用到的是`unset`关键字：
+
+```
+# 删除单个元素：
+
+# 删除整个关联数组变量：
+
+```
+
+
+!! 遍历：
+
+!! 应用：

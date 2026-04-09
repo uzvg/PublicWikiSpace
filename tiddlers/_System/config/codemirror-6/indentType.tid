@@ -1,0 +1,15 @@
+caption: {{$:/language/codemirror6/indentType/caption}}
+caption-zh: {{$:/language/codemirror6/zh/indentType/caption}}
+created: 20260319115022890
+description: {{$:/language/codemirror6/indentType/description}}
+description-zh: {{$:/language/codemirror6/zh/indentType/description}}
+id: 32
+modified: 20260319115022890
+option-names: tab space
+option-values: tab space
+settings-group: general
+settings-template: select
+title: $:/config/codemirror-6/indentType
+type: text/vnd.tiddlywiki
+
+space

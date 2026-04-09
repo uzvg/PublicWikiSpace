@@ -1,0 +1,22 @@
+Back: dfdf
+created: 20260303094931216
+modified: 20260304162218523
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/action.wrap-cloze
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/twks-flashcards/Share/notifier.empty-fields]]
+\procedure action.wrap-cloze()
+<$action-sendmessage
+	$message="tm-edit-text-operation"
+	$param="insert-text"
+	text="text"/>
+<<notifier.empty-fields>>
+\end
+
+<$edit-text tag="input" tiddler="my-tiddler">
+<$button actions=<<action.wrap-cloze>> style.display="none">
+    data-tw-keyboard-shortcut="alt-c">
+</$button>
+</$edit-text>

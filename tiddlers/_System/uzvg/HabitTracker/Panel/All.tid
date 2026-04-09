@@ -1,0 +1,12 @@
+caption: All
+code-body: yes
+condition: [all[tiddlers]prefix<get-habitTiddler-prefix>]
+created: 20251218135823299
+modified: 20260114024913411
+modifier: uzvg
+title: $:/uzvg/HabitTracker/Panel/All
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/HabitTracker/Share/twks-habit-tracker]]
+
+<<habit-tracker-table>>
