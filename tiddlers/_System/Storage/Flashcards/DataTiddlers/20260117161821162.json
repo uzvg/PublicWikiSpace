@@ -1,0 +1,34 @@
+{
+  "20260118021903562": {
+    "question": "如何查看chezmoi中所有的模板变量？",
+    "answer": "chezmoi data"
+  },
+  "20260118021917776": {
+    "question": "如何自定义chezmoi的模板变量？",
+    "answer": "使用chezmo edit-config-template编辑chezmoi配置文件，在其中的data字段添加自定义模板变量。"
+  },
+  "20260118022110872": {
+    "question": "如何引用在data字段自定义的chezmoi模板变量？",
+    "answer": "使用{{ .varName }}的方式，在模板中引用自定义chezmoi模板变量。"
+  },
+  "20260118032536984": {
+    "question": "chezmoi如何快速测试模板表达式？",
+    "answer": "`chezmoi execute-template --dry-run '{{ .chezmoi.os }}'`"
+  },
+  "20260118032607247": {
+    "question": "chezmoi如何快速查看模板文件的渲染结果？",
+    "answer": "chezmoi execute-template --dry-run -f path/to/file.tmpl"
+  },
+  "20260118034324661": {
+    "question": "chezmoi 如何查看apply之后的文件内容？",
+    "answer": "`chezmoi cat <filename>`"
+  },
+  "20260118034625907": {
+    "question": "chezmoi 如何查看source与target的文件差异？",
+    "answer": "chezmoi diff"
+  },
+  "20260118034642633": {
+    "question": "chezmoi如何查看指定文件的source跟target的差异？",
+    "answer": "`chezmoi diff <filename>`"
+  }
+}

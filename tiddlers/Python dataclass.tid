@@ -1,0 +1,187 @@
+created: 20260313090819221
+description: python dataclass 基础知识
+modified: 20260313095746686
+progress: Completed
+rating: Plain
+tags: PermanentNotes Python
+title: Python dataclass
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 1. 基本概念：
+
+`dataclass` 是 `Python 3.7` 引入的装饰器，用于简化类的定义，自动生成常用的魔法方法（magic methods）。
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class Student:
+    name: str
+    age: int
+```
+
+!!! 自动生成的魔法方法
+
+对于 `dataclass` 对象，Python 默认生成以下方法：
+
+| !方法           | !作用                  |
+|`__init__()` |自动生成初始化方法           |
+|`__repr__()` |可以打印对象，方便调试         |
+|`__eq__()`   |判断两个对象是否相等（按字段逐个比较） |
+
+!!! 示例：
+
+```python
+s1 = Student("Alice", 18)
+s2 = Student("Alice", 18)
+print(s1)        # Student(name='Alice', age=18)
+print(s1 == s2)  # True
+```
+
+!! 2. `field()` 函数：
+
+`field()` 用于对 dataclass 字段进行更多定制，比如默认值、默认工厂函数、比较方式等。
+
+!!! 2.1 默认值 vs default_factory：
+
+; 问题：
+
+为什么不能直接写：`scores: list = []`
+
+如果写成上面这种方式，''所有实例共享同一个列表对象''，修改一个对象的列表会影响其他对象。
+
+; 正确写法：
+
+```python
+from dataclasses import dataclass, field
+from typing import List
+
+@dataclass
+class Student:
+    name: str
+    scores: List[int] = field(default_factory=list)
+
+s1 = Student("Alice")
+s2 = Student("Bob")
+
+s1.scores.append(100)
+print(s1.scores)  # [100]
+print(s2.scores)  # []
+```
+
+* ''`default_factory=list`'' 每次实例化都会调用 `list()` 创建一个新的列表，避免共享。
+
+; 直接使用 `default` 的情况
+
+```python
+@dataclass
+class Student:
+    scores: List[int] = field(default=[34, 45, 65])
+```
+
+* 所有对象默认值相同，但注意这种写法底层仍然是同一个对象引用，通常不推荐可变对象使用 `default`。
+
+!! 3. 类变量（ClassVar）：
+
+* 使用 `ClassVar` 声明类变量，意味着它不是实例变量，而是属于类本身。
+
+```python
+from dataclasses import dataclass
+from typing import ClassVar
+
+@dataclass
+class Student:
+    name: str
+    age: int
+    school: ClassVar[str] = "High school"
+
+s1 = Student("Alice", 18)
+s2 = Student("Bob", 20)
+
+print(Student.school)  # High school
+print(s1.school)       # High school
+```
+
+<<twks-alerter "caution" "类变量不会被纳入 `__init__` 参数，也不会影响 `__eq__`、`__repr__`。">>
+
+!! 4. 继承：
+
+!!! 4.1 父类是普通类
+
+* 如果父类不是 `dataclass`，需要在子类中通过 `__post_init__()` 调用父类初始化逻辑。
+
+```python
+class Person:
+    def __init__(self, name):
+        self.name = name
+
+@dataclass
+class Student(Person):
+    age: int
+
+    def __post_init__(self):
+        super().__init__(self.name)
+
+s = Student("Alice", 18)
+print(s.name, s.age)  # Alice 18
+```
+
+!!! 4.2 父类也是 dataclass
+
+* 如果父类也是 `dataclass`，则只需声明子类新增字段，无需额外操作。
+
+```python
+@dataclass
+class Person:
+    name: str
+
+@dataclass
+class Student(Person):
+    age: int
+
+s = Student("Alice", 18)
+print(s)  # Student(name='Alice', age=18)
+```
+
+!! 5. InitVar：
+
+* `InitVar` 是 dataclasses 提供的一种特殊类型，用于在初始化时传入数据，但不成为实例属性。
+* 常用于需要根据初始化参数进行计算或处理，但不存储该参数的场景。
+
+```python
+from dataclasses import dataclass, field, InitVar
+
+@dataclass
+class Student:
+    name: str
+    scores: List[int] = field(default_factory=list)
+    bonus: InitVar[int] = 0  # 只在初始化使用
+
+    def __post_init__(self, bonus):
+        # bonus 不是实例属性，但可以用来调整 scores
+        self.scores = [s + bonus for s in self.scores]
+
+s = Student("Alice", scores=[80, 90], bonus=5)
+print(s.scores)  # [85, 95]
+```
+
+<<twks-alerter note "`InitVar` 可以让我们在初始化时传递额外信息，但不存储为实例属性。">>
+
+!! 6. 总结：
+
+# dataclass 简化了类定义，自动生成 `__init__`、`__repr__`、`__eq__` 等方法。
+# 对于可变默认值，使用 `field(default_factory=...)` 避免共享对象。
+# `ClassVar` 声明类变量，不参与实例方法。
+# 继承关系不同：
+#* 父类非 `dataclass` → 子类需 `__post_init__` 调用父类初始化。
+#* 父类是 `dataclass` → 子类直接添加新字段。
+# `InitVar` 用于初始化传参但不保存为实例属性，通常配合 `__post_init__()` 使用。
+
+!! 其他：
+
+* asdict, astuple
+* asdict是否递归地把class导出为一个dict？
+
+* dataclass跟property decorator的结合使用
+* dataclass跟JSON的相互转换

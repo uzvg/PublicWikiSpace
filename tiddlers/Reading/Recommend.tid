@@ -1,0 +1,28 @@
+caption: Recommend
+code-body: yes
+created: 20250325131438116
+filter-prefix: 
+modified: 20251222023040466
+note-type: Recommend
+order: 2
+page-size: 4
+title: Reading/Recommend
+twikoo-hide: 1
+type: text/vnd.tiddlywiki
+
+\import [prefix[$:/uzvg/Share/FilterBuilder/]]
+
+<!-- Valuable Brilliant -->
+\function get-recommend-filter()
+	[tag[LiteratureNotes]]
+	[tag[PermanentNotes]]
+	+[progress[Completed]rating[Brilliant]]
+	[tag[LiteratureNotes]]
+	[tag[PermanentNotes]]
+	+[progress[Completed]rating[Valuable]]
+	+[sort[modified]]
+\end
+
+\function get-page-size() [<currentTab>get[page-size]]
+
+<$transclude $variable="twks-card" filter=<<get-complete-filter>>/>

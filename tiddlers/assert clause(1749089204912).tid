@@ -1,0 +1,119 @@
+authors: geeksforgeeks
+caption: assert clause
+created: 20250605020644912
+description: Python中assert语句的作用
+medium: Website
+modified: 20250605021130668
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: keywords(1749028332441)
+tags: LiteratureNotes Python
+title: assert clause(1749089204912)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+!! 一、作用：
+
+`assert` 是 断言语句，用于在代码中插入调试检查点，断言一个条件必须为 `True`。
+
+* 如果条件为 `True`：程序继续执行；
+* 如果条件为 `False`：触发 `AssertionError` 异常，程序中断。
+
+适用于开发调试阶段，用于快速发现逻辑错误或不符合预期的情况。
+
+!! 二、语法
+
+!!! 基本语法：
+
+```python
+assert condition
+```
+
+!!! 带错误信息：
+
+```python
+assert condition, "错误信息"
+```
+
+!! 三、执行行为
+
+```python
+assert 2 + 2 == 4        # 正确，继续执行
+assert 2 + 2 == 5        # 抛出 AssertionError
+assert 2 + 2 == 5, "数学出错了"  # 抛出 AssertionError: 数学出错了
+```
+
+!! 四、常用场景
+
+!!! 1. 检查函数前置条件
+
+```python
+def set_age(age):
+    assert age >= 0, "年龄不能为负数"
+    print(f"设置年龄为 {age}")
+```
+
+!!! 2. 调试内部状态
+
+```python
+def calculate_average(lst):
+    total = sum(lst)
+    count = len(lst)
+    assert count > 0, "列表不能为空"
+    return total / count
+```
+
+!!! 3. 测试中用作临时验证
+
+```python
+def test_add():
+    result = 2 + 2
+    assert result == 4, "加法出错"
+```
+
+!!! 4. 检查数据结构或接口返回值
+
+```python
+def fetch_user_info():
+    return {"name": "Alice", "age": 30}
+
+info = fetch_user_info()
+assert "name" in info and "age" in info, "返回值缺失字段"
+```
+
+!! 注意事项
+
+!!! 1. 可以被禁用！
+
+如果使用命令行启动 Python 时加了 `-O`（optimize）参数，所有 `assert` 会被忽略：
+
+```bash
+python -O script.py  # 所有 assert 不会生效
+```
+
+!!! 2. 不能代替 if/raise
+
+断言适合在开发/测试时检查不变量，不要用于处理用户输入或生产错误：
+
+❌ 不推荐这样做：
+
+```python
+assert isinstance(user_input, int), "输入类型错误"  # 生产环境应用 raise
+```
+
+✅ 正确方式：
+
+```python
+if not isinstance(user_input, int):
+    raise TypeError("输入类型错误")
+```
+
+!! 总结对比：`assert` vs `raise`
+
+|用途   | `assert`         | `raise`              |
+|抛出异常 |`AssertionError` |任意自定义或内建异常           |
+|控制行为 |调试检查，生产环境可禁用     |明确控制异常逻辑，不会被优化关闭     |
+|典型场景 |测试、调试、开发阶段的假设验证  |输入验证、错误控制、异常链、业务流程中断 |

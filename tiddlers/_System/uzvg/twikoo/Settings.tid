@@ -1,0 +1,108 @@
+created: 20250321123206639
+creator: uzvg
+modified: 20260406032100117
+modifier: uzvg
+title: $:/uzvg/twikoo/Settings
+type: text/vnd.tiddlywiki
+
+\procedure configTiddler() $:/config/twks-twikoo
+\procedure RawMarkupTiddler() $:/config/twks-twikoo/RawMarkup
+
+\procedure twks-selector(tiddler,field,index,optionsList,filter,placeholder,emptyValue:yes,enableOptions:yes,actions,class)
+\function get-selector-options()
+	[<optionsList>!is[blank]enlist-input[]]
+	[subfilter<filter>]
+	+[unique[]]
+\end get-selector-options
+<$select
+	tiddler=<<tiddler>>
+	field=<<field>>
+	index=<<index>>
+	default=<<placeholder>>
+	class=<<class>>
+	actions=<<actions>>>
+	<option disabled><<placeholder>></option>
+	<% if [<enableOptions>match[yes]] %>
+		<% if [<emptyValue>match[yes]] %>
+			<option value="">(EMPTY)</option>
+		<% endif %>
+		<$list filter="[function[get-selector-options]]" variable="option">
+			<option><<option>></option>
+		</$list>
+	<% endif %>
+</$select>
+\end
+
+\procedure lang-selector()
+	<$transclude $variable="twks-selector"
+		tiddler=<<twikoo-config-tiddler>>
+		index="lang"
+		optionsList="zh-cn zh-hk zh-tw en-us en-gb en uz uz-uz ja ja-jp"
+		placeholder="LANG"
+		emptyValue="false"
+		class="width-8em"/>
+\end
+
+\procedure region-selector()
+	<$transclude $variable="twks-selector"
+		tiddler=<<twikoo-config-tiddler>>
+		index="region"
+		optionsList="ap-Shanghai ap-guangzhou"
+		placeholder="REGION"
+		emptyValue="yes"
+		class="width-8em"/>
+\end
+
+\procedure rawmarkup-generator-btn()
+\procedure rawmarkup-template() <script src="$(mirror)$" integrity="$(sri)$" crossorigin="anonymous"/>
+\function get-rawmarkup-text() []
+<$action-setfield $tiddler="$:/state/tab-1749438307" text="$:/core/ui/ControlPanel/Appearance"/>
+\end
+
+!! Settings:
+
+!!! 1. 通过CDN引入twikoo
+
+https://twikoo.js.org/frontend.html#%E9%80%9A%E8%BF%87-cdn-%E5%BC%95%E5%85%A5
+[[不同版本之间的区别|https://twikoo.js.org/frontend.html#%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB]]
+
+|tc-max-width tc-first-col-min-width|k
+|!CDN镜像地址 |<$edit-text tiddler=<<configTiddler>> index="mirror" tag="input" class="tc-edit-texteditor" placeholder="CDN mirror address"/>|
+|!子资源完整检验值sri Subresource Integrity |<$edit-text tiddler=<<configTiddler>> index="sri" tag="input" class="tc-edit-texteditor" placeholder="Subresource Integrity"/>|
+
+
+|tc-max-width|k
+|!Parameter|!Description|!Set Value|
+|`envId`|(required): Your Twikoo environment ID (Tencent Cloud) or Vercel deployment URL |<$edit-text tiddler=<<twikoo-config-tiddler>> index="envId" placeholder="Required" class="twks-full-width-input" tag="input"/>|
+|`lang`|(optional): Language for the comment interface (default: `zh-cn`) |<<twikoo-lang-selector>>|
+|`region`|(optional): Environmental region, the default is `ap-Shanghai`, Tencent cloud environment fills in `ap-Shanghai` or `ap-guangzhou`; Vercel environment does not fill in. |<<twikoo-region-selector>>|
+|`path`|(optional): Filter expression to distinguish different articles, default is to get the `created` field value. |<$edit-text tiddler=<<twikoo-config-tiddler>> index="path" tag="input" class="twks-full-width-input" placeholder="Optional"/>|
+|`filter`|(optional): Filter expression to determine which tiddlers will display the Twikoo comment section. |<$edit-text tiddler=<<twikoo-config-tiddler>> index="filter" tag="input" placeholder="Optional" class="twks-full-width-input"/>|
+
+!! Details:
+
+!!! path:
+
+The `path` parameter in `twikoo` is used to specify the mapping relationship between articles and their corresponding Twikoo comment sections. The path value is a filter expression that determines the comment path for each tiddler. Its default value is `[<storyTiddler>get[created]]`. The reason we use the `created` field instead of the `title` field is that if we used the title, renaming a tiddler would cause the original comment section to become disconnected. Using the `created` timestamp avoids this issue.
+
+!!! filter:
+
+The `filter` setting is also a filter expression that determines which tiddlers will display the Twikoo comment section.
+
+The default filter expression is:
+
+```
+[all[current]!is[system]!visibility[private]!is[draft]!is[image]!tag[Journal]]
+```
+
+You can customize this filter expression. For example, `[all[current]tag[PermanentNotes]]` would add comment sections to all tiddlers tagged with "PermanentNotes".
+
+<!-- twikoo config document 👉 https://twikoo.js.org/frontend.html#%E9%80%9A%E8%BF%87-cdn-%E5%BC%95%E5%85%A5
+
+* envId: '您的环境id', // 腾讯云环境填 envId；Vercel 环境填地址（https://xxx.vercel.app）
+* el: '#tcomment', // 容器元素
+* region: 'ap-guangzhou', // 环境地域，默认为 ap-shanghai，腾讯云环境填 ap-shanghai 或 ap-guangzhou；Vercel 环境不填
+* path: location.pathname, // 用于区分不同文章的自定义 js 路径，如果您的文章路径不是 location.pathname，需传此参数
+* lang: 'zh-CN', // 用于手动设定评论区语言，支持的语言列表 https://github.com/twikoojs/twikoo/blob/main/src/client/utils/i18n/index.js
+
+-->

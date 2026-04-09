@@ -1,0 +1,10 @@
+code-body: yes
+created: 20250521150031425
+modified: 20260114024913409
+modifier: uzvg
+title: $:/uzvg/Fitness/Share/DataTiddlers
+type: text/vnd.tiddlywiki
+
+\function stateTiddler() [<qualify $:/state/Fitness/state>]
+\function storeTiddler() [<qualify $:/temp/Fitness/store>]
+\function tempTiddler() [<qualify $:/temp/Fitness/temp>]

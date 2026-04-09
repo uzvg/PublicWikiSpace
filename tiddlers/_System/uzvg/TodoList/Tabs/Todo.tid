@@ -1,0 +1,36 @@
+caption: TODO
+created: 20250527130608311
+modified: 20260114024913436
+modifier: uzvg
+tags: $:/tags/TodolistTab
+title: $:/uzvg/TodoList/Tabs/Todo
+type: text/vnd.tiddlywiki
+
+\function storeTiddler() [<qualify $:/temp/Todolist/store>]
+\function get-task-caption() [<storeTiddler>get[text]]
+\function get-task-prefix() [[$:/uzvg/Data/Todolist/]addsuffix<now YYYY0MM0DD>addsuffix[/]]
+\function get-task-tiddler() [<get-task-prefix>addsuffix<get-target-input>]
+
+\procedure input-accept-actions()
+<$action-createtiddler $basetitle=<<get-task-tiddler>> caption=<<get-user-input>>>
+	<$action-navigate $to=<<createTiddler-title>>/>
+</$action-createtiddler>
+\end
+
+\procedure task-add-btn()
+<$button actions=<<input-accept-actions>>>
+	Add
+</$button>
+\end
+
+\procedure task-row-template()
+	
+\end
+
+
+<$transclude $variable="twks-search-box"
+	filter="[all[tiddlers]prefix[$:/uzvg/Data/Todolist]search<get-user-input>]"
+	placeholder="Search Tasks"
+	inputMinLength="2"
+	btnList="task-add-btn"
+	inputAcceptActions=<<input-accept-actions>>/>

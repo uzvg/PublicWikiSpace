@@ -1,0 +1,14 @@
+adjustment: 早上起来穿好衣服后，应该{烧水}➡{洗漱}➡{准备早餐}
+caption: 洗漱完毕，并给自己冲了一杯牛奶
+context: 
+created: 20251220001400293
+end: 08:14
+modified: 20260114024913402
+modifier: uzvg
+rating: +
+start: 07:55
+title: $:/Storage/HabitTracker/20251220/1766189660765
+type: text/vnd.tiddlywiki
+
+<<remembercz "20251220150819467"
+	"早餐吃完后，记得{吃一颗多维元素片}。">>

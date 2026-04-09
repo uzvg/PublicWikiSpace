@@ -1,0 +1,64 @@
+caption: NewEntry
+created: 20250214042339778
+modified: 20260202133401062
+modifier: uzvg
+tags: $:/tags/WorkBench
+title: $:/uzvg/WorkBench/NewEntry
+type: text/vnd.tiddlywiki
+
+\import [[$:/uzvg/Share/edit-tiddler-btn]]
+\function storeTiddler() [[$:/temp/workbench/newEntry]]
+\function get-workbench-caption() [<storeTiddler>get[caption]]
+\function get-workbench-tiddler() [<get-workbench-caption>addprefix[$:/uzvg/WorkBench/]]
+\function get-tree-prefix() [<storeTiddler>get[tree-prefix]suffix[/]]
+\procedure get-workbench-content() <<tree "$(get-tree-prefix)$">>
+\function get-workbench-text() [<get-workbench-content>substitute[]]
+\function get-edit-class() [<currentTab>!is[blank]then[flex-row-end]else[disable]]
+
+\procedure illegal-workbench-warning()
+	<% if [<get-workbench-caption>is[blank]] %>
+		<<twks-alerter "warning" "The workbench `caption` is blank.">>
+	<% elseif [<get-workbench-tiddler>is[tiddler]] %>
+		<<twks-alerter "warning" "The workbench <$link to=<<get-title>> is already exist, rename your workbench caption.">>
+	<% elseif [<get-tree-prefix>is[blank]] %>
+		<<twks-alerter "warning" "The workbench `tree-prefix` is `blank` or not suffix with `/`.">>
+	<% endif %>
+\end
+
+\procedure new-workbench-actions()
+	<% if
+		[<get-workbench-caption>!is[blank]]
+		+[<get-workbench-tiddler>!is[tiddler]]
+		+[<get-tree-prefix>!is[blank]] %>
+		<$action-createtiddler
+			$basetitle=<<get-workbench-tiddler>>
+			tags="$:/tags/WorkBench"
+			caption=<<get-workbench-caption>>
+			text=<<get-workbench-text>>>
+			<$action-navigate $to=<<createTiddler-title>>/>
+		</$action-createtiddler>
+		<$action-deletetiddler $tiddler=<<storeTiddler>>/>
+	<% endif %>
+\end
+
+!! New workbench:
+
+<$keyboard key="enter" actions=<<new-workbench-actions>>>
+
+|tc-max-width tc-edit-max-width|k
+|!Caption |<$edit-text tiddler=<<storeTiddler>> field="caption" focus="yes"/>|
+|!Tree prefix |<$edit-text tiddler=<<storeTiddler>> field="tree-prefix" focus="yes"/>|
+</$keyboard>
+
+<<illegal-workbench-warning>>
+
+<$twks.details summary="Reorder workbenches:" state="$:/state/detail">
+
+<<list-tagged-draggable tag:"$:/tags/WorkBench">>
+</$twks.details>
+
+<span class=<<get-edit-class>>>
+	<$transclude $variable="twks-edit-btn"
+		tiddler=<<currentTab>>
+		tooltip="Edit this NewEntry tiddler itself"/>
+</span>

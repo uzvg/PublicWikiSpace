@@ -1,0 +1,56 @@
+created: 20240809080136689
+creator: uzvg
+modified: 20250615180312597
+modifier: uzvg
+tags: 
+title: $:/uzvg/ui/EditorToolbar/picture-dropdown
+type: text/vnd.tiddlywiki
+
+\import [prefix[$:/uzvg/Share/FilterBuilder/]]
+\define replacement-text() <<twks-image "$(imageTitle)$">>
+
+\procedure insert-image-actions()
+	<$action-sendmessage
+		$message="tm-edit-text-operation"
+		$param="replace-selection"
+		text=<<replacement-text>>/>
+
+	<$action-deletetiddler
+		$tiddler=<<dropdown-state>>/>
+\end
+
+\procedure insert-cover-actions()
+	<$action-setfield
+		$tiddler=<<storyTiddler>>
+		cover=<<imageTitle>>/>
+	<$action-deletetiddler
+		$tiddler=<<dropdown-state>>/>
+\end
+
+<$twks.details
+	default="open"
+	summary="Insert Image:"
+	state="$:/state/detail/Insert-image-dropdown">
+	<<filterBuilder-selector-box "sortmode">>
+	<$let get-page-size="10" get-filter-prefix="[all[tiddlers]is[image]]">
+		<$macrocall $name="image-picker"
+			filter=<<get-complete-filter>>
+			actions=<<insert-image-actions>>
+			subfilter=""/>
+		<<twks-list-paginater>>
+	</$let>
+</$twks.details>
+
+<$twks.details
+	default="close"
+	summary="Insert Cover:"
+	state="$:/state/detail/Insert-cover-dropdown">
+	<<filterBuilder-selector-box "sortmode">>
+	<$let get-page-size="15" get-filter-prefix="[all[tiddlers]is[image]tag[Cover]]">
+		<$macrocall $name="image-picker"
+			filter=<<get-complete-filter>>
+			actions=<<insert-cover-actions>>
+			subfilter=""/>
+		<<twks-list-paginater>>
+	</$let>
+</$twks.details>

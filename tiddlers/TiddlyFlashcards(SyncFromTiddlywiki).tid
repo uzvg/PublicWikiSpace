@@ -1,0 +1,37 @@
+created: 20260226134151467
+description: Import json file from the tiddlywiki as Anki Notes.
+modified: 20260318075742237
+progress: WIP
+tags: ProjectNotes Anki tiddlywiki
+title: TiddlyFlashcards(SyncFromTiddlywiki)
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 导出命令：
+
+```sh
+tiddlywiki "/home/uzvg/Documents/wikis/WikiSpace" --render "$:/uzvg/renderTemplates/flashcards-json-test" "/tmp/flashcards-index-test.json" "text/plain"
+```
+
+!! Todo List：
+
+* 完善`ensure_models`的流程。
+** 创建model
+** 如果model被修改，该如何同步？👉 禁止用户修改model，Disable update model
+* 如何收集报报错信息，让用户可以快速收集错误信息，提交bug报告。 ✅
+* 当用户试图手动修改由`TiddlyFlashcards`管理的deck或者卡片时，显示警告。
+* 修改默认CSS，提升默认渲染的卡片的样式。
+** 整理出需要适配的HTML元素。
+** 适配card居中对齐，内容居左对齐。
+** 需要添加一个导航到卡片的按钮。
+* 重构代码，改善代码质量。
+* 重构`wikiTabs`代码，使其可以添加`folder`或者`HTML`，并自动归类。
+** 添加处理HTML文件的流程。
+* sync后，自动删除空的deck
+* Sync后，生成同步报告。✅
+
+!! 用到的Python知识点：
+
+* [[Python dataclass]]
+* [[Python property笔记]]
+* 如何创建和管理`tempfile`

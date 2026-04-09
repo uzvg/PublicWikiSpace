@@ -1,0 +1,9 @@
+code-body: yes
+created: 20260218104830204
+modified: 20260218105324534
+modifier: uzvg
+tags: $:/tags/TagMappingRules
+title: $:/uzvg/Configs/TagMappingRules
+type: text/vnd.tiddlywiki
+
+[get[tags]] -[enlist[LiteratureNotes PermanentNotes IndexNotes FleetingNotes]]

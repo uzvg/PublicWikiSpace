@@ -1,0 +1,36 @@
+created: 20260402100917158
+creator: uzvg
+description: 使用rclone同步本地文件夹中的内容到云端
+modified: 20260409034416686
+modifier: uzvg
+progress: Completed
+rating: Valuable
+tags: PermanentNotes rclone
+title: 使用rclone同步本地文件夹中的图片到云端
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 配置：
+
+`rclone`是远程同步的瑞士军刀，只需要使用这一个工具，就可以同步几乎所有的网盘跟云对象存储，比如OneDrive，再比如Aliyun OSS，再比如CloudFlare R2 Storage，都可以使用`rclone`来同步。
+
+关于Onedrive的添加跟配置，这里不再多说，只需要：
+
+```
+rclone config
+```
+
+然后根据提示一直往下走就行。
+
+麻烦的是[[CloudFlare R2 Storage的配置|rclone配置CloudFlare R2 Storage]]，第一次配置，费了老劲。
+
+!! 同步：
+
+我的需求是，把我的tiddlywiki的工作目录中的图片文件，同步到Onedrive云盘，因为我的`Images`文件夹中，除了`.meta`文件跟`.tid`文件，就是图片文件，所以我只需要在同步时，排除掉所有的`.meta`文件，并且也删除Onedrive的`.meta`文件即可，执行命令如下：
+
+```
+rclone sync tiddlers/Images OneDrive:WikiSpace/Images --exclude "*.meta" --exclude "*.tid" --progress --delete-excluded
+```
+
+* 该命令的作用是，把当前目录中的`tiddlers/Images`当中除了`tid`跟`meta`文件以外的所有文件，同步到远程。
+* `-delete-excluded`，同时删除在远程云端的被排除的文件。

@@ -1,0 +1,52 @@
+created: 20260402094546380
+description: Linux上的视频剪辑缩放方案整理
+modified: 20260402095408713
+progress: Completed
+rating: Plain
+tags: PermanentNotes ViedoEditing(视频剪辑)
+title: Linux上视频剪辑upscale方案整理
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! youtube主流分辨率：
+
+* 创作者在往 4K 走，但观众端并没有完全跟上：“生产端 4K，消费端 1080p” 是当前主流状态
+* 懂行的创作者”会：1080素材 → upscale 到 1440p 上传
+
+!! Linux上的视频渲染：
+
+; kdenlive，导出时upscale
+* 关键参数：
+
+```
+分辨率：2560×1440
+帧率：跟素材一致（30 / 60）
+码率（重点）：
+1440p 30fps：12–20 Mbps
+1440p 60fps：20–40 Mbps
+
+码率太低 = 你白升分辨率
+```
+
+; 更专业的方案➡ffmpg
+
+```bash
+ffmpeg -i input.mp4 \
+-vf scale=2560:1440:flags=lanczos \
+-c:v libx264 -preset slow -crf 18 \
+-c:a copy \
+output_1440p.mp4
+```
+
+* 参数解析：
+
+```
+scale=2560:1440	👉 放大到 1440p
+flags=lanczos		👉 高质量缩放算法（重点！！）比 Kdenlive 默认更清晰
+-crf 18					👉 质量优先（越低越清晰，18 是黄金值）
+-preset slow		👉 压缩更好（但更慢）
+```
+
+!! 最优的路线：
+
+* 👉 Kdenlive剪辑 + FFmpeg导出（lanczos upscale）

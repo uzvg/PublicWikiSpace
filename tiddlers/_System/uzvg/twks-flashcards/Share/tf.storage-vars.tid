@@ -1,0 +1,11 @@
+code-body: yes
+created: 20260302144252239
+modified: 20260302150838073
+tags: 
+title: $:/uzvg/twks-flashcards/Share/tf.storage-vars
+type: text/vnd.tiddlywiki
+
+\function storeTiddler() [<qualify $:/temp/flashcards>]
+\function storageFolder() [[$:/Storage/Flashcards/DataTiddlers/]]
+\function dataTiddler() [<storageFolder>] [<storyTiddler>get[created]] +[join[]]
+\function explicitStateTiddler() [[$:/state/twks-flashcards-creator-tabs/]] [<storyTiddler>get[created]] +[join[]]

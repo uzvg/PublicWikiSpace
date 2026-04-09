@@ -1,0 +1,61 @@
+caption: TFCloze
+created: 20260303091345193
+fields-list: Text [[Back Extra]]
+model-name: TFCloze
+model-version: 1.3
+modified: 20260317144552448
+order: 2
+required-fields: Text
+tags: $:/tags/TfCardsCreator
+title: $:/uzvg/twks-flashcards/CardsCreators/TFCloze
+type: text/vnd.tiddlywiki
+
+<!-- ------------------------------twks flashcards creator ------------------------------ -->
+\procedure twks-flashcards-creator()
+\import [[$:/uzvg/twks-flashcards/Share/tf.storage-vars]]
+\import [[$:/uzvg/twks-flashcards/Share/action.switch-focus]]
+\import [[$:/uzvg/twks-flashcards/Share/action.switch-tab]]
+\import [[$:/uzvg/twks-flashcards/Share/notifier.empty-fields]]
+\import [[$:/uzvg/twks-flashcards/Share/action.new-card]]
+\import [[$:/uzvg/twks-flashcards/Share/action.delete-store]]
+\import [[$:/uzvg/twks-flashcards/Share/tf.creator-id]]
+\import [[$:/uzvg/twks-flashcards/Share/action.wrap-cloze]]
+
+<!-- ------------------------------Main Procedure------------------------------ -->
+<$keyboard key="alt+n" actions=<<action.new-card>>>
+<$keyboard key="alt+h" actions=<<action.switch-previous-tab>>>
+<$keyboard key="alt+l" actions=<<action.switch-next-tab>>>
+<$keyboard key="alt+k" actions=<<action.focus-first>>>
+<$keyboard key="alt+j" actions=<<action.focus-second>>>
+<$keyboard key="escape" actions=<<action.delete-store>>>
+
+<div class="twks-flashcards-creator">
+	<div class="tc-flex tc-flex-row">
+		<label><b>Text:</b></label>
+		<$edit
+			tiddler=<<storeTiddler>>
+			field="Text"
+			focus={{{ [<explicitStateTiddler>is[tiddler]then[yes]] }}}
+			placeholder="Enter text and use <<cloze c1...>> to create cloze deletions"
+			class="tc-edit-texteditor tf-creator-input-first"/>
+	</div>
+	<div class="tc-flex tc-flex-row">
+		<label><b>Back Extra:</b></label>
+		<$edit
+			tiddler=<<storeTiddler>>
+			field="Back Extra"
+			placeholder="Optional extra information shown on the answer side"
+			class="tc-edit-texteditor tf-creator-input-second"/>
+	</div>
+</div>
+
+</$keyboard>
+</$keyboard>
+</$keyboard>
+</$keyboard>
+</$keyboard>
+</$keyboard>
+\end
+
+<!-- ------------------------------Invoke twks-flaschards-creator------------------------------ -->
+<<twks-flashcards-creator>>

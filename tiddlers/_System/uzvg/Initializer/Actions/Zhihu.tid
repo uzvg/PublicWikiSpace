@@ -1,0 +1,21 @@
+code-body: yes
+created: 20250411120524683
+import-type: Zhihu
+modified: 20260114024913415
+modifier: uzvg
+tags: $:/tags/Initializer/Actions
+title: $:/uzvg/Initializer/Actions/Zhihu
+type: text/vnd.tiddlywiki
+
+<% if [<storyTiddler>!has[caption]] %>
+	<<check-required-notifier fieldsList:"caption">>
+<% else %>
+	<$action-setfield url=<<get-clean-url-from-imported>> />
+	<$action-deletefield $tiddler=<<storyTiddler>> text type/>
+	<<sync-fields-from-index>>
+	<$action-sendmessage
+		$message="tm-rename-tiddler"
+		from=<<storyTiddler>>
+		to=<<get-title-suffix-timestamp>>/>
+	<<finish-creation-actions>>
+<% endif %>

@@ -1,0 +1,11 @@
+created: 20260313142943072
+description: 
+modified: 20260323022438493
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: Python dataclass
+tags: PermanentNotes Python dataclass
+title: dataclass中__post_init__与@property使用指南
+type: text/markdown
+visibility: Public

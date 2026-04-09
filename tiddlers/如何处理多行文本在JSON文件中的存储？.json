@@ -1,0 +1,15 @@
+[
+    {
+        "created": "20260125094539096",
+        "text": "\\function get-answer() [<currentTiddler>get[answer]]\n\\function get-json-answer() [[]jsonset[answer],<get-answer>] +[format:json[2]]\n\\function get-answer-from-json() [<get-json-answer>jsonget[answer]]\n\n!! 前言：\n\n把一段多行文本，保存为一个JSON文件中某个字段的值，需要做什么处理吗？答案是''什么都不用做''，不用`stringify`化，也不用`jsonstringify`化，直接保存，直接读取就可以。\n\n!! 测试：\n\n<$keyboard key=\"ctrl+enter\" actions=<<twks-debug-notifier>>>\n\t<$edit tiddler=<<storyTiddler>> field=\"answer\" class=\"tc-edit-texteditor\"/>\n</$keyboard>\n\n; 读取`answer`字段值：\n\n<$codeblock code=<<get-answer>>/>\n\n; 被保存在`json`文件中的answer形式：\n\n<$codeblock code=<<get-json-answer>>/>\n\n; 从JSON中读取出的answer：\n\n<$codeblock code=<<get-answer-from-json>>/>\n\n; 从JSON中读取再`wikify`后的answer：\n<$wikify name=\"code\" text=<<get-answer-from-json>> output=\"html\">\n\t<$codeblock code=<<code>>/>\n</$wikify>",
+        "title": "如何处理多行文本在JSON文件中的存储？",
+        "tags": "PermanentNotes tiddlywiki",
+        "modified": "20260125101657629",
+        "type": "text/vnd.tiddlywiki",
+        "answer": "; Upgrade System:\n\n```sh\nsudo pacman -Syyu\n```",
+        "progress": "Completed",
+        "rating": "Valuable",
+        "visibility": "Public",
+        "description": "在tiddlywiki中，如何把多行文本，正确保存为JSON键值？"
+    }
+]

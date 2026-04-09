@@ -1,0 +1,31 @@
+created: 20241220172359765
+creator: uzvg
+description: 将markdown格式的文本转化为wikitext格式
+modified: 20260208074754192
+modifier: uzvg
+progress: Completed
+tags: TWKS ProjectNotes
+title: mardown to wikitext transformer
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 需求：
+
+* 可以根据自己的排版格式，把markdown转换为wikitext。
+* @[[18th March 2025]]，林一二的一个插件markdown-transformer已经实现了一部分，但需要额外做一些的适配。
+* @[[8th February 2026]]，即使实现了从markdown➡wikitext的一比一替换，有的时候还是会出问题，想要按照自己的自定义格式排版，还是要用正则表达式自己替换。
+* 如果替换结果不满意，可以恢复到原先的markdown。
+
+!! Project Files：
+
+* [[$:/uzvg/Buttons/twks-markdown-transformer]]
+
+!! Implement:
+
+* 先去除多余的trailing space
+* 删除分隔线(---) ✅
+* 替换bold 标记(**) ✅
+* 替换h1、h2、h3标题 ✅
+* 替换h4 ➡ ; ✅
+* 再逐一替换标题
+* 删除表格中不必要的分隔符

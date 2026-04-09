@@ -1,0 +1,21 @@
+code-body: yes
+created: 20260223145544600
+modified: 20260305084622641
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/action.switch-tab
+type: text/vnd.tiddlywiki
+
+\function get-tabs-list() [tag[$:/tags/TfCardsCreator]!is[draft]sort[order]]
+\function get-default-tab() [function[get-tabs-list]first[]]
+\function get-next-tab() [function[get-tabs-list]after<currentTab>else<currentTab>]
+\function get-previous-tab() [function[get-tabs-list]before<currentTab>else<currentTab>]
+
+\procedure action.switch-previous-tab()
+\import [[$:/uzvg/twks-flashcards/Share/action.switch-focus]]
+<$action-setfield $tiddler=<<explicitStateTiddler>> text=<<get-previous-tab>>/>
+\end
+
+\procedure action.switch-next-tab()
+<$action-setfield $tiddler=<<explicitStateTiddler>> text=<<get-next-tab>>/>
+\end

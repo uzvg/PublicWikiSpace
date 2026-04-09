@@ -1,0 +1,38 @@
+{
+  "20260117120456945": {
+    "question": "vimdiff是以什么为操作单位？",
+    "answer": "以diff chunk为操作单位"
+  },
+  "20260117120524050": {
+    "question": "在vimdiff中，差异是以什么样的形式存在的？",
+    "answer": "以chunk的形式存在"
+  },
+  "20260117120556087": {
+    "question": "在vimdiff中，merge的本质是什么？",
+    "answer": "把某个窗口的chunk copy到另一个窗口"
+  },
+  "20260117120630926": {
+    "question": "如何使用nvim查看两个文件的差异？",
+    "answer": "nvim -d file1 file2"
+  },
+  "20260117120709917": {
+    "question": "如何在vimdiff窗口之间移动？",
+    "answer": "使用ctr+w+[h,j,k,l]"
+  },
+  "20260117120737320": {
+    "question": "如何在chunk之间跳转？",
+    "answer": "[c(前跳)，]c(后跳)"
+  },
+  "20260117120852780": {
+    "question": "在vimdiff中，如何把另一边的改动合并到当前窗口？",
+    "answer": "do ⇔ :diffget"
+  },
+  "20260117121041365": {
+    "question": "在vimdiff中，如何把当前改动，合并到另一边的窗口？",
+    "answer": "dp ⇔ :diffput"
+  },
+  "20260117121137173": {
+    "question": "如何退出vimdiff？",
+    "answer": ":qa"
+  }
+}
