@@ -1,0 +1,210 @@
+created: 20260202135008607
+description: Python中的pathlib 模块知识整理
+modified: 20260202152420175
+progress: Completed
+rating: Plain
+tags: PermanentNotes Python
+title: pathlib module
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 一、Path 是什么？
+
+!!! 1. Path 表示“路径对象”，不是字符串
+
+```python
+from pathlib import Path
+p = Path("/home/user/file.txt")
+```
+
+* `Path()` 的参数是''路径字符串或路径片段''
+* 返回值类型：
+
+```python
+<class 'pathlib.PosixPath'>   # Linux / macOS
+<class 'pathlib.WindowsPath'> # Windows
+```
+
+<<twks-alerter "note"
+	"""
+	* `Path` 是一个''对象''，不是字符串
+	* 它封装了「路径的语义 + 与文件系统交互的方法」
+	"""
+	"Path是对象而非字符串：">>
+
+!!! 2. Path 表示的是“路径”，不是“一定存在的文件/目录”
+
+```python
+Path("/this/path/may/not/exist")
+```
+
+* 创建 `Path` 对象 ''不会'' 访问文件系统
+* 路径是否存在，要用 `exists()` 判断
+
+```python
+p.exists()
+```
+
+!! 二、路径拼接：为什么推荐用 `/` 运算符
+
+```python
+base = Path("/home/user")
+file = base / "data" / "test.txt"
+```
+
+* `/` 被 `Path` ''重载''为路径拼接操作
+* 返回值仍然是 `Path` 对象
+
+```python
+<class 'pathlib.PosixPath'>
+```
+
+; 优点：
+* 可读性高
+* 自动处理 `/` 是否重复
+* 跨平台安全（避免手写字符串路径）
+
+!! 三、目录遍历：
+
+!!! 1. iterdir()：遍历当前目录
+
+```python
+for item in Path(".").iterdir():
+    print(item)
+```
+
+* 遍历目录中的''所有直接子项''
+* 包括：文件 + 子目录
+* ❌ 不递归
+
+; 常见配合：
+
+```python
+for p in Path(".").iterdir():
+    if p.is_dir():
+        print("目录:", p)
+```
+
+!!! 2. rglob()：递归查找匹配的路径
+
+```python
+Path(".").rglob("*.py")
+```
+
+* 递归遍历所有子目录
+* 返回''匹配 pattern 的 Path 对象''
+
+<<twks-alerter "important"
+	"""
+	* `rglob()` ''返回的是生成器（generator）''
+	* 不是 `map`
+	""">>
+
+; 为什么可以直接用于 for 循环？
+* generator 实现了 ''迭代器协议''（`__iter__` / `__next__`）
+* `for` 循环只要求“可迭代对象”
+
+```python
+for py in Path('.').rglob('*.py'):
+    print(py)
+```
+
+* 这是 ''惰性遍历''，非常适合大目录
+
+!! 四、Path 的常用属性（不访问文件系统）
+
+```python
+p = Path("/home/user/test.txt")
+```
+
+| !属性                | !含义            |
+|`p.name`          |文件名（test.txt） |
+|`p.suffix`        |后缀名（.txt）     |
+|`p.parent`        |父目录（Path 对象）  |
+|`p.is_absolute()` |是否为绝对路径       |
+
+* 这些属性 / 方法 ''不检查文件是否存在''
+
+!! 五、访问文件系统的常用方法
+
+```python
+p.exists()   # 路径是否存在
+p.is_file()  # 是否是文件
+p.is_dir()   # 是否是目录
+```
+
+<<twks-alerter "tip"
+	"""
+	* 会访问文件系统
+	* 是 I/O 行为
+	"""
+	"这些方法会：">>
+
+!! 六、文件读写：Path.open()
+
+```python
+with Path("data.txt").open("r", encoding="utf-8") as f:
+    content = f.read()
+```
+
+* 等价于 `open("data.txt")`
+* 更适合与 `Path` 一起使用
+* 不需要再次传路径字符串
+
+<<twks-alerter "note"
+	"""
+```python
+content = Path("data.txt").read_text(encoding="utf-8")
+Path("out.txt").write_text(content)
+```
+	"""
+	"现代 Python 推荐写法：">>
+
+!! 七、字符串 ↔ Path 的转换
+
+!!! 字符串 → Path
+
+```python
+p = Path(path_str)
+```
+
+!!! Path → 字符串
+
+```python
+str(p)
+```
+
+* 只有在 ''必须与旧 API / 底层接口交互'' 时才转字符串
+
+!! 八、PurePath vs Path
+
+; `PurePath`：
+* ''只做路径计算''
+* 不允许访问文件系统
+
+; `Path`：
+* `PurePath + 文件系统能力`
+
+```python
+from pathlib import PurePath
+PurePath("/a/b")
+```
+
+<<twks-alerter "tip" """
+* ''绝大多数场景直接用 `Path`''
+* 在做“路径规则 / DSL / 跨系统逻辑”时再考虑 `PurePath`
+""" "使用建议：">>
+
+!! 九、pathlib 的设计哲学
+
+* 路径是''对象''，不是字符串
+* 操作系统差异被隐藏
+* API 高内聚、可组合
+* 非常适合：
+** 配置文件
+** CLI 工具
+** 脚本 / 自动化
+** 跨平台项目
+
+; 一句话总结：
+* ''pathlib 让我们“操作路径”，而不是“拼字符串”。''

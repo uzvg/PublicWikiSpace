@@ -1,0 +1,14 @@
+code-body: yes
+created: 20250331065610451
+modified: 20260114024913405
+modifier: uzvg
+tags: $:/tags/CleanUrlRules
+title: $:/uzvg/Configs/clean-url-rules
+type: text/vnd.tiddlywiki
+
+[regexp[^https:\/\/youtu\.be\/.*\?si=.*$]splitregexp[\?si=]first[]]
+[regexp[^https:\/\/www\.bilibili\.com\/.*\?.*$]splitregexp[\/\?spm_id_from=]first[]]
+[regexp[^https:\/\/www\.bilibili\.com.*\?.*$]splitregexp[\?spm_id_from=]first[]]
+[regexp[^.*https:\/\/www\.bilibili\.com\/.*\?share_source=.*$]splitregexp[^.*\s]last[]split[/?share_source=]first[]]
+[regexp[^(.|\r|\n)*https:\/\/www\.zhihu\.com\/]search-replace::regexp[^(.|\r|\n)*?(?=https)],[]]
+[!is[blank]]

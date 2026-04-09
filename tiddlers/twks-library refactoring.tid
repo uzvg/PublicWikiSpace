@@ -1,0 +1,18 @@
+created: 20250328165753075
+description: 重构书籍管理面板，优化筛选器构造。
+modified: 20250427181503962
+progress: WIP
+tags: ProjectNotes TWKS
+title: twks-library refactoring
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! Requirements:
+
+* 当显示为空的时候，提示目前没有相应的书籍
+* 不要显示空的table head
+* 添加No，表示书籍号
+
+!! Project files list:
+
+<<list-links filter:"[prefix[$:/uzvg/Library/]]" field:"title">>

@@ -1,0 +1,178 @@
+created: 20260313095812060
+description: Python中的property decorator学习笔记
+modified: 20260313101816722
+progress: Completed
+rating: Plain
+tags: PermanentNotes Python
+title: Python property笔记
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 1. 作用：
+
+* `property` 可以让方法像访问普通属性一样被调用。
+* 典型场景：对属性访问进行控制（验证、日志、计算等），而对外使用接口仍像普通属性。
+
+; 示例：
+
+```python
+class Person:
+    def __init__(self, name):
+        self._name = name  # 私有变量
+
+    @property
+    def name(self):
+        """这是name属性的文档说明"""
+        print("正在获取名字...")
+        return self._name
+```
+
+; 调用：
+
+```python
+p = Person("Alice")
+print(p.name)  # 访问时自动调用 getter
+# 输出：
+# 正在获取名字...
+# Alice
+```
+
+!! 2. 使用方法：
+
+!!! 方法一：使用 `property()` 函数
+
+```python
+property(fget=None, fset=None, fdel=None, doc=None)
+```
+
+; 参数说明：
+
+| !参数   | !说明         |
+|`fget` |获取属性时调用的方法 |
+|`fset` |设置属性时调用的方法 |
+|`fdel` |删除属性时调用的方法 |
+|`doc`  |属性文档字符串    |
+
+; 示例：
+
+```python
+class Person:
+    def __init__(self, name):
+        self._name = name
+
+    def get_name(self):
+        return self._name
+
+    def set_name(self, value):
+        if not value:
+            raise ValueError("名字不能为空")
+        self._name = value
+
+    def del_name(self):
+        del self._name
+
+    name = property(get_name, set_name, del_name, "name属性文档")
+```
+
+; 使用：
+
+```python
+p = Person("Bob")
+print(p.name)  # 调用 get_name
+p.name = "Charlie"  # 调用 set_name
+del p.name  # 调用 del_name
+```
+
+!!! 方法二：使用 `@property` 装饰器（推荐）
+
+* 代码更直观，`getter`、`setter`、`deleter` 聚合在一起。
+* 可以直接加上文档字符串。
+
+; 示例：
+
+```python
+class Person:
+    def __init__(self, name):
+        self._name = name  # 私有变量
+
+    @property
+    def name(self):
+        """获取名字"""
+        print("正在获取名字...")
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        print("正在设置名字...")
+        if not value:
+            raise ValueError("名字不能为空")
+        self._name = value
+
+    @name.deleter
+    def name(self):
+        print("正在删除名字...")
+        del self._name
+```
+
+; 使用：
+
+```python
+p = Person("Alice")
+print(p.name)  # 获取
+p.name = "Bob"  # 设置
+del p.name  # 删除
+```
+
+!! 3. 只读属性：
+
+* 只定义 `@property` 而不定义 `setter`。
+* 尝试修改会报错：
+
+```python
+class Person:
+    def __init__(self, name):
+        self._name = name
+
+    @property
+    def name(self):
+        return self._name
+
+p = Person("Alice")
+p.name = "Bob"  # AttributeError: can't set attribute
+```
+
+!! 4. 私有属性 `_name` 的作用：
+
+# ''真实存储属性''：用于内部存储数据，避免外部直接访问。
+# ''对外暴露属性''：用 `property` 包装的方法，让外部访问像普通属性。
+# ''避免无限递归''：如果直接用 `self.name` 存储数据，会和 `property` 的 setter 冲突：
+
+```python
+class Person:
+    def __init__(self, name):
+        self.name = name  # ❌ 会调用 setter → 无限递归
+
+    @property
+    def name(self):
+        return self.name  # ❌ 无限递归
+
+    @name.setter
+    def name(self, value):
+        self.name = value  # ❌ 无限递归
+```
+
+✅ 正确做法：
+
+```python
+class Person:
+    def __init__(self, name):
+        self._name = name  # 使用私有变量存储
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        self._name = value  # 修改私有变量
+```

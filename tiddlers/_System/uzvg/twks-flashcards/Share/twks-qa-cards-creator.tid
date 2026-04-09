@@ -1,0 +1,46 @@
+caption: Q&A Card
+code-body: yes
+created: 20260108133015173
+modified: 20260206134132392
+modifier: uzvg
+tags: $:/tags/FlashCardsType
+title: $:/uzvg/twks-flashcards/Share/twks-qa-cards-creator
+type: text/vnd.tiddlywiki
+
+\procedure twks-qa-cards-creator()
+<div class="twks-flashcards-container twks-fill-available-input">
+	<$keyboard key="enter" actions=<<new-card-actions>>>
+	<$keyboard key="alt+h" actions=<<go-previousTab-actions>>>
+	<$keyboard key="alt+l" actions=<<go-nextTab-actions>>>
+		<div class="flex flex-row">
+			<label><b>Q:</b></label>
+				<$edit-text tiddler=<<storeTiddler>>
+					placeholder="Input Your Question Here."
+					focus="yes"
+					field="question"/>
+		</div>
+	</$keyboard>
+	</$keyboard>
+	</$keyboard>
+	<$keyboard key="enter" actions=<<new-card-actions>>>
+	<$keyboard key="alt+h" actions=<<go-previousTab-actions>>>
+	<$keyboard key="alt+l" actions=<<go-nextTab-actions>>>
+		<div class="flex flex-row">
+			<label><b>A:</b></label>
+				<$edit-text tiddler=<<storeTiddler>>
+					field="answer"
+					placeholder="Input Your Answer Here."/>
+		</div>
+	</$keyboard>
+	</$keyboard>
+	</$keyboard>
+</div>
+\end
+
+<<twks-qa-cards-creator>>
+
+<!--
+<<twks-flashcards-list>>
+* <$link to=<<storeTiddler>>/>
+* <$link to=<<dataTiddler>>/>
+-->

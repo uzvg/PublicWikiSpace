@@ -1,0 +1,11 @@
+created: 20260326102538422
+creator: uzvg
+modified: 20260408145656127
+modifier: uzvg
+tags: 
+title: $:/config/FileSystemPaths
+type: text/vnd.tiddlywiki
+
+[is[image]!type[image/svg+xml]visibility[Private]addprefix[Images/Private/]]
+[is[image]!type[image/svg+xml]visibility[Public]tag[Cover]addprefix[Images/Covers/]]
+[is[image]!type[image/svg+xml]addprefix[Images/Public/]]

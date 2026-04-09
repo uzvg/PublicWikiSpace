@@ -1,0 +1,62 @@
+created: 20250607035240509
+description: python function decorator
+modified: 20260207163006776
+modifier: uzvg
+progress: Completed
+rating: Plain
+tags: PermanentNotes Python
+title: python function decorator
+type: text/vnd.tiddlywiki
+visibility: Public
+
+<$twks.details summary="Example Code:" state="$:/state/detail" default="open">
+
+```py
+from datetime import time, timedelta, datetime
+import time
+
+def timer_dec(base_fn):
+    def enhanced_fun(*args, **kwargs):
+        start_time = time.time()
+        result = base_fn(*args, **kwargs)
+        end_time = time.time()
+        print(f"Cost time: {end_time - start_time} seconds.")
+        return result
+    return enhanced_fun
+
+@timer_dec
+def drink_tea(tea_type: str, steep_time: int) -> None:
+    print("Start drinking tea")
+    time.sleep(steep_time)
+    print(f"{tea_type.title()} tea is ready.")
+
+@timer_dec
+def make_matcha():
+    print("Start making matcha")
+    time.sleep(0)
+    print("Matcha is ready.")
+    return f"Drinking matcha by {datetime.now() + timedelta(minutes=20)}"
+
+def line_seperator() -> None:
+    print("=" * 35)
+
+line_seperator()
+drink_tea("green", 0)
+line_seperator()
+drink_tea(tea_type="red", steep_time=1)
+line_seperator()
+print(make_matcha()) # 如果不用print，则不会打印最后的返回值
+line_seperator()
+
+"""📝
+decoreator接受跟返回的参数，只有函数名。
+不接受inner function 的参数
+返回的不应该是enhance function的执行结果，而是其本身。
+"""
+```
+
+</$twks.details>
+
+* decorator 接收和返回的，是“可调用对象（callable）”，通常是函数本身。
+* decorator 本身只处理函数对象；被装饰函数的参数由 inner function（wrapper）接收。
+* decorator 必须返回函数本身，而不是函数的执行结果。

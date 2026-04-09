@@ -1,0 +1,13 @@
+code-body: yes
+created: 20260302145547062
+modified: 20260304150614219
+tags: 
+title: $:/uzvg/twks-flashcards/Share/notifier.empty-fields
+type: text/vnd.tiddlywiki
+
+<!-- send notifications if has empty fields -->
+\procedure notifier.empty-fields()
+<$action-sendmessage
+	$message="tm-notify"
+	$param="$:/uzvg/twks-flashcards/Notifications/EmptyFieldsWarning"/>
+\end

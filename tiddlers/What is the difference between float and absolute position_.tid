@@ -1,0 +1,52 @@
+created: 20241113060024165
+creator: uzvg
+description: float属性跟absolute属性对比
+modified: 20260113085900383
+modifier: uzvg
+progress: Completed
+rating: Valuable
+tags: PermanentNotes CSS position float
+title: What is the difference between float and absolute position?
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! float vs absolute:
+
+`float` 和 `position: absolute` 看起来相似，是因为两者都会“打破正常布局”。但它们服务于完全不同的布局系统。
+
+!!! `float`：行内排版工具（文本绕排）
+
+* `float` 使元素 ''脱离 normal flow''
+* 但仍然参与 ''行盒（line box）计算''
+* 结果是：
+** 后续文本会绕着它排布
+** 浮动元素只能向左 / 右移动
+* 本质用途：''让内容“绕着它流动”''
+
+!! `position: absolute`：定位工具（精确放置）
+
+* `absolute` 元素 ''完全移出 normal flow''
+* 不影响任何兄弟元素或文本布局
+* 位置由：
+** 最近的 positioned ancestor
+** 或初始包含块决定
+* 本质用途：''把元素放到指定坐标，不参与布局''
+
+!! 二者关系：
+
+* `float` 依赖于 ''normal flow''
+* `absolute` 会 ''移除 normal flow''
+* 所以：
+
+```css
+position: absolute; /* 会使 float 失效 */
+```
+
+!! 三、总结：
+
+* float 是“让内容绕着走”
+* absolute 是“我不跟你们玩布局了”
+
+!! 拓展：
+
+* [[如何理解css中的float属性？]]

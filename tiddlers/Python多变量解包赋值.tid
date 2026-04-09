@@ -1,0 +1,90 @@
+created: 20250604011124551
+description: Python中的多变量解包赋值的过程，以及变量交换的原理。
+modified: 20260208074958680
+modifier: uzvg
+progress: Completed
+rating: Plain
+source: variables(1748886675392)
+tags: PermanentNotes Python
+title: Python多变量解包赋值
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 概述：
+
+Python 支持一种简洁而强大的多变量赋值（也称“解包赋值”）语法。最经典的例子是用于交换变量值：
+
+```python
+a, b = 5, 10
+a, b = b, a
+print(a, b)  # 输出：10 5
+```
+
+!! 原理分析：
+
+Python 的这一赋值操作并非逐个依次执行，而是以下过程：
+
+```python
+# 步骤一：a, b = 5, 10
+temp = (5, 10)
+a = temp[0]
+b = temp[1]
+
+# 步骤二：a, b = b, a
+temp = (b, a)  # 此时 b=10, a=5，所以 temp=(10, 5)
+a = temp[0]    # a = 10
+b = temp[1]    # b = 5
+```
+
+!! 多变量解包赋值要点：
+
+* 多变量赋值实际上是''元组的构造 + 解包''。
+* 可以避免传统语言中使用临时变量交换值的麻烦（如 C/C++ 中需要使用 `temp`）。
+* 是 Python 的一种“同时赋值”语法，但实际是“先打包再解包”。
+
+!! 使用注意事项与扩展用法：
+
+!!! 1. 左右变量数量必须匹配
+
+```python
+a, b = 1, 2, 3  # ❌ 报错：ValueError: too many values to unpack
+```
+
+!!! 2. 星号表达式（\*）解包不定长度序列
+
+```python
+a, *b = [1, 2, 3, 4]     # a = 1, b = [2, 3, 4]
+*a, b = [1, 2, 3, 4]     # a = [1, 2, 3], b = 4
+a, b, *c = [1, 2, 3, 4]  # a = 1, b = 2, c = [3, 4]
+```
+
+!!! 3. 用于函数返回多个值
+
+```python
+def get_info():
+    return "Alice", 30
+
+name, age = get_info()
+```
+
+!!! 4. 用于 for 循环中的迭代解包
+
+```python
+pairs = [(1, 'a'), (2, 'b')]
+for num, char in pairs:
+    print(num, char)
+```
+
+!!! 5. 用于字典的键值遍历
+
+```python
+d = {'a': 1, 'b': 2}
+for key, value in d.items():
+    print(key, value)
+```
+
+!! 总结：
+
+* Python 的多变量赋值是基于元组解包的语法糖。
+* 它让变量交换、多个返回值赋值、结构拆包变得简单易读。
+* 掌握此特性可以大幅提升 Python 编程的表达力与代码简洁性。

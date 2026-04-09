@@ -1,0 +1,21 @@
+caption: WeekReport
+code-body: yes
+condition: [tag[Journal]!is[draft]get[created]format:date[dddd]match[7]]
+created: 20250626043409446
+description: Create a week journal every week
+modified: 20260114024913407
+modifier: uzvg
+tags: $:/tags/DerivatorActions
+title: $:/uzvg/Derivator/Actions/WeekReport
+type: text/vnd.tiddlywiki
+
+\function get-week-number() [<currentTiddler>get[created]format:date[WW]]
+\function get-week-year() [<currentTiddler>get[created]format:date[YYYY]]
+\function get-week-journal-title() [<get-week-year>] [<get-week-number>] +[join[ Week ]]
+
+<$transclude $variable="twks-derivator-actions"
+	title=<<get-week-journal-title>>
+	tags="WeekReport"
+	syncFieldsList=""
+	template=""
+	keepSource="yes"/>

@@ -1,0 +1,49 @@
+created: 20250329130542583
+modified: 20260114024913419
+modifier: uzvg
+title: $:/uzvg/Initializer/Readme
+type: text/vnd.tiddlywiki
+
+<<twks-alerter "warning" "This readme document is a draft temporarily, It's not completed.">>
+
+!! Initialize Steps:
+
+When initializing an "Untitled" tiddler, follow these steps to ensure proper setup:
+
+# Fill the `initializer table` in the `initializer panel`.
+#* The values entered here will be saved to the current "Untitled" tiddler.
+# Check for existing tiddlers.
+#* Ensure the tiddler you want to initialize does not already exist in your wiki.
+#* Check if the tiddler you want to initializer was already exist in your wikispace.
+#* For example, when initializing a book tiddler, verify that the book is not already present by checking if a tiddler with the same isbn field value exists in your wikispace.
+# Validate mandatory fields.
+#* Confirm that required fields, such as caption, are filled.
+#* In the wikispace, the title of a book tiddler is typically composed of the book's caption and its isbn identifier. Therefore, the caption field must be completed before proceeding.
+# Set default field values.
+#* If certain fields (e.g., year) are empty, assign default values to them.
+# Create a new tiddler from a template.
+#* Use a specified template to generate the new tiddler.
+# Sync fields from the current tiddler.
+#* Transfer field values from the "Untitled" tiddler to the newly created tiddler.
+# Generate the title of the new book tiddler.
+# Clean up unnecessary tiddlers.
+#* Delete irrelevant or temporary tiddlers and navigate to the newly created tiddler.
+
+!! General Initialize Procedures:
+
+|tc-max-width|k
+|''Usual Procedures For Initializing Tiddlers.''|c
+| !Procedure | !Parameters | !Description | !Example |
+|`authors-picker` | (Empty) |Enables author selection in the initialization panel, similar to a tag-picker. |`<<authors-picker>>` |
+|`navigate-to-existing-tiddler` |<<li "`message`(Displayed message if an existing tiddler is found.)">> <<li `tiddler`(Existing tiddler to navigate to.)>> <<li `btnTitle`(Button title)]] >>|Displays a message and navigation button if the specified tiddler already exists |`<$transclude $variable="navigate-to-existing-tiddler"	message="⚠️ The book already existed in the system." tiddler={{{ [tag[Book]has[isbn]contains:isbn{!!text}] }}} btnTitle="Navigate To The Existing." />` |
+|`check-mandatory-notifier` |▪ `tiddler`(Tiddler to check) <br> ▪ `fieldsList`(List of mandatory fields to validate.) |Checks if the specified tiddler contains all mandatory fields. If not, a warning notification appears. |`<<check-mandatory-notifier "Untitled" "caption authors">>`(Ensures the "Untitled" tiddler contains `caption` and `authors`.) |
+|`initializer-cancel-actions` | (Empty) |Performs cleanup actions (e.g., deleting temporary tiddlers) when the "Cancel" button is clicked.) |`<$button actions=<<initializer-cancel-actions>>>Cancel<$button>`(Perform the cancel actions once you click the ''Cancel'' button.) |
+|`sync-fields` |▪ `sourceTiddler`(Tiddler to sync from.)<br> ▪ `destTiddler`(Tiddler to sync to.) |Synchronizes fields between the source and destination tiddlers, excluding certain fields like `title`, `text`, `tags`, etc. |`<$button actions=<<sync-fields sourceTiddler:"Untitled" destTiddler:"New Book">>>Sync<$button>`(Sync the fields from `Untitled` tiddler to `New Book` tiddler once you click the ''Sync'' button.) |
+|`finish-creation-actions` | (Empty) |Final actions after synchronization, such as deleting unused tiddlers. |`<<finish-creation-actions>>` |
+|`initializer-btn-box` |`btnList`(List of buttons to include in the initializer box.) |Arranges buttons in a flexbox layout with space-between alignment. |`<<initializer-btn-box btnList:"initializer-cancel-btn create-new-book-btn">>`(Adds "Cancel" and "Create New Book" buttons to the box.) |
+
+!! Code Instance:
+
+<$twks.details summary="Example code for initializing a book tiddler" state="$:/state/detail" open="false">
+<$codeblock code={{$:/uzvg/Initializer/Panels/Book}} />
+</$twks.details>

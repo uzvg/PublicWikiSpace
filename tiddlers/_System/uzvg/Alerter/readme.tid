@@ -1,0 +1,109 @@
+created: 20260404155241020
+creator: uzvg
+modified: 20260404160717837
+modifier: uzvg
+tags: 
+title: $:/uzvg/Alerter/readme
+type: text/vnd.tiddlywiki
+
+!! Introduce:
+
+A TiddlyWiki procedure that renders styled callout blocks — similar to the alert boxes seen in GitHub, Obsidian, and documentation sites. It supports five semantic types, automatically adapts to light and dark colour schemes, and accepts an optional custom title.
+
+!! Syntax:
+
+```
+<<twks-alerter type:"TYPE" text:"CONTENT" title:"OPTIONAL TITLE">>
+```
+
+> ''Note:'' Because `text` is parsed as wikitext, any wikitext syntax you can use in a tiddler body — bold, italic, links, transclusions, macros — is also valid inside the `text` parameter.
+
+!! Supported Types:
+
+|tc-max-width|k
+| !type | !Use it when… |
+| `note` |Sharing neutral, supplementary information |
+| `tip` |Offering a helpful suggestion or shortcut |
+| `important` |Highlighting something the reader must not miss |
+| `warning` |Flagging potential data loss or irreversible actions |
+| `caution` |Warning about side effects, risks, or gotchas |
+
+!! Parameters:
+
+|tc-max-width|k
+| !Parameter | !Type | !Required | !Default | !Description |
+| `type` | string | ''Yes'' | — |The semantic type of the alert. Controls icon, colour, and default title. Accepted values: `warning`, `caution`, `note`, `tip`, `important`. |
+| `text` | string / wikitext | ''Yes'' | — |The body content of the alert block. Parsed and rendered as wikitext in block mode. |
+| `title` | string | No | (type-specific, see below) |Overrides the default heading. Pass an empty string `""` to suppress the title entirely. |
+
+!!! Default titles by type:
+
+| !Type | !Default title |
+|`warning` |`Warning:` |
+|`caution` |`Caution:` |
+|`note` |`Note:` |
+|`tip` |`Tip:` |
+|`important` |`Important:` |
+
+!! Usage Examples
+
+!!! Basic note
+
+```
+<<twks-alerter type:"note" text:"This feature was introduced in version 3.2.">>
+```
+
+Renders a blue info block with the heading ''Note:'' and the supplied body text.
+
+!!! Warning with default title
+
+```
+<<twks-alerter type:"warning" text:"Deleting this tiddler will remove all associated data permanently.">>
+```
+
+!!! Caution with a custom title
+
+```
+<<twks-alerter
+  type:"caution"
+  text:"Mixing plugins from different major versions may cause unexpected rendering issues."
+  title:"Compatibility Warning"
+>>
+```
+
+!!! Tip with inline wikitext in text
+
+```
+<<twks-alerter
+  type:"tip"
+  text:"You can use [[keyboard shortcuts|$:/core/ui/KeyboardShortcuts]] to speed up your workflow."
+>>
+```
+
+The `text` value is rendered as wikitext, so wiki links and other markup work as expected.
+
+!!! Important with suppressed title
+
+Pass an empty string to `title` to hide the heading entirely:
+
+```
+<<twks-alerter
+  type:"important"
+  text:"Always back up your wiki before upgrading."
+  title:""
+>>
+```
+
+!!! Multiline content
+
+For longer content, use a `\define` block to prepare the text first, then pass the variable:
+
+```
+\define my-alert-text()
+This procedure supports ''bold'', //italic//, and `monospace` inline formatting.
+
+It also supports multiple paragraphs.
+\end
+
+<<twks-alerter type:"note" text:<<my-alert-text>> title:"Formatting support">>
+```

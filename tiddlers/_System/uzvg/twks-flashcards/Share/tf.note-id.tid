@@ -1,0 +1,9 @@
+code-body: yes
+created: 20260302152119787
+modified: 20260302152146074
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/tf.note-id
+type: text/vnd.tiddlywiki
+
+\function tf.note-id() [<storeTiddler>get[created]tf.convert-lst[]]

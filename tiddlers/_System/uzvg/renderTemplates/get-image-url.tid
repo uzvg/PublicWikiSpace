@@ -1,0 +1,13 @@
+code-body: yes
+created: 20260409053900393
+creator: uzvg
+modified: 20260409061129936
+modifier: uzvg
+tags: 
+title: $:/uzvg/renderTemplates/get-image-url
+type: text/vnd.tiddlywiki
+
+\procedure image-domain-prefix() https://images.uzvg.site/Images/
+\function get-image-basename() [<currentTiddler>split[.]first[]]
+\function get-image-url() [<image-domain-prefix>addsuffix<get-image-basename>addsuffix[.avif]]
+<<get-image-url>>
