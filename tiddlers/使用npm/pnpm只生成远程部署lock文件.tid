@@ -1,0 +1,21 @@
+created: 20260420124219163
+creator: uzvg
+description: npm只生成package.json
+modified: 20260427081605989
+modifier: uzvg
+progress: Completed
+rating: Personal
+tags: PermanentNotes npm tiddlywiki
+title: 使用npm/pnpm只生成远程部署lock文件
+type: text/vnd.tiddlywiki
+visibility: Public
+
+在CloudFlare pages上部署tiddlywiki网页时：
+
+```
+npm install tiddlywiki wrangler --save-dev --package-lock-only
+```
+
+```
+pnpm add -D tiddlywiki --lockfile-only
+```

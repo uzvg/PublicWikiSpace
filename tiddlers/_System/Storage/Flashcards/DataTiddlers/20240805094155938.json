@@ -1,0 +1,14 @@
+{
+  "20260123031616565": {
+    "question": "默想一下zsh Shell中的autoload函数的加载过程？",
+    "answer": "配置函数搜索路径fpath，将函数声明为autoload，第一次调用函数中触发加载"
+  },
+  "20260123031732597": {
+    "question": "在zsh Shell中，如何卸载或重置function？",
+    "answer": "unfunction <functionName>"
+  },
+  "20260123031823683": {
+    "question": "zsh 中 autoload 机制的优化规则？",
+    "answer": "仅包含同名函数定义 → 第一次调用时自动执行；包含其他函数或代码 → 第一次调用只加载，第二次才执行"
+  }
+}

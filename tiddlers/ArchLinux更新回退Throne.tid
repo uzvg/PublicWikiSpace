@@ -1,0 +1,37 @@
+created: 20260401070032823
+description: 在ArchLinux中回退到旧版的throne的经过
+modified: 20260402101037312
+progress: Completed
+rating: Personal
+tags: PermanentNotes ArchLinux TroubleShooting
+title: ArchLinux更新回退Throne
+type: text/vnd.tiddlywiki
+visibility: Public
+
+Throne是一个用Qt写的代理软件，我在我的ArchLinux上使用它来访问境外网络。
+
+这个''半成品''软件，升级后总会遇到各种各样的bug。
+
+今天升到1.1.3之后，就一直报错证书错误，估计是软件内部封装的证书过期了，总之，结果就是新版的软件用不了，访问不了网络。
+
+没辙，只能回退到旧版，步骤如下：
+
+# 找到throne的aur仓库
+# 克隆它的pkgbuild仓库
+# 进入仓库目录后，使用git切换到旧版
+# 构建并安装软件
+
+```
+# 生成本地安装包
+makepkg -s
+
+# 安装生成的本地安装包
+sudo pacman -U throne-bin-1.0.13-1-x86_64.pkg.tar.zst
+
+# 或者一步到位
+sudo makepkg -si
+```
+
+<<twks-alerter tip "如果中途需要代理下载软件源文件的话，可以暂时使用flclash。">>
+
+ℹ️ 妈的，`clash-verge-rev`这个3A大作，在Linux上，居然要占用将近`800M`的内存，就这，还各种bug，离谱。

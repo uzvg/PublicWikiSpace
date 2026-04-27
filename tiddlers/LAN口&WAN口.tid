@@ -1,0 +1,59 @@
+created: 20260414112224143
+creator: uzvg
+description: LAN口跟WAN口的概念，它们不是一个固定的硬件设备标签，而是一个针对于具有路由转发功能的设备的逻辑概念。
+modified: 20260414115115521
+modifier: uzvg
+progress: Completed
+rating: Personal
+source: 网络通信的基本过程——DNS原理(1776165127004)
+tags: PermanentNotes
+title: LAN口&WAN口
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 概念：
+
+* LAN（Local Area Network） = 局域网（内网）
+* WAN（Wide Area Network） = 广域网（外网）
+
+`LAN/WAN port` ➡ 连接内网/外网的接口。
+
+* WAN port = interface connected to the Wide Area Network
+* LAN port = interface connected to the Local Area Network
+
+站在路由器视角：
+
+* ''WAN口''：连接“别的网络”（通常是互联网）
+* ''LAN口''：连接“自己管理的内部网络”
+
+!! 什么时候电脑会有`lan/wan`？
+
+; 当我们的设备具有路由功能的时候，就会有`lan/wan`，比如：开热点（手机/电脑）
+* 首先电脑 WiFi 连接互联网 → 相当于 `WAN`
+* 开启热点 → 给别人用 → 相当于 `LAN`
+* 👉 这时候电脑就“扮演路由器”
+* `WAN/LAN` 是“网络拓扑中的位置关系”，不是“设备自带标签”
+
+<<twks-alerter tip """
+* `WAN/LAN` 是“网络拓扑中的位置关系”，不是“设备自带标签”
+* 只有“做路由功能的设备”才区分 WAN 和 LAN，典型的设备有：''路由器''、''软路由''
+""">>
+
+!! 路由器的角色：
+
+; 路由器做了三件关键事情：
+* ''NAT''（地址转换）➡ 把你家多个设备共享一个公网IP
+* ''DHCP''（自动分配IP）➡ 给你电脑分配内网IP（比如 192.168.x.x）
+* ''路由转发'' ➡ 决定数据从 LAN 走 WAN 还是反过来
+
+; 一个完整的数据流：
+* 当我们用电脑打开网页时：
+* 电脑 → LAN口 → 路由器 → WAN口 → 互联网
+* 电脑 ← LAN口 ← 路由器 ← WAN口 ← 互联网
+* 👉 路由器就像一个“翻译官 + 分发器”
+
+!! 总结：
+
+* `LAN/WAN`表达的是网拓扑中的位置关系，不是硬件设备
+* 只对拥有''路由''功能的设备有效
+* 路由器的本质不是 WAN/LAN 转换器，而是一个“基于路由规则在多个网络之间转发数据的系统”。

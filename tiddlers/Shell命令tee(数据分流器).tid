@@ -1,0 +1,63 @@
+created: 20240730060722356
+creator: uzvg
+description: Shell命令tee(数据分流器)
+modified: 20260426061204743
+modifier: uzvg
+progress: Completed
+rating: Personal
+tags: Linux Shell PermanentNotes
+title: Shell命令tee(数据分流器)
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 1. 核心定义
+
+`tee` 命令用于读取标准输入（stdin），并将其内容''同时''输出到标准输出（屏幕）和一个或多个文件中。
+
+* ''形象比喻：'' 像水管的 ''T型接头''，将一份水流（数据）分为两路。
+
+!! 2. 基本语法
+
+```bash
+command | tee [options] FILE
+```
+
+!!! 3. 常用参数
+
+* `tee file`：覆盖写入文件。
+* `-a` (`--append`)：追加写入文件，不覆盖原内容。
+* `-i`：忽略中断信号（Interrupt signals）。
+
+!!! 4. 核心使用场景
+
+; A. 边看边存 (Logging)
+
+* 在执行耗时任务或脚本时，既想在终端看到实时进展，又想记录日志。
+
+```bash
+./build_project.sh | tee build.log
+```
+
+; B. 提权写入 (sudo 限制绕过) 🌟 ''高频考点''
+
+* 解决 `sudo echo "..." > /etc/file` 权限不足的问题。
+
+```bash
+# 错误：重定向符由无权限的 shell 执行
+# 正确：用 sudo 运行 tee 来写入受保护文件
+echo "content" | sudo tee -a /etc/config_file
+```
+
+; C. 多路输出
+
+* 可以将结果同时保存到多个文件。
+
+```bash
+ls | tee file1.txt file2.txt file3.txt
+```
+
+!!! 5. 快速对比：tee vs xargs
+
+| !命令 | !核心作用 | !关键词 |
+| ''`tee`'' | ''分流''：一份输入 $\rightarrow$ 屏幕 + 文件 | “边看边存” |
+| ''`xargs`'' | ''转换''：输入 $\rightarrow$ 后面命令的参数 | “批量处理” |

@@ -1,0 +1,117 @@
+created: 20260402145917082
+creator: uzvg
+description: 使用vips批量压缩图片
+modified: 20260409035920721
+modifier: uzvg
+progress: Completed
+rating: Valuable
+tags: PermanentNotes vips ImageShrink(图片压缩)
+title: 使用libvips批量压缩图片
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+* 目标： 批量化压缩图片，再上传到OSS中。
+* `libvips`是一个非常先进的图片压缩工具，使用它，我可以把`20MB`的图片，压缩到`200K`的`avif`文件，很方便，而且速度也可以接受。
+
+
+!! 安装：
+
+```sh
+sudo pacman -S libvips
+```
+
+!! 压缩：
+
+```
+vips thumbnail "SOURCE_IMG" "TARGET_IMG.avif[Q=80,strip]" 960 --size down --linear
+```
+
+|tc-max-width|k
+| !参数 | !说明 |
+|`"SOURCE_IMG"` |▪ ''输入文件路径''（支持 `jpg/png/webp/tiff/avif/heic` 等） |
+|`"TARGET_IMG.avif[Q=80,strip]"` |▪ ''输出文件路径 + Saver 参数''<br>▪ `.avif` 扩展名决定编码器为 `heifsave`<br>▪ `[Q=80,strip]` 是传递给编码器的参数（''不是 thumbnail 的参数''） |
+|`960` |▪ ''目标宽度（像素）''<br>高度会按比例自动计算，保持宽高比 |
+
+; 🎛️ Thumbnail 操作参数：
+
+| !参数 | !作用 | !详细说明 |
+|`--size down` |▪ ''仅缩小，不放大'' |▪ 若原图宽度 ≤ `960px`，则保持原尺寸输出<br>▪ 若原图宽度 > 960px，则缩小至 960px<br>▪ 替代选项：<br>￮ `--size up`（仅放大）<br>￮  `--size both`（强制缩放到 960px，无论放大或缩小）<br>￮ `--size force`（拉伸至 960×960，破坏宽高比） |
+|`--linear` |▪ ''在线性 RGB 色彩空间进行重采样'' |▪ 默认情况下，libvips 在 sRGB（伽马校正）空间缩放，可能导致暗部细节丢失或色彩偏移<br> ▪ `--linear` 会先将图像转换到线性光空间（去除伽马），缩放后再转回 sRGB<br> ▪ ''推荐用于高质量缩图''，尤其是包含渐变、阴影的图像<br>▪ 代价：速度略慢（约 10~20%），内存占用略增 |
+
+; 🔧 Saver 参数（`[...]` 内）：
+
+这些参数''不传递给 `thumbnail` 操作''，而是由 libvips 在保存时自动解析并传递给 `heifsave`（AVIF 编码器）：
+
+|tc-max-width|k
+| !参数 | !等价 CLI 参数 | !默认值 | !作用 |
+|`Q=80` |`--Q 80` |`50` |''视觉质量因子（1~100）''<br>• AVIF 编码效率高，Q=80 的主观画质 ≈ JPEG Q=90<br>• 推荐范围：75~85（网页用图） |
+|`strip` |`--strip` |`false` |''移除所有元数据''<br>• 包括 EXIF、ICC 色彩配置文件、XMP、GPS、缩略图等<br>• 可显著减小文件体积（通常 10~100KB）<br>• ⚠️ 若需保留 ICC 色彩管理，请勿使用 `strip` |
+
+> 💡 ''多参数写法''：逗号分隔，无空格
+> 示例：`[Q=85,strip,effort=4,chroma=4:2:0]`
+
+!! 🔄 完整处理流程：
+
+```
+1. 读取 SOURCE_IMG
+   ↓
+2. 解析嵌入的 ICC 配置文件（如有）
+   ↓
+3. 转换到线性 RGB 空间（因 --linear）
+   ↓
+4. 计算缩放比例：min(1.0, 960 / 原图宽度)
+   ↓
+5. 使用 Lanczos3 算法重采样（thumbnail 内置）
+   ↓
+6. 应用自动锐化（thumbnail 内置，补偿缩小导致的模糊）
+   ↓
+7. 转换回 sRGB 空间
+   ↓
+8. 调用 heifsave 编码器，传入 [Q=80,strip]
+   ↓
+9. 写入 TARGET_IMG.avif（文件名自动剥离 [...]）
+```
+
+!! 🔍 验证命令：
+
+```bash
+# 查看输出文件的实际参数
+vipsheader -a TARGET_IMG.avif | grep -E "width|height|compression|Q"
+
+# 确认元数据已剥离
+vipsheader -a TARGET_IMG.avif | grep -i "exif\|xmp\|iptc"  # 应无输出
+
+# 对比原图与缩图
+vipsheader SOURCE_IMG TARGET_IMG.avif
+```
+
+!! ⚡ 性能提示：
+
+|tc-max-width|k
+| !参数组合 | !速度 | !画质 | !体积 | !适用场景 |
+|默认（无 `--linear`） | ⚡⚡⚡ |良好 |小 |快速预览、缩略图 |
+|`--linear` | ⚡ |''优秀'' |小 |摄影作品、电商主图 |
+|`--linear + Q=90` | ⚡ |极佳 |中 |存档、打印准备 |
+|`Q=70,effort=2` | ⚡⚡ |可接受 |''极小'' |移动端弱网环境 |
+
+!! 📌 常见陷阱：
+
+1. ''`[...]` 必须加引号''
+
+* ❌ `TARGET_IMG.avif[Q=80]` → bash 会报错 `unexpected token '['`  
+* ✅ `"TARGET_IMG.avif[Q=80]"`
+
+2. ''文件名中不能有 `[` 或 `]`''
+
+* libvips 会自动剥离 `[...]`，实际磁盘文件名为 `TARGET_IMG.avif`
+
+3. ''`--strip` 会移除 ICC''
+
+* 若需色彩管理（如印刷、专业摄影），改用：
+* `"TARGET_IMG.avif[Q=80]"`（保留 ICC）
+* 或手动剔除特定元数据（需 `pyvips`/`sharp`）
+
+如需针对特定场景（如保留 EXIF 拍摄时间、批量转 WebP、服务端 API 封装）调整参数，可提供需求细节。
+

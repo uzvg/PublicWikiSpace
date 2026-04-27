@@ -1,0 +1,29 @@
+created: 20240705120420363
+creator: uzvg
+icon: $:/core/images/home-button
+modified: 20250615152708247
+modifier: uzvg
+refexplorer-hide: yes
+refexplorer-starttab: Journal
+tags: 
+title: Home
+type: text/vnd.tiddlywiki
+
+!! Welcome!
+
+欢迎来到我的 ''WikiSpace''! ''WikiSpace'' 是我基于`tiddlywiki`，结合`Zettelkasten`笔记管理方法，根据自己的笔记管理经验打造的个人知识管理系统，我将其称为`Tiddly WikiSpace`（简称`TWKS`）。
+
+!! 起源：
+
+我在第一次使用tiddlywiki时，就被它的精巧设计、强大功能所打动。对我而言，tiddlywiki，不仅是''内容创作''的工具，也是''流程创作''、''形式创作''的工具，使用tiddlywiki，我不仅可以方便地记录笔记内容，还可以毫无妥协地定制笔记的工作流程，以及笔记的表现形式，wikispace就是三者融合的产物。
+
+这其中，除了必要的第三方模块（如twikoo评论区）外，wikispace的所有内容，基本都是用tiddlywiki的原生语言`wikitext`以及少量的`html/css`完成，这也使得wikispace更好地融入原生的tiddlywiki设计，没有特别突兀的设计，这也是我在一开始设计wikispace时就定好的目标。
+
+<$let
+	tabsList="[all[tiddlers]!is[system]!is[draft]prefix[Home/]nsort[order]]"
+	MyDefaultTab={{{ [subfilter<tabsList>first[]] }}}>
+	<$macrocall $name="tabs"
+		tabsList=<<tabsList>>
+		default=<<MyDefaultTab>>
+		state="$:/state/HomeTab"/>
+</$let>

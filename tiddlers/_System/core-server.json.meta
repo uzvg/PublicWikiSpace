@@ -1,0 +1,13 @@
+author: JeremyRuston
+core-version: >=5.0.0
+dependents: 
+description: TiddlyWiki5 core server components
+list: readme
+name: Core Server Components
+platform: server
+plugin-priority: 0
+plugin-type: plugin
+stability: STABILITY_2_STABLE
+title: $:/core-server
+type: application/json
+version: 5.4.0

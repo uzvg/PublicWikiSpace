@@ -1,0 +1,32 @@
+created: 20260414131858187
+creator: uzvg
+description: 
+modified: 20260414132504466
+modifier: uzvg
+progress: Completed
+rating: Personal
+source: 如何解决代理中的DNS泄漏问题？(1776172705035)
+tags: PermanentNotes DNS
+title: 如何检测自己的DNS请求是否泄漏？
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 检测网站：
+
+* [[DNSLeakTest.com|https://www.dnsleaktest.com/]]
+** 特点：最经典的工具。提供“标准测试（Standard test）”和“扩展测试（Extended test）”。
+* [[BrowserLeaks - DNS Leak Test|https://browserleaks.com/dns]]
+** 特点：数据非常详尽，不仅检测 DNS，还能查看是否支持 DNSSEC、是否有 WebRTC 泄漏等。它的检测机制非常严密，能识别出隐藏在各种协议下的泄露。
+
+!! 如何判断是否泄漏？
+
+|tc-max-width|k
+| !结果 | !表现 |
+|安全 |列表里只显示你 VPN 所在的服务器 IP 或你 手动设置的公共 DNS（如 Cloudflare, Google）。"|
+|泄漏 |列表里出现了你真实所在地的运营商名称（如：中国电信/联通/移动，或对应的英文名 China Telecom 等）。|
+
+* 关键看有没有出现“中国大陆”的 IP 和运营商。
+* 如果列表里只有香港、日本（或其他非本地地区）：
+** 说明你的 隐私是安全的。虽然出现了多个地点，但你的真实 ISP（如中国电信、联通、移动）并没有出现在列表中。这意味着你的运营商无法直接通过 DNS 记录知道你访问了哪些网站。
+* 如果列表里出现了你真实的所在地 IP：
+** 即使只有 1 条是大陆的，也意味着存在 DNS 泄漏。在这种情况下，部分请求绕过了代理直接发给了国内运营商。

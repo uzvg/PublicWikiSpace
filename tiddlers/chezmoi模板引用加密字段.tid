@@ -1,0 +1,75 @@
+created: 20260416160621633
+creator: uzvg
+description: chezmoi模板引用加密字段
+modified: 20260416173628734
+modifier: uzvg
+progress: Completed
+rating: Personal
+tags: PermanentNotes chezmoi age加密
+title: chezmoi模板引用加密字段
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+经常有一种使用场景，在写一个配置文件的过程中：
+
+* 一方面，想要分享配置文件的具体结构
+* 另一方面，配置文件中例如秘钥，access_key等信息，又不能泄露。
+
+这个功能，可以使用`chezmoi`配置`age`加密完成。
+
+先加密秘钥到chezmoi的家目录的secrets目录中：
+
+```
+ age --encrypt --armor -r <***********公钥> -o ~/.local/share/chezmoi/secrets/keys/new_google_v2_sub.txt.age new_google_v2_sub.txt
+```
+
+然后在模板上引用，如下：
+
+```yaml
+# file:test.yaml
+# 其他普通配置
+app_name: "MyAwesomeApp"
+debug: false
+
+# 局部加密的配置项
+# 这里使用 joinPath 找到秘密文件的路径，并进行解密和去除换行符
+api_token: {{ include (joinPath .chezmoi.config.sourceDir "secrets/keys/new_google_v2_sub.txt.age") | decrypt | trim }}
+```
+
+查看解密结果：
+
+```
+chezmoi execute-template < test.yaml
+```
+
+就能看到解密后的文件
+
+[[17th April 2026]]@01:32，现已封装成脚本，可直接使用脚本。
+
+!! 其他：
+
+如何把一个文件添加为 `chezmoi` 模板？
+
+```
+chezmoi add --template <filename>
+```
+
+如何把一个已经受`chezmoi`管理的文件，添加为模板？
+
+```
+chezmoi chattr +template <file>
+```
+
+如何编辑被添加为模板的配置文件？
+
+```
+chezmoi edit <filename>
+```
+
+如何查看应用模板后的文件内容？
+
+```
+chezmoi cat <filename>
+```

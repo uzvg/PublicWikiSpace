@@ -1,0 +1,25 @@
+code-body: yes
+created: 20260316014437225
+modified: 20260316140404768
+modifier: uzvg
+tags: 
+title: $:/uzvg/Configs/AutoCreateNavigateJournal
+type: text/vnd.tiddlywiki
+
+<$let journalTitle=<<now "DDth MMM YYYY">>>
+
+	<% if [<journalTitle>!is[tiddler]] %>
+		<!-- Create Journal Tiddler -->
+		<$action-createtiddler
+			$basetitle=<<journalTitle>>
+			tags="Journal"
+			text={{$:/config/NewJournal/Text}}/>
+	<% endif %>
+	<!-- Set Default Tiddler -->
+	<$action-setfield
+		$tiddler="$:/DefaultTiddlers"
+		text={{{ [<journalTitle>format:titlelist[]] }}} />
+
+	<$action-sendmessage $message="tm-home"/>
+
+</$let>

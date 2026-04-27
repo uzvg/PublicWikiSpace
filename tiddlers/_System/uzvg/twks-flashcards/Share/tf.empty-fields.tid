@@ -1,0 +1,14 @@
+code-body: yes
+created: 20260303031557231
+modified: 20260304145905837
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/tf.empty-fields
+type: text/vnd.tiddlywiki
+
+\function tf.empty-fields()
+	[<currentTab>get[required-fields]]
+	:else[<currentTab>get[fields-list]]
+	:and[enlist-input[]]
+	:filter[<storeTiddler>!has<currentTiddler>]
+\end tf.empty-fields

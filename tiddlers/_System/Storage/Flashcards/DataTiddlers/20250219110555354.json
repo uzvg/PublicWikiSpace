@@ -1,0 +1,17 @@
+{
+  "20260117161244891": {
+    "cloze": "chezmoi的merge操作中，有三种不同的文件状态，分别是{Destination}、{Source}、{Target}。"
+  },
+  "20260117161212140": {
+    "question": "chezmoi的merge操作中，Destination状态的文件指的是什么文件？",
+    "answer": "指的是用户当前的配置文件(已经生效)。"
+  },
+  "20260117161407616": {
+    "question": "chezmoi的merge操作中，Source状态的文件指的是什么文件？",
+    "answer": "指的是chezmoi 源目录中的模板文件，它用于生成最终的Target文件。"
+  },
+  "20260117161547370": {
+    "question": "chezmoi的merge操作中，Target状态的文件指的是什么文件？",
+    "answer": "chezmoi 生成的目标文件（通常是由 chezmoi apply 生成的最终版本）"
+  }
+}

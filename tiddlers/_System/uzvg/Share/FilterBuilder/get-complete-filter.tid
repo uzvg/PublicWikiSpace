@@ -1,0 +1,20 @@
+code-body: yes
+created: 20250516125829457
+modified: 20260114024913429
+modifier: uzvg
+tags: 
+title: $:/uzvg/Share/FilterBuilder/get-complete-filter
+type: text/vnd.tiddlywiki
+
+\function get-paginater-filter-prefix()
+	[<get-filter-prefix>]
+	[<get-property-subfilter>!is[blank]addprefix[+]]
+	[<get-sortMode-subfilter>!is[blank]addprefix[+]]
+	+[join[ ]]
+\end
+
+\function get-complete-filter()
+	[<get-paginater-filter-prefix>]
+	[<get-paginater-subfilter>!is[blank]addprefix[+]]
+	+[join[ ]]
+\end

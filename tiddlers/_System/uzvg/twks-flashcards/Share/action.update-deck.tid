@@ -1,0 +1,34 @@
+code-body: yes
+created: 20260317064657963
+modified: 20260317065013799
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/action.update-deck
+type: text/vnd.tiddlywiki
+
+\widget $action.update-deck(dataTiddler,tfNoteId,deckValue)
+\function get-source-deck() [<dataTiddler>get[text]jsonget<tfNoteId>,<>]
+\function get-store-note-data() [<sourceStoreData>jsonextract<tfNoteId>]
+
+\function get-target-note-data()
+	[<jsonType>match[string]]
+	:then[<noteStoreData>jsonset:string<fieldName>,<jsonData>]
+	:else[<noteStoreData>jsonset:json<fieldName>,<jsonData>]
+\end get-target-note-data
+
+\function get-target-source-data()
+	[<sourceStoreData>jsonset:json<tfNoteId>,<noteTargetData>]
+	+[format:json[2]]
+\end get-target-source-data
+
+<$let
+	jsonType=<<get-json-type>>
+	sourceStoreData=<<get-store-source-data>>
+	noteStoreData=<<get-store-note-data>>
+	noteTargetData=<<get-target-note-data>>
+	sourceTargetData=<<get-target-source-data>>>
+	<$action-setfield
+		$tiddler=<<dataTiddler>>
+		text=<<get-target-source-data>>/>
+</$let>
+\end

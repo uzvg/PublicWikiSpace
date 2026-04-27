@@ -1,0 +1,23 @@
+created: 20260319021403538
+modified: 20260319022506958
+progress: WIP
+tags: ProjectNotes tiddlywiki
+title: TiddlyFlashcards的默认CSS设计
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 设计思路：
+
+* 不需要支持所有的tiddlywiki样式，只需要支持tiddlywiki中的coreHTML样式即可。
+* 需要跟Anki的主题同步，能自动切换dark/light主题。
+* 设计好card的布局，整张卡片居中，但是卡片的内容，居中对齐。
+
+!! core HTML元素：
+
+* [[WikiText|https://tiddlywiki.com/#WikiText]]
+* [[Inline Format|https://tiddlywiki.com/#Formatting%20in%20WikiText]]
+* [[Block Quotes in WikiText|https://tiddlywiki.com/#Block%20Quotes%20in%20WikiText]]
+* table
+* transclusion
+
+整理好之后，交给AI去做，先把更重要的事情完成。

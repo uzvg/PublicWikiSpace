@@ -1,0 +1,235 @@
+code-body: yes
+created: 20251231140206235
+modified: 20260104092806066
+tags: 
+title: $:/uzvg/twks-frog/Share/tasks-table-view
+type: text/vnd.tiddlywiki
+
+<!-- tasks table view 	------------------------------
+* filter: filter the selected tasks
+* actions: triggered by the new task	--------------->
+
+<!-- Preparation works (Public Functions)-------------------------------->
+\function storeTiddler() [<qualify "$:/temp/twks-frog/store">]
+\function storageFolder() [[$:/Storage/Frogs/]]
+\function get-task-title() [<storageFolder>] [<now TIMESTAMP>] +[join[]]
+\function get-current-time() [<now YYYY0MM0DD0hh0mm0ss0XXX>]
+
+<!-- Tasks table view (Main Procedure) -------------------------------->
+\procedure tasks-table-view(filter, actions)
+
+\import [[$:/uzvg/Share/delete-tiddler-btn]]
+\import [[$:/uzvg/Share/twks-star-radio]]
+\function get-task-status() [<item>get[status]]
+\function get-task-caption() [<item>get[caption]]
+\function get-task-class()
+	[<item>get[status]match[Done]]
+	:then[[twks-frog-done-task]]
+	:else[[tc-tiddlylink]]
+\end get-task-class
+
+<!-- Value select box -------------------------------->
+\procedure value-select-box()
+	<$transclude $variable="twks-star-radio"
+		tiddler=<<item>>
+		count="5"
+		field="value"/>
+\end value-select-box
+
+<!-- Friction select box -------------------------------->
+\procedure friction-select-box()
+	<$transclude $variable="twks-selector"
+		tiddler=<<item>>
+		field="friction"
+		optionsList="Smooth Resistant Blocked"
+		emptyValue="No"
+		placeholder="FRICTION"/>
+\end friction-select-box
+
+<!-- Get task duration -------------------------------->
+\function get-start-list() [<item>get[start]]
+\function get-end-list() [<item>get[end]]
+\function get-start-count() [enlist<get-start-list>count[]]
+\function get-end-count() [enlist<get-end-list>count[]]
+\function get-zth-start() [enlist<get-start-list>zth<index>format:date[TIMESTAMP]]
+
+\function get-task-duration()
+	[enlist<get-end-list>format:date[TIMESTAMP]]
+	:reduce[subtract<get-zth-start>add<accumulator>]
+	+[divide[60000]round[]]
+	:else[[0]]
+\end get-task-duration
+
+<!-- Select single checkbox -------------------------------->
+\procedure select-single-checkbox()
+\procedure select-single-actions()
+<% if [<get-start-count>compare:number:ne<get-end-count>] %>
+	<$action-listops $tiddler=<<item>>
+		$field="end"
+		$filter="[<item>get[end]enlist-input[]]"
+		$subfilter="+[append<get-current-time>]"/>
+<% endif %>
+\end select-single-actions
+
+<$checkbox tiddler=<<item>>
+	field="status"
+	checked="Done"
+	unchecked="Pending"
+	checkactions=<<select-single-actions>>
+	default="Pending"/>
+\end select-single-checkbox
+
+<!-- (un)select all checkbox -------------------------------->
+\procedure select-all-checkbox()
+\procedure check-all-actions()
+<$list filter=<<filter>> variable="item">
+	<$action-setfield $tiddler=<<item>>
+		status="Done"/>
+	<% if [<get-start-count>compare:number:ne<get-end-count>] %>
+		<$action-listops $tiddler=<<item>>
+			$field="end"
+			$filter="[<item>get[end]enlist-input[]]"
+			$subfilter="+[append<get-current-time>]"/>
+	<% endif %>
+</$list>
+\end check-all-actions
+
+\procedure uncheck-all-actions()
+<$list filter=<<filter>>>
+	<$action-setfield $tiddler=<<currentTiddler>>
+		status="Pending"/>
+</$list>
+\end uncheck-all-actions
+
+<$checkbox
+	checkactions=<<check-all-actions>>
+	uncheckactions=<<uncheck-all-actions>>/>
+\end select-all-checkbox
+
+<!-- Status switch box ------------------------------
+	Four status to switch:
+* WIP				(#red)
+* Done			(#green)
+* Paused		(#yellow)
+* Pending		(#normal)
+-->
+
+\procedure status-switch-box()
+\function get-switch-disabled()	[<get-task-status>match[Done]then[yes]]
+\function get-status-icon()
+	[<get-task-status>match[Paused]then[$:/core/images/timestamp-off]]
+	[<get-task-status>match[Done]then[$:/core/images/done-button]]
+	:else[[$:/core/images/timestamp-on]]
+\end get-status-icon
+
+\function get-status-class()
+	[[tc-btn-invisible]]
+	[<get-task-status>match[WIP]then[fill-red]]
+	[<get-task-status>match[Paused]then[fill-yellow]]
+	[<get-task-status>match[Done]then[fill-green]]
+	+[join[ ]]
+\end get-status-class
+
+\procedure checked-actions()
+	<$action-listops $tiddler=<<item>>
+		$field="start"
+		$filter="[<item>get[start]enlist-input[]]"
+		$subfilter="+[append<get-current-time>]"/>
+\end checked-actions
+
+\procedure unchecked-actions()
+	<$action-listops $tiddler=<<item>>
+		$field="end"
+		$filter="[<item>get[end]enlist-input[]]"
+		$subfilter="+[append<get-current-time>]"/>
+\end unchecked-actions
+
+<!-- For the status checkbox: ------------------------------
+* check		👉 WIP		👉 set "start" field value
+* uncheck 👉 Paused 👉 set "end" field value
+-->
+<$checkbox tiddler=<<item>>
+	field="status"
+	checked="WIP"
+	unchecked="Paused"
+	checkactions=<<checked-actions>>
+	uncheckactions=<<unchecked-actions>>
+	disabled=<<get-switch-disabled>>
+	class=<<get-status-class>>>
+		<$transclude $tiddler=<<get-status-icon>> size="1.25em"/>
+</$checkbox>
+\end status-switch-box
+
+<!-- Create new task row -->
+\procedure task-new-row()
+<tr>
+	<td>➕</td>
+	<td colspan="6">
+		<$keyboard key="((input-accept))" actions=<<actions>>>
+			<$edit-text tiddler=<<storeTiddler>>
+				placeholder="Create New Task Here!"
+				field="caption"/>
+		</$keyboard>
+	</td>
+	<td>
+		<$transclude $variable="twks-delete-btn"
+			tiddler=<<storeTiddler>>
+			icon="$:/core/images/erase"/>
+	</td>
+</tr>
+\end task-new-row
+
+\procedure delete-task-btn()
+\import [[$:/uzvg/Share/subtree]]
+\procedure delete-task-actions()
+	<$action-deletetiddler $filter="[.subtree<item>]"/>
+\end delete-task-actions
+	<$button actions=<<delete-task-actions>>
+		class="tc-btn-invisible">
+		{{$:/core/images/delete-button}}
+	</$button>
+\end delete-task-btn
+
+<!-- Scrollable tasks table body ------------------------------ -->
+\procedure scrollable-tasks-table-body()
+<$scrollable class="frog-tasks-container">
+	<table class="tc-max-width twks-frog-tasks-table twks-input-hide-border">
+		<tr>
+			<th> <<select-all-checkbox>> </th>
+			<th>Task</th>
+			<th>Value</th>
+			<th>Status</th>
+			<th>Schedule</th>
+			<th>Friction</th>
+			<th>Duration</th>
+			<th>Del</th>
+		</tr>
+		<$list filter=<<filter>> variable="item">
+			<tr>
+				<td> <<select-single-checkbox>> </td>
+				<td>
+					<$link to=<<item>> overrideClass=<<get-task-class>>> <<get-task-caption>> </$link>
+				</td>
+				<td> <<value-select-box>> </td>
+				<td style="text-align:center;">
+					<<status-switch-box>>
+				</td>
+				<td>
+					<$edit-text tiddler=<<item>>
+						field="schedule"
+						type="datetime-local"/>
+				</td>
+				<td> <<friction-select-box>> </td>
+				<td style="text-align:center;"> <<get-task-duration>>min </td>
+				<td style="text-align:center;"> <<delete-task-btn>> </td>
+			</tr>
+		</$list>
+		<% if [<actions>!is[blank]] %>
+			<<task-new-row>>
+		<% endif %>	</table>
+</$scrollable>
+\end scrollable-tasks-table-body
+
+<!-- Main Procedure ------------------------------ -->
+<<scrollable-tasks-table-body>>
+\end

@@ -1,0 +1,45 @@
+Adjustment: 
+caption: 早上7点半起床
+created: 20251217121138276
+end: 12:17
+modified: 20260114024913397
+modifier: uzvg
+rating: -
+start: 21:33
+title: $:/Storage/HabitTracker/20251213/1765973616779
+type: text/vnd.tiddlywiki
+
+\function get-start-time() [<currentTiddler>get[start]]
+\function get-end-time() [<currentTiddler>get[end]]
+\function get-hour(time) [<time>split[:]first[]]
+\function get-minute(time) [<time>split[:]last[]]
+\function get-timeWarnig-class()
+	[<get-start-time>split[:]first[]]
+\end
+
+\procedure habit-time-box()
+\whitespace trim
+<$edit-text tiddler=<<currentTiddler>> type="time" field="start"/>
+&nbsp;-&nbsp;
+<$edit-text tiddler=<<currentTiddler>> type="time" field="end"/>
+\end
+
+\procedure wrong-time-warning()
+	
+\end
+
+\procedure edit-habit-btn()
+	<$button message="tm-edit-tiddler"
+		tiddler=<<storyTiddler>>>
+		{{$:/core/images/edit-button}}Edit
+	</$button>
+\end
+
+\procedure habitTracker-edit-table()
+|tc-max-width habit-edit-table twks-input-hide-border|k
+|!Behavior |<$edit-text tiddler=<<currentTiddler>> field="caption" class="twks-full-width-input"/>|
+|!Context |<$edit-text tiddler=<<currentTiddler>> field="context" class="twks-full-width-input"/>|
+|!Adjustment |<$edit-text tiddler=<<currentTiddler>> field="Adjustment" class="twks-full-width-input"/>|
+|!Time |<<habit-time-box>>|
+|!Note |<<edit-habit-btn>>|
+\end

@@ -1,0 +1,26 @@
+created: 20251011092522336
+description: rime配置文件同步
+modified: 20251011092809721
+progress: Completed
+rating: Plain
+tags: PermanentNotes rime
+title: rime输入法同步文件夹设置
+type: text/vnd.tiddlywiki
+visibility: Public
+
+需要对`/home/uzvg/.config/ibus/rime/installation.yaml`文件添加`sync_dir`属性，修改后的文件内容如下：
+
+```
+distribution_code_name: "ibus-rime"
+distribution_name: Rime
+distribution_version: 1.5.1
+install_time: "Sun Feb  5 23:04:26 2023"
+installation_id: "Archlinux@Legion_R7000p"
+rime_version: 1.12.0
+update_time: "Sat Sep 13 16:45:09 2025"
+sync_dir: "/home/uzvg/Documents/Repos/rime"
+```
+
+!! 注意事项：
+
+* `sync_dir`属性值，貌似不能使用`~`符号来指代家目录，至少我在[[11th October 2025]]试验的两次，都没有成功。

@@ -1,0 +1,36 @@
+{
+  "20260122145341593": {
+    "cloze": "chezmoi的工作流程可以抽象为三步：{source state}  →  {计算 target state}  →  {应用到真实文件系统}"
+  },
+  "20260122145424928": {
+    "cloze": ".chezmoiignore 的作用不在 {source state}，而是在 {target state} 层。"
+  },
+  "20260122145314831": {
+    "question": ".chezmoiignore想要表达的是？",
+    "answer": "从 $HOME 的视角，告诉 chezmoi：哪些最终文件你别管。"
+  },
+  "20260122145658889": {
+    "question": ".chezmoiignore中的文件指的source state文件还是target state的文件？",
+    "answer": "target state"
+  },
+  "20260122145726402": {
+    "question": ".chezmoiignore对chezmoi apply的影响是？",
+    "answer": "通过chezmo apply计算得到的target state的文件，会被忽略，不会更新"
+  },
+  "20260122145932342": {
+    "question": ".chezmoiignore会对哪些指令产生影响？",
+    "answer": "apply, diff, status"
+  },
+  "20260122150051087": {
+    "question": ".chezmoiignore跟.gitignore文件的区别是什么？",
+    "answer": ".chezmoiignore文件管理的是target state的文件，而.gitignore管理的是source state的文件"
+  },
+  "20260122150148952": {
+    "question": "如果你的目标是不让某些文件进入 source 管理，那么你应该使用？",
+    "answer": ".gitignore文件，或者干脆不要 chezmoi add"
+  },
+  "20260122150221329": {
+    "question": ".chezmoiignore 跟 .chezmoiroot的关系是什么？",
+    "answer": ".chezmoiroot 决定“谁有资格进场”， 而.chezmoiignore 决定“进场后管不管”。"
+  }
+}

@@ -1,0 +1,61 @@
+created: 20251230155440746
+description: tiddlywiki中的checkbox组件用法
+end: 1767142114631 1767142115132 1767142115567 1767142115848
+modified: 20251231004903876
+progress: Completed
+rating: Plain
+status: Paused
+tags: PermanentNotes tiddlywiki
+title: checkbox widget
+type: text/vnd.tiddlywiki
+visibility: Public
+
+\function timestamp() [<now TIMESTAMP>]
+\function get-end() [<currentTiddler>get[end]]
+\function get-status() [<currentTiddler>get[status]]
+
+\procedure add-timestamp-actions()
+<$action-listops $tiddler=<<currentTiddler>>
+	$field="end"
+	$filter="[<currentTiddler>get[end]enlist-input[]]"
+	$subfilter="+[append<timestamp>]"/>
+\end
+
+\procedure del-timestamp-actions()
+<$action-listops $tiddler=<<currentTiddler>>
+	$field="end"
+	$filter="[<currentTiddler>get[end]enlist-input[]]"
+	$subfilter="+[butlast[]]"/>
+\end
+
+; 在使用checkbox组件时，遇到一个问题，那就是check和unckeck的field跟actions能否同时发生？
+* 可以同时发生。
+
+```
+<$checkbox tiddler=<<currentTiddler>>
+	field="status"
+	checked="WIP"
+	unchecked="Paused"
+	uncheckactions=<<del-timestamp-actions>>
+	checkactions=<<add-timestamp-actions>>>
+ ADD TIMESTAMP
+</$checkbox>
+```
+
+!! 示例：
+
+<$checkbox tiddler=<<currentTiddler>>
+	field="status"
+	checked="WIP"
+	unchecked="Paused"
+	uncheckactions=<<del-timestamp-actions>>
+	checkactions=<<add-timestamp-actions>>>
+ ADD TIMESTAMP
+</$checkbox>
+
+<$button actions=<<add-timestamp-actions>>>
+ ADD TIMESTAMP
+</$button>
+
+* status: <<get-status>>
+* end: <<get-end>>

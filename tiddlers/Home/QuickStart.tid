@@ -1,0 +1,39 @@
+caption: Quick Start
+created: 20250615152712102
+modified: 20250615160907166
+order: 2
+progress: Building
+tags: $:/twks/Documents
+title: Home/QuickStart
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 快速入门：
+
+; 1. 快捷键：
+* 使用 <kbd>Alt+F</kbd> 快捷键新建一个`FleetingNotes`。
+* 使用 <kbd>Alt+P</kbd> 快捷键新建一个`ProjectNotes`。
+* 使用 <kbd>Alt+Shift+P</kbd> 快捷键新建一个`PermanentNotes`。
+
+; 2. 快速初始化：
+* 复制一条youtube视频网址，打开`wikispace`界面，按 <kbd>Ctrl+V</kbd>，以`Plain/text`导入，点击`Untitled text/plain`，即可通过看到相应的笔记快速初始化面板。
+* 同样的操作，也适用于图片网址、Bilibili视频网址、书籍的isbn号，用以快速初始化图片、B站视频，书籍等对应的 `LiteratureNotes`。
+
+; 3. 管理笔记元信息：
+* 所有的`LiteratureNotes`，在副标题栏下方有一个可折叠的`frontmatter`，可方便地管理`LiteratureNotes`对应的''date''、''progress''、`rating`、`desription`等属性。
+* 其他不同类型的tiddler，比如`FleetingNotes`，`PermanentNotes`，`Image`，`Book`等tiddler，都有各自对应的`Frontmatter`，用以管理对应的笔记属性。
+
+; 4. 笔记引用浏览器：
+* 在每条笔记中链接中所用到的各项笔记，都会以所对应的笔记类型被显示到tiddler下方的`Refexplorer`中。
+
+; 5. 快速浏览：
+* 点击网站标题下方的 {{$:/uzvg/Buttons/Dashboard}} 按钮，可快速浏览、筛选Wikispace中的所有笔记。
+* 点击同步站标题下方的 {{$:/uzvg/Buttons/Library}} ，可快速浏览、管理wikispace中的所有书籍。
+
+; 6. 添加评论：
+* 点击tiddler下方的comment按钮，即可打开twikoo评论，针对当前笔记展开评论。
+
+<<twks-alerter "tip" "更多功能仍待整理，后续会录制视频详细介绍整个系统的工作流程，希望能给大家带来不一样的笔记的灵感。">>
+
+; 7. 阅读源代码：
+* 点击右侧sidebar的`WorkBench`，即可快速阅读`TWKS`的相关源码。

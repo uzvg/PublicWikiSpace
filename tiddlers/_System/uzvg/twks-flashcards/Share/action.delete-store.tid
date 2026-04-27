@@ -1,0 +1,12 @@
+code-body: yes
+created: 20260302150015021
+modified: 20260305081113612
+modifier: uzvg
+tags: 
+title: $:/uzvg/twks-flashcards/Share/action.delete-store
+type: text/vnd.tiddlywiki
+
+<!-- action to delete storeTiddler -->
+\procedure action.delete-store()
+<$action-deletetiddler $filter="[<storeTiddler>]"/>
+\end

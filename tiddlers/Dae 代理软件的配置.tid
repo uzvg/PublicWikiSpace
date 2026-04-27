@@ -1,0 +1,23 @@
+created: 20260414155859717
+creator: uzvg
+description: dae代理软件的配置经历
+modified: 20260416134001243
+modifier: uzvg
+progress: Paused
+rating: Plain
+tags: PermanentNotes dae
+title: Dae 代理软件的配置
+type: text/vnd.tiddlywiki
+visibility: Public
+
+* [[官方吃鹅说明|https://github.com/daeuniverse/dae/blob/main/docs/zh/README.md]]
+* https://blog.hellowood.dev/posts/dae-proxy-configuration/
+* https://github.com/emoeem/dae
+* [[完整样例|https://github.com/daeuniverse/dae/blob/main/example.dae]]
+* [[社区配置案例|https://github.com/daeuniverse/dae/discussions/81]]
+
+!! Logs：
+
+* [[16th April 2026]]，靠！不管怎么配置，都会有DNS泄露的问题
+* 晚上测，可能没有，但等到白天测，就又是一堆国内dns服务器，晕！！！
+* 内存占用是真的低，问题是，不稳定，各个方面的不稳定。
