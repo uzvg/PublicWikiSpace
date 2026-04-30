@@ -1,0 +1,12 @@
+author: uzvg
+core-version: >=5.3.8
+dependents: 
+description: A native toggle (collapsible/expandable) widget write in pure wikitext
+list: readme license tree contents
+name: twks-details
+plugin-type: plugin
+source: https://github.com/uzvg/TiddlyCrafts/tree/master/src/twks-details
+stability: STABILITY_2_STABLE
+title: $:/plugins/uzvg/twks-details
+type: application/json
+version: 1.0.6

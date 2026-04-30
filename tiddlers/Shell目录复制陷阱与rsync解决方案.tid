@@ -1,0 +1,83 @@
+created: 20260427170320387
+creator: uzvg
+description: Shell目录复制陷阱与rsync解决方案
+modified: 20260427170737875
+modifier: uzvg
+progress: Completed
+rating: Personal
+tags: PermanentNotes Shell zsh rsync
+title: Shell目录复制陷阱与rsync解决方案
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 一、问题描述
+
+`cp -r` 复制目录时，''同一条命令会因目标是否存在而产生不同行为''：
+
+```zsh
+cp -r test test1/
+```
+
+|tc-max-width|k
+| !执行时机 | !`test1` 状态 | !实际结果 |
+|第一次执行 |不存在 |`test` 被复制''为'' `test1`（重命名式复制） |
+|第二次执行 |已存在 |`test` 被复制''到'' `test1` 内，变成 `test1/test` |
+
+这种隐式的行为差异极易在脚本或自动化任务中引发难以察觉的 bug。
+
+!! 二、解决方案：用 rsync 替代 cp -r
+
+`rsync` 的行为由''源路径是否携带尾部斜杠''决定，与目标是否存在无关，语义始终稳定。
+
+!!! 语义规则
+
+```
+rsync -a <src>/  <dst>/   →  复制"src 的内容"到 dst（内容对齐）
+rsync -a <src>   <dst>/   →  复制"src 目录本身"到 dst 内
+```
+
+!!! 两种意图的标准写法
+
+```zsh
+# ✅ 意图：将 test 复制为 test1（无论 test1 是否存在，内容始终对齐）
+rsync -a test/ test1/
+
+# ✅ 意图：将 test 目录复制到 test1 内，结果为 test1/test
+rsync -a test test1/
+```
+
+!!! 常用参数说明
+
+| !参数 | !含义 |
+| `-a` |archive 模式，递归复制并保留权限、时间戳、符号链接等 |
+| `-v` |显示复制过程（verbose） |
+| `-n` |试运行，只显示将要执行的操作，不实际复制（dry-run） |
+
+!! 三、使用示例
+
+```zsh
+# 场景 1：备份项目目录为新版本
+rsync -a myproject/ myproject_backup/
+
+# 场景 2：将 dist 目录整体放入 release 目录下
+rsync -a dist release/
+# 结果：release/dist/...
+
+# 场景 3：试运行，确认行为后再执行
+rsync -an test/ test1/
+```
+
+!! 四、核心记忆点
+
+> ''源路径的尾部斜杠 `/` 决定一切''
+>
+>* 有 `/` → 复制''内容''（src 目录本身不出现在目标中）
+>* 无 `/` → 复制''目录''（src 目录本身会出现在目标中）
+
+```
+test/  →  test1/      等价于：cp -r test/* test1/
+test   →  test1/      等价于：cp -r test   test1/
+```
+
+* `cp -r` 的行为由''目标存在与否''决定（运行时才知道），`rsync` 的行为由''命令本身的写法''决定（读代码即可确认）。
+* 这正是 `rsync` 更工程化的本质：''意图写在命令里，而不是藏在环境状态里''。

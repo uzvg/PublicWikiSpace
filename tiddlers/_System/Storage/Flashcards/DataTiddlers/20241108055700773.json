@@ -1,0 +1,100 @@
+{
+    "20260112035517698": {
+        "question": "flexbox布局中，为什么说align-items是一个语法糖？",
+        "answer": "因为它一次性地设置了flexbox容器中所有子项在交叉轴上的对齐方式。"
+    },
+    "20260112035902260": {
+        "question": "flex-grow属性的作用是什么？",
+        "answer": "规定了子项们如何分配这些多余的可用空间。",
+        "cloze": ""
+    },
+    "20260112035907956": {
+        "cloze": "flex-grow的默认值为{0}"
+    },
+    "20260112040153966": {
+        "question": "当flex-grow的值为0时，它的效果是什么？",
+        "answer": "无论多余出来的可分配空间如何变化，当前元素在主轴上占用的空间保持不变。"
+    },
+    "20260112040311581": {
+        "question": "默想flex-grow分配剩余可用空间的过程?",
+        "answer": "第一步，根据子元素的属性，计算每个元素的基准尺寸。第 二步，计算剩余的 free space，将剩下的free space按 grow 比例分配。"
+    },
+    "20260112043049141": {
+        "cloze": "flex-grow 只作用于{剩余空间（free space）}， 它在{ flex-basis} 确定之后，按 {grow 权重}分配， 与元素原本的{主轴尺寸大小}无关。"
+    },
+    "20260112044316375": {
+        "question": "默想flex-shrink的溢出空间分配公式？",
+        "answer": "overflow × (item.flex-shrink × item.flex-basis) / Σ (flex-shrink × flex-basis)"
+    },
+    "20260112073342477": {
+        "cloze": "flex-grow的空间分配，跟元素大小(flex-basis){没有关系}"
+    },
+    "20260112073432579": {
+        "cloze": "flex-shrink的溢出分配，跟元素大小(flex-basis){强相关}"
+    },
+    "20260112073318177": {
+        "question": "为什么flex-shrink不能像flex-grow那样，直接把溢出空间分配给各个子项？",
+        "answer": "如果所有元素只按shrink比例分配压缩空间， 那本来就很小的元素会被压得不成样子。"
+    },
+    "20260112073718434": {
+        "question": "默想一个例子，来直观地理解flex-shrink的作用？",
+        "answer": "flex-shrink 可以理解为“缩小速率因子”， 但这个速率是相对于元素自身尺寸的。 比如，当元素原始尺寸相同时， shrink 的比值就直接等于最终缩小比例的比值。"
+    },
+    "20260112073521419": {
+        "cloze": "flex-shrink 可以理解为{“缩小速率因子”}， 但这个速率是 相对于{元素自身尺寸} 的。 当元素原始尺寸相同时， shrink 的比值就直接等于{最终缩小比例的比值}。"
+    },
+    "20260112073953843": {
+        "question": "用一个现实中的例子，来直观对比flex-grow跟flex-shrink的不同作用？",
+        "answer": "flex-grow是拿分红，按比例分，跟体量无关；而flex-shrink是按“背锅能力”分摊溢出，把溢出的那部分空间  按体量权重，分摊给各个元素去“缩” ，大的缩得多，小的缩得少"
+    },
+    "20260112074722972": {
+        "question": "如何让元素在任何情况下都不要shrink？",
+        "answer": "flex-shrink=0"
+    },
+    "20260112074810314": {
+        "cloze": "当flex-shrink=0时，flex-basis就相当于是{元素最小值}"
+    },
+    "20260112075115997": {
+        "question": "flex-shrink的默认值是多少？",
+        "answer": "1"
+    },
+    "20260112075219038": {
+        "question": "除了将flex-shrink设置为0来阻止shrink，还有哪些方法可用于阻止元素shrink？",
+        "answer": "设置min-width，当元素宽度小于min-width时，元素将不再shrink"
+    },
+    "20260112075543085": {
+        "cloze": "当元素size小于min-width规定的属性值时，元素就会{拒绝shrink}，无论我们把flex-shrink调得多高。"
+    },
+    "20260112075810701": {
+        "question": "如果当前元素的size已经小于其min-width值，如何使其继续shrink？",
+        "answer": "min-width: 0px;"
+    },
+    "20260112083322975": {
+        "question": "在使用flexbox布局写navigator bar时，如何让logo跟links之间的宽度自动调整？",
+        "answer": "让第一个元素(logo)使用margin-right: auto;"
+    },
+    "20260112083451821": {
+        "question": "在flexbox布局中，auto margin跟flex-grow的作用有何不同？",
+        "answer": "flex-grow是吸收所有的free space，用于增加子项的size，而auto margin是把所有的free space，用于margin size，就像是两个子元素之间的弹簧。"
+    },
+    "20260112083911373": {
+        "question": "align-items属性在flexbox布局中有用吗？",
+        "answer": "有"
+    },
+    "20260112083929284": {
+        "question": "默想一下align-items的作用是什么？",
+        "answer": "调整每一个局部主轴上的子元素，在交叉轴上的对齐方式。"
+    },
+    "20260112084344651": {
+        "question": "为什么align-items属性在flexbox中有用？",
+        "answer": "当flex-wrap时，flexbox容器从单个主轴转变为多个局部主轴，每一个局部主轴都它自己的小环境，此时align-items就派上了用场。"
+    },
+    "20260112084547329": {
+        "question": "align-content在flexbox布局中，有什么用？",
+        "answer": "当flexbox有多个局部主轴时，align-content就可以用于调整这些局部主轴在交叉轴上的空间排列方式。"
+    },
+    "20260112084708676": {
+        "question": "默想一下，在flexbox布局中，align-items和align-content的区别是什么？",
+        "answer": "align-items只是用于调整每条局部主轴上的子项的对齐方式，而align-content用于调整整个局部主轴在交叉轴上的对齐方式。"
+    }
+}

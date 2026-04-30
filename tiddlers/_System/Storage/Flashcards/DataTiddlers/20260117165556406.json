@@ -1,0 +1,10 @@
+{
+  "20260118130738285": {
+    "question": "调试chezmoi脚本文件时，如何查看脚本文件的内容？",
+    "answer": "chezmoi cat path/to/script"
+  },
+  "20260118130837686": {
+    "question": "如何查看chezmoi脚本文件是否会执行？",
+    "answer": "chezmoi apply --dry-run -v"
+  }
+}

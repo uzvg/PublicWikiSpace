@@ -1,0 +1,13 @@
+code-body: yes
+created: 20260305084701325
+modified: 20260305084843295
+tags: 
+title: $:/uzvg/twks-flashcards/Share/notifier.new-card
+type: text/vnd.tiddlywiki
+
+<!-- send notifications if has empty fields -->
+\procedure notifier.new-card()
+<$action-sendmessage
+	$message="tm-notify"
+	$param="$:/uzvg/twks-flashcards/Notifications/NewCard"/>
+\end

@@ -1,0 +1,90 @@
+created: 20260408090504509
+creator: uzvg
+description: 在ArchLinux中配置系统代理的相关操作
+modified: 20260414045658318
+modifier: uzvg
+progress: Completed
+rating: Personal
+tags: PermanentNotes Git SSH ArchLinux
+title: ArchLinux配置系统代理
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 前言：
+
+<<twks-image "telegram-system-proxy.png" width: "300px" align:"right">>
+
+我在ArchLinux中，使用的是karing代理软件，它的系统代理端口是`3067`。
+
+从原理来说，非必要条件下，我不太愿意使用代理软件的tun模式，因为它耗费的系统资源更多，虽然在很大程度上可以忽略不计。
+
+但总之，我更倾向于在自己的系统中，使用''系统代理''。
+
+一般来说，桌面端做得比较完善的软件，比如`telegram`，会自动读取系统代理，不需要做特殊的处理，如👉：
+
+
+!! 命令行软行使用系统代理：
+
+而在终端中执行的命令，如果想要使它们自动调用系统代理，则需要添加如下Shell环境变量：
+
+```
+export http_proxy="http://127.0.0.1:3067"
+export https_proxy="http://127.0.0.1:3067"
+
+# 在karing中，3067是一个http(s)跟socks的混合端口
+export all_proxy="socks5://127.0.0.1:3067"
+```
+
+!! git ssh使用系统代理：
+
+在使用`git pull`命令时，一般大家配置的都是ssh协议，这样每次操作时，都不用输入密码，它的通信跟数据传输，使用的是`ssh`，而非普通的`http`或者`https`，所以，这里我们还需要为它们配置特殊的ssh代理端口。
+
+首先是检查自己的`nc`命令是否支持`proxy`，检查方式如下：
+
+
+```
+nc -h | grep -i -x
+```
+
+我的输出如下：
+
+```
+  -x, --hexdump              hexdump incoming and outgoing traffic
+```
+
+说明我的`nc`命令并不支持`proxy`。
+
+这时，推茬安装兼容性更好的`nmap`：
+
+```
+sudo pacman -S nmap
+```
+
+安装好之后，在`~/.ssh/config`中添加如下配置：
+
+```
+Host github.com
+    Hostname ssh.github.com
+    Port 443
+    User git
+		# 👉 以下就是我们需要添加的行
+    ProxyCommand ncat --proxy 127.0.0.1:3067 --proxy-type socks5 %h %p
+```
+
+添加完成后，使用如下命令检查一下：
+
+
+```
+ssh -T git@github.com
+
+```
+
+如果有如下输出，则代理配置成功：
+
+```
+Hi <YOURNAME>! You've successfully authenticated, but GitHub does not provide shell access.
+```
+
+!! 其他：
+
+* [[Linux翻墙软件评测]]

@@ -1,0 +1,22 @@
+created: 20241222030012045
+creator: uzvg
+description: gitignore学习笔记
+modified: 20260426084446486
+modifier: uzvg
+progress: Completed
+rating: Personal
+tags: Git gitignore PermanentNotes
+title: gitignore学习笔记
+type: text/vnd.tiddlywiki
+visibility: Public
+
+; `gitignore`规则中的两个难理解的点：
+* [[gitignore双星号递归穿透]]
+* [[gitignore进门理论]]
+
+; 调试`.gitignore`文件：
+
+```
+# 查看文件是否被忽略，被哪个规则忽略
+git check-ignore -v dist/index.html
+```

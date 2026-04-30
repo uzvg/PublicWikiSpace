@@ -1,0 +1,12 @@
+author: uzvg
+core-version: >=5.3.8
+dependents: 
+description: A Callout / Alert Block Procedure
+list: readme demo license tree contents
+name: twks-alerter
+plugin-type: plugin
+source: https://github.com/uzvg/TiddlyCrafts/tree/master/src/twks-alerter
+stability: STABILITY_2_STABLE
+title: $:/plugins/uzvg/twks-alerter
+type: application/json
+version: 0.8.5

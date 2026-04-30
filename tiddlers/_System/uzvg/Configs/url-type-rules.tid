@@ -1,0 +1,13 @@
+code-body: yes
+created: 20250512015922790
+modified: 20260114024913406
+modifier: uzvg
+tags: $:/tags/UrlTypeRules
+title: $:/uzvg/Configs/url-type-rules
+type: text/vnd.tiddlywiki
+
+[regexp[^https:\/\/youtu\.be\/.*$]then[youtube]]
+[regexp[^https:\/\/youtube\.com.*$]then[youtube]]
+[regexp[^https:\/\/bilibili\.com.*$]then[bilibili]]
+[regexp[^https:\/\/weread\.qq\.com.*$]then[weread]]
+[regexp[\b[A-Z0-9]{8}\b]then[zotero]]

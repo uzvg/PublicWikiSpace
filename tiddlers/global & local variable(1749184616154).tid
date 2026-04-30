@@ -1,0 +1,53 @@
+authors: geeksforgeeks
+caption: global & local variable
+created: 20250606043656154
+description: Python中的全局变量跟局部变量
+medium: Website
+modified: 20250606052327475
+progress: Completed
+rating: Plain
+tags: LiteratureNotes Python
+title: global & local variable(1749184616154)
+type: text/vnd.tiddlywiki
+url: 
+visibility: Public
+year: 2025-06
+
+在Python中，在函数中定义、访问的变量，往往只能是`local`局部变量，如下：
+
+```
+def fun():
+    s += 'GFG'
+    print("Inside Function", s)
+
+s = "I love Geeksforgeeks"
+fun()
+
+# Output:
+UnboundLocalError: local variable 's' referenced before assignment
+```
+
+* `s`作为一个全局变量，无法直接在函数内部访问，此时就需要用到`global`变量。
+
+```
+def fun():
+    global s
+    s += ' GFG'   # Modify the global variable
+    print(s)
+    s = "Look for Geeksforgeeks Python Section"
+    print(s)
+
+s = "Python is great!"
+fun()
+print(s)
+
+# Output：
+
+Python is great! GFG
+Look for Geeksforgeeks Python Section
+Look for Geeksforgeeks Python Section
+```
+
+* 可以看到，全局变量`s`，在通过`global`关键字的声明后，可以直接在函数内部被访问并修改。
+
+<<twks-alerter "note" "`global`关键字的作用，在于将函数内部的变量声明为一个全局变量，使得全局变量能在函数内部被访问或修改。">>

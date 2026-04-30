@@ -1,0 +1,25 @@
+created: 20260416133304799
+creator: uzvg
+description: 手动修改flatpak微信的缩放倍数
+modified: 20260416133654457
+modifier: uzvg
+progress: Completed
+rating: Personal
+tags: PermanentNotes flatpak
+title: 如何修改flatpak微信的缩放倍数？
+type: text/vnd.tiddlywiki
+visibility: Public
+
+妈的，草台班子软件微信，在Linux上的dpi缩放有问题。
+
+flatpak版的微信需要添加如下环境变量：
+
+```
+# 关闭Qt的自动缩放
+QT_AUTO_SCREEN_SCALE_FACTOR=1
+
+# 手动指定缩放倍数：
+QT_FONT_DPI=120
+```
+
+<<twks-alerter tip "需要注意的是，该环境变量，对直接使用aur安装的微信，并不起作用">>

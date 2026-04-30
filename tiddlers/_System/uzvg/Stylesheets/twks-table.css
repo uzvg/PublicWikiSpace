@@ -1,0 +1,69 @@
+.twks-full-width-input{
+	width:100%;
+}
+
+.twks-input-hide-border input {
+	border-style: hidden;
+}
+
+.twks-input-solid-border input {
+	border-style: solid;
+}
+
+.twks-wrap-anywhere {
+	overflow-wrap:anywhere;
+}
+
+.twks-tableCell-fit {
+	white-space: nowrap;
+  width: 1%;
+}
+
+.twks-fill-available-input input[type="text"] {
+	width: -webkit-fill-available;
+	max-height: fit-content;
+}
+
+table.twks-table-last-child-4em td:last-child,
+table.twks-table-last-child-4em th:last-child {
+	width: 4em;
+}
+
+table.twks-table-last-child-5em td:last-child,
+table.twks-table-last-child-5em th:last-child {
+	width: 5em;
+}
+
+table.twks-table-last-child-6em td:last-child,
+table.twks-table-last-child-6em th:last-child {
+	width: 6em;
+}
+
+table.twks-table-first-child-8em td:first-child,
+table.twks-table-first-child-8em th:first-child {
+	width: 8em;
+}
+
+.text-align-left {
+	text-align: left;
+}
+
+.text-align-center {
+	text-align: center;
+}
+
+.text-align-right {
+	text-align: right;
+}
+
+.tc-tiddler-body table li {
+	 list-style-position: inside;
+}
+
+.twks-list-inside {
+	list-style-position: inside;
+}
+
+.twks-list-inside::marker {
+	content: "➤ ";
+}

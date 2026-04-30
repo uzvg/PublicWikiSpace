@@ -1,0 +1,128 @@
+created: 20260418173429640
+creator: uzvg
+description: zsh 文件遍历模板
+modified: 20260418175334549
+modifier: uzvg
+progress: Completed
+rating: Personal
+tags: PermanentNotes zsh
+title: zsh文件遍历模板
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!!! 核心知识：glob 通配符
+
+zsh 最强大的地方是内置的 glob 扩展，不需要 `find` 命令就能递归遍历。
+
+```zsh
+**/*       # 递归匹配所有文件和目录
+**/*.jpg   # 递归匹配所有 jpg 文件
+*(.)       # 只匹配文件（不含目录）
+*(/)       # 只匹配目录
+```
+
+!!! 模板一：递归遍历图片文件（最常用）
+
+```zsh
+#!/usr/bin/env zsh
+
+TARGET_DIR="${1:-.}"  # 默认当前目录，也可传参数
+
+# 开启必要选项
+setopt NULL_GLOB       # 没有匹配时不报错，直接跳过
+setopt GLOB_STAR_SHORT # 启用 ** 递归（zsh 5.x 默认已支持）
+
+# 递归匹配多种图片格式（大小写均匹配）
+for img in $TARGET_DIR/**/*.(jpg|jpeg|png|gif|webp|avif|bmp|tiff)(N.); do
+    echo "Found: $img"
+    # 在这里写你的处理逻辑
+done
+```
+
+; 修饰符说明：
+* `(N.)` = N 表示 NULL_GLOB（无匹配不报错），`.` 表示只匹配普通文件
+
+!!! 模板二：不区分大小写匹配（处理 .JPG .Jpg 等）
+
+```zsh
+#!/usr/bin/env zsh
+setopt NULL_GLOB EXTENDED_GLOB
+
+TARGET_DIR="${1:-.}"
+
+# (#i) 开启大小写不敏感
+for img in $TARGET_DIR/**/*(#i)(*.jpg|*.jpeg|*.png|*.avif)(N.); do
+    echo "Found: $img"
+done
+```
+
+!!! 模板三：按文件类型分别处理
+
+```zsh
+#!/usr/bin/env zsh
+setopt NULL_GLOB EXTENDED_GLOB
+
+TARGET_DIR="${1:-.}"
+
+process_image() {
+    local file="$1"
+    local ext="${file:e:l}"   # 取扩展名并转小写（zsh 特有修饰符）
+    local name="${file:t:r}"  # 取文件名（不含路径和扩展名）
+    local dir="${file:h}"     # 取所在目录
+
+    echo "处理: $file"
+    echo "  扩展名: $ext | 文件名: $name | 目录: $dir"
+
+    case "$ext" in
+        jpg|jpeg) echo "  → JPEG 处理逻辑" ;;
+        png)      echo "  → PNG 处理逻辑"  ;;
+        avif)     echo "  → AVIF 处理逻辑" ;;
+        *)        echo "  → 其他格式"      ;;
+    esac
+}
+
+for img in $TARGET_DIR/**/*.(jpg|jpeg|png|avif|webp)(N.); do
+    process_image "$img"
+done
+```
+
+!!! 模板四：附加过滤条件（大小、时间）
+
+```zsh
+#!/usr/bin/env zsh
+setopt NULL_GLOB EXTENDED_GLOB
+
+TARGET_DIR="${1:-.}"
+
+# glob 限定符可以直接过滤，无需额外判断
+# L  = 按文件大小过滤   m = 按修改时间过滤
+
+# 只处理大于 100KB 的图片
+for img in $TARGET_DIR/**/*.(jpg|png|avif)(N.Lk+100); do
+    echo "大于100KB: $img"
+done
+
+# 只处理 7 天内修改过的图片
+for img in $TARGET_DIR/**/*.(jpg|png|avif)(N.mh-168); do
+    echo "最近7天修改: $img"
+done
+```
+
+!!! 一眼看懂的 glob 修饰符
+
+| !修饰符 | !含义 |
+| `N` | 无匹配时不报错 |
+| `.` | 只匹配普通文件 |
+| `/` | 只匹配目录 |
+| `Lk+100` | 大于 100KB |
+| `Lm-10` | 小于 10MB |
+| `mh-24` | 24小时内修改 |
+| `om` | 按修改时间排序 |
+| `On` | 按文件名倒序 |
+
+记住核心公式：`**/*.(扩展名)(N.)` 就能覆盖 90% 的场景，其余修饰符按需叠加即可。
+
+!! 拓展：
+
+* [[zsh基本参数拓展]]
+* [[zsh路径修饰符]]

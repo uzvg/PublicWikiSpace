@@ -1,0 +1,34 @@
+authors: 不良林
+caption: 网络通信的基本过程——DNS原理
+created: 20260414111207004
+creator: uzvg
+description: 网络通信的基本过程，访问网站到底发生了什么事情？详细解析DNS原理
+medium: Video
+modified: 20260414131805869
+modifier: uzvg
+progress: Pending
+rating: 
+tags: LiteratureNotes DNS
+title: 网络通信的基本过程——DNS原理(1776165127004)
+type: text/vnd.tiddlywiki
+url: https://www.youtube.com/watch?v=_618At72evs&list=PL5TbbtexT8T3d_7UX2aSFhoMYk-cl4kf4
+visibility: Public
+year: 2022-03
+
+!! 概念：
+
+* 域名
+* ip
+* 端口
+* dns
+* mac
+* nat
+* 交换机
+* 路由器（网关）
+
+!! 过程：
+
+* 输入域名➡访问DNS服务器➡获得域名的ip地址➡向目标服务器发出请求➡
+* 找ip地址，不是一开始就去找，先检查浏览器缓存、本地缓存(`/etc/hosts`文件，保存了域名跟ip地址的对应关系)
+* 找不到，将请求发达到电脑中配置的DNS服务器（`cat /etc/resolve.conf`），保存了
+* 

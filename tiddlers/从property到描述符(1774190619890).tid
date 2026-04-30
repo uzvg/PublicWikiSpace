@@ -1,0 +1,42 @@
+authors: Hucci
+caption: 从property到描述符
+created: 20260322144339890
+description: `property` 可以将一个方法“伪装”成属性。用它，我们可以在用户访问属性时，自动执行计算或验证逻辑，从而保证数据的正确性和一致性。  描述符 (Descriptor)：当我们发现多个属性需要重复使用同一套逻辑时，就轮到描述符出场了。它是 property 的底层通用实现，能让我们把访问逻辑打包成一个可复用的组件，让代码更简洁。  设计思想：无论是 property 还是描述符，它们都是在帮助我们实现一个目标——把复杂性封装在类的内部，只对外提供简单清晰的接口。这才是写出高质量代码的关键。
+medium: Video
+modified: 20260323020700272
+progress: Pending
+rating: Plain
+tags: LiteratureNotes Python
+title: 从property到描述符(1774190619890)
+type: text/vnd.tiddlywiki
+url: https://www.bilibili.com/video/BV1yQpqzQESC
+visibility: Public
+year: 2025-09
+
+!! 引言：
+
+一个简单的示例：
+
+```python
+from math
+import pi
+class Circle:
+def  init (self, radius):self.radius = radiusself.area =pi *self.radius * self.radius
+def update area(self:self.area =pi*self.radius*self.radius
+c= circle(1)
+print(c.area
+c.radius =2
+c.update area
+print(c.area)
+```
+TIP: 这个例子并不完整，请帮我补全。
+
+* `update_area` 影响了数据一致性
+* circle的area应该伴随着radius一起变化
+
+!! property的作用：
+
+* 作用：将类中的函数，伪装成属性
+* TIP： 使用property改写上面的circle类，使area能随着radius的改变而自动改变。
+
+!! 

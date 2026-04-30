@@ -1,0 +1,61 @@
+created: 20250517101428406
+modified: 20260114024913430
+modifier: uzvg
+title: $:/uzvg/Share/FilterBuilder/Readme
+type: text/vnd.tiddlywiki
+
+!!! Description:
+
+The complete filter was built with folowing subfilters:
+
+* `get-filter-prefix`
+* `get-property-subfilter`
+* `get-sortMode-subfilter`
+* `get-paginater-subfilter`
+
+Check the get-complete-filter in the [[$:/uzvg/Share/FilterBuilder/get-complete-filter]] tiddler.
+
+!!! Usage:
+
+1. Import FilterBuilder:
+
+```
+\import [prefix[$:/uzvg/FilterBuilder]]
+```
+
+2. get-filter-prefix:
+
+* Customize filter-prefix with procedure:
+
+```
+\procedure get-filter-prefix() [all[tiddlers]tag[LiteratureNotes]rating[Briliant]]
+```
+
+* Or you can get filter prefix with function:
+
+```
+\function get-filter-prefix() [<currentTab>get[filter-prefix]]
+```
+
+Get the filter-prefix from the current tab's `filter-prefix` field.
+
+
+2. get-page-size:
+
+get-page-size could be a procedure or function or variable, which could be be accessible in current context. such as:
+
+```
+\procedure get-page-size() 5
+```
+
+* Customize the page size with procedure.
+
+
+```
+\function get-page-size() [<currentTab>get[page-size]]
+```
+
+* Get page-size from the current Tab's page-size field.
+
+3. get-complete-filter:
+

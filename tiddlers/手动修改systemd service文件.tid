@@ -1,0 +1,55 @@
+created: 20260416130635033
+creator: uzvg
+description: 手动修改systemd service文件
+modified: 20260416132554789
+modifier: uzvg
+progress: Completed
+rating: Personal
+source: 使用chezmoi管理dae的配置文件
+tags: PermanentNotes Systemd
+title: 手动修改systemd service文件
+type: text/vnd.tiddlywiki
+visibility: Public
+
+首先，我们可以通过`systemctl cat dae.service`命令，来查看service文件的内容。
+
+于是我们理所当然地想，直接使用`systemctl edit dae.service`就可以直接编辑它的内容，但是当我们执行后，就会发现以下问题：
+
+; 1. 第一个问题是，systemd默认的编辑是非常原始的`nano`编辑器，用着不顺手，怎么办呢？
+
+使用如下命令，可以使用我们配置好的默认编辑器来编辑systemd service文件。
+
+```
+sudo -E systemctl edit dae.service
+```
+
+* `-E`: `--preserve-env`, preserve user environment when running command
+
+; 2. 第二个问题是，如何修改配置文件？
+
+当执行完第一个命令后，你会发现，并不会直接打开对应的`dae.service`文件，而是`/etc/systemd/system/dae.service.d/override.conf`，我们不能像编辑`dae.service`文件那样，直接修改，而是要遵循一定的格式，编辑对应的overrice 文件，使其生效，具体格式如下：
+
+```
+### Editing /etc/systemd/system/dae.service.d/override.conf
+### Anything between here and the comment below will become the contents of the drop-in file
+
+### /usr/lib/systemd/system/dae.service
+[Service]
+ExecStartPre=
+ExecStartPre=/usr/bin/chmod 600 /home/uzvg/.config/dae/config.dae
+ExecStartPre=/usr/bin/dae validate -c /home/uzvg/.config/dae/config.dae
+ExecStart=
+ExecStart=/usr/bin/dae run --disable-timestamp -c /home/uzvg/.config/dae/config.dae
+
+### Edits below this comment will be discarded
+
+👉 这里是原有的service文件，用来做对照，不会失效👈
+```
+
+可以看到：我们做了如下工作：
+
+* 首先删除原先的`ExecStartPre=`命令
+* 然后为它重新指定了命令，我们甚至可以指定多个`ExecStartPre=`命令
+* 最后使用同样的方式，通过`ExecStart`使其读取家目录下的dae配置文件
+
+此时，systemd service文件的修改就完成了。

@@ -1,0 +1,13 @@
+caption: {{$:/language/codemirror6/bracketMatching/caption}}
+caption-zh: {{$:/language/codemirror6/zh/bracketMatching/caption}}
+created: 20260319115031326
+description: {{$:/language/codemirror6/bracketMatching/description}}
+description-zh: {{$:/language/codemirror6/zh/bracketMatching/description}}
+id: 34
+modified: 20260319115031326
+settings-group: general
+settings-template: input-switch
+title: $:/config/codemirror-6/bracketMatching
+type: text/vnd.tiddlywiki
+
+yes

@@ -1,0 +1,13 @@
+created: 20250325130657805
+creator: uzvg
+modified: 20260428113510331
+modifier: uzvg
+tags: 
+title: Reading
+type: text/vnd.tiddlywiki
+visibility: Public
+
+<$transclude
+	$variable="tabs"
+	tabsList="[prefix[Reading/]!prefix[Reading/Recommend/]sort[order]]"
+	default="Reading/PermanentNotes" />

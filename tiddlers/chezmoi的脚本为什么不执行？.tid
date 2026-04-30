@@ -1,0 +1,44 @@
+created: 20260416132200981
+creator: uzvg
+description: chezmoi的脚本，只有在执行chezmoi apply命令时才会执行，apply单个文件，并不会触发脚本的执行。
+modified: 20260416133241661
+modifier: uzvg
+progress: Completed
+rating: Personal
+source: 使用chezmoi管理dae的配置文件
+tags: PermanentNotes chezmoi dae
+title: chezmoi的脚本为什么不执行？
+type: text/vnd.tiddlywiki
+visibility: Public
+
+之前已经写了`chezmoi_edit`的脚本命令，用于在编辑完受`chezmoi`管理的配置文件后，自动应用，其实核心指令就一个：
+
+
+```
+chezmoi edit --apply <conf_file>
+```
+
+现在要做的工作是，在修改完成后，自动执行脚本。
+
+在`$HOME/.local/share/chezmoi/home/.chezmoiscripts`目录中，添加一个`run_onchange_chmod_dae_config.sh.tmpl`文件，文件内容如下：
+
+```
+#!/usr/bin/env zsh
+
+# 每次修改完$XDG_CONFIG_HOME/dae/config.dae文件后，修改其文件权限
+# 脚本来自于官方示例：https://www.chezmoi.io/user-guide/frequently-asked-questions/encryption/
+# config.dae hash: {{ include (joinPath .chezmoi.homeDir "/.config/dae/config.dae") | sha256sum }}
+
+conf_file="/home/uzvg/.config/dae/config.dae"
+if [[ -f $conf_file ]]; then
+    chmod 600 $conf_file
+fi
+```
+
+保存，完成！
+
+然后，在使用`chezmoi_edit`编辑完成后，却发现该脚本并未执行？为什么？
+
+<<twks-alerter tip "原因是，脚本必须在执行`chezmoi apply`命令后才会执行，apply单个文件，并不会触发脚本的执行。">>
+
+妈的，害我排查了半天。

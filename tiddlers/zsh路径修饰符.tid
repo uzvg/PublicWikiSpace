@@ -1,0 +1,28 @@
+created: 20260418173744108
+creator: uzvg
+description: zsh中的路径修饰符
+modified: 20260418174519950
+modifier: uzvg
+progress: Completed
+rating: Personal
+source: zsh文件遍历模板
+tags: PermanentNotes zsh
+title: zsh路径修饰符
+type: text/vnd.tiddlywiki
+visibility: Public
+
+|tc-max-width|k
+| !修饰符 | !作用 | !真实来源 | !助记 | !示例 |
+| `:t` |只取文件名 |''t''ail |路径的"尾巴"，甩掉前面所有目录，只留文件名 |`/a/b/c.jpg → c.jpg` |
+| `:h` |只取目录部分 |''h''ead |路径的"头部"，去掉文件名，只留目录 |`/a/b/c.jpg → /a/b` |
+| `:e` |只取扩展名 |''e''xtension |就是 extension，没有争议 |`/a/b/c.jpg → jpg` |
+| `:r` |去掉扩展名 |''r''oot / ''r''emove extension |文件的"根"（去皮留肉），或理解为 remove extension |`/a/b/c.jpg → /a/b/c` |
+| `:l` |转小写 |''l''owercase |就是 lowercase，没有争议 ||
+| `:u` |转大写 |''u''ppercase |就是 uppercase，没有争议 ||
+
+* `:t` 和 `:h` 其实来自经典 Unix 工具 `basename` / `dirname` 的思路，更早可以追溯到 csh（C Shell）的历史传统——把路径想象成一棵树，''head 是树干（目录），tail 是树梢（文件名）''。
+* `:r` 稍微反直觉，记成 "''r''ip off the extension"（撕掉扩展名）会更顺手。
+
+; 可以链式组合：
+* `$file:t:r`  👉文件名去掉扩展名  `/a/b/c.jpg → c`
+* `$file:e:l`  👉扩展名转小写      `.JPG → jpg`

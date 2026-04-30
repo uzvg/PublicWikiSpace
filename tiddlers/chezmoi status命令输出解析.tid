@@ -1,0 +1,38 @@
+created: 20260429101618986
+creator: uzvg
+description: chezmoi status命令输出解析
+modified: 20260429102401668
+modifier: uzvg
+progress: Completed
+rating: Promising
+tags: PermanentNotes chezmoi
+title: chezmoi status命令输出解析
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 解析：
+
+> Print the status of the files and scripts managed by chezmoi in a format similar to git status.
+
+> The first column of output indicates the difference between the last state written by chezmoi and the actual state. The second column indicates the difference between the actual state and the target state, and what effect running chezmoi apply will have.
+
+|tc-max-width|k
+| !Character	| !Meaning | !First column | !Second column |
+|Space|No change |No change |No change |
+|`A`|Added |Entry was created |Entry will be created |
+|`D`|Deleted |Entry was deleted	|Entry will be deleted |
+|`M`|Modified	|Entry was modified	|Entry will be modified |
+|`R`|Run |Not applicable |Script will be run |
+
+; 第一列（左侧）：本地变更情况 (Last Written vs. Actual)
+* 对比对象：chezmoi 上次执行 apply 后的记录 vs. 你家目录（Home）下的实际文件。
+* 意义：告诉你“你是否手动改动过本地文件”。
+
+; 第二列（右侧）：同步预期效果 (Actual vs. Target)
+* 对比对象：家目录下的实际文件 vs. chezmoi 仓库中的目标状态（源码/模板）。
+* 意义：告诉你“如果执行 chezmoi apply，会发生什么操作”。
+
+!! 链接：
+
+* [[chezmoi status官方文档|https://www.chezmoi.io/reference/commands/status/]]
+

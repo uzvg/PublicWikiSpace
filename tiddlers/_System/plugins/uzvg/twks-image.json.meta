@@ -1,0 +1,12 @@
+author: uzvg
+core-version: >=5.3.8
+dependents: 
+description: Displaying images in a styled card layout, click the image will navigate to the image tiddler
+list: readme license tree contents
+name: twks-image
+plugin-type: plugin
+source: https://github.com/uzvg/TiddlyCrafts/tree/master/src/twks-image
+stability: STABILITY_2_STABLE
+title: $:/plugins/uzvg/twks-image
+type: application/json
+version: 0.8.4

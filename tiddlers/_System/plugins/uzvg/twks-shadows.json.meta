@@ -1,0 +1,12 @@
+author: uzvg
+core-version: >=5.3.8
+dependents: 
+description: Some customized shadows tiddlers that apply to my own tiddlywikis
+list: tree contents
+name: twks-shadows
+plugin-type: plugin
+source: https://github.com/uzvg/TiddlyCrafts/tree/master/src/twks-shadows
+stability: STABILITY_0_DEPRECATED
+title: $:/plugins/uzvg/twks-shadows
+type: application/json
+version: 0.0.3

@@ -1,0 +1,113 @@
+created: 20260418180004750
+creator: uzvg
+modified: 20260418182228708
+modifier: uzvg
+tags: PermanentNotes awk
+title: awk基础用法总结
+type: text/vnd.tiddlywiki
+
+`awk` 是 Linux 文本处理的三剑客（grep, sed, awk）中功能最强大的一个。它不仅是一个命令，更是一门完整的领域特定语言（DSL），擅长处理''结构化数据''（如 CSV、日志、表格）。
+
+想要高效使用 `awk`，你只需要掌握其“模式-动作”的核心逻辑和几个关键变量。以下是为你整理的结构化学习笔记。
+
+!! 1. 核心模型：Pattern + Action
+
+`awk` 的基本工作流程是：''逐行扫描文件，寻找匹配的模式（Pattern），并执行相应的动作（Action）。''
+
+
+
+```bash
+awk 'pattern { action }' filename
+```
+
+* ''Pattern'': 决定“在哪一行起作用”（如：`/root/` 匹配包含 root 的行，`NR==1` 匹配第一行）。
+* ''Action'': 决定“做什么”（如：`print $1`）。
+* 如果你省略 Pattern，则对所有行生效；如果省略 Action，则默认执行 `{ print $0 }`（打印整行）。
+
+!! 2. 必须记住的内置变量
+
+掌握这几个变量，就能解决 80% 的日常需求：
+
+| !变量 | !含义 | !场景举例 |
+| ''`$0`'' |当前整行内容 |`print $0` |
+| ''`$1, $n`'' |当前行的第 1, n 个字段 |`print $1, $3` |
+| ''`NF`'' |Number of Fields（字段总数） |`print $NF` (打印最后一列) |
+| ''`NR`'' |Number of Records（行号） |`NR==1` (只处理第一行) |
+| ''`FS`'' |Field Separator（输入分隔符） |默认空格或 Tab，可以用 `-F:` 指定 |
+| ''`OFS`'' |Output Field Separator（输出分隔符） |控制 `print` 时逗号输出的字符 |
+
+!! 3. 常见操作场景
+
+!!! A. 提取特定列
+
+这是 `awk` 最常见的用法。
+
+```bash
+# 提取 /etc/passwd 的第一列（用户名）
+awk -F: '{ print $1 }' /etc/passwd
+
+# 打印最后一列和倒数第二列
+awk '{ print $NF, $(NF-1) }' file.txt
+```
+
+!!! B. 条件过滤
+
+配合比较运算符（`==`, `!=`, `>`, `<`）或正则（`~`）。
+
+```bash
+# 打印第 3 列大于 500 的行
+awk '$3 > 500' data.txt
+
+# 匹配第 1 列包含 "web" 的行
+awk '$1 ~ /web/ { print $0 }' log.txt
+
+# 打印第 2 行到第 5 行
+awk 'NR==2, NR==5' file.txt
+```
+
+!!! C. 数学运算与统计
+
+`awk` 会自动处理类型转换，非常适合做简单的报表统计。
+
+```bash
+# 计算第一列的总和
+awk '{ sum += $1 } END { print "Total:", sum }' numbers.txt
+
+# 计算平均值
+awk '{ sum += $1 } END { print "Avg:", sum/NR }' numbers.txt
+```
+
+!!! D. BEGIN 与 END 块
+
+* ''`BEGIN`'': 在读取文件之前执行（通常用于设置分隔符或打印表头）。
+* ''`END`'': 在读取完所有行之后执行（通常用于打印最终统计结果）。
+
+!! 4. 实用的“一行代码” (One-Liners)
+
+这些可以直接放入你的 `.zshrc` 或脚本库中：
+
+# ''打印文件行数'' (类似 `wc -l`):
+#* `awk 'END { print NR }' file`
+#  ''提取 IP 地址'' (以 `ifconfig` 为例):
+#* `ifconfig | awk '/inet / { print $2 }'`
+#  ''查找并杀死进程'' (慎用):
+#* `ps aux | grep 'node' | awk '{ print $2 }' | xargs kill -9`
+#  ''去重并保留顺序'' (比 `sort -u` 更快):
+#* `awk '!vis[$0]++' file`
+
+!! 5. 进阶Tips（极客向）
+
+* ''外部变量传递'': 使用 `-v` 参数。
+**    `threshold=80; awk -v t=$threshold '$3 > t' log.txt`
+* ''三元运算符'': `awk` 支持 `condition ? true : false`。
+**    `awk '{ print ($3 > 60 ? "Pass" : "Fail") }' grades.txt`
+* ''格式化输出'': 如果你想让输出像表格一样整齐，请使用 `printf`。
+**    `awk '{ printf "%-10s %-5d\n", $1, $2 }' file`
+
+; 温故而知新：
+
+> `awk` 的精髓在于它把文本看作一个''二维数组''。横向（$1, $2...）是空间上的切分，纵向（NR）是时间上的流转。掌握了这两轴，你就能在终端里随心所欲地裁剪数据。
+
+你现在可以尝试用 `ls -l | awk '{ print $9, $5 }'` 来看看当前目录下文件名和大小的组合。这是一个很好的开始。
+
+是否需要我为你针对某个具体的日志文件（比如 Web 访问日志）写一个具体的分析脚本模板？

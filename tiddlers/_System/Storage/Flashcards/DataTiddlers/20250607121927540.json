@@ -1,0 +1,40 @@
+{
+  "20260207161645162": {
+    "cloze": "list.extend() 的设计规则是：{就地修改（in-place）}，{不返回}新对象"
+  },
+  "20260207161739595": {
+    "question": "创建一个具有10个“-”的列表元素：",
+    "answer": "[\"-\"]*10"
+  },
+  "20260207161849545": {
+    "question": "list.extend()会不会返回新对象？",
+    "answer": "不会，返回NoneType"
+  },
+  "20260207161909666": {
+    "question": "boys.extend(girls)，它的等价写法是？",
+    "answer": "boys += girls"
+  },
+  "20260207161947868": {
+    "question": "如何合并boys跟girls这两个list元素并创建一个新副本？",
+    "answer": "boys = boys + girls"
+  },
+  "20260207162035243": {
+    "question": "如何把一个tuple，string元素，转换为一个list元素？",
+    "answer": "使用list()"
+  },
+  "20260207162159041": {
+    "question": "如何遍历list元素中的元素下标跟元素值？",
+    "answer": "使用enumerate方法， 比如：for index, value in enumerate(my_list):"
+  },
+  "20260207162329506": {
+    "question": "如何删除list中的偶数索引元素？",
+    "answer": "del lst[::2]"
+  },
+  "20260207162402698": {
+    "question": "如何判断判断元素是否存在于list中？",
+    "answer": "if x in my_list:"
+  },
+  "20260207162429049": {
+    "cloze": "{append} 是加{一个}元素，{extend} 是加{一堆}元素（可迭代对象）。{remove} 删除的是{“值”}，{del 和 pop} 删除的是{“位置”}。"
+  }
+}

@@ -1,0 +1,171 @@
+created: 20250618154324134
+description: zsh Shell中的while循环详解
+modified: 20260123093540161
+progress: Completed
+rating: Personal
+tags: PermanentNotes zsh
+title: zsh Shell中的while循环详解
+type: text/vnd.tiddlywiki
+visibility: Public
+
+!! 一、 基本语法：
+
+!!! 1. 标准形式：
+
+```zsh
+while 条件列表; do
+  命令…
+done
+```
+
+* `while` 会在 ''每次循环开始前'' 执行条件列表
+* 条件列表的 ''退出状态为 0（成功）'' 时进入循环体
+
+!!! 2. 单行写法：
+
+```zsh
+while 条件; do 命令; done
+```
+
+* 语义与多行完全一致，仅用于简短逻辑。
+
+!!! 3. 多条件组合：
+
+```zsh
+while [[ 条件1 ]] && [[ 条件2 ]]; do … done
+while [[ 条件1 ]] || [[ 条件2 ]]; do … done
+```
+
+* 本质是逻辑命令列表，遵循 shell 的 `&& / ||` 短路规则。
+
+!! 三、 常见条件写法：
+
+!!! 1. 数值条件（推荐顺序）
+
+```zsh
+# 最推荐：算术条件
+while (( i <= 10 )); do
+  ((i++))
+done
+
+# 也可使用 [[ ]]
+while [[ $i -le 10 ]]; do
+  ((i++))
+done
+```
+
+* `(( ))` 是 zsh 的 ''算术上下文''，最直观、最快
+
+!!! 2. 字符串条件
+
+```zsh
+while [[ $input != quit ]]; do
+  read -r input
+done
+```
+
+* 仅用于字符串逻辑，不做算术解析。
+
+!!! 3. 文件状态
+
+```zsh
+while [[ ! -f ready.txt ]]; do
+  sleep 1
+done
+```
+
+!!! 4. 基于命令退出状态
+
+```zsh
+while ! ping -c1 google.com &>/dev/null; do
+  sleep 5
+done
+```
+
+* `while` 判断的是 ''命令的退出码''，而不是输出内容。
+
+!! 三、 常见 while 模式：
+
+!!! 1. 无限循环
+
+```zsh
+while true; do … done
+while :; do … done
+while ((1)); do … done
+```
+
+* 三种在 zsh 中等价，`:` 是内置空命令，最轻量。
+
+!!! 2. 逐行读取输入（核心用法）
+
+```zsh
+while IFS= read -r line; do
+  echo "$line"
+done < file.txt
+```
+
+这是 ''处理文本的标准模板''：
+
+* `IFS=`：避免字段分割
+* `-r`：禁止反斜杠转义
+
+!!! 3. Here String / Here Document
+
+```zsh
+while read -r l; do … done <<< "$var"
+
+while read -r l; do … done <<EOF
+text
+EOF
+```
+
+* 具体可见👉[[zsh Shell 使用while循环逐行处理文件]]。
+
+!! 四、 read 与 IFS 要点：
+
+!!! 4.2 IFS 原则
+
+```zsh
+# 保留整行
+IFS= read -r line
+
+# 字段拆分
+IFS=':' read -r user uid gid
+```
+
+* ''默认处理文本：始终 `IFS= read -r`''。
+
+!! 五、 循环控制
+
+```zsh
+break      # 跳出循环
+continue   # 进入下一轮
+```
+
+* 逻辑清晰即可，无 zsh 特有差异。
+
+!! 六、 使用示例：
+
+!!! 1. 批量文件处理
+
+```zsh
+while IFS= read -r f; do
+  [[ -e $f ]] && rm -i -- "$f"
+done < list.txt
+```
+
+!!! 2. 日志流处理（进程替换）
+
+```zsh
+while IFS= read -r l; do
+  [[ $l == *ERROR* ]] && print -r -- "$l"
+done < <(tail -f app.log)
+```
+
+* 这里的`<(tail -f app.log)`使用的是[[zsh Shell中的进程替换]]语法。
+
+!! 七、 常见错误总结：
+
+# ''忘记 `-r`'' → 反斜杠被吃掉
+# ''`read` 不设 IFS'' → 空格被拆字段
+# ''数值比较用 `[ ]`'' → 可读性差
